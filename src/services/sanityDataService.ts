@@ -76,6 +76,12 @@ class SanityDataService {
 
       const projects = await client.fetch(query);
       
+      // Verifica se i progetti sono validi
+      if (!projects || !Array.isArray(projects)) {
+        console.warn('Sanity ha restituito dati non validi per i progetti');
+        return [];
+      }
+      
       // Trasforma i dati per compatibilità con il frontend
       return projects.map((project: any) => ({
         ...project,
@@ -84,6 +90,11 @@ class SanityDataService {
       }));
     } catch (error) {
       console.error('Errore nel caricamento progetti da Sanity:', error);
+      console.error('Dettagli errore:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      });
       return [];
     }
   }
@@ -115,6 +126,12 @@ class SanityDataService {
       `;
 
       const services = await client.fetch(query);
+      
+      // Verifica se i servizi sono validi
+      if (!services || !Array.isArray(services)) {
+        console.warn('Sanity ha restituito dati non validi per i servizi');
+        return [];
+      }
       
       // Trasforma i dati per compatibilità con il frontend
       return services.map((service: any) => ({
