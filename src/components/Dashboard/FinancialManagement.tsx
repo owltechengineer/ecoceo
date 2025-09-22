@@ -246,6 +246,15 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
       return;
     }
 
+    // Validate category for fixed costs
+    if (activeTab === 'fixed-costs') {
+      const validCategories = ['office', 'software', 'marketing', 'personnel', 'utilities', 'insurance', 'legal', 'other'];
+      if (formData.category && !validCategories.includes(formData.category)) {
+        alert(`❌ Categoria non valida. Usa una di queste: ${validCategories.join(', ')}`);
+        return;
+      }
+    }
+
     setLoading(true);
     try {
       let savedItem;
