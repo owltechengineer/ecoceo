@@ -20,7 +20,6 @@ import QuickQuoteModal from './QuickQuoteModal';
 import QuickCreateModal from './QuickCreateModal';
 import DatabaseConnectionTest from './DatabaseConnectionTest';
 import EnvironmentSetup from './EnvironmentSetup';
-import SanityDiagnostics from './SanityDiagnostics';
 
 export default function MainDashboard() {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -120,12 +119,6 @@ export default function MainDashboard() {
       title: 'Configurazione',
       icon: '⚙️',
       description: 'Configurazione variabili d\'ambiente e database'
-    },
-    'sanity-diagnostics': {
-      component: SanityDiagnostics,
-      title: 'Diagnostica Sanity',
-      icon: '🔍',
-      description: 'Diagnostica problemi con Sanity CMS'
     },
     organizational: {
       component: OrganizationalAnalysis,
