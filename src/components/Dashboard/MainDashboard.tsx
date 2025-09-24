@@ -140,7 +140,7 @@ export default function MainDashboard() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen flex">
+      <div className="min-h-screen flex dashboard-page">
         {/* Sidebar Navigation */}
         <SidebarNavigation 
           activeSection={activeSection}

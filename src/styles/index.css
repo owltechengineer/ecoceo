@@ -7,6 +7,73 @@ layer(base);
 @tailwind components;
 @tailwind utilities;
 
+/* FORZA TESTI NERI O MOLTO SCURI */
+.dashboard-text-dark {
+  color: #000000 !important; /* Nero puro */
+}
+
+.dashboard-text-very-dark {
+  color: #1a1a1a !important; /* Nero molto scuro */
+}
+
+.dashboard-text-dark-gray {
+  color: #2d2d2d !important; /* Grigio molto scuro */
+}
+
+/* Override per testi chiari */
+.text-gray-600,
+.text-gray-500,
+.text-gray-400,
+.text-gray-300,
+.text-gray-200,
+.text-gray-100 {
+  color: #000000 !important;
+}
+
+/* Override per testi bianchi (mantieni solo su sfondi scuri) */
+.bg-gradient-to-r .text-white,
+.bg-blue-600 .text-white,
+.bg-purple-600 .text-white,
+.bg-green-600 .text-white,
+.bg-red-600 .text-white,
+.bg-orange-600 .text-white,
+.bg-indigo-600 .text-white,
+.bg-cyan-600 .text-white,
+.bg-yellow-600 .text-white {
+  color: #ffffff !important; /* Mantieni bianco su sfondi colorati */
+}
+
+/* Forza testi in paragrafi e span */
+body {
+  color: #000000 !important;
+}
+
+p, span, div, h1, h2, h3, h4, h5, h6 {
+  color: #000000 !important;
+}
+
+/* Override specifico per dashboard */
+.dashboard-page {
+  color: #000000 !important;
+}
+
+.dashboard-page * {
+  color: #000000 !important;
+}
+
+/* Eccezioni per elementi con sfondo scuro */
+.bg-gradient-to-r,
+.bg-blue-600,
+.bg-purple-600,
+.bg-green-600,
+.bg-red-600,
+.bg-orange-600,
+.bg-indigo-600,
+.bg-cyan-600,
+.bg-yellow-600 {
+  color: #ffffff !important;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
