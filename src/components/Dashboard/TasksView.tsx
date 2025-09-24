@@ -23,7 +23,7 @@ export default function TasksView() {
   const [filter, setFilter] = useState({
     status: 'all',
     priority: 'all',
-    assignee: 'all',
+    assigned_to: 'all',
     search: ''
   });
 
@@ -31,9 +31,9 @@ export default function TasksView() {
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
-    status: 'todo' as const,
+    status: 'pending' as const,
     priority: 'medium' as const,
-    assignee: '',
+    assigned_to: '',
     due_date: '',
     estimated_hours: 0,
     tags: '',
@@ -81,7 +81,7 @@ export default function TasksView() {
   const filteredTasks = tasks.filter(task => {
     if (filter.status !== 'all' && task.status !== filter.status) return false;
     if (filter.priority !== 'all' && task.priority !== filter.priority) return false;
-    if (filter.assignee !== 'all' && task.assignee !== filter.assignee) return false;
+    if (filter.assigned_to !== 'all' && task.assigned_to !== filter.assigned_to) return false;
     if (filter.search && !task.title.toLowerCase().includes(filter.search.toLowerCase())) return false;
     return true;
   });
@@ -149,12 +149,14 @@ export default function TasksView() {
         description: newTask.description || undefined,
         status: newTask.status,
         priority: newTask.priority,
-        assignee: newTask.assignee || undefined,
+        assigned_to: newTask.assigned_to || undefined,
         due_date: newTask.due_date || undefined,
-        estimated_hours: newTask.estimated_hours || undefined,
+        estimated_hours: newTask.estimated_hours || 0,
         actual_hours: 0,
         tags: newTask.tags.split(',').map(t => t.trim()).filter(t => t),
-        progress: 0,
+        progress_percentage: 0,
+        depends_on_tasks: [],
+        category: 'other' as const,
         notes: newTask.notes || undefined
       };
 
@@ -164,9 +166,9 @@ export default function TasksView() {
       setNewTask({
         title: '',
         description: '',
-        status: 'todo',
+        status: 'pending',
         priority: 'medium',
-        assignee: '',
+        assigned_to: '',
         due_date: '',
         estimated_hours: 0,
         tags: '',
@@ -194,13 +196,13 @@ export default function TasksView() {
 
   const updateTaskProgress = async (taskId: string, newProgress: number) => {
     try {
-      const newStatus = newProgress === 100 ? 'completed' : newProgress > 0 ? 'in-progress' : 'todo';
-      await updateTask(taskId, { progress: newProgress, status: newStatus });
+      const newStatus = newProgress === 100 ? 'completed' : newProgress > 0 ? 'in-progress' : 'pending';
+      await updateTask(taskId, { progress_percentage: newProgress, status: newStatus });
       setTasks(prev => prev.map(task => 
         task.id === taskId 
           ? { 
               ...task, 
-              progress: newProgress, 
+              progress_percentage: newProgress, 
               status: newStatus,
               updated_at: new Date().toISOString() 
             }
@@ -223,7 +225,7 @@ export default function TasksView() {
   };
 
   const getUniqueAssignees = () => {
-    const assignees = tasks.map(task => task.assignee).filter(Boolean);
+    const assignees = tasks.map(task => task.assigned_to).filter(Boolean);
     return [...new Set(assignees)];
   };
 
@@ -294,8 +296,8 @@ export default function TasksView() {
 
             {/* Assignee Filter */}
             <select
-              value={filter.assignee}
-              onChange={(e) => setFilter(prev => ({ ...prev, assignee: e.target.value }))}
+              value={filter.assigned_to}
+              onChange={(e) => setFilter(prev => ({ ...prev, assigned_to: e.target.value }))}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
             >
               <option value="all">Tutti gli assegnatari</option>
@@ -404,7 +406,7 @@ export default function TasksView() {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {task.assignee || '-'}
+                      {task.assigned_to || '-'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {task.due_date ? (
@@ -418,10 +420,10 @@ export default function TasksView() {
                         <div className="w-16 bg-gray-200 rounded-full h-2 mr-2">
                           <div
                             className="bg-blue-600 h-2 rounded-full"
-                            style={{ width: `${task.progress}%` }}
+                            style={{ width: `${task.progress_percentage}%` }}
                           ></div>
                         </div>
-                        <span className="text-sm text-gray-600">{task.progress}%</span>
+                        <span className="text-sm text-gray-600">{task.progress_percentage}%</span>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -501,13 +503,13 @@ export default function TasksView() {
                       type="range"
                       min="0"
                       max="100"
-                      value={selectedTask.progress}
+                      value={selectedTask.progress_percentage}
                       onChange={(e) => updateTaskProgress(selectedTask.id, parseInt(e.target.value))}
                       className="w-full"
                     />
                     <div className="flex justify-between text-xs text-gray-500 mt-1">
                       <span>0%</span>
-                      <span>{selectedTask.progress}%</span>
+                      <span>{selectedTask.progress_percentage}%</span>
                       <span>100%</span>
                     </div>
                   </div>
@@ -520,7 +522,7 @@ export default function TasksView() {
                 
                 <div>
                   <label className="text-sm font-medium text-gray-500">Assegnato</label>
-                  <p className="text-gray-900">{selectedTask.assignee || 'Non assegnato'}</p>
+                  <p className="text-gray-900">{selectedTask.assigned_to || 'Non assegnato'}</p>
                 </div>
               </div>
               
@@ -661,8 +663,8 @@ export default function TasksView() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Assegnato</label>
                 <input
                   type="text"
-                  value={newTask.assignee}
-                  onChange={(e) => setNewTask(prev => ({ ...prev, assignee: e.target.value }))}
+                  value={newTask.assigned_to}
+                  onChange={(e) => setNewTask(prev => ({ ...prev, assigned_to: e.target.value }))}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
                   placeholder="Nome assegnatario"
                 />

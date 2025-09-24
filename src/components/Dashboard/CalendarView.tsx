@@ -38,9 +38,11 @@ export default function CalendarView() {
     end_time: '',
     location: '',
     attendees: '',
-    meeting_type: 'meeting' as const,
+    type: 'meeting' as const,
+    status: 'scheduled' as const,
+    priority: 'medium' as const,
     reminder_minutes: 15,
-    meeting_link: '',
+    meeting_url: '',
     notes: ''
   });
 
@@ -74,8 +76,10 @@ export default function CalendarView() {
           end_time: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
           location: 'Ufficio',
           attendees: ['Manager', 'Developer', 'Marketing'],
-          meeting_type: 'meeting',
+          type: 'meeting',
           status: 'scheduled',
+          priority: 'medium',
+          is_recurring: false,
           reminder_minutes: 15,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
@@ -141,14 +145,16 @@ export default function CalendarView() {
         user_id: 'default-user',
         title: newAppointment.title,
         description: newAppointment.description || undefined,
+        type: newAppointment.type,
+        status: newAppointment.status,
+        priority: newAppointment.priority,
         start_time: newAppointment.start_time,
         end_time: newAppointment.end_time,
         location: newAppointment.location || undefined,
+        meeting_url: newAppointment.meeting_url || undefined,
         attendees: newAppointment.attendees.split(',').map(a => a.trim()).filter(a => a),
-        meeting_type: newAppointment.meeting_type,
-        status: 'scheduled' as const,
+        is_recurring: false,
         reminder_minutes: newAppointment.reminder_minutes,
-        meeting_link: newAppointment.meeting_link || undefined,
         notes: newAppointment.notes || undefined
       };
 
@@ -162,9 +168,11 @@ export default function CalendarView() {
         end_time: '',
         location: '',
         attendees: '',
-        meeting_type: 'meeting',
+        type: 'meeting',
+        status: 'scheduled',
+        priority: 'medium',
         reminder_minutes: 15,
-        meeting_link: '',
+        meeting_url: '',
         notes: ''
       });
     } catch (error) {
@@ -319,7 +327,7 @@ export default function CalendarView() {
                         className="text-xs p-1 rounded cursor-pointer hover:bg-gray-100 bg-blue-100 text-blue-800 truncate"
                         title={appointment.title}
                       >
-                        {getMeetingTypeIcon(appointment.meeting_type)} {formatTime(appointment.start_time)} {appointment.title}
+                        {getMeetingTypeIcon(appointment.type)} {formatTime(appointment.start_time)} {appointment.title}
                       </div>
                     ))}
                     {day.appointments.length > 3 && (
@@ -341,7 +349,7 @@ export default function CalendarView() {
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
-                {getMeetingTypeIcon(selectedAppointment.meeting_type)} {selectedAppointment.title}
+                {getMeetingTypeIcon(selectedAppointment.type)} {selectedAppointment.title}
               </h3>
               <button
                 onClick={() => setSelectedAppointment(null)}
@@ -388,11 +396,11 @@ export default function CalendarView() {
                 </span>
               </div>
               
-              {selectedAppointment.meeting_link && (
+              {selectedAppointment.meeting_url && (
                 <div>
                   <label className="text-sm font-medium text-gray-500">Link Meeting</label>
-                  <a href={selectedAppointment.meeting_link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                    {selectedAppointment.meeting_link}
+                  <a href={selectedAppointment.meeting_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                    {selectedAppointment.meeting_url}
                   </a>
                 </div>
               )}
@@ -493,24 +501,55 @@ export default function CalendarView() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
                 <select
-                  value={newAppointment.meeting_type}
-                  onChange={(e) => setNewAppointment(prev => ({ ...prev, meeting_type: e.target.value as any }))}
+                  value={newAppointment.type}
+                  onChange={(e) => setNewAppointment(prev => ({ ...prev, type: e.target.value as any }))}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
                 >
                   <option value="meeting">👥 Meeting</option>
                   <option value="call">📞 Chiamata</option>
                   <option value="presentation">📊 Presentazione</option>
-                  <option value="workshop">🎓 Workshop</option>
+                  <option value="interview">💼 Intervista</option>
+                  <option value="training">🎓 Training</option>
                   <option value="other">📅 Altro</option>
                 </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Stato</label>
+                  <select
+                    value={newAppointment.status}
+                    onChange={(e) => setNewAppointment(prev => ({ ...prev, status: e.target.value as any }))}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  >
+                    <option value="scheduled">📅 Programmato</option>
+                    <option value="confirmed">✅ Confermato</option>
+                    <option value="completed">✔️ Completato</option>
+                    <option value="cancelled">❌ Cancellato</option>
+                    <option value="rescheduled">🔄 Riprogrammato</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Priorità</label>
+                  <select
+                    value={newAppointment.priority}
+                    onChange={(e) => setNewAppointment(prev => ({ ...prev, priority: e.target.value as any }))}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  >
+                    <option value="low">🟢 Bassa</option>
+                    <option value="medium">🟡 Media</option>
+                    <option value="high">🔴 Alta</option>
+                    <option value="urgent">🚨 Urgente</option>
+                  </select>
+                </div>
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Link Meeting</label>
                 <input
                   type="url"
-                  value={newAppointment.meeting_link}
-                  onChange={(e) => setNewAppointment(prev => ({ ...prev, meeting_link: e.target.value }))}
+                  value={newAppointment.meeting_url}
+                  onChange={(e) => setNewAppointment(prev => ({ ...prev, meeting_url: e.target.value }))}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
                   placeholder="https://meet.google.com/..."
                 />

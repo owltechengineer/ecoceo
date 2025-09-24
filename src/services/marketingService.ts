@@ -1,40 +1,47 @@
-import { 
-  loadCampaigns, 
-  saveCampaign, 
-  updateCampaign, 
-  deleteCampaign,
-  loadLeads, 
-  saveLead, 
-  updateLead, 
-  deleteLead,
-  Campaign as DBCampaign, 
-  Lead as DBLead 
-} from '@/lib/supabase';
-import { Campaign, Lead } from '@/contexts/DashboardContext';
+/**
+ * MARKETING SERVICE
+ * Servizio centralizzato per tutte le operazioni marketing
+ * Utilizza il modulo marketing per le operazioni CRUD
+ */
 
-export interface MarketingStats {
-  totalBudget: number;
-  totalSpent: number;
-  totalLeads: number;
-  totalConversions: number;
-  totalRevenue: number;
-  averageCAC: number;
-  averageLTV: number;
-  overallLTVCACRatio: number;
-  conversionRate: number;
-  channelPerformance: Array<{
-    channel: string;
-    budget: number;
-    spent: number;
-    leads: number;
-    conversions: number;
-    revenue: number;
-    cac: number;
-    ltvCacRatio: number;
-  }>;
+import {
+  Campaign,
+  Lead,
+  createCampaign,
+  getCampaigns,
+  updateCampaign,
+  deleteCampaign,
+  createLead,
+  getLeads,
+  updateLead,
+  deleteLead,
+  getLeadsByCampaign,
+  getMarketingStats,
+  validateCampaignData,
+  validateLeadData,
+  formatDate,
+  formatCurrency
+} from '@/lib/marketing';
+
+export interface MarketingServiceInterface {
+  // Campaign methods
+  createCampaign(data: Omit<Campaign, 'id' | 'created_at' | 'updated_at'>): Promise<Campaign>;
+  getCampaigns(userId?: string): Promise<Campaign[]>;
+  updateCampaign(id: string, updates: Partial<Campaign>): Promise<Campaign>;
+  deleteCampaign(id: string): Promise<void>;
+  
+  // Lead methods
+  createLead(data: Omit<Lead, 'id' | 'created_at' | 'updated_at'>): Promise<Lead>;
+  getLeads(userId?: string): Promise<Lead[]>;
+  updateLead(id: string, updates: Partial<Lead>): Promise<Lead>;
+  deleteLead(id: string): Promise<void>;
+  
+  // Utility methods
+  getLeadsByCampaign(campaignId: string): Promise<Lead[]>;
+  getMarketingStats(userId?: string): Promise<any>;
 }
 
-export class MarketingService {
+export class MarketingService implements MarketingServiceInterface {
   private static instance: MarketingService;
   private userId: string = 'default-user';
 
@@ -47,252 +54,214 @@ export class MarketingService {
     return MarketingService.instance;
   }
 
-  public setUserId(userId: string) {
+  public setUserId(userId: string): void {
     this.userId = userId;
   }
 
-  // ===== CAMPAIGNS =====
+  // ===== CAMPAIGN METHODS =====
 
-  async getCampaigns(): Promise<Campaign[]> {
+  async createCampaign(data: Omit<Campaign, 'id' | 'created_at' | 'updated_at'>): Promise<Campaign> {
     try {
-      const campaigns = await loadCampaigns(this.userId);
-      return campaigns.map(this.mapCampaignFromDB);
-    } catch (error) {
-      console.error('Error in getCampaigns:', error);
-      throw error;
-    }
-  }
-
-  async createCampaign(campaign: Omit<Campaign, 'id'>): Promise<Campaign> {
-    try {
-      const campaignData = this.mapCampaignToDB(campaign);
-      const newCampaign = await saveCampaign(campaignData);
-      return this.mapCampaignFromDB(newCampaign);
-    } catch (error) {
-      console.error('Error in createCampaign:', error);
-      throw error;
-    }
-  }
-
-  async updateCampaign(campaign: Campaign): Promise<Campaign> {
-    try {
-      const campaignData = this.mapCampaignToDB(campaign);
-      const updatedCampaign = await updateCampaign(campaign.id, campaignData);
-      return this.mapCampaignFromDB(updatedCampaign);
-    } catch (error) {
-      console.error('Error in updateCampaign:', error);
-      throw error;
-    }
-  }
-
-  async deleteCampaign(campaignId: string): Promise<void> {
-    try {
-      await deleteCampaign(campaignId);
-    } catch (error) {
-      console.error('Error in deleteCampaign:', error);
-      throw error;
-    }
-  }
-
-  // ===== LEADS =====
-
-  async getLeads(): Promise<Lead[]> {
-    try {
-      const leads = await loadLeads(this.userId);
-      return leads.map(this.mapLeadFromDB);
-    } catch (error) {
-      console.error('Error in getLeads:', error);
-      throw error;
-    }
-  }
-
-  async createLead(lead: Omit<Lead, 'id'>): Promise<Lead> {
-    try {
-      const leadData = this.mapLeadToDB(lead);
-      const newLead = await saveLead(leadData);
-      return this.mapLeadFromDB(newLead);
-    } catch (error) {
-      console.error('Error in createLead:', error);
-      throw error;
-    }
-  }
-
-  async updateLead(lead: Lead): Promise<Lead> {
-    try {
-      const leadData = this.mapLeadToDB(lead);
-      const updatedLead = await updateLead(lead.id, leadData);
-      return this.mapLeadFromDB(updatedLead);
-    } catch (error) {
-      console.error('Error in updateLead:', error);
-      throw error;
-    }
-  }
-
-  async deleteLead(leadId: string): Promise<void> {
-    try {
-      await deleteLead(leadId);
-    } catch (error) {
-      console.error('Error in deleteLead:', error);
-      throw error;
-    }
-  }
-
-  // ===== ANALYTICS & STATS =====
-
-  async getMarketingStats(): Promise<MarketingStats> {
-    try {
-      const [campaigns, leads] = await Promise.all([
-        this.getCampaigns(),
-        this.getLeads()
-      ]);
-
-      return this.calculateMarketingStats(campaigns, leads);
-    } catch (error) {
-      console.error('Error in getMarketingStats:', error);
-      throw error;
-    }
-  }
-
-  private calculateMarketingStats(campaigns: Campaign[], leads: Lead[]): MarketingStats {
-    const totalBudget = campaigns.reduce((sum, c) => sum + c.budget, 0);
-    const totalSpent = campaigns.reduce((sum, c) => sum + c.spent, 0);
-    const totalLeads = campaigns.reduce((sum, c) => sum + c.leads, 0);
-    const totalConversions = campaigns.reduce((sum, c) => sum + c.conversions, 0);
-    const totalRevenue = campaigns.reduce((sum, c) => sum + c.revenue, 0);
-    
-    const averageCAC = totalLeads > 0 ? totalSpent / totalLeads : 0;
-    const averageLTV = totalConversions > 0 ? totalRevenue / totalConversions : 0;
-    const overallLTVCACRatio = averageCAC > 0 ? averageLTV / averageCAC : 0;
-    const conversionRate = totalLeads > 0 ? (totalConversions / totalLeads) * 100 : 0;
-
-    // Channel performance
-    const channelMap = new Map<string, any>();
-    campaigns.forEach(campaign => {
-      const channel = campaign.channel;
-      if (!channelMap.has(channel)) {
-        channelMap.set(channel, {
-          channel,
-          budget: 0,
-          spent: 0,
-          leads: 0,
-          conversions: 0,
-          revenue: 0,
-          cac: 0,
-          ltvCacRatio: 0
-        });
+      // Validazione dati
+      const errors = validateCampaignData(data);
+      if (errors.length > 0) {
+        throw new Error(`Validation errors: ${errors.join(', ')}`);
       }
+
+      // Prepara dati con user_id
+      const campaignData = {
+        ...data,
+        user_id: this.userId,
+        // Assicura che i campi numerici abbiano valori validi
+        budget: data.budget || 0,
+        spent_amount: data.spent_amount || 0,
+        target_impressions: data.target_impressions || 0,
+        target_clicks: data.target_clicks || 0,
+        target_conversions: data.target_conversions || 0,
+        actual_impressions: data.actual_impressions || 0,
+        actual_clicks: data.actual_clicks || 0,
+        actual_conversions: data.actual_conversions || 0,
+        tags: data.tags || [],
+        // Converte le date in formato ISO se necessario
+        start_date: this.ensureISODate(data.start_date),
+        end_date: data.end_date ? this.ensureISODate(data.end_date) : undefined
+      };
+
+      return await createCampaign(campaignData);
+    } catch (error) {
+      console.error('MarketingService.createCampaign error:', error);
+      throw error;
+    }
+  }
+
+  async getCampaigns(userId?: string): Promise<Campaign[]> {
+    try {
+      return await getCampaigns(userId || this.userId);
+    } catch (error) {
+      console.error('MarketingService.getCampaigns error:', error);
+      throw error;
+    }
+  }
+
+  async updateCampaign(id: string, updates: Partial<Campaign>): Promise<Campaign> {
+    try {
+      // Rimuovi campi che non dovrebbero essere aggiornati
+      const { created_at, updated_at, ...safeUpdates } = updates as any;
       
-      const channelData = channelMap.get(channel);
-      channelData.budget += campaign.budget;
-      channelData.spent += campaign.spent;
-      channelData.leads += campaign.leads;
-      channelData.conversions += campaign.conversions;
-      channelData.revenue += campaign.revenue;
-    });
+      // Converte le date se presenti
+      if (safeUpdates.start_date) {
+        safeUpdates.start_date = this.ensureISODate(safeUpdates.start_date);
+      }
+      if (safeUpdates.end_date) {
+        safeUpdates.end_date = this.ensureISODate(safeUpdates.end_date);
+      }
 
-    // Calculate CAC and LTV/CAC for each channel
-    const channelPerformance = Array.from(channelMap.values()).map(channel => ({
-      ...channel,
-      cac: channel.leads > 0 ? channel.spent / channel.leads : 0,
-      ltvCacRatio: channel.leads > 0 && channel.spent > 0 ? 
-        (channel.revenue / channel.conversions) / (channel.spent / channel.leads) : 0
-    }));
-
-    return {
-      totalBudget,
-      totalSpent,
-      totalLeads,
-      totalConversions,
-      totalRevenue,
-      averageCAC,
-      averageLTV,
-      overallLTVCACRatio,
-      conversionRate,
-      channelPerformance
-    };
+      return await updateCampaign(id, safeUpdates);
+    } catch (error) {
+      console.error('MarketingService.updateCampaign error:', error);
+      throw error;
+    }
   }
 
-  // ===== DATA MAPPING =====
-
-  private mapCampaignFromDB(data: DBCampaign): Campaign {
-    return {
-      id: data.id,
-      name: data.name,
-      channel: data.channel,
-      startDate: data.start_date,
-      endDate: data.end_date,
-      budget: parseFloat(data.budget.toString()) || 0,
-      spent: parseFloat(data.spent.toString()) || 0,
-      leads: parseInt(data.leads.toString()) || 0,
-      conversions: parseInt(data.conversions.toString()) || 0,
-      revenue: parseFloat(data.revenue.toString()) || 0,
-      status: data.status,
-      cac: parseFloat(data.cac.toString()) || 0,
-      ltv: parseFloat(data.ltv.toString()) || 0,
-      ltvCacRatio: parseFloat(data.ltv_cac_ratio.toString()) || 0,
-      plannedLeads: parseInt(data.planned_leads.toString()) || 0,
-      plannedConversions: parseInt(data.planned_conversions.toString()) || 0,
-      plannedRevenue: parseFloat(data.planned_revenue.toString()) || 0,
-      actualLeads: parseInt(data.actual_leads.toString()) || 0,
-      actualConversions: parseInt(data.actual_conversions.toString()) || 0,
-    };
+  async deleteCampaign(id: string): Promise<void> {
+    try {
+      return await deleteCampaign(id);
+    } catch (error) {
+      console.error('MarketingService.deleteCampaign error:', error);
+      throw error;
+    }
   }
 
-  private mapCampaignToDB(campaign: Campaign | Omit<Campaign, 'id'>): Omit<DBCampaign, 'id' | 'created_at' | 'updated_at'> {
-    return {
-      user_id: this.userId,
-      name: campaign.name,
-      channel: campaign.channel,
-      start_date: campaign.startDate,
-      end_date: campaign.endDate,
-      budget: campaign.budget,
-      spent: campaign.spent,
-      leads: campaign.leads,
-      conversions: campaign.conversions,
-      revenue: campaign.revenue,
-      status: campaign.status,
-      cac: campaign.cac,
-      ltv: campaign.ltv,
-      ltv_cac_ratio: campaign.ltvCacRatio,
-      planned_leads: campaign.plannedLeads,
-      planned_conversions: campaign.plannedConversions,
-      planned_revenue: campaign.plannedRevenue,
-      actual_leads: campaign.actualLeads,
-      actual_conversions: campaign.actualConversions,
-    };
+  // ===== LEAD METHODS =====
+
+  async createLead(data: Omit<Lead, 'id' | 'created_at' | 'updated_at'>): Promise<Lead> {
+    try {
+      // Validazione dati
+      const errors = validateLeadData(data);
+      if (errors.length > 0) {
+        throw new Error(`Validation errors: ${errors.join(', ')}`);
+      }
+
+      // Prepara dati con user_id
+      const leadData = {
+        ...data,
+        user_id: this.userId,
+        // Assicura che i campi abbiano valori validi
+        score: data.score || 0,
+        tags: data.tags || [],
+        // Converte le date in formato ISO se necessario
+        first_contact_date: this.ensureISODate(data.first_contact_date || new Date().toISOString()),
+        last_contact_date: data.last_contact_date ? this.ensureISODate(data.last_contact_date) : undefined,
+        next_followup_date: data.next_followup_date ? this.ensureISODate(data.next_followup_date) : undefined
+      };
+
+      return await createLead(leadData);
+    } catch (error) {
+      console.error('MarketingService.createLead error:', error);
+      throw error;
+    }
   }
 
-  private mapLeadFromDB(data: DBLead): Lead {
-    return {
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      source: data.source,
-      campaign: data.campaign || '',
-      status: data.status,
-      value: parseFloat(data.value.toString()) || 0,
-      date: data.date,
-      roi: parseFloat(data.roi.toString()) || 0,
-      plannedValue: parseFloat(data.planned_value.toString()) || 0,
-      actualValue: parseFloat(data.actual_value.toString()) || 0,
-    };
+  async getLeads(userId?: string): Promise<Lead[]> {
+    try {
+      return await getLeads(userId || this.userId);
+    } catch (error) {
+      console.error('MarketingService.getLeads error:', error);
+      throw error;
+    }
   }
 
-  private mapLeadToDB(lead: Lead | Omit<Lead, 'id'>): Omit<DBLead, 'id' | 'created_at' | 'updated_at'> {
-    return {
-      user_id: this.userId,
-      name: lead.name,
-      email: lead.email,
-      source: lead.source,
-      campaign: lead.campaign,
-      status: lead.status,
-      value: lead.value,
-      date: lead.date,
-      roi: lead.roi,
-      planned_value: lead.plannedValue,
-      actual_value: lead.actualValue,
-    };
+  async updateLead(id: string, updates: Partial<Lead>): Promise<Lead> {
+    try {
+      // Rimuovi campi che non dovrebbero essere aggiornati
+      const { created_at, updated_at, ...safeUpdates } = updates as any;
+      
+      // Converte le date se presenti
+      if (safeUpdates.first_contact_date) {
+        safeUpdates.first_contact_date = this.ensureISODate(safeUpdates.first_contact_date);
+      }
+      if (safeUpdates.last_contact_date) {
+        safeUpdates.last_contact_date = this.ensureISODate(safeUpdates.last_contact_date);
+      }
+      if (safeUpdates.next_followup_date) {
+        safeUpdates.next_followup_date = this.ensureISODate(safeUpdates.next_followup_date);
+      }
+
+      return await updateLead(id, safeUpdates);
+    } catch (error) {
+      console.error('MarketingService.updateLead error:', error);
+      throw error;
+    }
+  }
+
+  async deleteLead(id: string): Promise<void> {
+    try {
+      return await deleteLead(id);
+    } catch (error) {
+      console.error('MarketingService.deleteLead error:', error);
+      throw error;
+    }
+  }
+
+  // ===== UTILITY METHODS =====
+
+  async getLeadsByCampaign(campaignId: string): Promise<Lead[]> {
+    try {
+      return await getLeadsByCampaign(campaignId);
+    } catch (error) {
+      console.error('MarketingService.getLeadsByCampaign error:', error);
+      throw error;
+    }
+  }
+
+  async getMarketingStats(userId?: string): Promise<any> {
+    try {
+      return await getMarketingStats(userId || this.userId);
+    } catch (error) {
+      console.error('MarketingService.getMarketingStats error:', error);
+      throw error;
+    }
+  }
+
+  // ===== HELPER METHODS =====
+
+  private ensureISODate(dateInput: string | Date): string {
+    try {
+      if (typeof dateInput === 'string') {
+        // Se la stringa è già in formato ISO, la restituisce
+        if (dateInput.includes('T') && dateInput.includes('Z')) {
+          return dateInput;
+        }
+        // Altrimenti converte una data in formato YYYY-MM-DD in ISO timestamp
+        return new Date(dateInput).toISOString();
+      }
+      return dateInput.toISOString();
+    } catch (error) {
+      console.warn('Date conversion error:', error);
+      return new Date().toISOString();
+    }
+  }
+
+  // Metodi di utilità per i componenti
+  formatDate(dateString: string): string {
+    return formatDate(dateString);
+  }
+
+  formatCurrency(amount: number, currency: string = 'EUR'): string {
+    return formatCurrency(amount, currency);
+  }
+
+  validateCampaignData(data: Partial<Campaign>): string[] {
+    return validateCampaignData(data);
+  }
+
+  validateLeadData(data: Partial<Lead>): string[] {
+    return validateLeadData(data);
   }
 }
 
+// Esporta l'istanza singleton
 export const marketingService = MarketingService.getInstance();
+
+// Esporta anche i tipi per l'uso nei componenti
+export type { Campaign, Lead } from '@/lib/marketing';

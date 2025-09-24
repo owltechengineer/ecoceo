@@ -19,16 +19,20 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
 
   // Form data
   const [formData, setFormData] = useState({
+    user_id: 'default-user',
     name: '',
     description: '',
-    type: 'weekly' as 'weekly' | 'monthly',
+    type: 'task' as 'task' | 'appointment' | 'reminder' | 'other',
+    status: 'active' as 'active' | 'paused' | 'completed' | 'cancelled',
+    priority: 'medium' as 'low' | 'medium' | 'high' | 'urgent',
+    frequency: 'weekly' as 'daily' | 'weekly' | 'monthly' | 'yearly',
     day_of_week: 1,
     day_of_month: 1,
-    time: '09:00',
-    duration: 60,
-    category: '',
-    priority: 'medium' as 'low' | 'medium' | 'high',
-    is_active: true
+    time_of_day: '09:00',
+    duration_minutes: 60,
+    assigned_to: '',
+    notes: '',
+    tags: [] as string[]
   });
 
 
@@ -36,14 +40,32 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
     'Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'
   ];
 
-  const categories = [
-    'Lavoro', 'Personale', 'Salute', 'Formazione', 'Sociale', 'Famiglia', 'Hobby', 'Altro'
+  const types = [
+    { value: 'task', label: 'Task', icon: '✅' },
+    { value: 'appointment', label: 'Appuntamento', icon: '📅' },
+    { value: 'reminder', label: 'Promemoria', icon: '🔔' },
+    { value: 'other', label: 'Altro', icon: '📝' }
+  ];
+
+  const statuses = [
+    { value: 'active', label: 'Attivo', color: 'text-green-600 bg-green-100' },
+    { value: 'paused', label: 'In pausa', color: 'text-yellow-600 bg-yellow-100' },
+    { value: 'completed', label: 'Completato', color: 'text-blue-600 bg-blue-100' },
+    { value: 'cancelled', label: 'Cancellato', color: 'text-red-600 bg-red-100' }
+  ];
+
+  const frequencies = [
+    { value: 'daily', label: 'Giornaliera', icon: '📅' },
+    { value: 'weekly', label: 'Settimanale', icon: '📆' },
+    { value: 'monthly', label: 'Mensile', icon: '🗓️' },
+    { value: 'yearly', label: 'Annuale', icon: '📊' }
   ];
 
   const priorities = [
     { value: 'low', label: 'Bassa', color: 'text-green-600 bg-green-100' },
     { value: 'medium', label: 'Media', color: 'text-yellow-600 bg-yellow-100' },
-    { value: 'high', label: 'Alta', color: 'text-red-600 bg-red-100' }
+    { value: 'high', label: 'Alta', color: 'text-red-600 bg-red-100' },
+    { value: 'urgent', label: 'Urgente', color: 'text-purple-600 bg-purple-100' }
   ];
 
   useEffect(() => {
@@ -84,15 +106,11 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
         alert('Il nome dell\'attività è obbligatorio');
         return;
       }
-      if (!formData.category) {
-        alert('La categoria è obbligatoria');
-        return;
-      }
-      if (formData.type === 'weekly' && formData.day_of_week === null) {
+      if (formData.frequency === 'weekly' && formData.day_of_week === null) {
         alert('Il giorno della settimana è obbligatorio per attività settimanali');
         return;
       }
-      if (formData.type === 'monthly' && formData.day_of_month === null) {
+      if (formData.frequency === 'monthly' && formData.day_of_month === null) {
         alert('Il giorno del mese è obbligatorio per attività mensili');
         return;
       }
@@ -132,16 +150,20 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
 
   const resetForm = () => {
     setFormData({
+      user_id: 'default-user',
       name: '',
       description: '',
-      type: 'weekly',
+      type: 'task',
+      status: 'active',
+      priority: 'medium',
+      frequency: 'weekly',
       day_of_week: 1,
       day_of_month: 1,
-      time: '09:00',
-      duration: 60,
-      category: '',
-      priority: 'medium',
-      is_active: true
+      time_of_day: '09:00',
+      duration_minutes: 60,
+      assigned_to: '',
+      notes: '',
+      tags: []
     });
   };
 
@@ -149,16 +171,20 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
   const editActivity = (activity: RecurringActivity) => {
     setEditingActivity(activity);
     setFormData({
+      user_id: activity.user_id,
       name: activity.name,
-      description: activity.description,
+      description: activity.description || '',
       type: activity.type,
+      status: activity.status,
+      priority: activity.priority,
+      frequency: activity.frequency,
       day_of_week: activity.day_of_week || 1,
       day_of_month: activity.day_of_month || 1,
-      time: activity.time,
-      duration: activity.duration,
-      category: activity.category,
-      priority: activity.priority,
-      is_active: activity.is_active
+      time_of_day: activity.time_of_day || '09:00',
+      duration_minutes: activity.duration_minutes,
+      assigned_to: activity.assigned_to || '',
+      notes: activity.notes || '',
+      tags: activity.tags || []
     });
     setShowForm(true);
   };
@@ -169,7 +195,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
       setLoading(true);
       
       // Genera tutte le attività settimanali
-      const activitiesToGenerate = activities.filter(a => a.is_active && a.type === 'weekly');
+      const activitiesToGenerate = activities.filter(a => a.status === 'active' && a.frequency === 'weekly');
 
       if (activitiesToGenerate.length === 0) {
         alert('Nessuna attività settimanale attiva trovata per la generazione.');
@@ -186,11 +212,11 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
         const activityDate = new Date(startOfWeek);
         activityDate.setDate(activityDate.getDate() + (activity.day_of_week || 0));
         
-        const [hours, minutes] = activity.time.split(':');
+        const [hours, minutes] = (activity.time_of_day || '09:00').split(':');
         activityDate.setHours(parseInt(hours), parseInt(minutes));
 
         const endDate = new Date(activityDate);
-        endDate.setMinutes(endDate.getMinutes() + activity.duration);
+        endDate.setMinutes(endDate.getMinutes() + activity.duration_minutes);
 
         // Inserisci nel calendario
         const { error } = await supabase
@@ -200,7 +226,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
             description: activity.description,
             start_time: activityDate.toISOString(),
             end_time: endDate.toISOString(),
-            category: activity.category,
+            category: 'other',
             priority: activity.priority,
             is_recurring: true,
             recurring_activity_id: activity.id,
@@ -238,7 +264,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
     try {
       setLoading(true);
       
-      const monthlyActivities = activities.filter(a => a.is_active && a.type === 'monthly');
+      const monthlyActivities = activities.filter(a => a.status === 'active' && a.frequency === 'monthly');
       
       if (monthlyActivities.length === 0) {
         alert('Nessuna attività mensile attiva trovata.');
@@ -251,11 +277,11 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
         const activityDate = new Date();
         activityDate.setDate(activity.day_of_month || 1);
         
-        const [hours, minutes] = activity.time.split(':');
+        const [hours, minutes] = (activity.time_of_day || '09:00').split(':');
         activityDate.setHours(parseInt(hours), parseInt(minutes));
 
         const endDate = new Date(activityDate);
-        endDate.setMinutes(endDate.getMinutes() + activity.duration);
+        endDate.setMinutes(endDate.getMinutes() + activity.duration_minutes);
 
         // Inserisci nel calendario
         const { error } = await supabase
@@ -265,7 +291,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
             description: activity.description,
             start_time: activityDate.toISOString(),
             end_time: endDate.toISOString(),
-            category: activity.category,
+            category: 'other',
             priority: activity.priority,
             is_recurring: true,
             recurring_activity_id: activity.id,
@@ -306,7 +332,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
     startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
     
     const daysOfWeek = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
-    const weeklyActivities = activities.filter(a => a.is_active && a.type === 'weekly');
+    const weeklyActivities = activities.filter(a => a.status === 'active' && a.frequency === 'weekly');
     
     return daysOfWeek.map((day, dayIndex) => {
       const dayActivities = weeklyActivities.filter(a => a.day_of_week === dayIndex);
@@ -324,8 +350,8 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                       <p className="text-sm text-gray-700 leading-relaxed">{activity.description}</p>
                     </div>
                     <div className="text-right ml-4">
-                      <p className="text-lg font-bold text-blue-600">{activity.time}</p>
-                      <p className="text-sm text-gray-600">{activity.duration} min</p>
+                      <p className="text-lg font-bold text-blue-600">{activity.time_of_day}</p>
+                      <p className="text-sm text-gray-600">{activity.duration_minutes} min</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
@@ -334,7 +360,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                     }`}>
                       {priorities.find(p => p.value === activity.priority)?.label}
                     </span>
-                    <span className="text-sm font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded">{activity.category}</span>
+                    <span className="text-sm font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded">{'other'}</span>
                   </div>
                 </div>
               ))
@@ -351,7 +377,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
 
   // Genera visualizzazione mese
   const generateMonthlyView = () => {
-    const monthlyActivities = activities.filter(a => a.is_active && a.type === 'monthly');
+    const monthlyActivities = activities.filter(a => a.status === 'active' && a.frequency === 'monthly');
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -379,7 +405,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                       <div key={activity.id} className="bg-white rounded-lg p-2 border-2 border-gray-200 shadow-md hover:shadow-lg transition-shadow">
                         <div className="text-center">
                           <h5 className="text-sm font-bold text-gray-900 truncate mb-1">{activity.name}</h5>
-                          <p className="text-sm font-medium text-blue-600 mb-1">{activity.time}</p>
+                          <p className="text-sm font-medium text-blue-600 mb-1">{activity.time_of_day}</p>
                           <span className={`inline-block px-2 py-1 text-xs font-bold rounded-full ${
                             priorities.find(p => p.value === activity.priority)?.color || 'bg-gray-100 text-gray-600'
                           }`}>
@@ -482,28 +508,38 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                     <div className="space-y-3 text-base">
                       <div className="flex justify-between items-center py-2 border-b border-gray-100">
                         <span className="text-gray-600 font-medium">Tipo:</span>
-                        <span className="font-bold text-blue-600">{activity.type === 'weekly' ? 'Settimanale' : 'Mensile'}</span>
+                        <span className="font-bold text-blue-600">{frequencies.find(f => f.value === activity.frequency)?.label}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-gray-100">
                         <span className="text-gray-600 font-medium">Giorno:</span>
                         <span className="font-bold text-green-600">
-                          {activity.type === 'weekly' 
+                          {activity.frequency === 'weekly' 
                             ? daysOfWeek[activity.day_of_week || 0]
-                            : `${activity.day_of_month}° del mese`
+                            : activity.frequency === 'monthly' 
+                            ? `${activity.day_of_month}° del mese`
+                            : activity.frequency === 'daily' 
+                            ? 'Ogni giorno'
+                            : 'Annuale'
                           }
                         </span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-gray-100">
                         <span className="text-gray-600 font-medium">Ora:</span>
-                        <span className="font-bold text-purple-600">{activity.time}</span>
+                        <span className="font-bold text-purple-600">{activity.time_of_day}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-gray-100">
                         <span className="text-gray-600 font-medium">Durata:</span>
-                        <span className="font-bold text-orange-600">{activity.duration} min</span>
+                        <span className="font-bold text-orange-600">{activity.duration_minutes} min</span>
+                      </div>
+                      <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span className="text-gray-600 font-medium">Tipo:</span>
+                        <span className="font-bold text-indigo-600">{types.find(t => t.value === activity.type)?.label}</span>
                       </div>
                       <div className="flex justify-between items-center py-2">
-                        <span className="text-gray-600 font-medium">Categoria:</span>
-                        <span className="font-bold text-indigo-600">{activity.category}</span>
+                        <span className="text-gray-600 font-medium">Stato:</span>
+                        <span className={`px-2 py-1 rounded-full text-sm font-bold ${statuses.find(s => s.value === activity.status)?.color || 'bg-gray-100 text-gray-600'}`}>
+                          {statuses.find(s => s.value === activity.status)?.label}
+                        </span>
                       </div>
                     </div>
                     <div className="flex space-x-2 mt-4">
@@ -536,7 +572,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                   </p>
                   <button
                     onClick={() => {
-                      const weeklyActivities = activities.filter(a => a.is_active && a.type === 'weekly');
+                      const weeklyActivities = activities.filter(a => a.status === 'active' && a.frequency === 'weekly');
                       if (weeklyActivities.length === 0) {
                         alert('Nessuna attività settimanale attiva trovata. Crea prima delle attività settimanali.');
                         return;
@@ -631,30 +667,34 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                     </label>
                     <select
                       value={formData.type}
-                      onChange={(e) => setFormData({...formData, type: e.target.value as 'weekly' | 'monthly'})}
+                      onChange={(e) => setFormData({...formData, type: e.target.value as any})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                     >
-                      <option value="weekly">Settimanale</option>
-                      <option value="monthly">Mensile</option>
+                      {types.map(type => (
+                        <option key={type.value} value={type.value}>
+                          {type.icon} {type.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-2">
-                      Categoria
+                      Frequenza
                     </label>
                     <select
-                      value={formData.category}
-                      onChange={(e) => setFormData({...formData, category: e.target.value})}
+                      value={formData.frequency}
+                      onChange={(e) => setFormData({...formData, frequency: e.target.value as any})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                     >
-                      <option value="">Seleziona categoria</option>
-                      {categories.map(cat => (
-                        <option key={cat} value={cat}>{cat}</option>
+                      {frequencies.map(freq => (
+                        <option key={freq.value} value={freq.value}>
+                          {freq.icon} {freq.label}
+                        </option>
                       ))}
                     </select>
                   </div>
                 </div>
-                {formData.type === 'weekly' ? (
+                {formData.frequency === 'weekly' ? (
                   <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-2">
                       Giorno della Settimana
@@ -669,7 +709,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                       ))}
                     </select>
                   </div>
-                ) : (
+                ) : formData.frequency === 'monthly' ? (
                   <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-2">
                       Giorno del Mese
@@ -684,7 +724,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                       ))}
                     </select>
                   </div>
-                )}
+                ) : null}
                 <div className="grid grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-2">
@@ -692,8 +732,8 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                     </label>
                     <input
                       type="time"
-                      value={formData.time}
-                      onChange={(e) => setFormData({...formData, time: e.target.value})}
+                      value={formData.time_of_day}
+                      onChange={(e) => setFormData({...formData, time_of_day: e.target.value})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                     />
                   </div>
@@ -703,8 +743,8 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                     </label>
                     <input
                       type="number"
-                      value={formData.duration}
-                      onChange={(e) => setFormData({...formData, duration: parseInt(e.target.value)})}
+                      value={formData.duration_minutes}
+                      onChange={(e) => setFormData({...formData, duration_minutes: parseInt(e.target.value)})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                       min="1"
                     />
@@ -715,7 +755,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                     </label>
                     <select
                       value={formData.priority}
-                      onChange={(e) => setFormData({...formData, priority: e.target.value as 'low' | 'medium' | 'high'})}
+                      onChange={(e) => setFormData({...formData, priority: e.target.value as any})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                     >
                       {priorities.map(priority => (
@@ -724,17 +764,45 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                     </select>
                   </div>
                 </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="activity_active"
-                    checked={formData.is_active}
-                    onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
-                    className="mr-3 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                  />
-                  <label htmlFor="activity_active" className="text-sm font-medium text-gray-700">
-                    Attività attiva
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-800 mb-2">
+                      Stato
+                    </label>
+                    <select
+                      value={formData.status}
+                      onChange={(e) => setFormData({...formData, status: e.target.value as any})}
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                    >
+                      {statuses.map(status => (
+                        <option key={status.value} value={status.value}>{status.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-800 mb-2">
+                      Assegnato a
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.assigned_to}
+                      onChange={(e) => setFormData({...formData, assigned_to: e.target.value})}
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                      placeholder="Nome persona..."
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-800 mb-2">
+                    Note
                   </label>
+                  <textarea
+                    value={formData.notes}
+                    onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
+                    rows={2}
+                    placeholder="Note aggiuntive..."
+                  />
                 </div>
               </div>
 

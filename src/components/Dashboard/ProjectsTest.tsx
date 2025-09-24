@@ -60,20 +60,14 @@ export default function ProjectsTest() {
         description: 'Progetto per testare tutte le operazioni CRUD',
         status: 'active',
         priority: 'high',
-        category: 'development',
         start_date: new Date().toISOString(),
         end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-        total_budget: 50000.00,
-        spent_amount: 0,
-        remaining_budget: 50000.00,
+        budget: 50000.00,
         currency: 'EUR',
         project_manager: 'Test Manager',
         team_members: ['Developer 1', 'Developer 2'],
-        stakeholders: ['Stakeholder 1'],
-        progress_percentage: 0,
-        completion_rate: 0,
+        completion_percentage: 0,
         tags: ['test', 'crud', 'development'],
-        attachments: [],
         notes: 'Progetto di test per verificare funzionalità'
       };
       const savedProject = await saveProjectMain(newProject);
@@ -347,13 +341,13 @@ export default function ProjectsTest() {
       // Test 13: Update Project Main
       try {
         const updatedProject = await updateProjectMain(savedProject.id, {
-          progress_percentage: 25,
+          completion_percentage: 25,
           notes: 'Progetto aggiornato durante il test'
         });
         results.push({
           name: 'Aggiornamento Project Main',
           status: 'SUCCESS',
-          message: `Project aggiornato con progresso: ${updatedProject.progress_percentage}%`,
+          message: `Project aggiornato con progresso: ${updatedProject.completion_percentage}%`,
           details: updatedProject
         });
       } catch (error: any) {

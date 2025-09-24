@@ -1,13 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Campaign, Lead } from '@/contexts/DashboardContext';
-import { marketingService, MarketingStats } from '@/services/marketingService';
+import { Campaign, Lead, marketingService } from '@/services/marketingService';
 import { useNotifications } from './useNotifications';
 
 export interface UseMarketingDataReturn {
   // Data
   campaigns: Campaign[];
   leads: Lead[];
-  stats: MarketingStats | null;
+  stats: any | null;
   
   // Loading states
   isLoading: boolean;

@@ -61,15 +61,17 @@ export default function TaskCalendarTest() {
           user_id: 'default-user',
           title: 'Test Task',
           description: 'Task di test per Task & Calendar',
-          status: 'todo',
+          status: 'pending',
           priority: 'medium',
-          assignee: 'Test User',
+          assigned_to: 'Test User',
           project_id: savedProject.id,
           due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
           estimated_hours: 8,
           actual_hours: 0,
           tags: ['test', 'task-calendar'],
-          progress: 0,
+          progress_percentage: 0,
+          depends_on_tasks: [],
+          category: 'development',
           notes: 'Task di test'
         };
         
@@ -91,10 +93,12 @@ export default function TaskCalendarTest() {
           end_time: new Date(Date.now() + 24 * 60 * 60 * 1000 + 60 * 60 * 1000).toISOString(),
           location: 'Test Location',
           attendees: ['Test User 1', 'Test User 2'],
-          meeting_type: 'meeting',
+          type: 'meeting',
           status: 'scheduled',
+          priority: 'medium',
+          is_recurring: false,
           reminder_minutes: 15,
-          meeting_link: 'https://test-meeting.com',
+          meeting_url: 'https://test-meeting.com',
           notes: 'Meeting di test'
         };
         

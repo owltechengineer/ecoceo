@@ -2599,7 +2599,7 @@ export default function BusinessPlanManagement() {
   };
 
   return (
-    <div className="space-y-8 bg-gray-50 min-h-full p-6">
+    <div className="space-y-8 min-h-full p-6">
       {/* Test Unificato Business Plan */}
       
       {/* Header */}

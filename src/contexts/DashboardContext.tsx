@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useReducer, ReactNode, useEffect, useState } from 'react';
-import { supabaseHelpers } from '@/lib/supabase';
+import { supabaseHelpers, Campaign, Lead } from '@/lib/supabase';
 
 // Tipi per i dati della dashboard
 export interface Project {
@@ -28,16 +28,21 @@ export interface Project {
 export interface Service {
   id: string;
   name: string;
-  price: number;
-  cost: number;
-  hoursSold: number;
-  revenue: number;
-  margin: number;
-  variance: number;
-  // Dati previsti vs effettivi
-  plannedHours: number; // Ore pianificate
-  plannedRevenue: number; // Ricavo pianificato
-  actualHours: number; // Ore effettive
+  description?: string;
+  category: 'consulting' | 'development' | 'design' | 'marketing' | 'support' | 'other';
+  status: 'active' | 'inactive' | 'archived' | 'discontinued';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  base_price: number;
+  currency: string;
+  pricing_model: 'fixed' | 'hourly' | 'monthly' | 'project' | 'other';
+  delivery_time_days: number;
+  delivery_method: 'remote' | 'onsite' | 'hybrid';
+  service_manager?: string;
+  team_members: string[];
+  requirements: string[];
+  deliverables: string[];
+  notes?: string;
+  tags: string[];
 }
 
 export interface Budget {
@@ -84,62 +89,33 @@ export interface RDProject {
   actualProgress: number; // Progresso effettivo
 }
 
-export interface Campaign {
-  id: string;
-  name: string;
-  channel: string;
-  startDate: string;
-  endDate: string;
-  budget: number;
-  spent: number;
-  leads: number;
-  conversions: number;
-  revenue: number;
-  status: 'active' | 'paused' | 'completed' | 'cancelled';
-  cac: number;
-  ltv: number;
-  ltvCacRatio: number;
-  // Dati previsti vs effettivi
-  plannedLeads: number; // Lead pianificati
-  plannedConversions: number; // Conversioni pianificate
-  plannedRevenue: number; // Ricavo pianificato
-  actualLeads: number; // Lead effettivi
-  actualConversions: number; // Conversioni effettive
-}
+// Campaign interface moved to @/lib/supabase.ts
 
-export interface Lead {
-  id: string;
-  name: string;
-  email: string;
-  source: string;
-  campaign: string;
-  status: 'new' | 'contacted' | 'qualified' | 'converted' | 'lost';
-  value: number;
-  date: string;
-  roi: number; // Aggiunto
-  // Dati previsti vs effettivi
-  plannedValue: number; // Valore pianificato
-  actualValue: number; // Valore effettivo
-}
+// Lead interface moved to @/lib/supabase.ts
 
 // Nuove interfacce per Task e Calendario
 export interface Task {
   id: string;
+  user_id: string;
+  project_id?: string;
   title: string;
-  description: string;
-  status: 'todo' | 'in-progress' | 'review' | 'completed' | 'cancelled';
+  description?: string;
+  status: 'pending' | 'in-progress' | 'completed' | 'cancelled' | 'on-hold';
   priority: 'low' | 'medium' | 'high' | 'urgent';
-  assignee: string;
-  project?: string; // ID del progetto associato
-  dueDate: string;
-  estimatedHours: number;
-  actualHours: number;
+  assigned_to?: string;
+  assigned_by?: string;
+  due_date?: string;
+  start_date?: string;
+  completed_date?: string;
+  estimated_hours: number;
+  actual_hours: number;
+  progress_percentage: number;
+  depends_on_tasks: string[];
+  category: 'development' | 'design' | 'testing' | 'documentation' | 'meeting' | 'review' | 'other';
+  notes?: string;
   tags: string[];
-  createdAt: string;
-  updatedAt: string;
-  // Dati previsti vs effettivi
-  plannedHours: number; // Ore pianificate
-  plannedCompletion: string; // Data completamento pianificata
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Appointment {
@@ -904,9 +880,7 @@ interface DashboardContextType {
   // Stato sincronizzazione
   isOnline: boolean;
   isLoading: boolean;
-  // Funzioni di sincronizzazione
-  syncWithSupabase: () => Promise<void>;
-  forceSync: () => Promise<void>;
+  // Le singole sezioni gestiscono il loro salvataggio nelle tabelle specifiche
   // Utility functions
   addProject: (project: Omit<Project, 'id'>) => void;
   updateProject: (project: Project) => void;
@@ -970,69 +944,34 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     return userId;
   };
 
-  // Carica i dati all'avvio (prima da Supabase, poi da LocalStorage come fallback)
+  // I dati vengono caricati dalle singole sezioni dalle loro tabelle specifiche
+  // Manteniamo solo il caricamento di eventuali preferenze UI da LocalStorage
   useEffect(() => {
-    const loadData = async () => {
+    const loadUIPreferences = () => {
       setIsLoading(true);
       try {
-        // Prova prima a caricare da Supabase
-        const supabaseData = await supabaseHelpers.loadDashboardData(getUserId());
-        
-        if (supabaseData && supabaseData.length > 0) {
-          // Organizza i dati da Supabase
-          const organizedData: Partial<DashboardState> = {};
-          supabaseData.forEach(item => {
-            organizedData[item.data_type as keyof DashboardState] = item.data;
-          });
-          dispatch({ type: 'LOAD_DATA', payload: organizedData });
-          console.log('Dati caricati da Supabase');
-        } else {
-          // Fallback a LocalStorage
-          const savedData = localStorage.getItem('dashboard-data');
-          if (savedData) {
-            const parsedData = JSON.parse(savedData);
-            dispatch({ type: 'LOAD_DATA', payload: parsedData });
-            console.log('Dati caricati da LocalStorage');
-          }
+        // Carica solo configurazioni UI se esistono
+        const uiData = localStorage.getItem('dashboard-ui-preferences');
+        if (uiData) {
+          const parsedData = JSON.parse(uiData);
+          // Qui potresti caricare preferenze UI specifiche se necessario
+          console.log('Preferenze UI caricate da LocalStorage');
         }
       } catch (error) {
-        console.error('Errore nel caricamento da Supabase, uso LocalStorage:', error);
-        // Fallback a LocalStorage
-        const savedData = localStorage.getItem('dashboard-data');
-        if (savedData) {
-          const parsedData = JSON.parse(savedData);
-          dispatch({ type: 'LOAD_DATA', payload: parsedData });
-        }
+        console.error('Errore nel caricamento preferenze UI:', error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadData();
+    loadUIPreferences();
   }, [userId]);
 
-  // Salva i dati in Supabase e LocalStorage
-  useEffect(() => {
-    const saveData = async () => {
-      if (isLoading) return; // Non salvare durante il caricamento iniziale
-
-      try {
-        // Salva in LocalStorage (sempre)
-        localStorage.setItem('dashboard-data', JSON.stringify(state));
-
-        // Salva in Supabase se online
-        if (isOnline) {
-          await supabaseHelpers.saveDashboardData(getUserId(), 'complete', state);
-          console.log('Dati sincronizzati con Supabase');
-        }
-      } catch (error) {
-        console.error('Errore nel salvataggio in Supabase:', error);
-        // I dati sono comunque salvati in LocalStorage
-      }
-    };
-
-    saveData();
-  }, [state, isOnline, isLoading]);
+  // NUOVO SISTEMA DI GESTIONE DATI:
+  // - Ogni sezione (Projects, Tasks, Marketing, etc.) gestisce il proprio salvataggio nelle tabelle specifiche
+  // - Il DashboardContext mantiene lo stato in memoria per la reattività dell'UI
+  // - Non salviamo più l'intero stato della dashboard come singolo oggetto JSON
+  // - Questo migliora performance, scalabilità e riduce problemi di sincronizzazione
 
   // Monitora lo stato della connessione
   useEffect(() => {
@@ -1392,34 +1331,8 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'DELETE_CONTACT_REQUEST', payload: id });
   };
 
-  // Funzioni di sincronizzazione
-  const syncWithSupabase = async () => {
-    if (!isOnline) {
-      console.log('Offline - sincronizzazione rimandata');
-      return;
-    }
-
-    try {
-      await supabaseHelpers.saveDashboardData(getUserId(), 'complete', state);
-      console.log('Sincronizzazione completata');
-    } catch (error) {
-      console.error('Errore nella sincronizzazione:', error);
-      throw error;
-    }
-  };
-
-  const forceSync = async () => {
-    try {
-      setIsLoading(true);
-      await syncWithSupabase();
-      console.log('Sincronizzazione forzata completata');
-    } catch (error) {
-      console.error('Errore nella sincronizzazione forzata:', error);
-      throw error;
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Le funzioni di sincronizzazione sono state rimosse
+  // Ogni sezione gestisce il proprio salvataggio nelle tabelle specifiche
 
   const value: DashboardContextType = {
     state,
@@ -1427,9 +1340,6 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     // Stato sincronizzazione
     isOnline,
     isLoading,
-    // Funzioni di sincronizzazione
-    syncWithSupabase,
-    forceSync,
     // Utility functions
     addProject,
     updateProject,

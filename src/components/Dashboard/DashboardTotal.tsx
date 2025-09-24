@@ -47,7 +47,7 @@ export default function DashboardTotal() {
     const totalInvestments = investments.reduce((sum, investment) => sum + investment.amount, 0);
     const completedTasks = tasks.filter(task => task.status === 'completed').length;
     const activeCampaigns = campaigns.filter(campaign => campaign.status === 'active').length;
-    const totalRevenue = services.reduce((sum, service) => sum + (service.price * service.hoursSold), 0);
+    const totalRevenue = services.reduce((sum, service) => sum + service.base_price, 0);
 
     setStats({
       totalProjects: projects.length,
@@ -154,7 +154,7 @@ export default function DashboardTotal() {
       type: 'task',
       title: task.title,
       description: `Task ${task.status}`,
-      time: formatDate(task.updatedAt),
+      time: formatDate(task.updated_at),
       icon: '📋',
       color: 'text-blue-600'
     })),
@@ -172,7 +172,7 @@ export default function DashboardTotal() {
       type: 'campaign',
       title: campaign.name,
       description: `Campagna ${campaign.status}`,
-      time: formatDate(campaign.startDate),
+      time: formatDate(campaign.start_date),
       icon: '📈',
       color: 'text-purple-600'
     }))
@@ -356,8 +356,8 @@ export default function DashboardTotal() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">💰 Ricavi per Servizio</h3>
           <div className="space-y-4">
             {services.slice(0, 5).map((service, index) => {
-              const revenue = service.price * service.hoursSold;
-              const maxRevenue = Math.max(...services.map(s => s.price * s.hoursSold));
+              const revenue = service.base_price;
+              const maxRevenue = Math.max(...services.map(s => s.base_price));
               const percentage = maxRevenue > 0 ? (revenue / maxRevenue) * 100 : 0;
               
               return (

@@ -16,15 +16,21 @@ export default function InputTest() {
     try {
       const testService = {
         name: 'Test Service',
-        price: 100,
-        cost: 50,
-        hoursSold: 10,
-        revenue: 1000,
-        margin: 50,
-        variance: 0,
-        plannedHours: 10,
-        plannedRevenue: 1000,
-        actualHours: 10
+        description: 'Servizio di test',
+        category: 'development' as const,
+        status: 'active' as const,
+        priority: 'medium' as const,
+        base_price: 100,
+        currency: 'EUR',
+        pricing_model: 'hourly' as const,
+        delivery_time_days: 5,
+        delivery_method: 'remote' as const,
+        service_manager: 'Test Manager',
+        team_members: ['Dev1', 'Dev2'],
+        requirements: ['Requirement 1'],
+        deliverables: ['Deliverable 1'],
+        notes: 'Test service notes',
+        tags: ['test', 'service']
       };
       
       addService(testService);
@@ -37,19 +43,24 @@ export default function InputTest() {
   const testTaskInput = async () => {
     try {
       const testTask = {
+        user_id: 'default-user',
         title: 'Test Task',
         description: 'Descrizione del task di test',
-        status: 'todo' as const,
+        status: 'pending' as const,
         priority: 'medium' as const,
-        assignee: 'Test User',
-        dueDate: new Date().toISOString(),
-        estimatedHours: 5,
+        assigned_to: 'Test User',
+        assigned_by: 'Test Manager',
+        due_date: new Date().toISOString(),
+        start_date: new Date().toISOString(),
+        estimated_hours: 5,
+        actual_hours: 0,
+        progress_percentage: 0,
+        depends_on_tasks: [],
+        category: 'development' as const,
         tags: ['test', 'demo'],
-        actualHours: 0,
-        plannedHours: 5,
-        plannedCompletion: new Date().toISOString(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        notes: 'Test task notes',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       };
       
       addTask(testTask);
@@ -85,24 +96,30 @@ export default function InputTest() {
   const testCampaignInput = async () => {
     try {
       const testCampaign = {
+        user_id: 'default-user',
         name: 'Test Campaign',
-        channel: 'email',
-        startDate: new Date().toISOString(),
-        endDate: new Date(Date.now() + 86400000).toISOString(),
-        budget: 1000,
-        spent: 0,
-        leads: 0,
-        conversions: 0,
-        revenue: 0,
+        description: 'Test campaign description',
+        type: 'email' as const,
         status: 'active' as const,
-        cac: 0,
-        ltv: 0,
-        ltvCacRatio: 0,
-        plannedLeads: 0,
-        plannedConversions: 0,
-        plannedRevenue: 0,
-        actualLeads: 0,
-        actualConversions: 0
+        priority: 'medium' as const,
+        budget: 1000,
+        spent_amount: 0,
+        currency: 'EUR',
+        start_date: new Date().toISOString(),
+        end_date: new Date(Date.now() + 86400000).toISOString(),
+        campaign_manager: 'Test Manager',
+        creative_director: 'Test Creative',
+        account_manager: 'Test Account',
+        target_impressions: 10000,
+        target_clicks: 500,
+        target_conversions: 50,
+        actual_impressions: 0,
+        actual_clicks: 0,
+        actual_conversions: 0,
+        notes: 'Test campaign notes',
+        tags: ['test', 'email'],
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       };
       
       addCampaign(testCampaign);
@@ -115,16 +132,28 @@ export default function InputTest() {
   const testLeadInput = async () => {
     try {
       const testLead = {
-        name: 'Test Lead',
+        user_id: 'default-user',
+        first_name: 'Test',
+        last_name: 'Lead',
         email: 'test@example.com',
-        source: 'website',
-        campaign: 'Test Campaign',
+        phone: '+39 123 456 789',
+        company: 'Test Company',
+        job_title: 'Test Manager',
+        source: 'website' as const,
         status: 'new' as const,
-        value: 1000,
-        date: new Date().toISOString(),
-        roi: 0,
-        plannedValue: 1000,
-        actualValue: 1000
+        priority: 'medium' as const,
+        score: 75,
+        campaign_id: '',
+        country: 'Italia',
+        city: 'Milano',
+        address: 'Via Test 123',
+        notes: 'Test lead notes',
+        tags: ['test', 'website'],
+        first_contact_date: new Date().toISOString(),
+        last_contact_date: '',
+        next_followup_date: new Date(Date.now() + 86400000).toISOString(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       };
       
       addLead(testLead);

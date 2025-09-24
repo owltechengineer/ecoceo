@@ -111,97 +111,104 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
   };
 
   return (
-    <div className={`bg-white shadow-lg border-r border-gray-200 transition-all duration-300 ${
-      isCollapsed ? 'w-16' : 'w-64'
-    }`}>
-      {/* Header */}
-      <div className="p-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          {!isCollapsed && (
-            <div>
-              <h2 className="text-lg font-bold text-gray-900">Dashboard</h2>
-              <p className="text-sm text-gray-600">Navigazione</p>
-            </div>
-          )}
-          <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            <span className="text-gray-600">
-              {isCollapsed ? '→' : '←'}
-            </span>
-          </button>
-        </div>
-      </div>
-
-      {/* Navigation Items */}
-      <div className="p-2">
-        {navigationItems.map((item) => (
-          <button
-            key={item.key}
-            onClick={() => handleNavigation(item)}
-            className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 mb-1 ${
-              activeSection === item.key
-                ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg`
-                : 'text-gray-700 hover:bg-gray-100'
-            }`}
-            title={isCollapsed ? item.name : undefined}
-          >
-            <div className={`p-2 rounded-lg ${
-              activeSection === item.key
-                ? 'bg-white bg-opacity-20'
-                : `bg-gradient-to-r ${item.gradient} text-white`
-            }`}>
-              <span className="text-lg">{item.icon}</span>
-            </div>
-            
+    <div className={`transition-all duration-300 ${
+      isCollapsed ? 'w-20' : 'w-72'
+    } p-4`}>
+      {/* Card Navigation */}
+      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden h-full">
+        {/* Header Card */}
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
+          <div className="flex items-center justify-between">
             {!isCollapsed && (
-              <div className="ml-3 text-left">
-                <div className="font-medium text-sm">{item.name}</div>
-                <div className="text-xs opacity-75">{item.description}</div>
+              <div>
+                <h2 className="text-xl font-bold">Dashboard</h2>
+                <p className="text-blue-100 text-sm">Sistema di gestione</p>
               </div>
             )}
-          </button>
-        ))}
-      </div>
-
-      {/* Quick Actions */}
-      {!isCollapsed && (
-        <div className="p-4 border-t border-gray-200">
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">Azioni Rapide</h3>
-          <div className="space-y-2">
-            <button className="w-full flex items-center p-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-              <span className="mr-2">🔄</span>
-              Aggiorna Tutto
-            </button>
-            <button className="w-full flex items-center p-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-              <span className="mr-2">📊</span>
-              Report
-            </button>
-            <button className="w-full flex items-center p-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-              <span className="mr-2">⚙️</span>
-              Impostazioni
+            <button
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="p-2 rounded-xl bg-white bg-opacity-20 hover:bg-opacity-30 transition-all duration-200"
+              title={isCollapsed ? 'Espandi menu' : 'Comprimi menu'}
+            >
+              <span className="text-white text-lg">
+                {isCollapsed ? '📋' : '📌'}
+              </span>
             </button>
           </div>
         </div>
-      )}
 
-      {/* Current Section Info */}
-      {!isCollapsed && (
-        <div className="p-4 border-t border-gray-200">
-          <div className="bg-gray-50 rounded-lg p-3">
-            <div className="text-xs text-gray-500 mb-1">Sezione Attiva</div>
-            <div className="font-medium text-sm text-gray-800">
-              {navigationItems.find(item => item.key === activeSection)?.name || 'Dashboard Totale'}
+        {/* Navigation Items */}
+        <div className="p-4 space-y-2">
+          {navigationItems.map((item) => (
+            <button
+              key={item.key}
+              onClick={() => handleNavigation(item)}
+              className={`w-full flex items-center p-4 rounded-xl transition-all duration-300 group ${
+                activeSection === item.key
+                  ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg transform scale-[1.02]`
+                  : 'text-gray-700 hover:bg-gray-50 hover:shadow-md hover:transform hover:scale-[1.01]'
+              }`}
+              title={isCollapsed ? item.name : undefined}
+            >
+              <div className={`p-3 rounded-lg transition-all duration-200 ${
+                activeSection === item.key
+                  ? 'bg-white bg-opacity-25 shadow-lg'
+                  : `bg-gradient-to-br ${item.gradient} text-white shadow-md group-hover:shadow-lg`
+              }`}>
+                <span className="text-xl">{item.icon}</span>
+              </div>
+              
+              {!isCollapsed && (
+                <div className="ml-4 text-left">
+                  <div className="font-semibold text-base">{item.name}</div>
+                  <div className="text-sm opacity-80">{item.description}</div>
+                </div>
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Quick Actions */}
+        {!isCollapsed && (
+          <div className="px-4 pb-4 border-t border-gray-100 mt-4">
+            <h3 className="text-sm font-semibold text-gray-700 mb-3 mt-4">Azioni Rapide</h3>
+            <div className="space-y-2">
+              <button className="w-full flex items-center p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-xl transition-all duration-200 hover:shadow-sm">
+                <span className="mr-3 text-lg">🔄</span>
+                Aggiorna Tutto
+              </button>
+              <button className="w-full flex items-center p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-xl transition-all duration-200 hover:shadow-sm">
+                <span className="mr-3 text-lg">📊</span>
+                Report
+              </button>
+              <button className="w-full flex items-center p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-xl transition-all duration-200 hover:shadow-sm">
+                <span className="mr-3 text-lg">⚙️</span>
+                Impostazioni
+              </button>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Navigation Buttons */}
-      <div className="p-4 border-t border-gray-200 space-y-2">
-        <HomeButton className="w-full justify-center text-blue-600 hover:bg-blue-50" />
-        <LogoutButton className="w-full justify-center" />
+        {/* Current Section Info */}
+        {!isCollapsed && (
+          <div className="p-4 border-t border-gray-100">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-100">
+              <div className="text-xs text-blue-600 mb-1 font-medium">🎯 SEZIONE ATTIVA</div>
+              <div className="font-bold text-sm text-gray-800">
+                {navigationItems.find(item => item.key === activeSection)?.name || 'Dashboard Totale'}
+              </div>
+              <div className="text-xs text-gray-600 mt-1">
+                {navigationItems.find(item => item.key === activeSection)?.description || 'Panoramica generale'}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Navigation Buttons */}
+        <div className="p-4 border-t border-gray-100 space-y-3">
+          <HomeButton className="w-full justify-center text-blue-600 hover:bg-blue-50 rounded-xl p-3 transition-all duration-200 hover:shadow-sm" />
+          <LogoutButton className="w-full justify-center rounded-xl p-3 transition-all duration-200 hover:shadow-sm" />
+        </div>
       </div>
     </div>
   );

@@ -82,16 +82,16 @@ export default function TaskManagement() {
   // Filtra i task
   const filteredTasks = tasks.filter(task => {
     if (filterStatus !== 'all' && task.status !== filterStatus) return false;
-    if (filterAssignee !== 'all' && task.assignee !== filterAssignee) return false;
-    if (filterProject !== 'all' && task.project !== filterProject) return false;
+    if (filterAssignee !== 'all' && task.assigned_to !== filterAssignee) return false;
+    if (filterProject !== 'all' && task.project_id !== filterProject) return false;
     return true;
   });
 
   // Raggruppa per status per vista kanban
   const groupedTasks = {
-    todo: filteredTasks.filter(t => t.status === 'todo'),
+    pending: filteredTasks.filter(t => t.status === 'pending'),
     'in-progress': filteredTasks.filter(t => t.status === 'in-progress'),
-    review: filteredTasks.filter(t => t.status === 'review'),
+    'on-hold': filteredTasks.filter(t => t.status === 'on-hold'),
     completed: filteredTasks.filter(t => t.status === 'completed'),
     cancelled: filteredTasks.filter(t => t.status === 'cancelled'),
   };

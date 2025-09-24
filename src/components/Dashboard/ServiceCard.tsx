@@ -28,7 +28,7 @@ export default function ServiceCard({ service, onEdit, onDelete }: ServiceCardPr
             {/* Prezzo */}
             <div className="mb-3">
               <span className="text-lg font-semibold text-green-600">
-                €{service.price.toLocaleString()}
+                €{service.base_price.toLocaleString()}
               </span>
               <span className="text-sm text-gray-500 ml-2">
                 / ora
@@ -76,11 +76,11 @@ export default function ServiceCard({ service, onEdit, onDelete }: ServiceCardPr
             </div>
             
             <div>
-              <h4 className="font-medium text-gray-900 mb-2">💰 Finanziario</h4>
+              <h4 className="font-medium text-gray-900 mb-2">💰 Pricing</h4>
               <div className="space-y-1 text-sm text-gray-600">
-                <div>Ricavi: €{service.revenue.toLocaleString()}</div>
-                <div>Costo: €{service.cost.toLocaleString()}</div>
-                <div>Margine: {service.margin.toFixed(1)}%</div>
+                <div>Prezzo Base: €{service.base_price.toLocaleString()}</div>
+                <div>Modello: {service.pricing_model}</div>
+                <div>Valuta: {service.currency}</div>
               </div>
             </div>
           </div>

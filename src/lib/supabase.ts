@@ -67,35 +67,10 @@ export interface Database {
 
 // Funzioni helper per il database
 export const supabaseHelpers = {
-  // Salva dati dashboard
-  async saveDashboardData(userId: string, dataType: string, data: any) {
-    const { data: result, error } = await supabase
-      .from('dashboard_data')
-      .upsert({
-        user_id: userId,
-        data_type: dataType,
-        data: data,
-        updated_at: new Date().toISOString()
-      }, {
-        onConflict: 'user_id,data_type'
-      })
-      .select()
+  // Le funzioni di salvataggio/caricamento dashboard completa sono state rimosse
+  // I dati vengono gestiti dalle singole sezioni nelle loro tabelle specifiche
 
-    if (error) {
-      console.error('Errore nel salvataggio dashboard:', {
-        message: error.message,
-        details: error.details,
-        hint: error.hint,
-        code: error.code,
-        fullError: error
-      })
-      throw new Error(`Errore salvataggio Dashboard: ${error.message || 'Errore sconosciuto'}`)
-    }
-
-    return result
-  },
-
-  // Carica dati dashboard
+  // Carica dati dashboard (mantenuto per compatibilità ma deprecato)
   async loadDashboardData(userId: string, dataType?: string) {
     let query = supabase
       .from('dashboard_data')
@@ -514,18 +489,23 @@ export const supabaseHelpers = {
 export interface Task {
   id: string;
   user_id: string;
+  project_id?: string;
   title: string;
   description?: string;
-  status: 'todo' | 'in-progress' | 'review' | 'completed' | 'cancelled';
+  status: 'pending' | 'in-progress' | 'completed' | 'cancelled' | 'on-hold';
   priority: 'low' | 'medium' | 'high' | 'urgent';
-  assignee?: string;
-  project_id?: string;
+  assigned_to?: string;
+  assigned_by?: string;
   due_date?: string;
-  estimated_hours?: number;
-  actual_hours?: number;
-  tags: string[];
-  progress: number;
+  start_date?: string;
+  completed_date?: string;
+  estimated_hours: number;
+  actual_hours: number;
+  progress_percentage: number;
+  depends_on_tasks: string[];
+  category: 'development' | 'design' | 'testing' | 'documentation' | 'meeting' | 'review' | 'other';
   notes?: string;
+  tags: string[];
   created_at: string;
   updated_at: string;
 }
@@ -535,22 +515,24 @@ export interface Appointment {
   user_id: string;
   title: string;
   description?: string;
+  type: 'meeting' | 'call' | 'presentation' | 'interview' | 'training' | 'other';
+  status: 'scheduled' | 'confirmed' | 'completed' | 'cancelled' | 'rescheduled';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
   start_time: string;
   end_time: string;
+  duration_minutes?: number;
   location?: string;
+  meeting_url?: string;
+  meeting_id?: string;
   attendees: string[];
-  meeting_type: 'meeting' | 'call' | 'presentation' | 'workshop' | 'other';
-  status: 'scheduled' | 'confirmed' | 'cancelled' | 'completed' | 'rescheduled';
-  reminder_minutes: number;
-  meeting_link?: string;
+  organizer?: string;
+  is_recurring: boolean;
+  recurrence_pattern?: 'daily' | 'weekly' | 'monthly' | 'yearly';
+  recurrence_end_date?: string;
+  reminder_minutes?: number;
   notes?: string;
   created_at: string;
   updated_at: string;
-  // Campi per attività ricorrenti
-  is_recurring?: boolean;
-  recurring_activity_id?: string;
-  category?: string;
-  priority?: 'low' | 'medium' | 'high';
 }
 
 export interface Project {
@@ -805,22 +787,18 @@ export interface ProjectMain {
   description?: string;
   status: 'active' | 'completed' | 'on-hold' | 'cancelled' | 'planning';
   priority: 'low' | 'medium' | 'high' | 'urgent';
-  category: 'general' | 'development' | 'marketing' | 'sales' | 'research' | 'operations';
   start_date?: string;
   end_date?: string;
-  estimated_duration_days?: number;
-  actual_duration_days?: number;
-  total_budget?: number;
-  spent_amount: number;
-  remaining_budget?: number;
-  currency: string;
+  planned_start_date?: string;
+  planned_end_date?: string;
+  budget?: number;
+  actual_cost?: number;
+  currency?: string;
+  progress?: number;
+  completion_percentage?: number;
   project_manager?: string;
-  team_members: string[];
-  stakeholders: string[];
-  progress_percentage: number;
-  completion_rate: number;
-  tags: string[];
-  attachments: any[];
+  team_members?: string[];
+  tags?: string[];
   notes?: string;
   created_at: string;
   updated_at: string;
@@ -1323,30 +1301,38 @@ export const testProjectsConnection = async (): Promise<{ success: boolean; mess
   }
 };
 
-// ===== MARKETING FUNCTIONS =====
+// ===== MARKETING INTERFACES =====
+// Interfacce allineate con docs/database/02_MARKETING_TABLES.sql
 
-// Tipi per Campaigns e Leads (Dashboard Marketing)
 export interface Campaign {
   id: string;
   user_id: string;
   name: string;
-  channel: string;
-  start_date: string;
-  end_date: string;
+  description?: string;
+  type: 'digital' | 'print' | 'tv' | 'radio' | 'outdoor' | 'social' | 'email' | 'other';
+  status: 'planning' | 'active' | 'paused' | 'completed' | 'cancelled';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  // Budget e Costi
   budget: number;
-  spent: number;
-  leads: number;
-  conversions: number;
-  revenue: number;
-  status: 'active' | 'paused' | 'completed' | 'cancelled';
-  cac: number;
-  ltv: number;
-  ltv_cac_ratio: number;
-  planned_leads: number;
-  planned_conversions: number;
-  planned_revenue: number;
-  actual_leads: number;
+  spent_amount: number;
+  currency: string;
+  // Date
+  start_date: string; // TIMESTAMP WITH TIME ZONE
+  end_date?: string; // TIMESTAMP WITH TIME ZONE
+  // Team
+  campaign_manager?: string;
+  creative_director?: string;
+  account_manager?: string;
+  // Metrics
+  target_impressions: number;
+  target_clicks: number;
+  target_conversions: number;
+  actual_impressions: number;
+  actual_clicks: number;
   actual_conversions: number;
+  // Metadata
+  notes?: string;
+  tags: string[];
   created_at: string;
   updated_at: string;
 }
@@ -1354,23 +1340,42 @@ export interface Campaign {
 export interface Lead {
   id: string;
   user_id: string;
-  name: string;
+  // Informazioni Personali
+  first_name: string;
+  last_name: string;
   email: string;
-  source: string;
-  campaign: string;
-  status: 'new' | 'contacted' | 'qualified' | 'converted' | 'lost';
-  value: number;
-  date: string;
-  roi: number;
-  planned_value: number;
-  actual_value: number;
+  phone?: string;
+  company?: string;
+  job_title?: string;
+  // Lead Information
+  source: 'website' | 'social' | 'email' | 'referral' | 'advertising' | 'event' | 'cold_call' | 'other';
+  status: 'new' | 'contacted' | 'qualified' | 'proposal' | 'negotiation' | 'closed_won' | 'closed_lost';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  score: number;
+  // Campaign
+  campaign_id?: string;
+  // Location
+  country?: string;
+  city?: string;
+  address?: string;
+  // Notes
+  notes?: string;
+  tags: string[];
+  // Dates
+  first_contact_date: string; // TIMESTAMP WITH TIME ZONE
+  last_contact_date?: string; // TIMESTAMP WITH TIME ZONE
+  next_followup_date?: string; // TIMESTAMP WITH TIME ZONE
   created_at: string;
   updated_at: string;
 }
 
-// Funzioni per Campaigns
-export const saveCampaign = async (campaign: Omit<Campaign, 'id' | 'created_at' | 'updated_at'>): Promise<Campaign> => {
+// ===== MARKETING FUNCTIONS =====
+
+// Campaign Functions
+export const createCampaign = async (campaign: Omit<Campaign, 'id' | 'created_at' | 'updated_at'>): Promise<Campaign> => {
   try {
+    console.log('🔍 Creating campaign:', campaign.name);
+    
     const { data, error } = await supabase
       .from('campaigns')
       .insert([campaign])
@@ -1378,13 +1383,14 @@ export const saveCampaign = async (campaign: Omit<Campaign, 'id' | 'created_at' 
       .single();
 
     if (error) {
-      console.error('Errore salvataggio campaign:', error);
-      throw new Error(`Errore salvataggio campaign: ${error.message}`);
+      console.error('❌ Campaign creation error:', error);
+      throw new Error(`Campaign creation failed: ${error.message}`);
     }
 
+    console.log('✅ Campaign created successfully:', data.id);
     return data;
   } catch (error) {
-    console.error('Errore salvataggio campaign:', error);
+    console.error('❌ Campaign creation error:', error);
     throw error;
   }
 };
@@ -1463,6 +1469,10 @@ export const deleteCampaign = async (id: string): Promise<void> => {
 // Funzioni per Leads
 export const saveLead = async (lead: Omit<Lead, 'id' | 'created_at' | 'updated_at'>): Promise<Lead> => {
   try {
+    console.log('🔍 saveLead - Input lead object:', lead);
+    console.log('🔍 saveLead - Object keys:', Object.keys(lead));
+    console.log('🔍 saveLead - Object values:', Object.values(lead));
+    
     const { data, error } = await supabase
       .from('leads')
       .insert([lead])
@@ -1470,13 +1480,21 @@ export const saveLead = async (lead: Omit<Lead, 'id' | 'created_at' | 'updated_a
       .single();
 
     if (error) {
-      console.error('Errore salvataggio lead:', error);
+      console.error('❌ Supabase error details:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
       throw new Error(`Errore salvataggio lead: ${error.message}`);
     }
 
+    console.log('✅ Lead salvato con successo:', data);
     return data;
   } catch (error) {
-    console.error('Errore salvataggio lead:', error);
+    console.error('❌ Errore generale salvataggio lead:', error);
+    console.error('❌ Error type:', typeof error);
+    console.error('❌ Error constructor:', error?.constructor?.name);
     throw error;
   }
 };
@@ -2186,16 +2204,25 @@ export const testMarketingConnection = async (): Promise<{ success: boolean; mes
 // Tipi per le attività ricorrenti
 export interface RecurringActivity {
   id: string;
+  user_id: string;
   name: string;
-  description: string;
-  type: 'weekly' | 'monthly';
-  day_of_week?: number;
+  description?: string;
+  type: 'task' | 'appointment' | 'reminder' | 'other';
+  status: 'active' | 'paused' | 'completed' | 'cancelled';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+  day_of_week?: number; // 0 = Sunday
   day_of_month?: number;
-  time: string;
-  duration: number;
-  category: string;
-  priority: 'low' | 'medium' | 'high';
-  is_active: boolean;
+  time_of_day?: string; // TIME format
+  duration_minutes: number;
+  assigned_to?: string;
+  template_id?: string;
+  start_date?: string;
+  end_date?: string;
+  last_generated?: string;
+  next_generation?: string;
+  notes?: string;
+  tags: string[];
   created_at: string;
   updated_at: string;
 }

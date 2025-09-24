@@ -19,7 +19,7 @@ export default function DashboardOverview() {
   // Calcoli essenziali
   const today = new Date();
   const todayTasks = state.tasks.filter(task => {
-    const taskDate = new Date(task.dueDate);
+    const taskDate = new Date(task.due_date);
     return taskDate.toDateString() === today.toDateString();
   });
 
@@ -37,7 +37,7 @@ export default function DashboardOverview() {
 
   // Statistiche campagne
   const totalLeads = state.leads.length;
-  const convertedLeads = state.leads.filter(l => l.status === 'converted').length;
+  const convertedLeads = state.leads.filter(l => l.status === 'closed_won').length;
   const conversionRate = totalLeads > 0 ? (convertedLeads / totalLeads) * 100 : 0;
 
   // Dati reali dal servizio analytics
@@ -208,16 +208,16 @@ export default function DashboardOverview() {
                           <div className={`w-2 h-2 rounded-full ${getPriorityColor(task.priority).split(' ')[0]}`}></div>
                           <div>
                             <p className="font-medium text-gray-900">{task.title}</p>
-                            <p className="text-sm text-gray-500">{task.assignee}</p>
+                            <p className="text-sm text-gray-500">{task.assigned_to}</p>
                           </div>
                         </div>
                         <div className="flex items-center space-x-2">
                           <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(task.status)}`}>
-                            {task.status === 'todo' ? 'Da Fare' : 
-                             task.status === 'in-progress' ? 'In Corso' : 
+                            {task.status === 'pending' ? 'Da Fare' : 
+                             task.status === 'in-progress' ? 'In Corso' :
                              task.status === 'completed' ? 'Completato' : task.status}
                           </span>
-                          <span className="text-sm text-gray-500">{task.estimatedHours}h</span>
+                          <span className="text-sm text-gray-500">{task.estimated_hours}h</span>
                         </div>
                       </div>
                     ))}

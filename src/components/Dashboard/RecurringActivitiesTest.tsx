@@ -75,16 +75,25 @@ export default function RecurringActivitiesTest() {
       // Test 4: Test salvataggio attività ricorrente
       try {
         const testActivity = {
+          user_id: 'default-user',
           name: 'Test Activity',
           description: 'Attività di test',
-          type: 'weekly' as const,
-          day_of_week: 1,
-          day_of_month: null,
-          time: '09:00',
-          duration: 60,
-          category: 'Test',
+          type: 'task' as const,
+          status: 'active' as const,
           priority: 'medium' as const,
-          is_active: true
+          frequency: 'weekly' as const,
+          time_of_day: '09:00',
+          duration_minutes: 60,
+          assigned_to: 'Test User',
+          template_id: '',
+          start_date: '',
+          end_date: '',
+          last_generated: '',
+          next_generation: '',
+          notes: 'Test notes',
+          tags: ['test'],
+          day_of_week: 1,
+          day_of_month: null
         };
 
         const savedActivity = await recurringActivitiesService.saveActivity(testActivity);
@@ -135,16 +144,25 @@ export default function RecurringActivitiesTest() {
         // Test 7: Test collegamento attività a template
         try {
           const testActivity2 = {
+            user_id: 'default-user',
             name: 'Test Activity 2',
             description: 'Seconda attività di test',
-            type: 'weekly' as const,
-            day_of_week: 2,
-            day_of_month: null,
-            time: '10:00',
-            duration: 45,
-            category: 'Test',
+            type: 'task' as const,
+            status: 'active' as const,
             priority: 'high' as const,
-            is_active: true
+            frequency: 'weekly' as const,
+            time_of_day: '10:00',
+            duration_minutes: 45,
+            assigned_to: 'Test User 2',
+            template_id: '',
+            start_date: '',
+            end_date: '',
+            last_generated: '',
+            next_generation: '',
+            notes: 'Test notes 2',
+            tags: ['test'],
+            day_of_week: 2,
+            day_of_month: null
           };
 
           const savedActivity2 = await recurringActivitiesService.saveActivity(testActivity2);

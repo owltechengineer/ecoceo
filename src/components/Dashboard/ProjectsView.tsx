@@ -48,7 +48,6 @@ export default function ProjectsView() {
   const [filter, setFilter] = useState({
     status: 'all',
     priority: 'all',
-    category: 'all',
     search: ''
   });
 
@@ -58,10 +57,9 @@ export default function ProjectsView() {
     description: '',
     status: 'planning' as const,
     priority: 'medium' as const,
-    category: 'general' as const,
     start_date: '',
     end_date: '',
-    total_budget: 0,
+    budget: 0,
     project_manager: '',
     team_members: '',
     tags: '',
@@ -131,7 +129,6 @@ export default function ProjectsView() {
   const filteredProjects = projects.filter(project => {
     if (filter.status !== 'all' && project.status !== filter.status) return false;
     if (filter.priority !== 'all' && project.priority !== filter.priority) return false;
-    if (filter.category !== 'all' && project.category !== filter.category) return false;
     if (filter.search && !project.name.toLowerCase().includes(filter.search.toLowerCase())) return false;
     return true;
   });
@@ -202,20 +199,16 @@ export default function ProjectsView() {
         description: newProject.description || undefined,
         status: newProject.status,
         priority: newProject.priority,
-        category: newProject.category,
         start_date: newProject.start_date || undefined,
         end_date: newProject.end_date || undefined,
-        total_budget: newProject.total_budget || undefined,
-        spent_amount: 0,
-        remaining_budget: newProject.total_budget || undefined,
+        budget: newProject.budget || undefined,
+        actual_cost: 0,
         currency: 'EUR',
         project_manager: newProject.project_manager || undefined,
         team_members: newProject.team_members.split(',').map(t => t.trim()).filter(t => t),
-        stakeholders: [],
-        progress_percentage: 0,
-        completion_rate: 0,
+        progress: 0,
+        completion_percentage: 0,
         tags: newProject.tags.split(',').map(t => t.trim()).filter(t => t),
-        attachments: [],
         notes: newProject.notes || undefined
       };
 
@@ -227,10 +220,9 @@ export default function ProjectsView() {
         description: '',
         status: 'planning',
         priority: 'medium',
-        category: 'general',
         start_date: '',
         end_date: '',
-        total_budget: 0,
+        budget: 0,
         project_manager: '',
         team_members: '',
         tags: '',
@@ -278,15 +270,14 @@ export default function ProjectsView() {
       description: project.description,
       status: project.status,
       priority: project.priority,
-      category: project.category,
       start_date: project.start_date,
       end_date: project.end_date,
-      total_budget: project.total_budget,
+      budget: project.budget,
       project_manager: project.project_manager,
       team_members: project.team_members,
       tags: project.tags,
       notes: project.notes,
-      progress_percentage: project.progress_percentage
+      progress: project.progress
     });
   };
 
@@ -313,10 +304,6 @@ export default function ProjectsView() {
     setEditForm(prev => ({ ...prev, [field]: value }));
   };
 
-  const getUniqueCategories = () => {
-    const categories = projects.map(project => project.category);
-    return [...new Set(categories)];
-  };
 
   const getUniqueManagers = () => {
     const managers = projects.map(project => project.project_manager).filter(Boolean);
@@ -324,7 +311,7 @@ export default function ProjectsView() {
   };
 
   return (
-    <div className="space-y-6 bg-gray-50 min-h-full p-6">
+    <div className="space-y-6 min-h-full p-6">
       {/* Header */}
       <div className="bg-white rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
@@ -388,20 +375,6 @@ export default function ProjectsView() {
               <option value="low">🟢 Bassa</option>
             </select>
 
-            {/* Category Filter */}
-            <select
-              value={filter.category}
-              onChange={(e) => setFilter(prev => ({ ...prev, category: e.target.value }))}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
-            >
-              <option value="all">Tutte le categorie</option>
-              <option value="development">💻 Sviluppo</option>
-              <option value="marketing">📢 Marketing</option>
-              <option value="sales">💰 Vendite</option>
-              <option value="research">🔬 Ricerca</option>
-              <option value="operations">⚙️ Operazioni</option>
-              <option value="general">📋 Generale</option>
-            </select>
           </div>
 
           <div className="flex space-x-3">
@@ -553,22 +526,22 @@ export default function ProjectsView() {
                             type="range"
                             min="0"
                             max="100"
-                            value={editForm.progress_percentage || project.progress_percentage}
-                            onChange={(e) => handleEditFormChange('progress_percentage', parseInt(e.target.value))}
+                            value={editForm.progress || project.progress}
+                            onChange={(e) => handleEditFormChange('progress', parseInt(e.target.value))}
                             className="w-20"
                           />
                           <span className="font-semibold text-gray-900 w-12">
-                            {editForm.progress_percentage || project.progress_percentage}%
+                            {editForm.progress || project.progress}%
                           </span>
                         </div>
                       ) : (
-                        <span className="font-semibold text-gray-900">{project.progress_percentage}%</span>
+                        <span className="font-semibold text-gray-900">{project.progress}%</span>
                       )}
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div
                         className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-300"
-                        style={{ width: `${editingProject === project.id ? (editForm.progress_percentage || project.progress_percentage) : project.progress_percentage}%` }}
+                        style={{ width: `${editingProject === project.id ? (editForm.progress || project.progress) : project.progress}%` }}
                       ></div>
                     </div>
                   </div>
@@ -631,12 +604,12 @@ export default function ProjectsView() {
                   </div>
 
                   {/* Budget Info */}
-                  {project.total_budget && (
+                  {project.budget && (
                     <div className="bg-yellow-50 rounded-lg p-3 mb-4">
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-yellow-600 text-sm font-medium">💰 Budget</span>
                         <span className="text-yellow-800 font-bold">
-                          {formatCurrency(project.total_budget, project.currency)}
+                          {formatCurrency(project.budget, project.currency)}
                         </span>
                       </div>
                       {stats?.budget && (
@@ -681,27 +654,12 @@ export default function ProjectsView() {
                           />
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-500">📂 Categoria:</span>
-                          <select
-                            value={editForm.category || project.category}
-                            onChange={(e) => handleEditFormChange('category', e.target.value)}
-                            className="w-32 p-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white text-sm"
-                          >
-                            <option value="general">📋 Generale</option>
-                            <option value="development">💻 Sviluppo</option>
-                            <option value="marketing">📢 Marketing</option>
-                            <option value="sales">💰 Vendite</option>
-                            <option value="research">🔬 Ricerca</option>
-                            <option value="operations">⚙️ Operazioni</option>
-                          </select>
-                        </div>
-                        <div className="flex justify-between items-center">
                           <span className="text-gray-500">💰 Budget:</span>
                           <input
                             type="number"
                             step="0.01"
-                            value={editForm.total_budget || ''}
-                            onChange={(e) => handleEditFormChange('total_budget', parseFloat(e.target.value) || 0)}
+                            value={editForm.budget || ''}
+                            onChange={(e) => handleEditFormChange('budget', parseFloat(e.target.value) || 0)}
                             className="w-32 p-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white text-sm"
                             placeholder="0.00"
                           />
@@ -727,10 +685,6 @@ export default function ProjectsView() {
                             <span className="font-medium text-gray-900">{formatDate(project.end_date)}</span>
                           </div>
                         )}
-                        <div className="flex justify-between">
-                          <span className="text-gray-500">📂 Categoria:</span>
-                          <span className="font-medium text-gray-900 capitalize">{project.category}</span>
-                        </div>
                       </>
                     )}
                   </div>
@@ -838,16 +792,12 @@ export default function ProjectsView() {
                       <label className="text-sm font-medium text-gray-500">Priorità</label>
                       <p className="text-gray-900 mt-1">{getPriorityIcon(selectedProject.priority)} {selectedProject.priority}</p>
                     </div>
-                    <div>
-                      <label className="text-sm font-medium text-gray-500">Categoria</label>
-                      <p className="text-gray-900 mt-1">{selectedProject.category}</p>
-                    </div>
                   </div>
                   <div className="space-y-4">
-                    {selectedProject.total_budget && (
+                    {selectedProject.budget && (
                       <div>
                         <label className="text-sm font-medium text-gray-500">Budget Totale</label>
-                        <p className="text-gray-900 mt-1">{formatCurrency(selectedProject.total_budget, selectedProject.currency)}</p>
+                        <p className="text-gray-900 mt-1">{formatCurrency(selectedProject.budget, selectedProject.currency)}</p>
                       </div>
                     )}
                     {selectedProject.project_manager && (
@@ -927,7 +877,6 @@ export default function ProjectsView() {
                                 <p className="text-gray-600 text-sm mt-1">{item.description}</p>
                               )}
                               <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
-                                <span>Categoria: {item.category}</span>
                                 <span>Stato: {item.status}</span>
                                 {item.vendor && <span>Fornitore: {item.vendor}</span>}
                               </div>
@@ -1164,21 +1113,6 @@ export default function ProjectsView() {
                 </div>
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
-                <select
-                  value={newProject.category}
-                  onChange={(e) => setNewProject(prev => ({ ...prev, category: e.target.value as any }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
-                >
-                  <option value="general">📋 Generale</option>
-                  <option value="development">💻 Sviluppo</option>
-                  <option value="marketing">📢 Marketing</option>
-                  <option value="sales">💰 Vendite</option>
-                  <option value="research">🔬 Ricerca</option>
-                  <option value="operations">⚙️ Operazioni</option>
-                </select>
-              </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -1206,8 +1140,8 @@ export default function ProjectsView() {
                 <input
                   type="number"
                   step="0.01"
-                  value={newProject.total_budget}
-                  onChange={(e) => setNewProject(prev => ({ ...prev, total_budget: parseFloat(e.target.value) || 0 }))}
+                  value={newProject.budget}
+                  onChange={(e) => setNewProject(prev => ({ ...prev, budget: parseFloat(e.target.value) || 0 }))}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
                   placeholder="0.00"
                 />

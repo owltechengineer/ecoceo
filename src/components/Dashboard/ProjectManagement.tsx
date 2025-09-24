@@ -9,7 +9,7 @@ export default function ProjectManagement() {
   const { openInfo } = useInfoModal();
 
   return (
-    <div className="space-y-6 bg-gray-50 min-h-full p-6">
+    <div className="space-y-6 min-h-full p-6">
       {/* Header con info button */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">

@@ -246,15 +246,6 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
       return;
     }
 
-    // Validate category for fixed costs
-    if (activeTab === 'fixed-costs') {
-      const validCategories = ['office', 'software', 'marketing', 'personnel', 'utilities', 'insurance', 'legal', 'other'];
-      if (formData.category && !validCategories.includes(formData.category)) {
-        alert(`❌ Categoria non valida. Usa una di queste: ${validCategories.join(', ')}`);
-        return;
-      }
-    }
-
     setLoading(true);
     try {
       let savedItem;
@@ -582,7 +573,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
   }
 
   return (
-    <div className="space-y-6 bg-gray-50 min-h-full p-6">
+    <div className="space-y-6 min-h-full p-6">
       {/* Header */}
       <div className="bg-white rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">

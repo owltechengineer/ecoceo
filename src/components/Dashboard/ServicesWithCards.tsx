@@ -20,16 +20,22 @@ export default function ServicesWithCards() {
   const convertSanityServiceToService = (sanityService: SanityService): Service => {
     return {
       id: sanityService._id,
-      name: sanityService.title,
-      price: sanityService.price || 0,
-      cost: sanityService.cost || 0,
-      hoursSold: 0, // Non disponibile in SanityService
-      revenue: sanityService.actualRevenue || sanityService.plannedRevenue || 0,
-      margin: sanityService.price && sanityService.cost ? ((sanityService.price - sanityService.cost) / sanityService.price) * 100 : 0,
-      variance: 0, // Non disponibile in SanityService
-      plannedHours: 0, // Non disponibile in SanityService
-      plannedRevenue: sanityService.plannedRevenue || 0,
-      actualHours: 0, // Non disponibile in SanityService
+      name: sanityService.title || 'Service Name',
+      description: sanityService.description || 'Service description',
+      category: 'consulting',
+      status: 'active',
+      priority: 'medium',
+      base_price: sanityService.price || 0,
+      currency: 'EUR',
+      pricing_model: 'hourly',
+      delivery_time_days: 7,
+      delivery_method: 'remote',
+      service_manager: 'Manager',
+      team_members: [],
+      requirements: [],
+      deliverables: [],
+      notes: '',
+      tags: []
     };
   };
 

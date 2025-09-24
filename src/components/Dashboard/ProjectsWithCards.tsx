@@ -32,16 +32,22 @@ const convertSanityProjectToProject = (sanityProject: SanityProject): Project =>
 const convertSanityServiceToService = (sanityService: SanityService): Service => {
   return {
     id: sanityService._id,
-    name: sanityService.title,
-    price: sanityService.price || 0,
-    cost: sanityService.cost || 0,
-    hoursSold: 0,
-    revenue: sanityService.plannedRevenue || 0,
-    margin: sanityService.price > 0 ? ((sanityService.price - (sanityService.cost || 0)) / sanityService.price) * 100 : 0,
-    variance: 0,
-    plannedHours: 0,
-    plannedRevenue: sanityService.plannedRevenue || 0,
-    actualHours: 0
+    name: sanityService.title || 'Service Name',
+    description: sanityService.description || 'Service description',
+    category: 'consulting',
+    status: 'active',
+    priority: 'medium',
+    base_price: sanityService.price || 0,
+    currency: 'EUR',
+    pricing_model: 'hourly',
+    delivery_time_days: 7,
+    delivery_method: 'remote',
+    service_manager: 'Manager',
+    team_members: [],
+    requirements: [],
+    deliverables: [],
+    notes: '',
+    tags: []
   };
 };
 

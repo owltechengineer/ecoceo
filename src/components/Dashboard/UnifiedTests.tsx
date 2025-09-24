@@ -328,7 +328,7 @@ export default function UnifiedTests() {
   };
 
   return (
-    <div className="space-y-8 bg-gray-50 min-h-full p-6">
+    <div className="space-y-8 min-h-full p-6">
       {/* Header */}
       <div className="bg-white rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">

@@ -430,7 +430,7 @@ export default function DashboardTotale() {
   ];
 
   return (
-    <div className="space-y-6 bg-gray-50 min-h-full p-6">
+    <div className="space-y-6 min-h-full p-6">
       {/* Header */}
       <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
         <div className="flex items-center justify-between">

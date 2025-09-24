@@ -3,6 +3,10 @@ layer(base);
 
 @import 'tailwindcss';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
@@ -138,10 +142,6 @@ layer(base);
   color: var(--color-white);
   padding: 4rem 2rem;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 :root {
   --foreground-rgb: 0, 0, 0;
