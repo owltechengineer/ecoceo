@@ -150,7 +150,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
                   <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
                   <div className="text-center mt-2">
                     <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full border border-gray-200">
-                      Sezioni Principali
+                      Gestione Operativa
                     </span>
                   </div>
                 </div>
@@ -162,7 +162,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
                   <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
                   <div className="text-center mt-2">
                     <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full border border-gray-200">
-                      Sezioni Speciali
+                      Identità Aziendale
                     </span>
                   </div>
                 </div>
