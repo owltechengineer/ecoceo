@@ -62,7 +62,8 @@ export default function UnifiedTaskCalendarNew() {
                 start_time: activityDate.toISOString(),
                 end_time: endDate.toISOString(),
                 is_recurring: true,
-                recurring_pattern: activity.type,
+                recurring_frequency: activity.frequency,
+                recurring_interval: activity.interval_value || 1,
                 user_id: 'default-user',
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString()
@@ -76,7 +77,8 @@ export default function UnifiedTaskCalendarNew() {
                 start_time: activityDate.toISOString(),
                 end_time: endDate.toISOString(),
                 is_recurring: true,
-                recurring_pattern: activity.type,
+                recurring_frequency: activity.frequency,
+                recurring_interval: activity.interval_value || 1,
                 user_id: 'default-user'
               });
             }
@@ -116,7 +118,8 @@ export default function UnifiedTaskCalendarNew() {
                 start_time: activityDate.toISOString(),
                 end_time: endDate.toISOString(),
                 is_recurring: true,
-                recurring_pattern: activity.type,
+                recurring_frequency: activity.frequency,
+                recurring_interval: activity.interval_value || 1,
                 user_id: 'default-user',
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString()
@@ -130,7 +133,8 @@ export default function UnifiedTaskCalendarNew() {
                 start_time: activityDate.toISOString(),
                 end_time: endDate.toISOString(),
                 is_recurring: true,
-                recurring_pattern: activity.type,
+                recurring_frequency: activity.frequency,
+                recurring_interval: activity.interval_value || 1,
                 user_id: 'default-user'
               });
             }
