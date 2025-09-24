@@ -313,6 +313,14 @@ export default function MarketingView() {
     return matchesStatus && matchesPriority && matchesSearch;
   });
 
+  // Debug: Log degli stati modali
+  console.log('🔍 Debug MarketingView Stati:', { 
+    showNewLead, 
+    showNewCampaign, 
+    editingLead, 
+    editingCampaign 
+  });
+
   if (loading && campaigns.length === 0) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -330,6 +338,10 @@ export default function MarketingView() {
           <InfoButton
             onClick={() => openInfo('Marketing Management', 'Gestisci le tue campagne marketing e i lead. Monitora le performance, traccia i risultati e ottimizza le tue strategie di marketing.')}
           />
+          {/* Debug visual indicator */}
+          <div className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded">
+            showNewLead: {showNewLead ? 'TRUE' : 'FALSE'}
+          </div>
         </div>
         
         <div className="flex gap-3">
@@ -343,7 +355,10 @@ export default function MarketingView() {
           <button
             onClick={() => {
               console.log('🔄 Apertura form nuovo lead...');
+              console.log('🔄 Stato attuale showNewLead:', showNewLead);
+              alert('🔄 Click su Nuovo Lead - Controllo console!');
               setShowNewLead(true);
+              console.log('🔄 Stato dopo setShowNewLead(true):', showNewLead);
             }}
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
@@ -668,7 +683,10 @@ export default function MarketingView() {
                 <p className="mt-1 text-sm text-gray-500">Inizia aggiungendo il tuo primo lead.</p>
                 <div className="mt-6">
                   <button
-                    onClick={() => setShowNewLead(true)}
+                    onClick={() => {
+                      console.log('🔄 Apertura form nuovo lead (dalla sezione vuota)...');
+                      setShowNewLead(true);
+                    }}
                     className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                   >
                     <span className="mr-2">👥</span>
@@ -978,10 +996,13 @@ export default function MarketingView() {
       )}
 
       {/* Modal Nuovo Lead */}
-      {showNewLead && console.log('📝 Rendering modal nuovo lead', { showNewLead }) && (
+      {showNewLead && (
         <div className="fixed inset-0 z-[9999] overflow-y-auto" style={{ zIndex: 9999 }}>
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={() => setShowNewLead(false)}></div>
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={() => {
+              console.log('🚫 Chiusura modal nuovo lead');
+              setShowNewLead(false);
+            }}></div>
 
             <div className="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all max-w-lg w-full p-6 relative z-10">
               <div>
@@ -1213,7 +1234,7 @@ export default function MarketingView() {
       )}
 
       {/* Modal Modifica Lead */}
-      {editingLead && console.log('📝 Rendering modal modifica lead', { editingLead }) && (
+      {editingLead && (
         <div className="fixed inset-0 z-[9999] overflow-y-auto" style={{ zIndex: 9999 }}>
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={() => setEditingLead(null)}></div>
