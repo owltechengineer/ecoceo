@@ -62,7 +62,10 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
     monthlyRevenues: 0,
     monthlyNetProfit: 0,
     monthlyBreakEven: 0,
-    daysToBreakEven: 0
+    daysToBreakEven: 0,
+    // Informazioni proiezioni
+    revenueIsProjected: false,
+    revenueMonthsData: 0
   });
 
   const categories = {
@@ -133,9 +136,10 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
 
       // Calcola indicatori economici annuali
       const annualFixedCosts = calculateAnnualCosts(fixedCostsData);
-      const annualVariableCosts = variableCostsData.reduce((sum, cost) => sum + cost.amount, 0) * 12; // Assumendo mensili
+      const annualVariableCosts = calculateAnnualVariableCosts(variableCostsData);
       const annualTotalCosts = annualFixedCosts + annualVariableCosts;
-      const annualRevenues = calculateAnnualRevenues(revenuesData);
+      const revenueCalc = calculateAnnualRevenues(revenuesData);
+      const annualRevenues = revenueCalc.value;
       const annualNetProfit = annualRevenues - annualTotalCosts;
       const annualProfitMargin = annualRevenues > 0 ? (annualNetProfit / annualRevenues) * 100 : 0;
 
@@ -168,6 +172,9 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
         annualNetProfit,
         annualProfitMargin,
         costRevenueRatio,
+        // Informazioni proiezione
+        revenueIsProjected: revenueCalc.isProjected,
+        revenueMonthsData: revenueCalc.monthsData,
         breakEvenPoint,
         revenueGrowthRate,
         costGrowthRate,
@@ -357,12 +364,65 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
     }, 0);
   };
 
-  // Calcola ricavi annuali (assumendo che siano già annuali o mensili)
+  // Calcola ricavi annuali con proiezione intelligente
   const calculateAnnualRevenues = (revenues: Revenue[]) => {
     const currentYear = new Date().getFullYear();
-    return revenues
+    const currentMonth = new Date().getMonth() + 1; // 1-12
+    const currentDay = new Date().getDate();
+    const today = new Date();
+    
+    // Ricavi dell'anno corrente
+    const currentYearRevenues = revenues
       .filter(revenue => new Date(revenue.date).getFullYear() === currentYear)
       .reduce((total, revenue) => total + revenue.amount, 0);
+    
+    // Se siamo ancora all'inizio dell'anno, facciamo una proiezione
+    if (currentMonth <= 6) { // Prima metà dell'anno
+      const monthsElapsed = currentMonth - 1 + (currentDay / 30); // Mesi decimali trascorsi
+      
+      if (monthsElapsed > 0 && currentYearRevenues > 0) {
+        // Proiezione basata sui dati attuali
+        const monthlyAverage = currentYearRevenues / monthsElapsed;
+        const projectedAnnual = monthlyAverage * 12;
+        
+        console.log(`📊 Proiezione ricavi annuali: ${monthsElapsed.toFixed(1)} mesi, media mensile: €${monthlyAverage.toFixed(0)}, proiezione: €${projectedAnnual.toFixed(0)}`);
+        return { value: projectedAnnual, isProjected: true, monthsData: monthsElapsed };
+      }
+    }
+    
+    // Se siamo nella seconda metà dell'anno, usiamo i dati reali
+    console.log(`📊 Ricavi annuali reali: €${currentYearRevenues.toFixed(0)}`);
+    return { value: currentYearRevenues, isProjected: false, monthsData: currentMonth };
+  };
+
+  // Calcola costi variabili annuali con proiezione intelligente
+  const calculateAnnualVariableCosts = (variableCosts: VariableCost[]) => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1; // 1-12
+    const currentDay = new Date().getDate();
+    
+    // Costi variabili dell'anno corrente
+    const currentYearCosts = variableCosts
+      .filter(cost => new Date(cost.date).getFullYear() === currentYear)
+      .reduce((total, cost) => total + cost.amount, 0);
+    
+    // Se siamo ancora all'inizio dell'anno, facciamo una proiezione
+    if (currentMonth <= 6) { // Prima metà dell'anno
+      const monthsElapsed = currentMonth - 1 + (currentDay / 30); // Mesi decimali trascorsi
+      
+      if (monthsElapsed > 0 && currentYearCosts > 0) {
+        // Proiezione basata sui dati attuali
+        const monthlyAverage = currentYearCosts / monthsElapsed;
+        const projectedAnnual = monthlyAverage * 12;
+        
+        console.log(`📊 Proiezione costi variabili annuali: ${monthsElapsed.toFixed(1)} mesi, media mensile: €${monthlyAverage.toFixed(0)}, proiezione: €${projectedAnnual.toFixed(0)}`);
+        return projectedAnnual;
+      }
+    }
+    
+    // Se siamo nella seconda metà dell'anno, usiamo i dati reali
+    console.log(`📊 Costi variabili annuali reali: €${currentYearCosts.toFixed(0)}`);
+    return currentYearCosts;
   };
 
   // Calcola tasso di crescita (confronto con anno precedente)
@@ -681,9 +741,16 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                     <div className="ml-4">
                       <p className="text-sm font-medium opacity-90">Ricavi Totali Annui</p>
                       <p className="text-2xl font-bold">{formatCurrency(stats.annualRevenues)}</p>
-                      <p className="text-xs opacity-75">
-                        Crescita: {formatPercentage(stats.revenueGrowthRate)}
-                      </p>
+                      <div className="flex items-center space-x-2">
+                        <p className="text-xs opacity-75">
+                          Crescita: {formatPercentage(stats.revenueGrowthRate)}
+                        </p>
+                        {stats.revenueIsProjected && (
+                          <span className="text-xs px-2 py-1 bg-orange-100 text-orange-800 rounded-full">
+                            📈 Proiezione ({stats.revenueMonthsData?.toFixed(1)}m)
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
