@@ -28,7 +28,7 @@ export default function TaskManagement() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    status: 'todo' as 'todo' | 'in-progress' | 'review' | 'completed' | 'cancelled',
+    status: 'pending' as 'pending' | 'in-progress' | 'on-hold' | 'completed' | 'cancelled',
     priority: 'medium' as 'low' | 'medium' | 'high' | 'urgent',
     assignee: '',
     project: '',
@@ -39,9 +39,9 @@ export default function TaskManagement() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'todo': return 'bg-gray-100 text-gray-800';
+      case 'pending': return 'bg-gray-100 text-gray-800';
       case 'in-progress': return 'bg-blue-100 text-blue-800';
-      case 'review': return 'bg-yellow-100 text-yellow-800';
+      case 'on-hold': return 'bg-yellow-100 text-yellow-800';
       case 'completed': return 'bg-green-100 text-green-800';
       case 'cancelled': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -60,9 +60,9 @@ export default function TaskManagement() {
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case 'todo': return 'Da Fare';
+      case 'pending': return 'Da Fare';
       case 'in-progress': return 'In Corso';
-      case 'review': return 'In Revisione';
+      case 'on-hold': return 'In Pausa';
       case 'completed': return 'Completato';
       case 'cancelled': return 'Cancellato';
       default: return status;
@@ -104,10 +104,10 @@ export default function TaskManagement() {
         description: task.description,
         status: task.status,
         priority: task.priority,
-        assignee: task.assignee,
-        project: task.project || '',
-        dueDate: task.dueDate,
-        estimatedHours: task.estimatedHours,
+        assignee: task.assigned_to || '',
+        project: task.project_id || '',
+        dueDate: task.due_date || '',
+        estimatedHours: task.estimated_hours,
         tags: task.tags.join(', '),
       });
     } else {
@@ -115,7 +115,7 @@ export default function TaskManagement() {
       setFormData({
         title: '',
         description: '',
-        status: 'todo',
+        status: 'pending',
         priority: 'medium',
         assignee: '',
         project: '',
@@ -136,16 +136,16 @@ export default function TaskManagement() {
         description: formData.description,
         status: formData.status,
         priority: formData.priority,
-        assignee: formData.assignee,
-        project: formData.project || undefined,
-        dueDate: formData.dueDate,
-        estimatedHours: formData.estimatedHours,
+        assigned_to: formData.assignee,
+        project_id: formData.project || undefined,
+        due_date: formData.dueDate,
+        estimated_hours: formData.estimatedHours,
+        actual_hours: editingTask?.actual_hours || 0,
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
-        actualHours: editingTask?.actualHours || 0,
-        plannedHours: formData.estimatedHours,
-        plannedCompletion: formData.dueDate,
-        createdAt: editingTask?.createdAt || new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        notes: formData.description,
+        progress_percentage: editingTask?.progress_percentage || 0,
+        depends_on_tasks: editingTask?.depends_on_tasks || [],
+        category: 'other' as const,
       } as any;
       
       if (editingTask) {
@@ -195,7 +195,7 @@ export default function TaskManagement() {
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter(t => t.status === 'completed').length;
   const inProgressTasks = tasks.filter(t => t.status === 'in-progress').length;
-  const overdueTasks = tasks.filter(t => new Date(t.dueDate) < new Date() && t.status !== 'completed').length;
+  const overdueTasks = tasks.filter(t => t.due_date && new Date(t.due_date) < new Date() && t.status !== 'completed').length;
 
   return (
     <div className="space-y-6">
@@ -280,9 +280,9 @@ export default function TaskManagement() {
             className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
           >
             <option value="all">Tutti gli status</option>
-            <option value="todo">Da Fare</option>
+            <option value="pending">Da Fare</option>
             <option value="in-progress">In Corso</option>
-            <option value="review">In Revisione</option>
+            <option value="on-hold">In Pausa</option>
             <option value="completed">Completato</option>
             <option value="cancelled">Cancellato</option>
           </select>
@@ -293,7 +293,7 @@ export default function TaskManagement() {
             className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
           >
             <option value="all">Tutti gli assegnati</option>
-            {Array.from(new Set(tasks.map(t => t.assignee))).map(assignee => (
+            {Array.from(new Set(tasks.map(t => t.assigned_to))).filter(Boolean).map(assignee => (
               <option key={assignee} value={assignee}>{assignee}</option>
             ))}
           </select>
@@ -350,21 +350,21 @@ export default function TaskManagement() {
                     <p className="text-gray-600 text-xs mb-3 line-clamp-2">{task.description}</p>
                     
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs text-gray-500">{task.assignee}</span>
+                      <span className="text-xs text-gray-500">{task.assigned_to}</span>
                       <span className={`px-2 py-1 rounded-full text-xs ${getPriorityColor(task.priority)}`}>
                         {getPriorityLabel(task.priority)}
                       </span>
                     </div>
                     
                     <div className="flex items-center justify-between text-xs text-gray-500">
-                      <span>Scadenza: {formatDate(task.dueDate)}</span>
-                      <span>{task.estimatedHours}h</span>
+                      <span>Scadenza: {task.due_date ? formatDate(task.due_date) : 'N/A'}</span>
+                      <span>{task.estimated_hours}h</span>
                     </div>
                     
-                    {task.project && (
+                    {task.project_id && (
                       <div className="mt-2">
                         <span className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">
-                          {getProjectName(task.project)}
+                          {getProjectName(task.project_id)}
                         </span>
                       </div>
                     )}
@@ -411,7 +411,7 @@ export default function TaskManagement() {
                         <div className="text-sm text-gray-500">{task.description}</div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-900">{task.assignee}</td>
+                    <td className="px-6 py-4 text-sm text-gray-900">{task.assigned_to}</td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(task.status)}`}>
                         {getStatusLabel(task.status)}
@@ -423,9 +423,9 @@ export default function TaskManagement() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-900">
-                      {formatDate(task.dueDate)}
+                      {task.due_date ? formatDate(task.due_date) : 'N/A'}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-900">{task.estimatedHours}h</td>
+                    <td className="px-6 py-4 text-sm text-gray-900">{task.estimated_hours}h</td>
                     <td className="px-6 py-4 text-sm font-medium">
                       <button
                         onClick={() => handleOpenForm(task)}
@@ -494,9 +494,9 @@ export default function TaskManagement() {
               onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="todo">Da Fare</option>
+              <option value="pending">Da Fare</option>
               <option value="in-progress">In Corso</option>
-              <option value="review">In Revisione</option>
+              <option value="on-hold">In Pausa</option>
               <option value="completed">Completato</option>
               <option value="cancelled">Cancellato</option>
             </select>

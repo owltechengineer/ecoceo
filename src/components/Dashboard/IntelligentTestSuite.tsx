@@ -7,9 +7,7 @@ import {
   saveProjectMain, loadProjectsMain,
   saveTask, loadTasks,
   saveAppointment, loadAppointments,
-  saveBudget, loadBudgets,
-  saveRevenue, loadRevenues,
-  saveVariableCost, loadVariableCosts
+  financialService
 } from '@/lib/supabase';
 
 interface TestResult {
@@ -228,7 +226,7 @@ export default function IntelligentTestSuite() {
           description: 'Test caricamento budget esistenti',
           category: 'crud',
           fn: async () => {
-            const budgets = await loadBudgets();
+            const budgets = await financialService.loadBudgets();
             return { count: budgets.length, budgets: budgets.slice(0, 3) };
           }
         },
@@ -237,7 +235,7 @@ export default function IntelligentTestSuite() {
           description: 'Test caricamento ricavi esistenti',
           category: 'crud',
           fn: async () => {
-            const revenues = await loadRevenues();
+            const revenues = await financialService.loadRevenues();
             return { count: revenues.length, revenues: revenues.slice(0, 3) };
           }
         },
@@ -246,7 +244,7 @@ export default function IntelligentTestSuite() {
           description: 'Test caricamento costi variabili',
           category: 'crud',
           fn: async () => {
-            const costs = await loadVariableCosts();
+            const costs = await financialService.loadVariableCosts();
             return { count: costs.length, costs: costs.slice(0, 3) };
           }
         },
@@ -267,7 +265,7 @@ export default function IntelligentTestSuite() {
               currency: 'EUR'
             };
             
-            const result = await saveBudget(testBudget);
+            const result = await financialService.saveBudget(testBudget);
             return result;
           }
         }
