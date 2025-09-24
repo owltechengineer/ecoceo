@@ -142,32 +142,45 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
 
         {/* Navigation Items */}
         <div className="p-4 space-y-2">
-          {navigationItems.map((item) => (
-            <button
-              key={item.key}
-              onClick={() => handleNavigation(item)}
-              className={`w-full flex items-center p-4 rounded-xl transition-all duration-300 group ${
-                activeSection === item.key
-                  ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg transform scale-[1.02]`
-                  : 'text-gray-700 hover:bg-gray-50 hover:shadow-md hover:transform hover:scale-[1.01]'
-              }`}
-              title={isCollapsed ? item.name : undefined}
-            >
-              <div className={`p-3 rounded-lg transition-all duration-200 ${
-                activeSection === item.key
-                  ? 'bg-white bg-opacity-25 shadow-lg'
-                  : `bg-gradient-to-br ${item.gradient} text-white shadow-md group-hover:shadow-lg`
-              }`}>
-                <span className="text-xl">{item.icon}</span>
-              </div>
-              
-              {!isCollapsed && (
-                <div className="ml-4 text-left">
-                  <div className="font-semibold text-base">{item.name}</div>
-                  <div className="text-sm opacity-80">{item.description}</div>
+          {navigationItems.map((item, index) => (
+            <div key={item.key}>
+              {/* Barra di divisione sopra Red */}
+              {item.key === 'red' && (
+                <div className="my-4 mx-2">
+                  <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+                  <div className="text-center mt-2">
+                    <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full border border-gray-200">
+                      Sezioni Speciali
+                    </span>
+                  </div>
                 </div>
               )}
-            </button>
+              
+              <button
+                onClick={() => handleNavigation(item)}
+                className={`w-full flex items-center p-4 rounded-xl transition-all duration-300 group ${
+                  activeSection === item.key
+                    ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg transform scale-[1.02]`
+                    : 'text-gray-700 hover:bg-gray-50 hover:shadow-md hover:transform hover:scale-[1.01]'
+                }`}
+                title={isCollapsed ? item.name : undefined}
+              >
+                <div className={`p-3 rounded-lg transition-all duration-200 ${
+                  activeSection === item.key
+                    ? 'bg-white bg-opacity-25 shadow-lg'
+                    : `bg-gradient-to-br ${item.gradient} text-white shadow-md group-hover:shadow-lg`
+                }`}>
+                  <span className="text-xl">{item.icon}</span>
+                </div>
+                
+                {!isCollapsed && (
+                  <div className="ml-4 text-left">
+                    <div className="font-semibold text-base">{item.name}</div>
+                    <div className="text-sm opacity-80">{item.description}</div>
+                  </div>
+                )}
+              </button>
+            </div>
           ))}
         </div>
 
