@@ -251,9 +251,11 @@ export const supabaseHelpers = {
       .from('business_plan_marketing_strategy')
       .upsert({
         user_id: userId,
-        strategies: data.strategies || [],
-        timeline: data.timeline || [],
-        customer_journey: data.customerJourney || {},
+        marketing_objectives: data.marketing_objectives || [],
+        target_audience: data.target_audience || {},
+        pricing_strategy: data.pricing_strategy || '',
+        distribution_channels: data.distribution_channels || [],
+        promotion_strategy: data.promotion_strategy || '',
         updated_at: new Date().toISOString()
       }, {
         onConflict: 'user_id'
@@ -286,7 +288,7 @@ export const supabaseHelpers = {
       throw error
     }
 
-    return data || { strategies: [], timeline: [], customer_journey: {} }
+    return data || { marketing_objectives: [], target_audience: {}, pricing_strategy: '', distribution_channels: [], promotion_strategy: '' }
   },
 
   // Operational Plan
@@ -377,7 +379,12 @@ export const supabaseHelpers = {
       .from('business_plan_business_model')
       .upsert({
         user_id: userId,
-        canvas: data.canvas,
+        key_partners: data.key_partners || [],
+        key_activities: data.key_activities || [],
+        value_propositions: data.value_propositions || [],
+        customer_segments: data.customer_segments || [],
+        revenue_streams: data.revenue_streams || [],
+        canvas_data: data.canvas_data || {},
         updated_at: new Date().toISOString()
       }, {
         onConflict: 'user_id'
@@ -404,7 +411,7 @@ export const supabaseHelpers = {
       throw error
     }
 
-    return data || { canvas: { keyPartners: [], keyActivities: [], valuePropositions: [], customerRelationships: [], customerSegments: [], keyResources: [], channels: [], costStructure: [], revenueStreams: [] } }
+    return data || { key_partners: [], key_activities: [], value_propositions: [], customer_segments: [], revenue_streams: [], canvas_data: {} }
   },
 
   // Roadmap

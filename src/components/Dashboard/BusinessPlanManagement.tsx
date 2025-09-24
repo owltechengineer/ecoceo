@@ -7,6 +7,7 @@ import { useInfoModal } from '@/contexts/InfoModalContext';
 import { supabaseHelpers } from '@/lib/supabase';
 import { businessPlanHelpers } from '@/lib/business-plan-helpers';
 import BusinessPlanDiagnostic from './BusinessPlanDiagnostic';
+import BusinessPlanTablesDiagnostic from './BusinessPlanTablesDiagnostic';
 import { dashboardInfo } from './dashboardInfo';
 
 // Tipi per il Business Plan
@@ -2604,6 +2605,9 @@ export default function BusinessPlanManagement() {
     <div className="space-y-8 min-h-full p-6">
       {/* 🔧 DIAGNOSTICA BUSINESS PLAN */}
       <BusinessPlanDiagnostic />
+      
+      {/* 🔧 DIAGNOSTICA TABELLE BUSINESS PLAN */}
+      <BusinessPlanTablesDiagnostic />
       
       {/* Header */}
       <div className="bg-white rounded-lg shadow-sm p-6">
