@@ -7,7 +7,7 @@ import CalendarView from './CalendarView';
 import TasksView from './TasksView';
 import RecurringActivities from './RecurringActivities';
 import { loadTasks, loadAppointments, Task, Appointment, recurringActivitiesService, supabase } from '@/lib/supabase';
-import CalendarTablesDiagnostic from './CalendarTablesDiagnostic';
+import CalendarQuickFix from './CalendarQuickFix';
 
 export default function UnifiedTaskCalendarNew() {
   const { openInfo } = useInfoModal();
@@ -172,8 +172,8 @@ export default function UnifiedTaskCalendarNew() {
 
   return (
     <div className="space-y-6 min-h-full p-6">
-      {/* 🔧 DIAGNOSTICA CALENDAR TABLES */}
-      <CalendarTablesDiagnostic />
+      {/* 🔧 QUICK FIX CALENDAR TABLES */}
+      <CalendarQuickFix />
       
       {/* Header */}
       <div className="bg-white rounded-lg shadow-sm p-6">
