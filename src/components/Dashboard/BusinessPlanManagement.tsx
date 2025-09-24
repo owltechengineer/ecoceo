@@ -5,6 +5,7 @@ import { useDashboard } from '@/contexts/DashboardContext';
 import { InfoButton } from './InfoModal';
 import { useInfoModal } from '@/contexts/InfoModalContext';
 import { supabaseHelpers } from '@/lib/supabase';
+import BusinessPlanDiagnostic from './BusinessPlanDiagnostic';
 import { dashboardInfo } from './dashboardInfo';
 
 // Tipi per il Business Plan
@@ -2600,7 +2601,8 @@ export default function BusinessPlanManagement() {
 
   return (
     <div className="space-y-8 min-h-full p-6">
-      {/* Test Unificato Business Plan */}
+      {/* 🔧 DIAGNOSTICA BUSINESS PLAN */}
+      <BusinessPlanDiagnostic />
       
       {/* Header */}
       <div className="bg-white rounded-lg shadow-sm p-6">
