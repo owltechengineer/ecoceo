@@ -325,7 +325,7 @@ CREATE TABLE IF NOT EXISTS business_plan_documentation (
     
     -- External Links & References
     external_links JSONB DEFAULT '{}',
-    references TEXT[] DEFAULT '{}',
+    document_references TEXT[] DEFAULT '{}',
     
     -- Supporting Materials
     financial_models TEXT[] DEFAULT '{}',
