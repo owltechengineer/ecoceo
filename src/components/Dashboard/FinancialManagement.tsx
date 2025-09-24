@@ -1713,8 +1713,8 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                     <label className="block text-sm font-semibold text-gray-800 mb-1">Data Incurred</label>
                     <input
                       type="date"
-                      value={formData.date_incurred || ''}
-                      onChange={(e) => setFormData({...formData, date_incurred: e.target.value})}
+                      value={formData.date || ''}
+                      onChange={(e) => setFormData({...formData, date: e.target.value})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                     />
                   </div>
@@ -1728,27 +1728,16 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                       placeholder="Nome fornitore"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-1">Numero Fattura</label>
-                    <input
-                      type="text"
-                      value={formData.invoice_number || ''}
-                      onChange={(e) => setFormData({...formData, invoice_number: e.target.value})}
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
-                      placeholder="Numero fattura"
-                    />
-                  </div>
+                  {/* Numero fattura non disponibile nella tabella financial_variable_costs */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-1">Stato Pagamento</label>
                     <select
-                      value={formData.payment_status || 'pending'}
-                      onChange={(e) => setFormData({...formData, payment_status: e.target.value})}
+                      value={formData.is_paid ? 'paid' : 'pending'}
+                      onChange={(e) => setFormData({...formData, is_paid: e.target.value === 'paid'})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                     >
-                      <option value="pending">In Attesa</option>
+                      <option value="pending">Non Pagato</option>
                       <option value="paid">Pagato</option>
-                      <option value="overdue">Scaduto</option>
-                      <option value="cancelled">Annullato</option>
                     </select>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -1801,29 +1790,19 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                     <input
               type="number"
                       step="0.01"
-                      value={formData.total_amount || ''}
-                      onChange={(e) => setFormData({...formData, total_amount: parseFloat(e.target.value) || 0})}
+                      value={formData.amount || ''}
+                      onChange={(e) => setFormData({...formData, amount: parseFloat(e.target.value) || 0})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
                       placeholder="0.00"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-1">Importo Speso</label>
-                    <input
-              type="number"
-                      step="0.01"
-                      value={formData.spent_amount || ''}
-                      onChange={(e) => setFormData({...formData, spent_amount: parseFloat(e.target.value) || 0})}
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
-                      placeholder="0.00"
-                    />
-                  </div>
+                  {/* Importo Speso non disponibile nella tabella financial_budgets */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-1">Periodo Inizio</label>
                     <input
                       type="date"
-                      value={formData.start_date || ''}
-                      onChange={(e) => setFormData({...formData, start_date: e.target.value})}
+                      value={formData.period_start || ''}
+                      onChange={(e) => setFormData({...formData, period_start: e.target.value})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
             />
           </div>
@@ -1831,21 +1810,20 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                     <label className="block text-sm font-semibold text-gray-800 mb-1">Periodo Fine</label>
                     <input
                       type="date"
-                      value={formData.end_date || ''}
-                      onChange={(e) => setFormData({...formData, end_date: e.target.value})}
+                      value={formData.period_end || ''}
+                      onChange={(e) => setFormData({...formData, period_end: e.target.value})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-1">Stato</label>
                     <select
-                      value={formData.status || 'active'}
-                      onChange={(e) => setFormData({...formData, status: e.target.value})}
+                      value={formData.is_active ? 'active' : 'inactive'}
+                      onChange={(e) => setFormData({...formData, is_active: e.target.value === 'active'})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                     >
                       <option value="active">Attivo</option>
-                      <option value="completed">Completato</option>
-                      <option value="cancelled">Annullato</option>
+                      <option value="inactive">Inattivo</option>
                     </select>
                   </div>
                 </>

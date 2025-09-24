@@ -180,7 +180,7 @@ export default function DashboardTotale() {
       ).reduce((sum, c) => sum + (c.amount || 0), 0);
       
       const todayVariableCosts = variableCosts.filter(c => 
-        c.date_incurred && c.date_incurred.startsWith(today)
+        c.date && c.date.startsWith(today)
       ).reduce((sum, c) => sum + (c.amount || 0), 0);
       
       const todayRevenues = revenues.filter(r => 
