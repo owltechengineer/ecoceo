@@ -144,6 +144,18 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
         <div className="p-4 space-y-2">
           {navigationItems.map((item, index) => (
             <div key={item.key}>
+              {/* Barra di divisione sotto Dashboard Totale */}
+              {item.key === 'tasks' && (
+                <div className="my-4 mx-2">
+                  <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+                  <div className="text-center mt-2">
+                    <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full border border-gray-200">
+                      Sezioni Principali
+                    </span>
+                  </div>
+                </div>
+              )}
+              
               {/* Barra di divisione sopra Red */}
               {item.key === 'red' && (
                 <div className="my-4 mx-2">
