@@ -116,7 +116,7 @@ export default function BusinessPlanDiagnostic() {
       // 4. Conclusioni
       setDiagnosis(prev => prev + '\n🎯 CONCLUSIONI:\n');
       setDiagnosis(prev => prev + '- Se vedi tabelle MANCANTI, devi eseguire lo schema SQL\n');
-      setDiagnosis(prev => prev + '- Vai su Supabase > SQL Editor > Esegui 05_BUSINESS_PLAN_TABLES.sql\n');
+      setDiagnosis(prev => prev + '- Vai su Supabase → SQL Editor → Esegui 05_BUSINESS_PLAN_TABLES.sql\n');
       setDiagnosis(prev => prev + '- Dopo il setup, riprova il diagnostic\n');
 
     } catch (error: any) {
@@ -189,8 +189,8 @@ export default function BusinessPlanDiagnostic() {
       if (error) {
         setDiagnosis(prev => prev + `❌ Errore creazione tabelle: ${error.message}\n`);
         setDiagnosis(prev => prev + '\n🔧 SOLUZIONE MANUALE:\n');
-        setDiagnosis(prev => prev + '1. Vai su Supabase.com > Il tuo progetto\n');
-        setDiagnosis(prev => prev + '2. SQL Editor > New Query\n');
+        setDiagnosis(prev => prev + '1. Vai su Supabase.com → Il tuo progetto\n');
+        setDiagnosis(prev => prev + '2. SQL Editor → New Query\n');
         setDiagnosis(prev => prev + '3. Copia il file docs/database/05_BUSINESS_PLAN_TABLES.sql\n');
         setDiagnosis(prev => prev + '4. Esegui lo script\n');
       } else {
@@ -249,7 +249,7 @@ export default function BusinessPlanDiagnostic() {
               <li>Clicca "🔍 Esegui Diagnosi" per vedere cosa manca</li>
               <li>Se le tabelle sono mancanti, clicca "🔧 Crea Tabelle"</li>
               <li>Se il passo 2 fallisce, vai manualmente su Supabase</li>
-              <li>SQL Editor > Esegui docs/database/05_BUSINESS_PLAN_TABLES.sql</li>
+              <li>SQL Editor → Esegui docs/database/05_BUSINESS_PLAN_TABLES.sql</li>
             </ol>
           </div>
         </div>
