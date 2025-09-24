@@ -322,13 +322,13 @@ export default function DashboardTotal() {
         <div className="bg-white rounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📊 Stato Task</h3>
           <div className="space-y-4">
-            {['todo', 'in-progress', 'review', 'completed', 'cancelled'].map((status) => {
+            {['pending', 'in-progress', 'on-hold', 'completed', 'cancelled'].map((status) => {
               const count = tasks.filter(task => task.status === status).length;
               const percentage = tasks.length > 0 ? (count / tasks.length) * 100 : 0;
               const colors = {
-                'todo': 'bg-gray-500',
+                'pending': 'bg-gray-500',
                 'in-progress': 'bg-blue-500',
-                'review': 'bg-yellow-500',
+                'on-hold': 'bg-yellow-500',
                 'completed': 'bg-green-500',
                 'cancelled': 'bg-red-500'
               };

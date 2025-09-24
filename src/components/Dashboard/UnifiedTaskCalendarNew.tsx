@@ -27,7 +27,7 @@ export default function UnifiedTaskCalendarNew() {
       const activities = await recurringActivitiesService.loadActivities();
       
       // Genera attività settimanali per la settimana corrente
-      const weeklyActivities = activities.filter(a => a.is_active && a.type === 'weekly');
+      const weeklyActivities = activities.filter(a => a.status === 'active' && a.frequency === 'weekly');
       if (weeklyActivities.length > 0) {
         const startOfWeek = new Date();
         startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
@@ -37,11 +37,11 @@ export default function UnifiedTaskCalendarNew() {
           const activityDate = new Date(startOfWeek);
           activityDate.setDate(activityDate.getDate() + (activity.day_of_week || 0));
           
-          const [hours, minutes] = activity.time.split(':');
+          const [hours, minutes] = (activity.time_of_day || '09:00').split(':');
           activityDate.setHours(parseInt(hours), parseInt(minutes));
 
           const endDate = new Date(activityDate);
-          endDate.setMinutes(endDate.getMinutes() + activity.duration);
+          endDate.setMinutes(endDate.getMinutes() + activity.duration_minutes);
 
           // Controlla se l'attività esiste già nel calendario per questa settimana
           const existingAppointments = await loadAppointments();
@@ -84,17 +84,17 @@ export default function UnifiedTaskCalendarNew() {
       }
 
       // Genera attività mensili per il mese corrente
-      const monthlyActivities = activities.filter(a => a.is_active && a.type === 'monthly');
+      const monthlyActivities = activities.filter(a => a.status === 'active' && a.frequency === 'monthly');
       if (monthlyActivities.length > 0) {
         for (const activity of monthlyActivities) {
           const activityDate = new Date();
           activityDate.setDate(activity.day_of_month || 1);
           
-          const [hours, minutes] = activity.time.split(':');
+          const [hours, minutes] = (activity.time_of_day || '09:00').split(':');
           activityDate.setHours(parseInt(hours), parseInt(minutes));
 
           const endDate = new Date(activityDate);
-          endDate.setMinutes(endDate.getMinutes() + activity.duration);
+          endDate.setMinutes(endDate.getMinutes() + activity.duration_minutes);
 
           // Controlla se l'attività esiste già nel calendario per questo mese
           const existingAppointments = await loadAppointments();
@@ -307,12 +307,12 @@ export default function UnifiedTaskCalendarNew() {
                       <div>
                         <h3 className="font-medium text-gray-900">{appointment.title}</h3>
                         <p className="text-sm text-gray-500">
-                          {appointment.meeting_type === 'meeting' && '👥'}
-                          {appointment.meeting_type === 'call' && '📞'}
-                          {appointment.meeting_type === 'presentation' && '📊'}
-                          {appointment.meeting_type === 'workshop' && '🎓'}
-                          {appointment.meeting_type === 'other' && '📅'}
-                          {' '}{appointment.meeting_type} • {appointment.location || 'Nessuna location'}
+                          {appointment.type === 'meeting' && '👥'}
+                          {appointment.type === 'call' && '📞'}
+                          {appointment.type === 'presentation' && '📊'}
+                          {appointment.type === 'training' && '🎓'}
+                          {appointment.type === 'other' && '📅'}
+                          {' '}{appointment.type} • {appointment.location || 'Nessuna location'}
                         </p>
                       </div>
                       <div className="text-right">

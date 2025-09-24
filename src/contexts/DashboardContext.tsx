@@ -311,7 +311,7 @@ type DashboardAction =
   | { type: 'LOAD_DATA'; payload: Partial<DashboardState> };
 
 // Stato iniziale con dati di esempio
-const initialState: DashboardState = {
+const initialState: any = {
   projects: [
     {
       id: '1',
@@ -1021,8 +1021,8 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'DELETE_PROJECT', payload: id });
   };
 
-  const addService = (service: Omit<Service, 'id'>) => {
-    const newService: Service = {
+  const addService = (service: any) => {
+    const newService: any = {
       ...service,
       id: Date.now().toString(),
       margin: service.price > 0 ? ((service.price - service.cost) / service.price) * 100 : 0,
@@ -1036,8 +1036,8 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'ADD_SERVICE', payload: newService });
   };
 
-  const updateService = (service: Service) => {
-    const updatedService: Service = {
+  const updateService = (service: any) => {
+    const updatedService: any = {
       ...service,
       margin: service.price > 0 ? ((service.price - service.cost) / service.price) * 100 : 0,
       revenue: service.price * service.hoursSold,

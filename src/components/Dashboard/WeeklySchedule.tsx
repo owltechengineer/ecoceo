@@ -88,8 +88,8 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
   const getActivitiesForDay = (dayIndex: number) => {
     if (!selectedTemplate) return [];
     return selectedTemplate.activities.filter(activity => 
-      activity.is_active && activity.day_of_week === dayIndex
-    ).sort((a, b) => a.time.localeCompare(b.time));
+      activity.status === 'active' && activity.day_of_week === dayIndex
+    ).sort((a, b) => (a.time_of_day || '').localeCompare(b.time_of_day || ''));
   };
 
   const getActivityPosition = (time: string, duration: number) => {
@@ -226,8 +226,8 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
                   <div key={dayIndex} className="p-2 border-r border-gray-100 last:border-r-0 min-h-[60px] relative">
                     {/* Activities for this day and time */}
                     {getActivitiesForDay(dayIndex).map(activity => {
-                      const position = getActivityPosition(activity.time, activity.duration);
-                      const [activityHour] = activity.time.split(':');
+                      const position = getActivityPosition(activity.time_of_day || '09:00', activity.duration_minutes);
+                      const [activityHour] = (activity.time_of_day || '09:00').split(':');
                       
                       if (parseInt(activityHour) === timeIndex) {
                         return (
@@ -235,7 +235,7 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
                             key={activity.id}
                             className={`absolute left-1 right-1 rounded-lg p-2 text-xs border-l-4 ${
                               priorities[activity.priority].color
-                            } ${categories[activity.category as keyof typeof categories] || 'bg-gray-100 text-gray-800'}`}
+                            } ${categories[activity.type as keyof typeof categories] || 'bg-gray-100 text-gray-800'}`}
                             style={{
                               top: position.top,
                               height: position.height,
@@ -244,7 +244,7 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
                           >
                             <div className="font-medium truncate">{activity.name}</div>
                             <div className="text-xs opacity-75">
-                              {activity.time} - {activity.duration}min
+                              {activity.time_of_day} - {activity.duration_minutes}min
                             </div>
                           </div>
                         );

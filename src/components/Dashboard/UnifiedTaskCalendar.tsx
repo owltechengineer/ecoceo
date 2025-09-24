@@ -105,7 +105,9 @@ export default function UnifiedTaskCalendar() {
       const taskData = {
         title: taskFormData.title,
         description: taskFormData.description,
-        status: taskFormData.status,
+        status: taskFormData.status === 'todo' ? 'pending' : 
+                taskFormData.status === 'review' ? 'on-hold' : 
+                taskFormData.status as any,
         priority: taskFormData.priority,
         assigned_to: taskFormData.assignee,
         project_id: taskFormData.project || undefined,
@@ -207,13 +209,15 @@ export default function UnifiedTaskCalendar() {
   const handleEditTask = (task: Task) => {
     setTaskFormData({
       title: task.title,
-      description: task.description,
-      status: task.status,
+      description: task.description || '',
+      status: task.status === 'pending' ? 'todo' : 
+              task.status === 'on-hold' ? 'review' : 
+              task.status as any,
       priority: task.priority,
-      assignee: task.assignee,
-      project: task.project || '',
-      dueDate: task.dueDate,
-      estimatedHours: task.estimatedHours,
+      assignee: task.assigned_to || '',
+      project: task.project_id || '',
+      dueDate: task.due_date || '',
+      estimatedHours: task.estimated_hours,
       tags: task.tags.join(', '),
     });
     setEditingTask(task);
@@ -248,7 +252,7 @@ export default function UnifiedTaskCalendar() {
   // Filtra i dati
   const filteredTasks = tasks.filter(task => {
     if (filterStatus !== 'all' && task.status !== filterStatus) return false;
-    if (filterDate && task.dueDate && !task.dueDate.includes(filterDate)) return false;
+    if (filterDate && task.due_date && !task.due_date.includes(filterDate)) return false;
     return true;
   });
 
@@ -358,9 +362,9 @@ export default function UnifiedTaskCalendar() {
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}>
                           {task.priority}
                         </span>
-                        {task.dueDate && (
+                        {task.due_date && (
                           <span className="text-xs text-gray-500">
-                            📅 {formatDate(task.dueDate)}
+                            📅 {formatDate(task.due_date)}
                           </span>
                         )}
                       </div>
@@ -478,10 +482,10 @@ export default function UnifiedTaskCalendar() {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {task.assignee}
+                      {task.assigned_to}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {task.dueDate ? formatDate(task.dueDate) : '-'}
+                      {task.due_date ? formatDate(task.due_date) : '-'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button

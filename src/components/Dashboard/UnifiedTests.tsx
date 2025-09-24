@@ -145,7 +145,7 @@ export default function UnifiedTests() {
         actualHours: 10
       };
       
-      addService(testService);
+      addService(testService as any);
       addTestResult('✅ Servizio aggiunto con successo', 'input');
     } catch (error) {
       addTestResult('❌ Errore nell\'aggiunta del servizio', 'input');
@@ -157,7 +157,7 @@ export default function UnifiedTests() {
       const testTask = {
         title: 'Test Task',
         description: 'Descrizione del task di test',
-        status: 'todo' as const,
+        status: 'pending' as const,
         priority: 'medium' as const,
         assignee: 'Test User',
         dueDate: new Date().toISOString(),
@@ -170,7 +170,7 @@ export default function UnifiedTests() {
         updatedAt: new Date().toISOString(),
       };
       
-      addTask(testTask);
+      addTask(testTask as any);
       addTestResult('✅ Task aggiunto con successo', 'input');
     } catch (error) {
       addTestResult('❌ Errore nell\'aggiunta del task', 'input');
@@ -223,7 +223,7 @@ export default function UnifiedTests() {
         actualConversions: 0
       };
       
-      addCampaign(testCampaign);
+      addCampaign(testCampaign as any);
       addTestResult('✅ Campagna aggiunta con successo', 'input');
     } catch (error) {
       addTestResult('❌ Errore nell\'aggiunta della campagna', 'input');
@@ -245,7 +245,7 @@ export default function UnifiedTests() {
         actualValue: 0
       };
       
-      addLead(testLead);
+      addLead(testLead as any);
       addTestResult('✅ Lead aggiunto con successo', 'input');
     } catch (error) {
       addTestResult('❌ Errore nell\'aggiunta del lead', 'input');
