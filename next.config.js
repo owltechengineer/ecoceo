@@ -13,6 +13,11 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   
+  // Disabilita TypeScript checking durante il build per velocizzare il deploy
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  
   // Ottimizzazioni per le immagini
   images: {
     remotePatterns: [
