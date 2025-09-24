@@ -126,13 +126,18 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
 
       setCostDistributions({...fixedDistributions, ...variableDistributions});
 
-      // Calcola statistiche mensili
-      const totalFixedCosts = fixedCostsData.reduce((sum, cost) => sum + cost.amount, 0);
-      const totalVariableCosts = variableCostsData.reduce((sum, cost) => sum + cost.amount, 0);
+      // CORREZIONE: Calcola totali corretti per il periodo di analisi
+      // Nota: Questi dovrebbero essere calcolati per un periodo specifico (es. anno corrente)
+      // Non sommiamo tutto lo storico che è scorretto
+      
+      // Per ora usiamo i valori annuali corretti già calcolati sotto
+      // Questi saranno sovrascritti dai calcoli annuali corretti
+      const totalFixedCosts = 0; // Sarà sostituito da annualFixedCosts
+      const totalVariableCosts = 0; // Sarà sostituito da annualVariableCosts
       const totalBudgets = budgetsData.reduce((sum, budget) => sum + budget.amount, 0);
-      const totalRevenues = revenuesData.reduce((sum, revenue) => sum + revenue.amount, 0);
-      const netProfit = totalRevenues - totalFixedCosts - totalVariableCosts;
-      const profitMargin = totalRevenues > 0 ? (netProfit / totalRevenues) * 100 : 0;
+      const totalRevenues = 0; // Sarà sostituito da annualRevenues
+      const netProfit = 0; // Sarà calcolato correttamente dopo
+      const profitMargin = 0; // Sarà calcolato correttamente dopo
 
       // Calcola indicatori economici annuali
       const annualFixedCosts = calculateAnnualCosts(fixedCostsData);
@@ -158,13 +163,31 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
       const revenueGrowthRate = Math.random() * 20 - 10; // -10% a +10%
       const costGrowthRate = Math.random() * 15 - 5; // -5% a +10%
 
+      // Sovrascriviamo con i valori annuali corretti
+      const correctedTotalFixedCosts = annualFixedCosts;
+      const correctedTotalVariableCosts = annualVariableCosts;
+      const correctedTotalRevenues = annualRevenues;
+      const correctedNetProfit = annualNetProfit;
+      const correctedProfitMargin = annualProfitMargin;
+
+      // Debug: mostra differenza tra calcoli vecchi (sbagliati) e nuovi (corretti)
+      const oldWrongTotalRevenues = revenuesData.reduce((sum, revenue) => sum + revenue.amount, 0);
+      const oldWrongTotalFixedCosts = fixedCostsData.reduce((sum, cost) => sum + cost.amount, 0);
+      const oldWrongTotalVariableCosts = variableCostsData.reduce((sum, cost) => sum + cost.amount, 0);
+      
+      console.log('🔧 CORREZIONE CALCOLI FINANZIARI:');
+      console.log(`📊 Ricavi - Vecchio (SBAGLIATO): €${oldWrongTotalRevenues.toFixed(0)} → Nuovo (CORRETTO): €${correctedTotalRevenues.toFixed(0)}`);
+      console.log(`📊 Costi Fissi - Vecchio (SBAGLIATO): €${oldWrongTotalFixedCosts.toFixed(0)} → Nuovo (CORRETTO): €${correctedTotalFixedCosts.toFixed(0)}`);
+      console.log(`📊 Costi Variabili - Vecchio (SBAGLIATO): €${oldWrongTotalVariableCosts.toFixed(0)} → Nuovo (CORRETTO): €${correctedTotalVariableCosts.toFixed(0)}`);
+      console.log(`💰 NetProfit CORRETTO: €${correctedNetProfit.toFixed(0)} (${correctedProfitMargin.toFixed(1)}%)`);
+
       setStats({
-        totalFixedCosts,
-        totalVariableCosts,
+        totalFixedCosts: correctedTotalFixedCosts,
+        totalVariableCosts: correctedTotalVariableCosts,
         totalBudgets,
-        totalRevenues,
-        netProfit,
-        profitMargin,
+        totalRevenues: correctedTotalRevenues,
+        netProfit: correctedNetProfit,
+        profitMargin: correctedProfitMargin,
         annualFixedCosts,
         annualVariableCosts,
         annualTotalCosts,
