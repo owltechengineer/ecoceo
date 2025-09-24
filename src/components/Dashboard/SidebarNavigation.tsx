@@ -120,9 +120,12 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
           <div className="flex items-center justify-between">
             {!isCollapsed && (
-              <div>
-                <h2 className="text-xl font-bold">Dashboard</h2>
-                <p className="text-blue-100 text-sm">Sistema di gestione</p>
+              <div className="flex items-center">
+                <img 
+                  src="/images/logo/logo-2.svg" 
+                  alt="Logo" 
+                  className="h-8 w-auto"
+                />
               </div>
             )}
             <button
