@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { businessPlanHelpers } from '@/lib/business-plan-helpers';
 
 export default function BusinessPlanDiagnostic() {
   const [diagnosis, setDiagnosis] = useState<string>('');
@@ -126,6 +127,62 @@ export default function BusinessPlanDiagnostic() {
     }
   };
 
+  const testRealConnection = async () => {
+    setIsLoading(true);
+    setDiagnosis('🧪 Test connessione con tabelle reali...\n\n');
+
+    try {
+      // Test connessione con helper aggiornati
+      const connectionResult = await businessPlanHelpers.testConnection();
+      
+      if (connectionResult.success) {
+        setDiagnosis(prev => prev + connectionResult.message + '\n\n');
+        
+        // Test salvataggio Executive Summary
+        setDiagnosis(prev => prev + '💾 Test salvataggio Executive Summary...\n');
+        const testExecData = {
+          content: 'Test company overview',
+          pitch: 'Test mission statement',
+          vision: 'Test vision statement'
+        };
+        
+        const savedExec = await businessPlanHelpers.saveExecutiveSummary('test-user', testExecData);
+        setDiagnosis(prev => prev + '✅ Executive Summary salvato!\n');
+        
+        // Test caricamento Executive Summary
+        const loadedExec = await businessPlanHelpers.loadExecutiveSummary('test-user');
+        setDiagnosis(prev => prev + `✅ Executive Summary caricato: ${loadedExec.content}\n\n`);
+        
+        // Test salvataggio Market Analysis  
+        setDiagnosis(prev => prev + '💾 Test salvataggio Market Analysis...\n');
+        const testMarketData = {
+          demographics: [{ segment: 'Test', size: 1000, percentage: 50, growth: 5 }],
+          competitors: [{ name: 'Test Competitor', strength: 'High' }],
+          trends: ['Test Trend']
+        };
+        
+        const savedMarket = await businessPlanHelpers.saveMarketAnalysis('test-user', testMarketData);
+        setDiagnosis(prev => prev + '✅ Market Analysis salvato!\n');
+        
+        // Test caricamento Market Analysis
+        const loadedMarket = await businessPlanHelpers.loadMarketAnalysis('test-user');
+        setDiagnosis(prev => prev + `✅ Market Analysis caricato: ${loadedMarket.demographics.length} segmenti\n\n`);
+        
+        setDiagnosis(prev => prev + '🎉 TUTTO FUNZIONA PERFETTAMENTE!\n');
+        setDiagnosis(prev => prev + 'Il Business Plan ora può salvare e caricare i dati correttamente.\n');
+        
+      } else {
+        setDiagnosis(prev => prev + connectionResult.message + '\n');
+        setDiagnosis(prev => prev + 'ℹ️ Devi prima eseguire lo script SQL per creare le tabelle.\n');
+      }
+      
+    } catch (error: any) {
+      setDiagnosis(prev => prev + `❌ Errore test: ${error.message}\n`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const createTables = async () => {
     setIsLoading(true);
     setDiagnosis('🔧 Tentativo di creare le tabelle...\n\n');
@@ -220,6 +277,14 @@ export default function BusinessPlanDiagnostic() {
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? '🔄 Eseguendo...' : '🔍 Esegui Diagnosi'}
+          </button>
+          
+          <button
+            onClick={testRealConnection}
+            disabled={isLoading}
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? '🔄 Testando...' : '🧪 Test Connessione Reale'}
           </button>
           
           <button

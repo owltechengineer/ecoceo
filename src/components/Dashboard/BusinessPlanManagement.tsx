@@ -5,6 +5,7 @@ import { useDashboard } from '@/contexts/DashboardContext';
 import { InfoButton } from './InfoModal';
 import { useInfoModal } from '@/contexts/InfoModalContext';
 import { supabaseHelpers } from '@/lib/supabase';
+import { businessPlanHelpers } from '@/lib/business-plan-helpers';
 import BusinessPlanDiagnostic from './BusinessPlanDiagnostic';
 import { dashboardInfo } from './dashboardInfo';
 
@@ -300,10 +301,10 @@ export default function BusinessPlanManagement() {
       // Salva nella tabella specifica
       switch (section) {
         case 'executive-summary':
-          await supabaseHelpers.saveExecutiveSummary(userId, data);
+          await businessPlanHelpers.saveExecutiveSummary(userId, data);
           break;
         case 'market-analysis':
-          await supabaseHelpers.saveMarketAnalysis(userId, data);
+          await businessPlanHelpers.saveMarketAnalysis(userId, data);
           break;
         case 'marketing-strategy':
           await supabaseHelpers.saveMarketingStrategy(userId, data);
@@ -364,8 +365,8 @@ export default function BusinessPlanManagement() {
         roadmapData,
         documentationData
       ] = await Promise.all([
-        supabaseHelpers.loadExecutiveSummary(userId),
-        supabaseHelpers.loadMarketAnalysis(userId),
+        businessPlanHelpers.loadExecutiveSummary(userId),
+        businessPlanHelpers.loadMarketAnalysis(userId),
         supabaseHelpers.loadMarketingStrategy(userId),
         supabaseHelpers.loadOperationalPlan(userId),
         supabaseHelpers.loadFinancialPlan(userId),
