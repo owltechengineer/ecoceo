@@ -311,31 +311,7 @@ const Header = ({ siteSettings }: HeaderProps) => {
                         </svg>
                       </Link>
                     </li>
-                    <li className="group relative">
-                      <Link
-                        href="/dashboard"
-                        className="group px-3 md:px-4 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-xs decoration-transparent md:text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 text-white bg-gradient-to-r from-gray-900 to-black hover:from-black hover:to-gray-900 border border-gray-700/30 backdrop-blur h-8 md:h-9 w-auto shadow-lg"
-                      >
-                        Dashboard
-                        <svg 
-                          xmlns="http://www.w3.org/2000/svg" 
-                          width="16" 
-                          height="16" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round" 
-                          className="lucide lucide-bar-chart-3 transition duration-300 group-hover:translate-x-0.5"
-                        >
-                          <path d="M3 3v18h18"></path>
-                          <path d="M18 17V9"></path>
-                          <path d="M13 17V5"></path>
-                          <path d="M8 17v-3"></path>
-                        </svg>
-                      </Link>
-                    </li>
+                    {/* Dashboard button removed */}
                   </ul>
                   
                   {/* Mobile CTA Buttons */}
