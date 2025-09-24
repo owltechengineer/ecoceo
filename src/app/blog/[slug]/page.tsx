@@ -70,16 +70,16 @@ const BlogPostPage = () => {
 
   return (
     <>
-      {/* Breadcrumb Section - Gradiente da grigio scuro a bianco */}
-      <div className="bg-gradient-to-b from-gray-800 via-gray-400 to-white text-black">
+      {/* Breadcrumb Section - Sfondo standard */}
+      <div>
         <Breadcrumb
           pageName={getTextValue(post.title)}
           description="Leggi l'articolo completo del nostro blog"
         />
       </div>
 
-      {/* Blog Post Content - Gradiente da bianco ad arancione intenso */}
-      <div className="bg-gradient-to-b from-white via-orange-100 to-orange-400 text-black">
+      {/* Blog Post Content - Sfondo standard */}
+      <div>
         <section className="py-16 lg:py-20">
           <div className="container">
             <div className="max-w-4xl mx-auto">

@@ -6,16 +6,16 @@ import Blog from "@/components/Blog";
 const BlogPage = () => {
   return (
     <>
-      {/* Breadcrumb Section - Gradiente da grigio scuro a bianco */}
-      <div className="bg-gradient-to-b from-gray-800 via-gray-400 to-white text-black">
+      {/* Breadcrumb Section - Sfondo standard */}
+      <div>
         <Breadcrumb
           pageName="Il Nostro Blog"
           description="Articoli, guide e insights dal mondo del web design e dello sviluppo digitale. Scopri le ultime novità e tendenze del settore."
         />
       </div>
 
-      {/* Blog Content - Gradiente da bianco ad arancione intenso */}
-      <div className="bg-gradient-to-b from-white via-orange-100 to-orange-400 text-black">
+      {/* Blog Content - Sfondo standard */}
+      <div>
         <section className="py-16 lg:py-20">
           <div className="container">
             <div className="text-center mb-16">
