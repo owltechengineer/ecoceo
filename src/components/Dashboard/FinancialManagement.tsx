@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { financialService, FixedCost, VariableCost, Budget, Revenue, Department, CostDistributionWithDepartment } from '@/lib/supabase';
 import DatabaseErrorNotification from './DatabaseErrorNotification';
+import FinancialTablesDiagnostic from './FinancialTablesDiagnostic';
 
 interface FinancialManagementProps {
   onDataChange?: () => void;
@@ -305,9 +306,17 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
       await loadData();
       resetForm();
       alert('✅ Dati salvati con successo!');
-    } catch (error) {
-      console.error('Errore salvataggio:', error);
-      alert('❌ Errore nel salvataggio dei dati');
+    } catch (error: any) {
+      console.error('❌ ERRORE SALVATAGGIO DETTAGLIATO:', {
+        activeTab,
+        formData,
+        editingItem: editingItem?.id,
+        error: error.message,
+        fullError: error
+      });
+      
+      const errorMessage = error.message || 'Errore sconosciuto';
+      alert(`❌ Errore nel salvataggio: ${errorMessage}\n\nControlla la console per dettagli. Potrebbero mancare le tabelle del database.`);
     } finally {
       setLoading(false);
     }
@@ -657,6 +666,9 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
 
   return (
     <div className="space-y-6 min-h-full p-6">
+      {/* 🔧 DIAGNOSTICA TABELLE FINANZIARIE */}
+      <FinancialTablesDiagnostic />
+
       {/* Header */}
       <div className="bg-white rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
