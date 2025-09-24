@@ -7,6 +7,7 @@ import CalendarView from './CalendarView';
 import TasksView from './TasksView';
 import RecurringActivities from './RecurringActivities';
 import { loadTasks, loadAppointments, Task, Appointment, recurringActivitiesService, supabase } from '@/lib/supabase';
+import CalendarTablesDiagnostic from './CalendarTablesDiagnostic';
 
 export default function UnifiedTaskCalendarNew() {
   const { openInfo } = useInfoModal();
@@ -171,6 +172,9 @@ export default function UnifiedTaskCalendarNew() {
 
   return (
     <div className="space-y-6 min-h-full p-6">
+      {/* 🔧 DIAGNOSTICA CALENDAR TABLES */}
+      <CalendarTablesDiagnostic />
+      
       {/* Header */}
       <div className="bg-white rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
