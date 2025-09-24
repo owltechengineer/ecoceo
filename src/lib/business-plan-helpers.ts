@@ -101,14 +101,46 @@ export const businessPlanHelpers = {
     const convertedData = this.convertExecutiveSummary(data);
     convertedData.user_id = userId;
 
-    const { data: result, error } = await supabase
-      .from('business_plan_executive_summary')
-      .upsert(convertedData, {
-        onConflict: 'user_id'
-      })
-      .select();
+    try {
+      // Prima controlliamo se esiste già un record per questo user_id
+      const { data: existing, error: selectError } = await supabase
+        .from('business_plan_executive_summary')
+        .select('id')
+        .eq('user_id', userId)
+        .single();
 
-    if (error) {
+      let result;
+      
+      if (selectError && selectError.code === 'PGRST116') {
+        // Nessun record trovato → INSERT
+        console.log('🆕 Inserimento nuovo Executive Summary per user:', userId);
+        const { data: insertResult, error: insertError } = await supabase
+          .from('business_plan_executive_summary')
+          .insert(convertedData)
+          .select();
+          
+        if (insertError) throw insertError;
+        result = insertResult;
+      } else if (selectError) {
+        // Errore nella SELECT
+        throw selectError;
+      } else {
+        // Record esistente → UPDATE
+        console.log('🔄 Aggiornamento Executive Summary esistente per user:', userId);
+        const { data: updateResult, error: updateError } = await supabase
+          .from('business_plan_executive_summary')
+          .update(convertedData)
+          .eq('user_id', userId)
+          .select();
+          
+        if (updateError) throw updateError;
+        result = updateResult;
+      }
+
+      console.log('✅ Executive Summary salvato:', result);
+      return result[0];
+      
+    } catch (error: any) {
       console.error('❌ Errore salvataggio Executive Summary:', {
         message: error.message,
         details: error.details,
@@ -118,9 +150,6 @@ export const businessPlanHelpers = {
       });
       throw new Error(`Errore salvataggio Executive Summary: ${error.message}`);
     }
-
-    console.log('✅ Executive Summary salvato:', result);
-    return result;
   },
 
   // Caricamento Executive Summary dalla tabella corretta
@@ -171,14 +200,46 @@ export const businessPlanHelpers = {
     const convertedData = this.convertMarketAnalysis(data);
     convertedData.user_id = userId;
 
-    const { data: result, error } = await supabase
-      .from('business_plan_market_analysis')
-      .upsert(convertedData, {
-        onConflict: 'user_id'
-      })
-      .select();
+    try {
+      // Prima controlliamo se esiste già un record per questo user_id
+      const { data: existing, error: selectError } = await supabase
+        .from('business_plan_market_analysis')
+        .select('id')
+        .eq('user_id', userId)
+        .single();
 
-    if (error) {
+      let result;
+      
+      if (selectError && selectError.code === 'PGRST116') {
+        // Nessun record trovato → INSERT
+        console.log('🆕 Inserimento nuova Market Analysis per user:', userId);
+        const { data: insertResult, error: insertError } = await supabase
+          .from('business_plan_market_analysis')
+          .insert(convertedData)
+          .select();
+          
+        if (insertError) throw insertError;
+        result = insertResult;
+      } else if (selectError) {
+        // Errore nella SELECT
+        throw selectError;
+      } else {
+        // Record esistente → UPDATE
+        console.log('🔄 Aggiornamento Market Analysis esistente per user:', userId);
+        const { data: updateResult, error: updateError } = await supabase
+          .from('business_plan_market_analysis')
+          .update(convertedData)
+          .eq('user_id', userId)
+          .select();
+          
+        if (updateError) throw updateError;
+        result = updateResult;
+      }
+
+      console.log('✅ Market Analysis salvata:', result);
+      return result[0];
+      
+    } catch (error: any) {
       console.error('❌ Errore salvataggio Market Analysis:', {
         message: error.message,
         details: error.details,
@@ -188,9 +249,6 @@ export const businessPlanHelpers = {
       });
       throw new Error(`Errore salvataggio Market Analysis: ${error.message}`);
     }
-
-    console.log('✅ Market Analysis salvato:', result);
-    return result;
   },
 
   // Caricamento Market Analysis dalla tabella corretta
