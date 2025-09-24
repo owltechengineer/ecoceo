@@ -184,36 +184,46 @@ export default function FinancialTablesDiagnostic() {
         ALTER TABLE financial_budgets ENABLE ROW LEVEL SECURITY;
         ALTER TABLE financial_revenues ENABLE ROW LEVEL SECURITY;
 
-        -- Policy permissive per sviluppo
-        DROP POLICY IF EXISTS "Allow all operations for now" ON financial_departments;
-        CREATE POLICY "Allow all operations for now" ON financial_departments FOR ALL USING (true);
+        -- Policy permissive per sviluppo (con nomi unici per evitare conflitti)
+        DROP POLICY IF EXISTS "financial_departments_allow_all" ON financial_departments;
+        CREATE POLICY "financial_departments_allow_all" ON financial_departments FOR ALL USING (true);
 
-        DROP POLICY IF EXISTS "Allow all operations for now" ON financial_cost_distributions;
-        CREATE POLICY "Allow all operations for now" ON financial_cost_distributions FOR ALL USING (true);
+        DROP POLICY IF EXISTS "financial_cost_distributions_allow_all" ON financial_cost_distributions;
+        CREATE POLICY "financial_cost_distributions_allow_all" ON financial_cost_distributions FOR ALL USING (true);
 
-        DROP POLICY IF EXISTS "Allow all operations for now" ON financial_fixed_costs;
-        CREATE POLICY "Allow all operations for now" ON financial_fixed_costs FOR ALL USING (true);
+        DROP POLICY IF EXISTS "financial_fixed_costs_allow_all" ON financial_fixed_costs;
+        CREATE POLICY "financial_fixed_costs_allow_all" ON financial_fixed_costs FOR ALL USING (true);
 
-        DROP POLICY IF EXISTS "Allow all operations for now" ON financial_variable_costs;
-        CREATE POLICY "Allow all operations for now" ON financial_variable_costs FOR ALL USING (true);
+        DROP POLICY IF EXISTS "financial_variable_costs_allow_all" ON financial_variable_costs;
+        CREATE POLICY "financial_variable_costs_allow_all" ON financial_variable_costs FOR ALL USING (true);
 
-        DROP POLICY IF EXISTS "Allow all operations for now" ON financial_budgets;
-        CREATE POLICY "Allow all operations for now" ON financial_budgets FOR ALL USING (true);
+        DROP POLICY IF EXISTS "financial_budgets_allow_all" ON financial_budgets;
+        CREATE POLICY "financial_budgets_allow_all" ON financial_budgets FOR ALL USING (true);
 
-        DROP POLICY IF EXISTS "Allow all operations for now" ON financial_revenues;
-        CREATE POLICY "Allow all operations for now" ON financial_revenues FOR ALL USING (true);
+        DROP POLICY IF EXISTS "financial_revenues_allow_all" ON financial_revenues;
+        CREATE POLICY "financial_revenues_allow_all" ON financial_revenues FOR ALL USING (true);
       `;
 
-      // Esegui lo script SQL
-      const { data, error } = await supabase.rpc('exec_sql', { sql });
+      // Mostra lo script SQL per esecuzione manuale
+      setDiagnosis(prev => prev + '📝 SCRIPT SQL GENERATO!\n\n');
+      setDiagnosis(prev => prev + '🔧 ISTRUZIONI:\n');
+      setDiagnosis(prev => prev + '1. Vai su Supabase → SQL Editor\n');
+      setDiagnosis(prev => prev + '2. Copia e incolla il seguente script:\n');
+      setDiagnosis(prev => prev + '3. Clicca "RUN" per eseguirlo\n');
+      setDiagnosis(prev => prev + '💡 ALTERNATIVA: Esegui docs/database/FINANCIAL_TABLES_QUICK_FIX.sql\n\n');
+      setDiagnosis(prev => prev + '--- INIZIO SCRIPT ---\n');
+      setDiagnosis(prev => prev + sql);
+      setDiagnosis(prev => prev + '\n--- FINE SCRIPT ---\n\n');
+      setDiagnosis(prev => prev + '✅ Dopo l\'esecuzione, i salvataggi dovrebbero funzionare!\n');
 
-      if (error) {
-        setDiagnosis(prev => prev + `❌ Errore creazione tabelle: ${error.message}\n`);
-        setDiagnosis(prev => prev + '💡 Prova a eseguire manualmente lo script su Supabase SQL Editor\n');
-      } else {
-        setDiagnosis(prev => prev + '✅ Tabelle create con successo!\n');
-        setDiagnosis(prev => prev + '🎉 I salvataggi dovrebbero ora funzionare!\n\n');
-        setDiagnosis(prev => prev + '🧪 Prova a creare un costo fisso, budget o entrata per verificare.\n');
+      // Copia automaticamente negli appunti se possibile
+      if (navigator.clipboard) {
+        try {
+          await navigator.clipboard.writeText(sql);
+          setDiagnosis(prev => prev + '📋 Script copiato automaticamente negli appunti!\n');
+        } catch (err) {
+          setDiagnosis(prev => prev + '⚠️ Non riesco a copiare negli appunti, copia manualmente il testo sopra.\n');
+        }
       }
 
     } catch (error: any) {
@@ -250,7 +260,7 @@ export default function FinancialTablesDiagnostic() {
             disabled={isLoading}
             className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400"
           >
-            {isLoading ? '🔧 Creando...' : '🔧 Crea Tabelle'}
+            {isLoading ? '📝 Generando...' : '📝 Genera Script SQL'}
           </button>
         </div>
 
@@ -259,6 +269,21 @@ export default function FinancialTablesDiagnostic() {
             <pre className="whitespace-pre-wrap text-sm font-mono text-gray-800">
               {diagnosis}
             </pre>
+            
+            {diagnosis.includes('SCRIPT SQL GENERATO') && (
+              <div className="mt-4 pt-4 border-t border-gray-300">
+                <p className="text-sm text-gray-600 mb-2">
+                  Dopo aver eseguito lo script su Supabase:
+                </p>
+                <button
+                  onClick={runDiagnosis}
+                  disabled={isLoading}
+                  className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400"
+                >
+                  🔄 Verifica di nuovo
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
