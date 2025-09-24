@@ -184,7 +184,7 @@ export default function DashboardTotale() {
       ).reduce((sum, c) => sum + (c.amount || 0), 0);
       
       const todayRevenues = revenues.filter(r => 
-        r.date_received && r.date_received.startsWith(today)
+        r.received_date && r.received_date.startsWith(today)
       ).reduce((sum, r) => sum + (r.amount || 0), 0);
 
       // Genera attività giornaliere
@@ -227,7 +227,7 @@ export default function DashboardTotale() {
         })),
         
         // Entrate di oggi
-        ...revenues.filter(r => r.date_received && r.date_received.startsWith(today)).map(r => ({
+        ...revenues.filter(r => r.received_date && r.received_date.startsWith(today)).map(r => ({
           id: r.id,
           type: 'payment' as const,
           title: r.name,

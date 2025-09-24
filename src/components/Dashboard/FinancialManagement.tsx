@@ -1870,8 +1870,8 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                     <label className="block text-sm font-semibold text-gray-800 mb-1">Data Ricevimento</label>
                     <input
                       type="date"
-                      value={formData.date_received || ''}
-                      onChange={(e) => setFormData({...formData, date_received: e.target.value})}
+                      value={formData.received_date || ''}
+                      onChange={(e) => setFormData({...formData, received_date: e.target.value})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                     />
                   </div>
@@ -1879,8 +1879,8 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                     <label className="block text-sm font-semibold text-gray-800 mb-1">Nome Cliente</label>
                     <input
                       type="text"
-                      value={formData.client_name || ''}
-                      onChange={(e) => setFormData({...formData, client_name: e.target.value})}
+                      value={formData.client || ''}
+                      onChange={(e) => setFormData({...formData, client: e.target.value})}
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
                       placeholder="Nome cliente"
                     />

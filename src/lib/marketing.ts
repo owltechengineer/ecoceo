@@ -4,12 +4,7 @@
  * Allineato con docs/database/02_MARKETING_TABLES.sql
  */
 
-import { createClient } from '@supabase/supabase-js';
-
-// Configurazione Supabase
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from './supabase';
 
 // ===== MARKETING INTERFACES =====
 
