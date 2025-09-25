@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { InfoButton } from './InfoModal';
 import { useInfoModal } from '@/contexts/InfoModalContext';
 import { 
   loadProjectsMain, 
@@ -312,23 +311,6 @@ export default function ProjectsView() {
 
   return (
     <div className="space-y-6 min-h-full p-6">
-      {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">🚀 Gestione Progetti</h1>
-            <p className="text-gray-600 mt-1">
-              Gestisci progetti, budget, team e milestone
-            </p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <InfoButton
-              onClick={() => openInfo('Progetti', 'Gestione completa dei progetti aziendali con timeline, budget e team')}
-              className="text-blue-600 hover:text-blue-700"
-            />
-          </div>
-        </div>
-      </div>
 
       {/* Filters and Actions */}
       <div className="bg-white rounded-lg shadow-sm p-6">
