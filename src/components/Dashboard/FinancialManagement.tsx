@@ -10,7 +10,7 @@ interface FinancialManagementProps {
 }
 
 export default function FinancialManagement({ onDataChange }: FinancialManagementProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'fixed-costs' | 'variable-costs' | 'budgets' | 'revenues' | 'imports' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'fixed-costs' | 'variable-costs' | 'budgets' | 'revenues' | 'settings'>('overview');
   const [loading, setLoading] = useState(false);
   const [databaseError, setDatabaseError] = useState<Error | null>(null);
 
@@ -223,47 +223,6 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
     }
   };
 
-  const handleImportProjectCosts = async () => {
-    setLoading(true);
-    try {
-      await financialService.importProjectCosts();
-      await loadData();
-      alert('✅ Costi progetti importati con successo!');
-    } catch (error) {
-      console.error('Errore importazione costi progetti:', error);
-      alert('❌ Errore nell\'importazione dei costi progetti');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleImportMarketingCosts = async () => {
-    setLoading(true);
-    try {
-      await financialService.importMarketingCosts();
-      await loadData();
-      alert('✅ Costi marketing importati con successo!');
-    } catch (error) {
-      console.error('Errore importazione costi marketing:', error);
-      alert('❌ Errore nell\'importazione dei costi marketing');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGenerateRecurringCosts = async () => {
-    setLoading(true);
-    try {
-      await financialService.generateRecurringCosts();
-      await loadData();
-      alert('✅ Costi ricorrenti generati automaticamente!');
-    } catch (error) {
-      console.error('Errore generazione costi ricorrenti:', error);
-      alert('❌ Errore nella generazione dei costi ricorrenti');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const resetForm = () => {
     setFormData({});
@@ -669,69 +628,42 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
       {/* 🔧 DIAGNOSTICA TABELLE FINANZIARIE */}
       <FinancialTablesDiagnostic />
 
-      {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <div className="flex items-center justify-end">
-          <div className="flex space-x-3">
-            <button
-              onClick={handleGenerateRecurringCosts}
-              disabled={loading}
-              className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 disabled:opacity-50"
-            >
-              🔄 Genera Costi Ricorrenti
-            </button>
-            <button
-              onClick={handleImportProjectCosts}
-              disabled={loading}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-            >
-              📥 Importa Costi Progetti
-            </button>
-            <button
-              onClick={handleImportMarketingCosts}
-              disabled={loading}
-              className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 disabled:opacity-50"
-            >
-              📥 Importa Costi Marketing
-            </button>
-            <button
-              onClick={() => setShowForm(true)}
-              className="bg-gradient-to-r from-gray-800 to-gray-600 text-white px-4 py-2 rounded-lg hover:from-gray-900 hover:to-gray-700"
-            >
-              ➕ Nuovo
-            </button>
-          </div>
-        </div>
-      </div>
 
       {/* Statistiche Overview */}
 
       {/* Tabs */}
       <div className="bg-white rounded-lg shadow-sm mb-6">
         <div className="border-b border-gray-200">
-          <nav className="flex space-x-8 px-6">
-            {[
-              { id: 'overview', label: '📊 Overview', icon: '📊' },
-              { id: 'fixed-costs', label: '💸 Costi Fissi', icon: '💸' },
-              { id: 'variable-costs', label: '📈 Costi Variabili', icon: '📈' },
-              { id: 'budgets', label: '💰 Budget', icon: '💰' },
-              { id: 'revenues', label: '💵 Entrate', icon: '💵' },
-              { id: 'imports', label: '📥 Importazioni', icon: '📥' },
-              { id: 'settings', label: '⚙️ Impostazioni', icon: '⚙️' }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === tab.id
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-700 font-semibold hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </nav>
+          <div className="flex items-center justify-between px-6">
+            <nav className="flex space-x-8">
+              {[
+                { id: 'overview', label: '📊 Overview', icon: '📊' },
+                { id: 'fixed-costs', label: '💸 Costi Fissi', icon: '💸' },
+                { id: 'variable-costs', label: '📈 Costi Variabili', icon: '📈' },
+                { id: 'budgets', label: '💰 Budget', icon: '💰' },
+                { id: 'revenues', label: '💵 Entrate', icon: '💵' },
+                { id: 'settings', label: '⚙️ Impostazioni', icon: '⚙️' }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                    activeTab === tab.id
+                      ? 'border-blue-500 text-blue-600'
+                      : 'border-transparent text-gray-700 font-semibold hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </nav>
+            <button
+              onClick={() => setShowForm(true)}
+              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            >
+              ➕ Nuovo
+            </button>
+          </div>
         </div>
 
         <div className="p-6 max-h-[calc(100vh-200px)] overflow-y-auto">
@@ -1157,42 +1089,6 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
             </div>
           )}
 
-          {activeTab === 'imports' && (
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900">Importazioni</h3>
-              <div className="bg-gray-50 rounded-lg p-6">
-                <h4 className="font-semibold text-gray-900 mb-4">Importa Dati da Altre Sezioni</h4>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200">
-                    <div>
-                      <h5 className="font-medium text-gray-900">Costi Progetti</h5>
-                      <p className="text-sm text-gray-600">Importa budget dai progetti esistenti</p>
-                    </div>
-                <button 
-                      onClick={handleImportProjectCosts}
-                      disabled={loading}
-                      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-                >
-                      Importa
-                </button>
-              </div>
-                  <div className="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200">
-                    <div>
-                      <h5 className="font-medium text-gray-900">Costi Marketing</h5>
-                      <p className="text-sm text-gray-600">Importa budget dalle campagne marketing</p>
-                    </div>
-                          <button
-                      onClick={handleImportMarketingCosts}
-                      disabled={loading}
-                      className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 disabled:opacity-50"
-                          >
-                      Importa
-                          </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
 
           {activeTab === 'settings' && (
             <div className="space-y-6">
