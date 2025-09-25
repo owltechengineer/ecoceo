@@ -175,23 +175,6 @@ export default function UnifiedTaskCalendarNew() {
 
   return (
     <div className="space-y-6 min-h-full p-6">
-      {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">📅 Task & Calendario Unificato</h1>
-            <p className="text-gray-600 mt-1">
-              Gestisci task e appuntamenti in un'unica interfaccia
-            </p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <InfoButton
-              onClick={() => openInfo('Task e Calendario', 'Gestione unificata di task e appuntamenti con attività ricorrenti settimanali e mensili.')}
-              className="text-blue-600 hover:text-blue-700"
-            />
-          </div>
-        </div>
-      </div>
 
       {/* View Selector */}
       <div className="bg-white rounded-lg shadow-sm p-6">

@@ -331,11 +331,7 @@ export default function UnifiedTests() {
     <div className="space-y-8 min-h-full p-6">
       {/* Header */}
       <div className="bg-white rounded-lg shadow-sm p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">🧪 Test Unificati</h2>
-            <p className="text-gray-600">Tutti i test di connessione, input e visibilità in una pagina</p>
-          </div>
+        <div className="flex items-center justify-end">
           <div className="flex items-center space-x-4">
             <button
               onClick={() => clearResults('all')}

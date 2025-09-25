@@ -234,11 +234,7 @@ export default function DashboardTotal() {
     <div className="space-y-8">
       {/* Header */}
       <div className="bg-white rounded-lg shadow-sm p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">📊 Dashboard Totale</h2>
-            <p className="text-gray-600">Panoramica completa di tutti i dati e attività aziendali</p>
-          </div>
+        <div className="flex items-center justify-end">
           <div className="flex items-center space-x-4">
             <InfoButton onClick={() => openInfo('Dashboard Totale', 'Panoramica completa di tutti i dati e attività aziendali con statistiche in tempo reale.')} />
           </div>

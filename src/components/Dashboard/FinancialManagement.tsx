@@ -671,11 +671,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
 
       {/* Header */}
       <div className="bg-white rounded-lg shadow-sm p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">💰 Gestione Finanziaria</h1>
-            <p className="text-gray-600 mt-1">Gestisci costi, budget e analisi finanziaria</p>
-        </div>
+        <div className="flex items-center justify-end">
           <div className="flex space-x-3">
             <button
               onClick={handleGenerateRecurringCosts}

@@ -331,19 +331,7 @@ export default function MarketingView() {
 
   return (
     <div className="space-y-6 min-h-full p-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-3">
-          <h2 className="text-2xl font-bold text-gray-900">Marketing Management</h2>
-          <InfoButton
-            onClick={() => openInfo('Marketing Management', 'Gestisci le tue campagne marketing e i lead. Monitora le performance, traccia i risultati e ottimizza le tue strategie di marketing.')}
-          />
-          {/* Debug visual indicator */}
-          <div className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded">
-            showNewLead: {showNewLead ? 'TRUE' : 'FALSE'}
-          </div>
-        </div>
-        
+      <div className="flex justify-end items-center">
         <div className="flex gap-3">
           <button
             onClick={() => setShowNewCampaign(true)}

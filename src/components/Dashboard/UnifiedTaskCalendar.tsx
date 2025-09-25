@@ -265,11 +265,7 @@ export default function UnifiedTaskCalendar() {
     <div className="space-y-8">
       {/* Header */}
       <div className="bg-white rounded-lg shadow-sm p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">📅 Task & Calendario Unificato</h2>
-            <p className="text-gray-600">Gestione completa di task e appuntamenti in una vista unificata</p>
-          </div>
+        <div className="flex items-center justify-end">
           <div className="flex items-center space-x-4">
             <InfoButton onClick={() => openInfo('Task & Calendario', 'Vista unificata per gestire task e appuntamenti in modo integrato.')} />
           </div>
