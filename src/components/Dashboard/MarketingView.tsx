@@ -434,42 +434,44 @@ export default function MarketingView() {
 
 
 
-      {/* Tabs */}
-      <div className="border-b border-gray-200">
-        <nav className="-mb-px flex space-x-8">
-          {[
-            { id: 'overview', label: 'Panoramica', count: campaigns.length + leads.length },
-            { id: 'campaigns', label: 'Campagne', count: filteredCampaigns.length },
-            { id: 'leads', label: 'Lead', count: filteredLeads.length },
-            { id: 'analytics', label: 'Analytics' }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm ${
-                activeTab === tab.id
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              {tab.label}
-              {'count' in tab && tab.count !== undefined && (
-                <span className="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2 rounded-full text-xs">
-                  {tab.count}
-                </span>
-              )}
-            </button>
-          ))}
-        </nav>
-      </div>
+      {/* Menu Tabs e Contenuto Unificato */}
+      <div className="bg-white rounded-lg shadow-sm">
+        {/* Tabs Navigation */}
+        <div className="border-b border-gray-200 px-6">
+          <nav className="-mb-px flex space-x-8">
+            {[
+              { id: 'overview', label: 'Panoramica', count: campaigns.length + leads.length },
+              { id: 'campaigns', label: 'Campagne', count: filteredCampaigns.length },
+              { id: 'leads', label: 'Lead', count: filteredLeads.length },
+              { id: 'analytics', label: 'Analytics' }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+                  activeTab === tab.id
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                {tab.label}
+                {'count' in tab && tab.count !== undefined && (
+                  <span className="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2 rounded-full text-xs">
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            ))}
+          </nav>
+        </div>
 
-      {/* Tab Content */}
-      <div className="mt-6">
+        {/* Tab Content */}
+        <div className="p-6">
         {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Campagne Recenti */}
-            <div className="bg-white shadow rounded-lg">
+            <div className="border border-gray-200 rounded-lg">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h3 className="text-lg font-medium text-gray-900">Campagne Recenti</h3>
               </div>
@@ -492,7 +494,7 @@ export default function MarketingView() {
             </div>
 
             {/* Lead Recenti */}
-            <div className="bg-white shadow rounded-lg">
+            <div className="border border-gray-200 rounded-lg">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h3 className="text-lg font-medium text-gray-900">Lead Recenti</h3>
               </div>
@@ -523,7 +525,7 @@ export default function MarketingView() {
         {activeTab === 'campaigns' && (
           <div className="space-y-6">
             {filteredCampaigns.length === 0 ? (
-              <div className="text-center py-12 bg-white rounded-lg shadow">
+              <div className="text-center py-12 border border-gray-200 rounded-lg">
                 <span className="text-6xl">📊</span>
                 <h3 className="mt-2 text-sm font-medium text-gray-900">Nessuna campagna</h3>
                 <p className="mt-1 text-sm text-gray-500">Inizia creando la tua prima campagna marketing.</p>
@@ -538,7 +540,7 @@ export default function MarketingView() {
                 </div>
               </div>
             ) : (
-              <div className="bg-white shadow overflow-hidden sm:rounded-md">
+              <div className="border border-gray-200 overflow-hidden rounded-lg">
                 <ul className="divide-y divide-gray-200">
                   {filteredCampaigns.map((campaign) => (
                     <li key={campaign.id}>
@@ -624,7 +626,7 @@ export default function MarketingView() {
         {activeTab === 'leads' && (
           <div className="space-y-6">
             {filteredLeads.length === 0 ? (
-              <div className="text-center py-12 bg-white rounded-lg shadow">
+              <div className="text-center py-12 border border-gray-200 rounded-lg">
                 <span className="text-6xl">👥</span>
                 <h3 className="mt-2 text-sm font-medium text-gray-900">Nessun lead</h3>
                 <p className="mt-1 text-sm text-gray-500">Inizia aggiungendo il tuo primo lead.</p>
@@ -642,7 +644,7 @@ export default function MarketingView() {
                 </div>
               </div>
             ) : (
-              <div className="bg-white shadow overflow-hidden sm:rounded-md">
+              <div className="border border-gray-200 overflow-hidden rounded-lg">
                 <ul className="divide-y divide-gray-200">
                   {filteredLeads.map((lead) => (
                     <li key={lead.id}>
@@ -729,7 +731,7 @@ export default function MarketingView() {
         {/* Analytics Tab */}
         {activeTab === 'analytics' && marketingStats && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="border border-gray-200 overflow-hidden rounded-lg">
               <div className="p-5">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
@@ -745,7 +747,7 @@ export default function MarketingView() {
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="border border-gray-200 overflow-hidden rounded-lg">
               <div className="p-5">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
@@ -761,7 +763,7 @@ export default function MarketingView() {
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="border border-gray-200 overflow-hidden rounded-lg">
               <div className="p-5">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
@@ -777,7 +779,7 @@ export default function MarketingView() {
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="border border-gray-200 overflow-hidden rounded-lg">
               <div className="p-5">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
@@ -793,7 +795,7 @@ export default function MarketingView() {
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="border border-gray-200 overflow-hidden rounded-lg">
               <div className="p-5">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
@@ -809,7 +811,7 @@ export default function MarketingView() {
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="border border-gray-200 overflow-hidden rounded-lg">
               <div className="p-5">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
@@ -826,6 +828,7 @@ export default function MarketingView() {
             </div>
           </div>
         )}
+        </div>
       </div>
 
       {/* Modali per creazione/modifica */}
