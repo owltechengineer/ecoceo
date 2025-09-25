@@ -364,12 +364,12 @@ export default function MarketingView() {
               <div className="text-center">
                 <div className="text-2xl mb-1">📊</div>
                 <div className="text-sm text-gray-500">Campagne</div>
-                <div className="text-lg font-bold text-gray-900">{marketingStats.campaigns}</div>
+                <div className="text-lg font-bold text-gray-900">{marketingStats.campaigns || 0}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl mb-1">👥</div>
                 <div className="text-sm text-gray-500">Lead</div>
-                <div className="text-lg font-bold text-gray-900">{marketingStats.leads}</div>
+                <div className="text-lg font-bold text-gray-900">{marketingStats.leads || 0}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl mb-1">💰</div>
@@ -479,7 +479,7 @@ export default function MarketingView() {
                     </div>
                     <div className="ml-3">
                       <p className="text-sm font-medium text-blue-800">CTR Medio</p>
-                      <p className="text-lg font-bold text-blue-900">{marketingStats.ctr}%</p>
+                      <p className="text-lg font-bold text-blue-900">{marketingStats.ctr || 0}%</p>
                     </div>
                   </div>
                 </div>
@@ -491,7 +491,7 @@ export default function MarketingView() {
                     </div>
                     <div className="ml-3">
                       <p className="text-sm font-medium text-green-800">Impressioni</p>
-                      <p className="text-lg font-bold text-green-900">{marketingStats.impressions.toLocaleString()}</p>
+                      <p className="text-lg font-bold text-green-900">{(marketingStats.impressions || 0).toLocaleString()}</p>
                     </div>
                   </div>
                 </div>
@@ -503,7 +503,7 @@ export default function MarketingView() {
                     </div>
                     <div className="ml-3">
                       <p className="text-sm font-medium text-purple-800">Click Totali</p>
-                      <p className="text-lg font-bold text-purple-900">{marketingStats.totalClicks.toLocaleString()}</p>
+                      <p className="text-lg font-bold text-purple-900">{(marketingStats.totalClicks || 0).toLocaleString()}</p>
                     </div>
                   </div>
                 </div>
@@ -515,7 +515,7 @@ export default function MarketingView() {
                     </div>
                     <div className="ml-3">
                       <p className="text-sm font-medium text-orange-800">Budget Utilizz.</p>
-                      <p className="text-lg font-bold text-orange-900">{marketingStats.budgetUtilization}%</p>
+                      <p className="text-lg font-bold text-orange-900">{marketingStats.budgetUtilization || 0}%</p>
                     </div>
                   </div>
                 </div>
@@ -537,7 +537,7 @@ export default function MarketingView() {
                     <div key={campaign.id} className="flex items-center justify-between py-3 border-b border-indigo-100 last:border-0">
                       <div className="flex-1">
                         <p className="text-sm font-medium text-indigo-900">{campaign.name}</p>
-                        <p className="text-xs text-indigo-600">{campaign.type} • €{campaign.budget.toLocaleString()}</p>
+                        <p className="text-xs text-indigo-600">{campaign.type} • €{(campaign.budget || 0).toLocaleString()}</p>
                       </div>
                       <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(campaign.status)}`}>
                         {campaign.status}
@@ -628,11 +628,11 @@ export default function MarketingView() {
                               <div className="sm:flex space-x-4">
                                 <p className="flex items-center text-sm text-gray-500">
                                   <span className="mr-1">💰</span>
-                                  €{campaign.spent_amount.toLocaleString()} / €{campaign.budget.toLocaleString()}
+                                  €{(campaign.spent_amount || 0).toLocaleString()} / €{(campaign.budget || 0).toLocaleString()}
                                 </p>
                                 <p className="flex items-center text-sm text-gray-500">
                                   <span className="mr-1">📈</span>
-                                  {campaign.actual_impressions.toLocaleString()} impressioni
+                                  {(campaign.actual_impressions || 0).toLocaleString()} impressioni
                                 </p>
                                 <p className="flex items-center text-sm text-gray-500">
                                   <span className="mr-1">🎯</span>
