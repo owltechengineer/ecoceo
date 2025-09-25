@@ -331,99 +331,61 @@ export default function MarketingView() {
 
   return (
     <div className="space-y-6 min-h-full p-6">
-      <div className="flex justify-end items-center">
-        <div className="flex gap-3">
-          <button
-            onClick={() => setShowNewCampaign(true)}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            <span className="mr-2">📊</span>
-            Nuova Campagna
-          </button>
-          <button
-            onClick={() => {
-              console.log('🔄 Apertura form nuovo lead...');
-              console.log('🔄 Stato attuale showNewLead:', showNewLead);
-              alert('🔄 Click su Nuovo Lead - Controllo console!');
-              setShowNewLead(true);
-              console.log('🔄 Stato dopo setShowNewLead(true):', showNewLead);
-            }}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-          >
-            <span className="mr-2">👥</span>
-            Nuovo Lead
-          </button>
+      {/* Marketing Dashboard Unificato */}
+      <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          {/* Bottoni Azioni */}
+          <div className="flex gap-3">
+            <button
+              onClick={() => setShowNewCampaign(true)}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              <span className="mr-2">📊</span>
+              Nuova Campagna
+            </button>
+            <button
+              onClick={() => {
+                console.log('🔄 Apertura form nuovo lead...');
+                console.log('🔄 Stato attuale showNewLead:', showNewLead);
+                alert('🔄 Click su Nuovo Lead - Controllo console!');
+                setShowNewLead(true);
+                console.log('🔄 Stato dopo setShowNewLead(true):', showNewLead);
+              }}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            >
+              <span className="mr-2">👥</span>
+              Nuovo Lead
+            </button>
+          </div>
+
+          {/* Stats Cards */}
+          {marketingStats && (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="text-center">
+                <div className="text-2xl mb-1">📊</div>
+                <div className="text-sm text-gray-500">Campagne</div>
+                <div className="text-lg font-bold text-gray-900">{marketingStats.campaigns}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl mb-1">👥</div>
+                <div className="text-sm text-gray-500">Lead</div>
+                <div className="text-lg font-bold text-gray-900">{marketingStats.leads}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl mb-1">💰</div>
+                <div className="text-sm text-gray-500">Budget Totale</div>
+                <div className="text-lg font-bold text-gray-900">€{marketingStats.totalBudget?.toLocaleString() || '0'}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl mb-1">🎯</div>
+                <div className="text-sm text-gray-500">Conversioni</div>
+                <div className="text-lg font-bold text-gray-900">{marketingStats.conversions || '0'}</div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Stats Cards */}
-      {marketingStats && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="p-5">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <span className="text-2xl">📊</span>
-                </div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">Campagne</dt>
-                    <dd className="text-lg font-medium text-gray-900">{marketingStats.campaigns}</dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="p-5">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <span className="text-2xl">👥</span>
-                </div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">Lead</dt>
-                    <dd className="text-lg font-medium text-gray-900">{marketingStats.leads}</dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="p-5">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <span className="text-2xl">💰</span>
-                </div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">Budget Totale</dt>
-                    <dd className="text-lg font-medium text-gray-900">€{marketingStats.totalBudget.toLocaleString()}</dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="p-5">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <span className="text-2xl">🎯</span>
-                </div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">Conversioni</dt>
-                    <dd className="text-lg font-medium text-gray-900">{marketingStats.totalConversions}</dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Filtri */}
       <div className="bg-white p-4 rounded-lg shadow">
