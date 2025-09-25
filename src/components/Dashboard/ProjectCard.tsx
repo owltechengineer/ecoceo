@@ -35,91 +35,164 @@ export default function ProjectCard({ project, services, onEdit, onDelete }: Pro
   // Note: assignedServices not available in current Project type
 
   return (
-    <div className="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200">
-      {/* Header della card */}
-      <div className="p-6 border-b border-gray-200">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              <h3 className="text-xl font-semibold text-gray-900">{project.name}</h3>
-              <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(project.status)}`}>
-                {project.status === 'active' ? 'Attivo' : 
-                 project.status === 'completed' ? 'Completato' :
-                 project.status === 'on-hold' ? 'In Pausa' :
-                 project.status === 'cancelled' ? 'Cancellato' : project.status}
-              </span>
-              {/* Priority not available in current Project type */}
+    <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 mb-6">
+      {/* Header principale */}
+      <div className="p-8">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
+              {project.name.charAt(0).toUpperCase()}
             </div>
-            
-            {/* Description not available in current Project type */}
-            
-            {/* Progress bar */}
-            <div className="mb-3">
-              <div className="flex justify-between text-sm text-gray-600 mb-1">
-                <span>Progresso</span>
-                <span>{project.progress}%</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className={`h-2 rounded-full transition-all duration-300 ${getProgressColor(project.progress)}`}
-                  style={{ width: `${project.progress}%` }}
-                ></div>
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-1">{project.name}</h3>
+              <div className="flex items-center gap-3">
+                <span className={`px-3 py-1 text-sm font-semibold rounded-full ${getStatusColor(project.status)}`}>
+                  {project.status === 'active' ? '🟢 Attivo' : 
+                   project.status === 'completed' ? '✅ Completato' :
+                   project.status === 'on-hold' ? '⏸️ In Pausa' :
+                   project.status === 'cancelled' ? '❌ Cancellato' : project.status}
+                </span>
+                <span className="text-gray-500 text-sm">
+                  Cliente: {project.client || 'Non specificato'}
+                </span>
               </div>
             </div>
           </div>
           
-          <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors font-medium"
             >
-              {isExpanded ? '▼' : '▶'}
+              {isExpanded ? '🔼 Meno dettagli' : '🔽 Più dettagli'}
             </button>
             {onEdit && (
               <button
                 onClick={() => onEdit(project)}
-                className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
               >
-                ✏️
+                ✏️ Modifica
               </button>
             )}
             {onDelete && (
               <button
                 onClick={() => onDelete(project.id)}
-                className="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-colors"
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium"
               >
-                🗑️
+                🗑️ Elimina
               </button>
             )}
           </div>
         </div>
-      </div>
 
-      {/* Contenuto espandibile */}
-      {isExpanded && (
-        <div className="p-6 space-y-4">
-          {/* Dettagli del progetto */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <h4 className="font-medium text-gray-900 mb-2">📅 Date</h4>
-              <div className="space-y-1 text-sm text-gray-600">
-                <div>Inizio: {new Date(project.startDate).toLocaleDateString('it-IT')}</div>
-                <div>Fine: {new Date(project.endDate).toLocaleDateString('it-IT')}</div>
+        {/* Progress bar migliorata */}
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-3">
+            <span className="text-lg font-semibold text-gray-900">Progresso del Progetto</span>
+            <span className="text-2xl font-bold text-gray-900">{project.progress}%</span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-4 shadow-inner">
+            <div 
+              className={`h-4 rounded-full transition-all duration-500 shadow-sm ${getProgressColor(project.progress)}`}
+              style={{ width: `${project.progress}%` }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Statistiche principali */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <span className="text-green-600 text-lg">💰</span>
               </div>
-            </div>
-            
-            <div>
-              <h4 className="font-medium text-gray-900 mb-2">💰 Budget</h4>
-              <div className="space-y-1 text-sm text-gray-600">
-                <div>Budget: €{project.budget?.toLocaleString()}</div>
-                <div>Costo Effettivo: €{project.actualCost?.toLocaleString()}</div>
+              <div>
+                <p className="text-sm text-gray-600">Budget</p>
+                <p className="text-xl font-bold text-gray-900">€{project.budget?.toLocaleString() || '0'}</p>
               </div>
             </div>
           </div>
 
-          {/* Servizi assegnati - Not available in current Project type */}
+          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                <span className="text-blue-600 text-lg">📅</span>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Durata</p>
+                <p className="text-xl font-bold text-gray-900">
+                  {Math.ceil((new Date(project.endDate).getTime() - new Date(project.startDate).getTime()) / (1000 * 60 * 60 * 24))} giorni
+                </p>
+              </div>
+            </div>
+          </div>
 
-          {/* Team, Technologies, Notes not available in current Project type */}
+          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                <span className="text-purple-600 text-lg">📊</span>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">ROI</p>
+                <p className="text-xl font-bold text-gray-900">{project.roi?.toFixed(1) || '0'}%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Contenuto espandibile migliorato */}
+      {isExpanded && (
+        <div className="border-t border-gray-200 bg-gray-50 p-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Dettagli temporali */}
+            <div className="bg-white rounded-lg p-6 shadow-sm">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <span>📅</span> Timeline del Progetto
+              </h4>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-600">Data di Inizio</span>
+                  <span className="font-semibold text-gray-900">{new Date(project.startDate).toLocaleDateString('it-IT')}</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-600">Data di Fine</span>
+                  <span className="font-semibold text-gray-900">{new Date(project.endDate).toLocaleDateString('it-IT')}</span>
+                </div>
+                <div className="flex justify-between items-center py-2">
+                  <span className="text-gray-600">Giorni Rimanenti</span>
+                  <span className="font-semibold text-gray-900">
+                    {Math.max(0, Math.ceil((new Date(project.endDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)))}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Dettagli finanziari */}
+            <div className="bg-white rounded-lg p-6 shadow-sm">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <span>💰</span> Analisi Finanziaria
+              </h4>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-600">Budget Pianificato</span>
+                  <span className="font-semibold text-gray-900">€{project.budget?.toLocaleString() || '0'}</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-600">Costo Effettivo</span>
+                  <span className="font-semibold text-gray-900">€{project.actualCost?.toLocaleString() || '0'}</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-600">Ricavi Attesi</span>
+                  <span className="font-semibold text-gray-900">€{project.expectedRevenue?.toLocaleString() || '0'}</span>
+                </div>
+                <div className="flex justify-between items-center py-2">
+                  <span className="text-gray-600">Ricavi Effettivi</span>
+                  <span className="font-semibold text-gray-900">€{project.actualRevenue?.toLocaleString() || '0'}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

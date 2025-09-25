@@ -372,10 +372,10 @@ export default function ProjectsView() {
 
       {/* Test Component */}
 
-      {/* Projects Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+      {/* Projects List - Una card per riga */}
+      <div className="space-y-6">
         {loading ? (
-          <div className="col-span-full text-center py-8">
+          <div className="text-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
             <p className="text-gray-500 mt-2">Caricamento progetti...</p>
           </div>
