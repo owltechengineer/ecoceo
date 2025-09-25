@@ -601,83 +601,76 @@ export default function MarketingView() {
                 </div>
               </div>
             ) : (
-              <div className="border border-gray-200 overflow-hidden rounded-lg">
-                <ul className="divide-y divide-gray-200">
-                  {filteredCampaigns.map((campaign) => (
-                    <li key={campaign.id}>
-                      <div className="px-6 py-4">
-                        <div className="flex items-center justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between">
-                              <p className="text-lg font-medium text-blue-600 truncate">
-                                {campaign.name}
-                              </p>
-                              <div className="ml-2 flex-shrink-0 flex space-x-2">
-                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(campaign.status)}`}>
-                                  {campaign.status}
-                                </span>
-                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getPriorityColor(campaign.priority)}`}>
-                                  {campaign.priority}
-                                </span>
-                              </div>
-                            </div>
-                            {campaign.description && (
-                              <p className="mt-1 text-sm text-gray-600">{campaign.description}</p>
-                            )}
-                            <div className="mt-2 sm:flex sm:justify-between">
-                              <div className="sm:flex space-x-4">
-                                <p className="flex items-center text-sm text-gray-500">
-                                  <span className="mr-1">💰</span>
-                                  €{(campaign.spent_amount || 0).toLocaleString()} / €{(campaign.budget || 0).toLocaleString()}
-                                </p>
-                                <p className="flex items-center text-sm text-gray-500">
-                                  <span className="mr-1">📈</span>
-                                  {(campaign.actual_impressions || 0).toLocaleString()} impressioni
-                                </p>
-                                <p className="flex items-center text-sm text-gray-500">
-                                  <span className="mr-1">🎯</span>
-                                  {campaign.actual_conversions} conversioni
-                                </p>
-                              </div>
-                              <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                <span className="mr-1">📅</span>
-                                {new Date(campaign.start_date).toLocaleDateString('it-IT')}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="ml-4 flex-shrink-0 flex space-x-2">
-                            <button
-                              onClick={() => {
-                                setSelectedCampaign(campaign);
-                                setEditingCampaign(campaign.id);
-                                setEditCampaignForm({
-                                  name: campaign.name,
-                                  description: campaign.description,
-                                  type: campaign.type,
-                                  status: campaign.status,
-                                  priority: campaign.priority,
-                                  budget: campaign.budget,
-                                  spent_amount: campaign.spent_amount,
-                                  notes: campaign.notes,
-                                  tags: campaign.tags
-                                });
-                              }}
-                              className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                            >
-                              ✏️ Modifica
-                            </button>
-                            <button
-                              onClick={() => handleDeleteCampaign(campaign.id)}
-                              className="inline-flex items-center px-3 py-1.5 border border-red-300 shadow-sm text-xs font-medium rounded text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                            >
-                              🗑️ Elimina
-                            </button>
-                          </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredCampaigns.map((campaign) => (
+                  <div key={campaign.id} className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-blue-900 mb-2">{campaign.name}</h3>
+                        <div className="flex space-x-2 mb-3">
+                          <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(campaign.status)}`}>
+                            {campaign.status}
+                          </span>
+                          <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getPriorityColor(campaign.priority)}`}>
+                            {campaign.priority}
+                          </span>
                         </div>
                       </div>
-                    </li>
-                  ))}
-                </ul>
+                    </div>
+                    
+                    {campaign.description && (
+                      <p className="text-sm text-blue-700 mb-4 line-clamp-2">{campaign.description}</p>
+                    )}
+                    
+                    <div className="space-y-2 mb-4">
+                      <div className="flex items-center text-sm text-blue-600">
+                        <span className="mr-2">💰</span>
+                        <span>€{(campaign.spent_amount || 0).toLocaleString()} / €{(campaign.budget || 0).toLocaleString()}</span>
+                      </div>
+                      <div className="flex items-center text-sm text-blue-600">
+                        <span className="mr-2">📈</span>
+                        <span>{(campaign.actual_impressions || 0).toLocaleString()} impressioni</span>
+                      </div>
+                      <div className="flex items-center text-sm text-blue-600">
+                        <span className="mr-2">🎯</span>
+                        <span>{campaign.actual_conversions || 0} conversioni</span>
+                      </div>
+                      <div className="flex items-center text-sm text-blue-600">
+                        <span className="mr-2">📅</span>
+                        <span>{new Date(campaign.start_date).toLocaleDateString('it-IT')}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => {
+                          setSelectedCampaign(campaign);
+                          setEditingCampaign(campaign.id);
+                          setEditCampaignForm({
+                            name: campaign.name,
+                            description: campaign.description,
+                            type: campaign.type,
+                            status: campaign.status,
+                            priority: campaign.priority,
+                            budget: campaign.budget,
+                            spent_amount: campaign.spent_amount,
+                            notes: campaign.notes,
+                            tags: campaign.tags
+                          });
+                        }}
+                        className="flex-1 inline-flex items-center justify-center px-3 py-2 border border-blue-300 shadow-sm text-xs font-medium rounded text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      >
+                        ✏️ Modifica
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCampaign(campaign.id)}
+                        className="flex-1 inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-xs font-medium rounded text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                      >
+                        🗑️ Elimina
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
@@ -705,85 +698,74 @@ export default function MarketingView() {
                 </div>
               </div>
             ) : (
-              <div className="border border-gray-200 overflow-hidden rounded-lg">
-                <ul className="divide-y divide-gray-200">
-                  {filteredLeads.map((lead) => (
-                    <li key={lead.id}>
-                      <div className="px-6 py-4">
-                        <div className="flex items-center justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between">
-                              <p className="text-lg font-medium text-green-600 truncate">
-                                {lead.first_name} {lead.last_name}
-                              </p>
-                              <div className="ml-2 flex-shrink-0 flex space-x-2">
-                                <span className="text-sm text-gray-500">{lead.score}/100</span>
-                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(lead.status)}`}>
-                                  {lead.status}
-                                </span>
-                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getPriorityColor(lead.priority)}`}>
-                                  {lead.priority}
-                                </span>
-                              </div>
-                            </div>
-                            <div className="mt-2 sm:flex sm:justify-between">
-                              <div className="sm:flex space-x-4">
-                                <p className="flex items-center text-sm text-gray-500">
-                                  <span className="mr-1">📧</span>
-                                  {lead.email}
-                                </p>
-                                <p className="flex items-center text-sm text-gray-500">
-                                  <span className="mr-1">🏢</span>
-                                  {lead.company || 'N/A'}
-                                </p>
-                                <p className="flex items-center text-sm text-gray-500">
-                                  <span className="mr-1">💼</span>
-                                  {lead.job_title || 'N/A'}
-                                </p>
-                              </div>
-                              <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                <span className="mr-1">📅</span>
-                                {new Date(lead.first_contact_date).toLocaleDateString('it-IT')}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="ml-4 flex-shrink-0 flex space-x-2">
-                            <button
-                              onClick={() => {
-                                console.log('🔄 Apertura form modifica lead:', lead.id);
-                                setSelectedLead(lead);
-                                setEditingLead(lead.id);
-                                setEditLeadForm({
-                                  first_name: lead.first_name,
-                                  last_name: lead.last_name,
-                                  email: lead.email,
-                                  phone: lead.phone,
-                                  company: lead.company,
-                                  job_title: lead.job_title,
-                                  source: lead.source,
-                                  status: lead.status,
-                                  priority: lead.priority,
-                                  score: lead.score,
-                                  notes: lead.notes,
-                                  tags: lead.tags
-                                });
-                              }}
-                              className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                            >
-                              ✏️ Modifica
-                            </button>
-                            <button
-                              onClick={() => handleDeleteLead(lead.id)}
-                              className="inline-flex items-center px-3 py-1.5 border border-red-300 shadow-sm text-xs font-medium rounded text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                            >
-                              🗑️ Elimina
-                            </button>
-                          </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {filteredLeads.map((lead) => (
+                  <div key={lead.id} className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1">
+                        <h4 className="text-sm font-semibold text-green-900 mb-1">{lead.first_name} {lead.last_name}</h4>
+                        <div className="flex items-center space-x-2 mb-2">
+                          <span className="text-xs text-green-600 font-medium">{lead.score}/100</span>
+                          <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(lead.status)}`}>
+                            {lead.status}
+                          </span>
                         </div>
                       </div>
-                    </li>
-                  ))}
-                </ul>
+                    </div>
+                    
+                    <div className="space-y-1 mb-3">
+                      <div className="flex items-center text-xs text-green-600">
+                        <span className="mr-1">📧</span>
+                        <span className="truncate">{lead.email}</span>
+                      </div>
+                      <div className="flex items-center text-xs text-green-600">
+                        <span className="mr-1">🏢</span>
+                        <span className="truncate">{lead.company || 'N/A'}</span>
+                      </div>
+                      <div className="flex items-center text-xs text-green-600">
+                        <span className="mr-1">💼</span>
+                        <span className="truncate">{lead.job_title || 'N/A'}</span>
+                      </div>
+                      <div className="flex items-center text-xs text-green-600">
+                        <span className="mr-1">📅</span>
+                        <span>{new Date(lead.first_contact_date).toLocaleDateString('it-IT')}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex space-x-1">
+                      <button
+                        onClick={() => {
+                          console.log('🔄 Apertura form modifica lead:', lead.id);
+                          setSelectedLead(lead);
+                          setEditingLead(lead.id);
+                          setEditLeadForm({
+                            first_name: lead.first_name,
+                            last_name: lead.last_name,
+                            email: lead.email,
+                            phone: lead.phone,
+                            company: lead.company,
+                            job_title: lead.job_title,
+                            source: lead.source,
+                            status: lead.status,
+                            priority: lead.priority,
+                            score: lead.score,
+                            notes: lead.notes,
+                            tags: lead.tags
+                          });
+                        }}
+                        className="flex-1 inline-flex items-center justify-center px-2 py-1.5 border border-green-300 shadow-sm text-xs font-medium rounded text-green-700 bg-white hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                      >
+                        ✏️
+                      </button>
+                      <button
+                        onClick={() => handleDeleteLead(lead.id)}
+                        className="flex-1 inline-flex items-center justify-center px-2 py-1.5 border border-red-300 shadow-sm text-xs font-medium rounded text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
