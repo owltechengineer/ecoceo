@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { financialService, FixedCost, VariableCost, Budget, Revenue, Department, CostDistributionWithDepartment } from '@/lib/supabase';
 import DatabaseErrorNotification from './DatabaseErrorNotification';
-import FinancialTablesDiagnostic from './FinancialTablesDiagnostic';
 
 interface FinancialManagementProps {
   onDataChange?: () => void;
@@ -625,10 +624,6 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
 
   return (
     <div className="space-y-6 min-h-full p-6">
-      {/* 🔧 DIAGNOSTICA TABELLE FINANZIARIE */}
-      <FinancialTablesDiagnostic />
-
-
       {/* Statistiche Overview */}
 
       {/* Tabs */}
