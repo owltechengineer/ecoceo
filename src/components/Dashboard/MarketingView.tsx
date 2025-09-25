@@ -384,58 +384,55 @@ export default function MarketingView() {
             </div>
           )}
         </div>
-      </div>
 
-
-      {/* Filtri */}
-      <div className="bg-white p-4 rounded-lg shadow">
-        <div className="flex flex-wrap gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Cerca</label>
-            <input
-              type="text"
-              placeholder="Cerca per nome, email, azienda..."
-              value={filter.search}
-              onChange={(e) => setFilter(prev => ({ ...prev, search: e.target.value }))}
-              className="block w-64 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-            <select
-              value={filter.status}
-              onChange={(e) => setFilter(prev => ({ ...prev, status: e.target.value }))}
-              className="block px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            >
-              <option value="all">Tutti gli status</option>
-              <option value="planning">Planning</option>
-              <option value="active">Attivo</option>
-              <option value="paused">In Pausa</option>
-              <option value="completed">Completato</option>
-              <option value="new">Nuovo</option>
-              <option value="contacted">Contattato</option>
-              <option value="qualified">Qualificato</option>
-              <option value="proposal">Proposta</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Priorità</label>
-            <select
-              value={filter.priority}
-              onChange={(e) => setFilter(prev => ({ ...prev, priority: e.target.value }))}
-              className="block px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            >
-              <option value="all">Tutte le priorità</option>
-              <option value="low">Bassa</option>
-              <option value="medium">Media</option>
-              <option value="high">Alta</option>
-              <option value="urgent">Urgente</option>
-            </select>
+        {/* Filtri e Ricerca */}
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <div className="flex flex-wrap gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Cerca</label>
+              <input
+                type="text"
+                placeholder="Cerca per nome, email, azienda..."
+                value={filter.search}
+                onChange={(e) => setFilter(prev => ({ ...prev, search: e.target.value }))}
+                className="block w-64 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+              <select
+                value={filter.status}
+                onChange={(e) => setFilter(prev => ({ ...prev, status: e.target.value }))}
+                className="block px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              >
+                <option value="all">Tutti gli status</option>
+                <option value="planning">Planning</option>
+                <option value="active">Attivo</option>
+                <option value="paused">In Pausa</option>
+                <option value="completed">Completato</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Priorità</label>
+              <select
+                value={filter.priority}
+                onChange={(e) => setFilter(prev => ({ ...prev, priority: e.target.value }))}
+                className="block px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              >
+                <option value="all">Tutte le priorità</option>
+                <option value="low">Bassa</option>
+                <option value="medium">Media</option>
+                <option value="high">Alta</option>
+                <option value="urgent">Urgente</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
+
+
 
       {/* Tabs */}
       <div className="border-b border-gray-200">
