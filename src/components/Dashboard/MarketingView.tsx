@@ -440,10 +440,9 @@ export default function MarketingView() {
         <div className="border-b border-gray-200 px-6">
           <nav className="-mb-px flex space-x-8">
             {[
-              { id: 'overview', label: 'Panoramica', count: campaigns.length + leads.length },
+              { id: 'overview', label: 'Panoramica & Analytics', count: campaigns.length + leads.length },
               { id: 'campaigns', label: 'Campagne', count: filteredCampaigns.length },
-              { id: 'leads', label: 'Lead', count: filteredLeads.length },
-              { id: 'analytics', label: 'Analytics' }
+              { id: 'leads', label: 'Lead', count: filteredLeads.length }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -467,55 +466,117 @@ export default function MarketingView() {
 
         {/* Tab Content */}
         <div className="p-6">
-        {/* Overview Tab */}
+        {/* Overview Tab - Panoramica e Analytics Unificati */}
         {activeTab === 'overview' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Campagne Recenti */}
-            <div className="border border-gray-200 rounded-lg">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h3 className="text-lg font-medium text-gray-900">Campagne Recenti</h3>
-              </div>
-              <div className="px-6 py-4">
-                {campaigns.slice(0, 5).map((campaign) => (
-                  <div key={campaign.id} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900">{campaign.name}</p>
-                      <p className="text-xs text-gray-500">{campaign.type} • €{campaign.budget.toLocaleString()}</p>
+          <div className="space-y-6">
+            {/* Analytics Cards - Template Colorato */}
+            {marketingStats && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0">
+                      <span className="text-2xl">📈</span>
                     </div>
-                    <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(campaign.status)}`}>
-                      {campaign.status}
-                    </span>
+                    <div className="ml-3">
+                      <p className="text-sm font-medium text-blue-800">CTR Medio</p>
+                      <p className="text-lg font-bold text-blue-900">{marketingStats.ctr}%</p>
+                    </div>
                   </div>
-                ))}
-                {campaigns.length === 0 && (
-                  <p className="text-sm text-gray-500 text-center py-4">Nessuna campagna presente</p>
-                )}
-              </div>
-            </div>
+                </div>
 
-            {/* Lead Recenti */}
-            <div className="border border-gray-200 rounded-lg">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h3 className="text-lg font-medium text-gray-900">Lead Recenti</h3>
-              </div>
-              <div className="px-6 py-4">
-                {leads.slice(0, 5).map((lead) => (
-                  <div key={lead.id} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900">{lead.first_name} {lead.last_name}</p>
-                      <p className="text-xs text-gray-500">{lead.email} • {lead.company || 'N/A'}</p>
+                <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-4">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0">
+                      <span className="text-2xl">👁️</span>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-xs text-gray-500">{lead.score}/100</span>
-                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(lead.status)}`}>
-                        {lead.status}
+                    <div className="ml-3">
+                      <p className="text-sm font-medium text-green-800">Impressioni</p>
+                      <p className="text-lg font-bold text-green-900">{marketingStats.impressions.toLocaleString()}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-lg p-4">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0">
+                      <span className="text-2xl">👆</span>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm font-medium text-purple-800">Click Totali</p>
+                      <p className="text-lg font-bold text-purple-900">{marketingStats.totalClicks.toLocaleString()}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-lg p-4">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0">
+                      <span className="text-2xl">💸</span>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm font-medium text-orange-800">Budget Utilizz.</p>
+                      <p className="text-lg font-bold text-orange-900">{marketingStats.budgetUtilization}%</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Panoramica Dati - Template Colorato */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Campagne Recenti */}
+              <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 border border-indigo-200 rounded-lg">
+                <div className="px-6 py-4 border-b border-indigo-200">
+                  <h3 className="text-lg font-medium text-indigo-900 flex items-center">
+                    <span className="mr-2">📊</span>
+                    Campagne Recenti
+                  </h3>
+                </div>
+                <div className="px-6 py-4">
+                  {campaigns.slice(0, 5).map((campaign) => (
+                    <div key={campaign.id} className="flex items-center justify-between py-3 border-b border-indigo-100 last:border-0">
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-indigo-900">{campaign.name}</p>
+                        <p className="text-xs text-indigo-600">{campaign.type} • €{campaign.budget.toLocaleString()}</p>
+                      </div>
+                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(campaign.status)}`}>
+                        {campaign.status}
                       </span>
                     </div>
-                  </div>
-                ))}
-                {leads.length === 0 && (
-                  <p className="text-sm text-gray-500 text-center py-4">Nessun lead presente</p>
-                )}
+                  ))}
+                  {campaigns.length === 0 && (
+                    <p className="text-sm text-indigo-600 text-center py-4">Nessuna campagna presente</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Lead Recenti */}
+              <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 border border-emerald-200 rounded-lg">
+                <div className="px-6 py-4 border-b border-emerald-200">
+                  <h3 className="text-lg font-medium text-emerald-900 flex items-center">
+                    <span className="mr-2">👥</span>
+                    Lead Recenti
+                  </h3>
+                </div>
+                <div className="px-6 py-4">
+                  {leads.slice(0, 5).map((lead) => (
+                    <div key={lead.id} className="flex items-center justify-between py-3 border-b border-emerald-100 last:border-0">
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-emerald-900">{lead.first_name} {lead.last_name}</p>
+                        <p className="text-xs text-emerald-600">{lead.email} • {lead.company || 'N/A'}</p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs text-emerald-600">{lead.score}/100</span>
+                        <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(lead.status)}`}>
+                          {lead.status}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                  {leads.length === 0 && (
+                    <p className="text-sm text-emerald-600 text-center py-4">Nessun lead presente</p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -728,106 +789,6 @@ export default function MarketingView() {
           </div>
         )}
 
-        {/* Analytics Tab */}
-        {activeTab === 'analytics' && marketingStats && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="border border-gray-200 overflow-hidden rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <span className="text-2xl">📈</span>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">CTR Medio</dt>
-                      <dd className="text-lg font-medium text-gray-900">{marketingStats.ctr}%</dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="border border-gray-200 overflow-hidden rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <span className="text-2xl">💰</span>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">CPC Medio</dt>
-                      <dd className="text-lg font-medium text-gray-900">€{marketingStats.cpc}</dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="border border-gray-200 overflow-hidden rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <span className="text-2xl">🎯</span>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">CPA Medio</dt>
-                      <dd className="text-lg font-medium text-gray-900">€{marketingStats.cpa}</dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="border border-gray-200 overflow-hidden rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <span className="text-2xl">👀</span>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">Impressioni</dt>
-                      <dd className="text-lg font-medium text-gray-900">{marketingStats.totalImpressions.toLocaleString()}</dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="border border-gray-200 overflow-hidden rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <span className="text-2xl">👆</span>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">Click Totali</dt>
-                      <dd className="text-lg font-medium text-gray-900">{marketingStats.totalClicks.toLocaleString()}</dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="border border-gray-200 overflow-hidden rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <span className="text-2xl">💸</span>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">Budget Utilizz.</dt>
-                      <dd className="text-lg font-medium text-gray-900">{marketingStats.budgetUtilization}%</dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
         </div>
       </div>
 
