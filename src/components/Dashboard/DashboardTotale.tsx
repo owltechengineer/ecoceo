@@ -433,30 +433,14 @@ export default function DashboardTotale() {
     <div className="space-y-6 min-h-full p-6">
       {/* Header Semplificato */}
       <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="p-2 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg mr-3">
-              <span className="text-xl text-white">📊</span>
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Dashboard Totale</h1>
-              <p className="text-gray-600">Panoramica rapida delle attività di oggi</p>
-            </div>
+        <div className="flex items-center">
+          <div className="p-2 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg mr-3">
+            <span className="text-xl text-white">📊</span>
           </div>
-          <button
-            onClick={loadDashboardStats}
-            disabled={isLoading}
-            className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-          >
-            {isLoading ? (
-              <span className="flex items-center">
-                <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
-                Aggiorna
-              </span>
-            ) : (
-              '🔄 Aggiorna'
-            )}
-          </button>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Dashboard Totale</h1>
+            <p className="text-gray-600">Panoramica rapida delle attività di oggi</p>
+          </div>
         </div>
       </div>
 
