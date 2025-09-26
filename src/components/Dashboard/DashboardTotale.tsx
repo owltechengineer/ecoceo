@@ -622,6 +622,51 @@ export default function DashboardTotale() {
         </div>
       </div>
 
+      {/* Attività di Oggi */}
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
+        <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+          <span className="text-2xl mr-2">📅</span>
+          Attività di Oggi
+        </h2>
+        {dailyActivities.length > 0 ? (
+          <div className="space-y-3">
+            {dailyActivities.map((activity) => (
+              <div key={activity.id} className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <span className="text-2xl mr-4">{activity.icon}</span>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <div className="font-medium text-gray-900">{activity.title}</div>
+                    <div className="text-sm text-gray-500">{activity.time}</div>
+                  </div>
+                  <div className="text-sm text-gray-600">{activity.description}</div>
+                  <div className="flex items-center mt-1">
+                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">{activity.section}</span>
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      activity.status === 'completed' ? 'bg-green-100 text-green-800' :
+                      activity.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-red-100 text-red-800'
+                    }`}>
+                      {activity.status === 'completed' ? 'Completato' :
+                       activity.status === 'pending' ? 'In attesa' : 'In ritardo'}
+                    </span>
+                    {activity.amount && (
+                      <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded ml-2">
+                        €{activity.amount.toLocaleString('it-IT', { minimumFractionDigits: 2 })}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8 text-gray-500">
+            <span className="text-4xl mb-2 block">📅</span>
+            <p>Nessuna attività programmata per oggi</p>
+          </div>
+        )}
+      </div>
+
       {/* Quick Tasks Recenti */}
       {quickTasks.length > 0 && (
         <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
@@ -666,125 +711,6 @@ export default function DashboardTotale() {
                 </div>
                 <div className="text-xs text-gray-500">
                   {new Date(task.created_at).toLocaleDateString('it-IT')}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Progetti Recenti */}
-      {projects.length > 0 && (
-        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-2xl mr-2">🚀</span>
-            Progetti Recenti
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {projects.slice(0, 6).map((project) => (
-              <div key={project.id} className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4 border border-purple-200 hover:shadow-md transition-all duration-200 cursor-pointer">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 truncate">{project.name}</h3>
-                    <p className="text-sm text-gray-600 truncate">{project.description}</p>
-                  </div>
-                  <span className="text-2xl">🚀</span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className={`px-2 py-1 rounded ${
-                    project.status === 'active' ? 'bg-green-100 text-green-800' :
-                    project.status === 'completed' ? 'bg-blue-100 text-blue-800' :
-                    'bg-gray-100 text-gray-800'
-                  }`}>
-                    {project.status === 'active' ? '🟢 Attivo' :
-                     project.status === 'completed' ? '✅ Completato' : '⏸️ Pausa'}
-                  </span>
-                  {project.budget && (
-                    <span className="text-gray-600">€{project.budget.toLocaleString('it-IT')}</span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Campagne Marketing */}
-      {campaigns.length > 0 && (
-        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-2xl mr-2">📈</span>
-            Campagne Marketing
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {campaigns.slice(0, 6).map((campaign) => (
-              <div key={campaign.id} className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200 hover:shadow-md transition-all duration-200 cursor-pointer">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 truncate">{campaign.name}</h3>
-                    <p className="text-sm text-gray-600 truncate">{campaign.description}</p>
-                  </div>
-                  <span className="text-2xl">📈</span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className={`px-2 py-1 rounded ${
-                    campaign.status === 'active' ? 'bg-green-100 text-green-800' :
-                    campaign.status === 'paused' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-gray-100 text-gray-800'
-                  }`}>
-                    {campaign.status === 'active' ? '🟢 Attiva' :
-                     campaign.status === 'paused' ? '⏸️ Pausa' : '⏹️ Ferma'}
-                  </span>
-                  {campaign.budget && (
-                    <span className="text-gray-600">€{campaign.budget.toLocaleString('it-IT')}</span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Lead Importanti */}
-      {importantLeads.length > 0 && (
-        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-2xl mr-2">🔥</span>
-            Lead Importanti
-          </h2>
-          <div className="space-y-3">
-            {importantLeads.slice(0, 5).map((lead) => (
-              <div key={lead.id} className="flex items-center p-3 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg border border-orange-200 hover:shadow-md transition-all duration-200 cursor-pointer">
-                <div className="flex-shrink-0 mr-3">
-                  <span className="text-2xl">🔥</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-medium text-gray-900 truncate">{lead.name}</div>
-                  <div className="text-sm text-gray-600 truncate">{lead.email}</div>
-                  <div className="flex items-center mt-1 space-x-2">
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      lead.priority === 'hot' ? 'bg-red-100 text-red-800' :
-                      'bg-orange-100 text-orange-800'
-                    }`}>
-                      {lead.priority === 'hot' ? '🔥 Hot' : '🔴 Alta'}
-                    </span>
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      lead.status === 'qualified' ? 'bg-green-100 text-green-800' :
-                      lead.status === 'contacted' ? 'bg-blue-100 text-blue-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
-                      {lead.status === 'qualified' ? '✅ Qualificato' :
-                       lead.status === 'contacted' ? '📞 Contattato' : '⏳ Nuovo'}
-                    </span>
-                    {lead.company && (
-                      <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
-                        🏢 {lead.company}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="text-xs text-gray-500">
-                  {new Date(lead.created_at).toLocaleDateString('it-IT')}
                 </div>
               </div>
             ))}
@@ -895,6 +821,84 @@ export default function DashboardTotale() {
           </div>
         )}
       </div>
+
+      {/* Campagne Attive */}
+      {campaigns.filter(c => c.status === 'active').length > 0 && (
+        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
+          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <span className="text-2xl mr-2">📈</span>
+            Campagne Attive
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {campaigns.filter(c => c.status === 'active').slice(0, 6).map((campaign) => (
+              <div key={campaign.id} className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 border border-green-200 hover:shadow-md transition-all duration-200 cursor-pointer">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 truncate">{campaign.name}</h3>
+                    <p className="text-sm text-gray-600 truncate">{campaign.description}</p>
+                  </div>
+                  <span className="text-2xl">📈</span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="px-2 py-1 rounded bg-green-100 text-green-800">
+                    🟢 Attiva
+                  </span>
+                  {campaign.budget && (
+                    <span className="text-gray-600">€{campaign.budget.toLocaleString('it-IT')}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Lead Importanti */}
+      {importantLeads.length > 0 && (
+        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
+          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <span className="text-2xl mr-2">🔥</span>
+            Lead Importanti
+          </h2>
+          <div className="space-y-3">
+            {importantLeads.slice(0, 5).map((lead) => (
+              <div key={lead.id} className="flex items-center p-3 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg border border-orange-200 hover:shadow-md transition-all duration-200 cursor-pointer">
+                <div className="flex-shrink-0 mr-3">
+                  <span className="text-2xl">🔥</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium text-gray-900 truncate">{lead.name}</div>
+                  <div className="text-sm text-gray-600 truncate">{lead.email}</div>
+                  <div className="flex items-center mt-1 space-x-2">
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      lead.priority === 'hot' ? 'bg-red-100 text-red-800' :
+                      'bg-orange-100 text-orange-800'
+                    }`}>
+                      {lead.priority === 'hot' ? '🔥 Hot' : '🔴 Alta'}
+                    </span>
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      lead.status === 'qualified' ? 'bg-green-100 text-green-800' :
+                      lead.status === 'contacted' ? 'bg-blue-100 text-blue-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {lead.status === 'qualified' ? '✅ Qualificato' :
+                       lead.status === 'contacted' ? '📞 Contattato' : '⏳ Nuovo'}
+                    </span>
+                    {lead.company && (
+                      <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                        🏢 {lead.company}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="text-xs text-gray-500">
+                  {new Date(lead.created_at).toLocaleDateString('it-IT')}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Modal Task Veloce */}
       {showQuickTask && (
