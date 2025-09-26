@@ -10,7 +10,9 @@ import {
   deleteAppointment as deleteAppointmentFromDB,
   Appointment as DBAppointment,
   recurringActivitiesService,
-  RecurringActivity
+  RecurringActivity,
+  loadTasks,
+  Task
 } from '@/lib/supabase';
 
 // Usa il tipo Appointment dal database
@@ -29,6 +31,7 @@ export default function CalendarView() {
   const [view, setView] = useState<'month' | 'week' | 'day'>('month');
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [recurringActivities, setRecurringActivities] = useState<RecurringActivity[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
   const [showNewAppointment, setShowNewAppointment] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -57,6 +60,7 @@ export default function CalendarView() {
   useEffect(() => {
     loadAppointmentsFromDB();
     loadRecurringActivities();
+    loadTasksFromDB();
   }, [currentDate]);
 
   const loadAppointmentsFromDB = async () => {
@@ -97,6 +101,50 @@ export default function CalendarView() {
     } catch (error) {
       console.error('Errore nel caricamento attività ricorrenti:', error);
     }
+  };
+
+  const loadTasksFromDB = async () => {
+    try {
+      const loadedTasks = await loadTasks();
+      setTasks(loadedTasks);
+    } catch (error) {
+      console.error('Errore nel caricamento task:', error);
+    }
+  };
+
+  // Funzione per convertire le task in formato Appointment per il calendario
+  const getTasksForDay = (date: Date): Appointment[] => {
+    return tasks
+      .filter(task => {
+        if (!task.due_date) return false;
+        const taskDate = new Date(task.due_date);
+        return taskDate.toDateString() === date.toDateString();
+      })
+      .map(task => {
+        const startTime = new Date(date);
+        startTime.setHours(9, 0, 0, 0); // Default 9:00 AM
+        
+        const endTime = new Date(startTime);
+        endTime.setHours(10, 0, 0, 0); // Default 1 hour duration
+        
+        return {
+          id: `task-${task.id}`,
+          user_id: task.user_id || 'default-user',
+          title: task.title,
+          description: task.description || '',
+          start_time: startTime.toISOString(),
+          end_time: endTime.toISOString(),
+          location: '',
+          attendees: [],
+          status: task.status || 'scheduled',
+          priority: task.priority || 'medium',
+          is_recurring: false,
+          is_task: true, // Flag per identificare le task
+          notes: task.notes || '',
+          created_at: task.created_at || new Date().toISOString(),
+          updated_at: task.updated_at || new Date().toISOString()
+        };
+      });
   };
 
   // Funzione per ottenere le attività ricorrenti per un giorno specifico
@@ -165,9 +213,10 @@ export default function CalendarView() {
         return aptDate.toDateString() === currentDay.toDateString();
       });
 
-      // Aggiungi attività ricorrenti per questo giorno
+      // Aggiungi attività ricorrenti e task per questo giorno
       const recurringForDay = getRecurringActivitiesForDay(currentDay);
-      const allAppointments = [...dayAppointments, ...recurringForDay];
+      const tasksForDay = getTasksForDay(currentDay);
+      const allAppointments = [...dayAppointments, ...recurringForDay, ...tasksForDay];
       
       days.push({
         date: new Date(currentDay),
@@ -279,9 +328,10 @@ export default function CalendarView() {
         return aptDate.toDateString() === dayDate.toDateString();
       });
 
-      // Aggiungi attività ricorrenti per questo giorno
+      // Aggiungi attività ricorrenti e task per questo giorno
       const recurringForDay = getRecurringActivitiesForDay(dayDate);
-      const allAppointments = [...dayAppointments, ...recurringForDay];
+      const tasksForDay = getTasksForDay(dayDate);
+      const allAppointments = [...dayAppointments, ...recurringForDay, ...tasksForDay];
       
       weekDays.push({
         date: dayDate,
@@ -301,9 +351,10 @@ export default function CalendarView() {
       return aptDate.toDateString() === currentDate.toDateString();
     });
 
-    // Aggiungi attività ricorrenti per questo giorno
+    // Aggiungi attività ricorrenti e task per questo giorno
     const recurringForDay = getRecurringActivitiesForDay(currentDate);
-    return [...dayAppointments, ...recurringForDay];
+    const tasksForDay = getTasksForDay(currentDate);
+    return [...dayAppointments, ...recurringForDay, ...tasksForDay];
   };
 
   const calendarDays = getCalendarDays();
@@ -421,10 +472,16 @@ export default function CalendarView() {
                       <div
                         key={appointment.id}
                         onClick={() => setSelectedAppointment(appointment)}
-                        className="text-xs p-1 rounded cursor-pointer hover:bg-gray-100 bg-blue-100 text-blue-800 truncate"
+                        className={`text-xs p-1 rounded cursor-pointer hover:bg-gray-100 truncate ${
+                          appointment.is_task 
+                            ? 'bg-green-100 text-green-800' 
+                            : appointment.is_recurring 
+                            ? 'bg-purple-100 text-purple-800' 
+                            : 'bg-blue-100 text-blue-800'
+                        }`}
                         title={appointment.title}
                       >
-                        {appointment.is_recurring ? '🔄' : '📅'} {formatTime(appointment.start_time)} {appointment.title}
+                        {appointment.is_recurring ? '🔄' : appointment.is_task ? '✅' : '📅'} {formatTime(appointment.start_time)} {appointment.title}
                       </div>
                     ))}
                     {day.appointments.length > 3 && (
@@ -471,10 +528,16 @@ export default function CalendarView() {
                       <div
                         key={appointment.id}
                         onClick={() => setSelectedAppointment(appointment)}
-                        className="text-xs p-2 rounded cursor-pointer hover:bg-gray-100 bg-blue-100 text-blue-800"
+                        className={`text-xs p-2 rounded cursor-pointer hover:bg-gray-100 ${
+                          appointment.is_task 
+                            ? 'bg-green-100 text-green-800' 
+                            : appointment.is_recurring 
+                            ? 'bg-purple-100 text-purple-800' 
+                            : 'bg-blue-100 text-blue-800'
+                        }`}
                         title={appointment.title}
                       >
-                        <div className="font-medium">{appointment.is_recurring ? '🔄' : '📅'} {formatTime(appointment.start_time)}</div>
+                        <div className="font-medium">{appointment.is_recurring ? '🔄' : appointment.is_task ? '✅' : '📅'} {formatTime(appointment.start_time)}</div>
                         <div className="truncate">{appointment.title}</div>
                       </div>
                     ))}
@@ -508,12 +571,18 @@ export default function CalendarView() {
                     <div
                       key={appointment.id}
                       onClick={() => setSelectedAppointment(appointment)}
-                      className="p-4 bg-blue-50 rounded-lg border border-blue-200 cursor-pointer hover:bg-blue-100 transition-colors"
+                      className={`p-4 rounded-lg border cursor-pointer transition-colors ${
+                        appointment.is_task 
+                          ? 'bg-green-50 border-green-200 hover:bg-green-100' 
+                          : appointment.is_recurring 
+                          ? 'bg-purple-50 border-purple-200 hover:bg-purple-100' 
+                          : 'bg-blue-50 border-blue-200 hover:bg-blue-100'
+                      }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
                           <div className="text-2xl">
-                            {appointment.is_recurring ? '🔄' : '📅'}
+                            {appointment.is_recurring ? '🔄' : appointment.is_task ? '✅' : '📅'}
                           </div>
                           <div>
                             <h4 className="font-medium text-gray-900">{appointment.title}</h4>
@@ -556,7 +625,7 @@ export default function CalendarView() {
           <div className="bg-white/30 backdrop-blurrounded-lg p-6 max-w-md w-full mx-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
-                {selectedAppointment.is_recurring ? '🔄' : '📅'} {selectedAppointment.title}
+                {selectedAppointment.is_recurring ? '🔄' : selectedAppointment.is_task ? '✅' : '📅'} {selectedAppointment.title}
               </h3>
               <button
                 onClick={() => setSelectedAppointment(null)}
@@ -606,8 +675,17 @@ export default function CalendarView() {
               {selectedAppointment.is_recurring && (
                 <div>
                   <label className="text-sm font-medium text-gray-500">Tipo</label>
-                  <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                     🔄 Attività Ricorrente
+                  </span>
+                </div>
+              )}
+              
+              {selectedAppointment.is_task && (
+                <div>
+                  <label className="text-sm font-medium text-gray-500">Tipo</label>
+                  <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    ✅ Task
                   </span>
                 </div>
               )}
