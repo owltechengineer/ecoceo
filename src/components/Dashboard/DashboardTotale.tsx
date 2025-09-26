@@ -431,7 +431,7 @@ export default function DashboardTotale() {
 
   return (
     <div className="space-y-6 min-h-full p-6">
-      {/* Header */}
+      {/* Header Semplificato */}
       <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
@@ -439,14 +439,14 @@ export default function DashboardTotale() {
               <span className="text-xl text-white">📊</span>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Dashboard Totale</h1>
-              <p className="text-gray-600">Panoramica completa di tutte le attività e sezioni</p>
+              <h1 className="text-2xl font-bold text-gray-900">Dashboard Totale</h1>
+              <p className="text-gray-600">Panoramica rapida delle attività di oggi</p>
             </div>
           </div>
           <button
             onClick={loadDashboardStats}
             disabled={isLoading}
-            className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm"
           >
             {isLoading ? (
               <span className="flex items-center">
@@ -564,231 +564,91 @@ export default function DashboardTotale() {
         )}
       </div>
 
-      {/* Stats Grid per Sezioni */}
-      <div className="space-y-6">
+      {/* Stats Essenziali */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Task e Progetti */}
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 shadow-lg border border-blue-200">
+          <div className="flex items-center justify-between">
+            <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
+              <span className="text-xl text-white">✅</span>
+            </div>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-gray-900">
+                {isLoading ? (
+                  <div className="animate-pulse bg-gray-300 h-6 w-12 rounded"></div>
+                ) : (
+                  `${stats.completedTasks}/${stats.totalTasks}`
+                )}
+              </div>
+              <div className="text-sm text-gray-600 font-medium">Task</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Progetti */}
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 shadow-lg border border-purple-200">
+          <div className="flex items-center justify-between">
+            <div className="p-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg">
+              <span className="text-xl text-white">🚀</span>
+            </div>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-gray-900">
+                {isLoading ? (
+                  <div className="animate-pulse bg-gray-300 h-6 w-12 rounded"></div>
+                ) : (
+                  stats.totalProjects
+                )}
+              </div>
+              <div className="text-sm text-gray-600 font-medium">Progetti</div>
+            </div>
+          </div>
+        </div>
+
         {/* Marketing */}
-        <div>
-          <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-xl mr-2">📈</span>
-            Marketing
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {statCards.filter(card => card.section === 'Marketing').map((card, index) => (
-              <div
-                key={index}
-                className={`bg-gradient-to-br ${card.bgGradient} rounded-xl p-4 shadow-lg border ${card.borderColor} hover:shadow-xl transition-all duration-300`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className={`p-2 bg-gradient-to-r ${card.gradient} rounded-lg`}>
-                    <span className="text-xl text-white">{card.icon}</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xl font-bold text-gray-900">
-                      {isLoading ? (
-                        <div className="animate-pulse bg-gray-300 h-6 w-12 rounded"></div>
-                      ) : (
-                        card.value
-                      )}
-                    </div>
-                    <div className="text-xs text-gray-600 font-medium">
-                      {card.title}
-                    </div>
-                  </div>
-                </div>
+        <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 shadow-lg border border-green-200">
+          <div className="flex items-center justify-between">
+            <div className="p-2 bg-gradient-to-r from-green-500 to-green-600 rounded-lg">
+              <span className="text-xl text-white">📈</span>
+            </div>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-gray-900">
+                {isLoading ? (
+                  <div className="animate-pulse bg-gray-300 h-6 w-12 rounded"></div>
+                ) : (
+                  stats.totalLeads
+                )}
               </div>
-            ))}
+              <div className="text-sm text-gray-600 font-medium">Lead</div>
+            </div>
           </div>
         </div>
 
-        {/* Progetti e Task */}
-        <div>
-          <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-xl mr-2">🚀</span>
-            Progetti e Task
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {statCards.filter(card => card.section === 'Progetti' || card.section === 'Task').map((card, index) => (
-              <div
-                key={index}
-                className={`bg-gradient-to-br ${card.bgGradient} rounded-xl p-4 shadow-lg border ${card.borderColor} hover:shadow-xl transition-all duration-300`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className={`p-2 bg-gradient-to-r ${card.gradient} rounded-lg`}>
-                    <span className="text-xl text-white">{card.icon}</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xl font-bold text-gray-900">
-                      {isLoading ? (
-                        <div className="animate-pulse bg-gray-300 h-6 w-12 rounded"></div>
-                      ) : (
-                        card.value
-                      )}
-                    </div>
-                    <div className="text-xs text-gray-600 font-medium">
-                      {card.title}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Finanziario */}
-        <div>
-          <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-xl mr-2">💰</span>
-            Gestione Finanziaria
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {statCards.filter(card => card.section === 'Finanziario').map((card, index) => (
-              <div
-                key={index}
-                className={`bg-gradient-to-br ${card.bgGradient} rounded-xl p-4 shadow-lg border ${card.borderColor} hover:shadow-xl transition-all duration-300`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className={`p-2 bg-gradient-to-r ${card.gradient} rounded-lg`}>
-                    <span className="text-xl text-white">{card.icon}</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xl font-bold text-gray-900">
-                      {isLoading ? (
-                        <div className="animate-pulse bg-gray-300 h-6 w-12 rounded"></div>
-                      ) : (
-                        card.value
-                      )}
-                    </div>
-                    <div className="text-xs text-gray-600 font-medium">
-                      {card.title}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Attività Ricorrenti */}
-        <div>
-          <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-xl mr-2">🔄</span>
-            Attività Ricorrenti
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {statCards.filter(card => card.section === 'Ricorrenti').map((card, index) => (
-              <div
-                key={index}
-                className={`bg-gradient-to-br ${card.bgGradient} rounded-xl p-4 shadow-lg border ${card.borderColor} hover:shadow-xl transition-all duration-300`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className={`p-2 bg-gradient-to-r ${card.gradient} rounded-lg`}>
-                    <span className="text-xl text-white">{card.icon}</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xl font-bold text-gray-900">
-                      {isLoading ? (
-                        <div className="animate-pulse bg-gray-300 h-6 w-12 rounded"></div>
-                      ) : (
-                        card.value
-                      )}
-                    </div>
-                    <div className="text-xs text-gray-600 font-medium">
-                      {card.title}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Azioni Rapide</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-200 text-left">
-            <div className="flex items-center">
-              <span className="text-2xl mr-3">📈</span>
-              <div>
-                <div className="font-semibold text-blue-800">Marketing</div>
-                <div className="text-sm text-blue-600">Campagne e lead</div>
-              </div>
+        {/* Flusso Netto Oggi */}
+        <div className={`bg-gradient-to-br ${todayPayments.netFlow >= 0 ? 'from-emerald-50 to-emerald-100 border-emerald-200' : 'from-red-50 to-red-100 border-red-200'} rounded-xl p-4 shadow-lg border`}>
+          <div className="flex items-center justify-between">
+            <div className={`p-2 bg-gradient-to-r ${todayPayments.netFlow >= 0 ? 'from-emerald-500 to-emerald-600' : 'from-red-500 to-red-600'} rounded-lg`}>
+              <span className="text-xl text-white">{todayPayments.netFlow >= 0 ? '📈' : '📉'}</span>
             </div>
-          </button>
-          
-          <button className="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border border-green-200 hover:shadow-md transition-all duration-200 text-left">
-            <div className="flex items-center">
-              <span className="text-2xl mr-3">📅</span>
-              <div>
-                <div className="font-semibold text-green-800">Task</div>
-                <div className="text-sm text-green-600">Gestisci attività</div>
+            <div className="text-right">
+              <div className={`text-2xl font-bold ${todayPayments.netFlow >= 0 ? 'text-emerald-800' : 'text-red-800'}`}>
+                {isLoading ? (
+                  <div className="animate-pulse bg-gray-300 h-6 w-12 rounded"></div>
+                ) : (
+                  `€${todayPayments.netFlow.toLocaleString('it-IT', { minimumFractionDigits: 2 })}`
+                )}
               </div>
-            </div>
-          </button>
-          
-          <button className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg border border-purple-200 hover:shadow-md transition-all duration-200 text-left">
-            <div className="flex items-center">
-              <span className="text-2xl mr-3">🚀</span>
-              <div>
-                <div className="font-semibold text-purple-800">Progetti</div>
-                <div className="text-sm text-purple-600">Gestisci progetti</div>
-              </div>
-            </div>
-          </button>
-          
-          <button className="p-4 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg border border-orange-200 hover:shadow-md transition-all duration-200 text-left">
-            <div className="flex items-center">
-              <span className="text-2xl mr-3">💰</span>
-              <div>
-                <div className="font-semibold text-orange-800">Finanziario</div>
-                <div className="text-sm text-orange-600">Gestisci costi</div>
-              </div>
-            </div>
-          </button>
-        </div>
-      </div>
-
-      {/* Sistema Status */}
-      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Stato Sistema</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex items-center p-4 bg-green-50 rounded-lg border border-green-200">
-            <span className="text-2xl mr-3">✅</span>
-            <div>
-              <div className="font-medium text-green-800">Database Connesso</div>
-              <div className="text-sm text-green-600">Tutte le tabelle accessibili</div>
-            </div>
-          </div>
-          
-          <div className="flex items-center p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <span className="text-2xl mr-3">📊</span>
-            <div>
-              <div className="font-medium text-blue-800">Dati Aggiornati</div>
-              <div className="text-sm text-blue-600">
-                Ultimo aggiornamento: {formatDateTime(lastUpdate)}
-              </div>
-            </div>
-          </div>
-          
-          <div className="flex items-center p-4 bg-purple-50 rounded-lg border border-purple-200">
-            <span className="text-2xl mr-3">🔄</span>
-            <div>
-              <div className="font-medium text-purple-800">Sincronizzazione</div>
-              <div className="text-sm text-purple-600">
-                {dailyActivities.length} attività oggi
-              </div>
+              <div className="text-sm text-gray-600 font-medium">Flusso Netto</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+      {/* Status Sistema */}
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-4 border border-gray-100">
         <div className="flex items-center justify-between text-sm text-gray-600">
           <div className="flex items-center">
             <span className="text-green-500 mr-2">●</span>
-            Sistema operativo - Tutte le funzionalità disponibili
+            Sistema operativo - {dailyActivities.length} attività oggi
           </div>
           <div>
             Ultimo aggiornamento: {formatDateTime(lastUpdate)}
