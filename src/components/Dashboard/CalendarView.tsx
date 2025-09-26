@@ -42,7 +42,6 @@ export default function CalendarView() {
     status: 'scheduled' as const,
     priority: 'medium' as const,
     reminder_minutes: 15,
-    meeting_url: '',
     notes: ''
   });
 
@@ -151,7 +150,6 @@ export default function CalendarView() {
         start_time: newAppointment.start_time,
         end_time: newAppointment.end_time,
         location: newAppointment.location || undefined,
-        meeting_url: newAppointment.meeting_url || undefined,
         attendees: newAppointment.attendees.split(',').map(a => a.trim()).filter(a => a),
         is_recurring: false,
         reminder_minutes: newAppointment.reminder_minutes,
@@ -172,7 +170,6 @@ export default function CalendarView() {
         status: 'scheduled',
         priority: 'medium',
         reminder_minutes: 15,
-        meeting_url: '',
         notes: ''
       });
     } catch (error: any) {
@@ -552,14 +549,6 @@ export default function CalendarView() {
                 </span>
               </div>
               
-              {selectedAppointment.meeting_url && (
-                <div>
-                  <label className="text-sm font-medium text-gray-500">Link Meeting</label>
-                  <a href={selectedAppointment.meeting_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                    {selectedAppointment.meeting_url}
-                  </a>
-                </div>
-              )}
             </div>
             
             <div className="flex space-x-3 mt-6">
@@ -700,16 +689,6 @@ export default function CalendarView() {
                 </div>
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Link Meeting</label>
-                <input
-                  type="url"
-                  value={newAppointment.meeting_url}
-                  onChange={(e) => setNewAppointment(prev => ({ ...prev, meeting_url: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
-                  placeholder="https://meet.google.com/..."
-                />
-              </div>
             </div>
             
             <div className="flex space-x-3 mt-6">
