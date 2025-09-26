@@ -44,6 +44,19 @@ export default function WarehouseManagement() {
   const [showNewItem, setShowNewItem] = useState(false);
   const [showNewQuote, setShowNewQuote] = useState(false);
   const [selectedItems, setSelectedItems] = useState<WarehouseItem[]>([]);
+  const [quoteItems, setQuoteItems] = useState<QuoteItem[]>([]);
+  const [currentQuote, setCurrentQuote] = useState<Partial<Quote>>({
+    clientName: '',
+    clientEmail: '',
+    clientAddress: '',
+    language: 'it',
+    items: [],
+    subtotal: 0,
+    tax: 0,
+    total: 0,
+    validUntil: '',
+    notes: ''
+  });
 
   // Mock data per il magazzino
   const [warehouseItems, setWarehouseItems] = useState<WarehouseItem[]>([
@@ -138,8 +151,89 @@ export default function WarehouseManagement() {
     setSelectedItems(selectedItems.filter(item => item.id !== itemId));
   };
 
+  const handleUpdateQuoteItem = (itemId: string, quantity: number, unitPrice: number) => {
+    setQuoteItems(quoteItems.map(item => 
+      item.itemId === itemId 
+        ? { ...item, quantity, unitPrice, total: quantity * unitPrice }
+        : item
+    ));
+  };
+
+  const handleAddQuoteItem = (item: WarehouseItem, quantity: number = 1) => {
+    const existingItem = quoteItems.find(qi => qi.itemId === item.id);
+    if (existingItem) {
+      handleUpdateQuoteItem(item.id, existingItem.quantity + quantity, item.price);
+    } else {
+      const newQuoteItem: QuoteItem = {
+        id: `quote-${Date.now()}`,
+        itemId: item.id,
+        name: item.name,
+        quantity,
+        unitPrice: item.price,
+        total: quantity * item.price
+      };
+      setQuoteItems([...quoteItems, newQuoteItem]);
+    }
+  };
+
+  const handleRemoveQuoteItem = (itemId: string) => {
+    setQuoteItems(quoteItems.filter(item => item.itemId !== itemId));
+  };
+
   const calculateQuoteTotal = () => {
-    return selectedItems.reduce((total, item) => total + (item.price * 1), 0);
+    return quoteItems.reduce((total, item) => total + item.total, 0);
+  };
+
+  const calculateQuoteSubtotal = () => {
+    return calculateQuoteTotal();
+  };
+
+  const calculateQuoteTax = () => {
+    return calculateQuoteSubtotal() * 0.22; // 22% IVA
+  };
+
+  const calculateQuoteFinalTotal = () => {
+    return calculateQuoteSubtotal() + calculateQuoteTax();
+  };
+
+  const generatePDF = () => {
+    // Simulazione generazione PDF
+    const quoteData = {
+      ...currentQuote,
+      items: quoteItems,
+      subtotal: calculateQuoteSubtotal(),
+      tax: calculateQuoteTax(),
+      total: calculateQuoteFinalTotal(),
+      validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] // 30 giorni
+    };
+
+    console.log('Generazione PDF preventivo:', quoteData);
+    
+    // Qui implementeremo la vera generazione PDF
+    alert(`PDF generato per ${quoteData.clientName}!\nTotale: €${quoteData.total.toFixed(2)}`);
+    
+    // Salva il preventivo
+    const newQuote: Quote = {
+      id: `quote-${Date.now()}`,
+      ...quoteData,
+      validUntil: quoteData.validUntil
+    };
+    
+    setQuotes([...quotes, newQuote]);
+    setQuoteItems([]);
+    setCurrentQuote({
+      clientName: '',
+      clientEmail: '',
+      clientAddress: '',
+      language: 'it',
+      items: [],
+      subtotal: 0,
+      tax: 0,
+      total: 0,
+      validUntil: '',
+      notes: ''
+    });
+    setShowNewQuote(false);
   };
 
   return (
@@ -257,7 +351,7 @@ export default function WarehouseManagement() {
                     
                     <div className="mt-4 flex space-x-2">
                       <button
-                        onClick={() => handleAddToQuote(item)}
+                        onClick={() => handleAddQuoteItem(item)}
                         className="flex-1 bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors"
                       >
                         ➕ Aggiungi
@@ -441,6 +535,8 @@ export default function WarehouseManagement() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Nome Cliente</label>
                   <input
                     type="text"
+                    value={currentQuote.clientName || ''}
+                    onChange={(e) => setCurrentQuote({...currentQuote, clientName: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                     placeholder="Nome del cliente..."
                   />
@@ -449,6 +545,8 @@ export default function WarehouseManagement() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
                   <input
                     type="email"
+                    value={currentQuote.clientEmail || ''}
+                    onChange={(e) => setCurrentQuote({...currentQuote, clientEmail: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                     placeholder="email@cliente.com"
                   />
@@ -456,6 +554,8 @@ export default function WarehouseManagement() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Indirizzo</label>
                   <textarea
+                    value={currentQuote.clientAddress || ''}
+                    onChange={(e) => setCurrentQuote({...currentQuote, clientAddress: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                     rows={3}
                     placeholder="Indirizzo completo..."
@@ -463,7 +563,11 @@ export default function WarehouseManagement() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Lingua</label>
-                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                  <select 
+                    value={currentQuote.language || 'it'}
+                    onChange={(e) => setCurrentQuote({...currentQuote, language: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  >
                     <option value="it">Italiano</option>
                     <option value="en">English</option>
                     <option value="fr">Français</option>
@@ -475,7 +579,7 @@ export default function WarehouseManagement() {
               {/* Articoli Selezionati */}
               <div className="space-y-4">
                 <h4 className="text-lg font-semibold text-gray-900">Articoli Selezionati</h4>
-                {selectedItems.length === 0 ? (
+                {quoteItems.length === 0 ? (
                   <div className="text-center py-8 text-gray-500">
                     <span className="text-4xl mb-2 block">📦</span>
                     <p>Nessun articolo selezionato</p>
@@ -483,22 +587,31 @@ export default function WarehouseManagement() {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {selectedItems.map((item) => (
+                    {quoteItems.map((item) => (
                       <div key={item.id} className="bg-gray-50 rounded-lg p-3">
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
                             <h5 className="font-medium text-gray-900">{item.name}</h5>
-                            <p className="text-sm text-gray-600">€{item.price.toFixed(2)} x 1</p>
+                            <p className="text-sm text-gray-600">€{item.unitPrice.toFixed(2)} x {item.quantity}</p>
                           </div>
                           <div className="flex items-center space-x-2">
                             <input
                               type="number"
                               min="1"
-                              defaultValue="1"
+                              value={item.quantity}
+                              onChange={(e) => handleUpdateQuoteItem(item.itemId, parseInt(e.target.value) || 1, item.unitPrice)}
                               className="w-16 px-2 py-1 border border-gray-300 rounded text-sm"
                             />
+                            <input
+                              type="number"
+                              step="0.01"
+                              value={item.unitPrice}
+                              onChange={(e) => handleUpdateQuoteItem(item.itemId, item.quantity, parseFloat(e.target.value) || 0)}
+                              className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+                            />
+                            <span className="text-sm font-medium">€{item.total.toFixed(2)}</span>
                             <button
-                              onClick={() => handleRemoveFromQuote(item.id)}
+                              onClick={() => handleRemoveQuoteItem(item.itemId)}
                               className="text-red-500 hover:text-red-700"
                             >
                               ✕
@@ -507,10 +620,18 @@ export default function WarehouseManagement() {
                         </div>
                       </div>
                     ))}
-                    <div className="border-t pt-3">
+                    <div className="border-t pt-3 space-y-2">
                       <div className="flex justify-between items-center">
+                        <span className="text-gray-600">Subtotale:</span>
+                        <span className="font-medium">€{calculateQuoteSubtotal().toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600">IVA (22%):</span>
+                        <span className="font-medium">€{calculateQuoteTax().toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between items-center border-t pt-2">
                         <span className="font-semibold text-gray-900">Totale:</span>
-                        <span className="text-xl font-bold text-gray-900">€{calculateQuoteTotal().toFixed(2)}</span>
+                        <span className="text-xl font-bold text-gray-900">€{calculateQuoteFinalTotal().toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
@@ -531,8 +652,12 @@ export default function WarehouseManagement() {
               >
                 📦 Seleziona Articoli
               </button>
-              <button className="flex-1 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200">
-                📄 Crea Preventivo
+              <button 
+                onClick={generatePDF}
+                disabled={quoteItems.length === 0 || !currentQuote.clientName}
+                className="flex-1 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                📄 Genera PDF
               </button>
             </div>
           </div>
