@@ -189,10 +189,14 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
             )}
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="p-1.5 rounded-lg bg-gray-100/50 hover:bg-gray-200/50 transition-all duration-200"
+              className={`${
+                isCollapsed ? 'p-2' : 'p-1.5'
+              } rounded-lg bg-gray-100/50 hover:bg-gray-200/50 transition-all duration-200`}
               title={isCollapsed ? 'Espandi menu' : 'Comprimi menu'}
             >
-              <span className="text-gray-600 text-sm">
+              <span className={`text-gray-600 ${
+                isCollapsed ? 'text-base' : 'text-sm'
+              }`}>
                 {isCollapsed ? '▶️' : '◀️'}
               </span>
             </button>
@@ -229,19 +233,23 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
               
               <button
                 onClick={() => handleNavigation(item)}
-                className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 group ${
+                className={`w-full flex items-center ${
+                  isCollapsed ? 'p-2 justify-center' : 'p-3'
+                } rounded-lg transition-all duration-200 group ${
                   activeSection === item.key
                     ? 'bg-blue-500/20 text-blue-700 border border-blue-200/50'
                     : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-800'
                 }`}
                 title={isCollapsed ? item.name : undefined}
               >
-                <div className={`p-2 rounded-md transition-all duration-200 ${
+                <div className={`${
+                  isCollapsed ? 'p-3' : 'p-2'
+                } rounded-md transition-all duration-200 ${
                   activeSection === item.key
                     ? 'bg-blue-500/30'
                     : 'bg-gray-100/50 group-hover:bg-gray-200/50'
                 }`}>
-                  <span className="text-lg">{item.icon}</span>
+                  <span className={`${isCollapsed ? 'text-xl' : 'text-lg'}`}>{item.icon}</span>
                 </div>
                 
                 {!isCollapsed && (
