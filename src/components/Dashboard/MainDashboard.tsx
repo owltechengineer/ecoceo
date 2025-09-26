@@ -175,30 +175,54 @@ export default function MainDashboard() {
                   <div className="text-xs text-gray-600 bg-gray-100/50 rounded-lg px-3 py-1.5">
                     {getCurrentDate()}
                   </div>
+                  
+                  {/* Tasto Sito */}
+                  <a
+                    href="/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-gray-600 bg-gray-100/50 hover:bg-gray-200/50 rounded-lg px-3 py-1.5 transition-all duration-200"
+                  >
+                    🌐 Sito
+                  </a>
+                  
+                  {/* Azioni Rapide */}
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => window.location.reload()}
+                      className="text-xs text-gray-600 bg-gray-100/50 hover:bg-gray-200/50 rounded-lg px-3 py-1.5 transition-all duration-200"
+                      title="Aggiorna"
+                    >
+                      🔄
+                    </button>
+                    <button
+                      onClick={() => console.log('Report clicked')}
+                      className="text-xs text-gray-600 bg-gray-100/50 hover:bg-gray-200/50 rounded-lg px-3 py-1.5 transition-all duration-200"
+                      title="Report"
+                    >
+                      📊
+                    </button>
+                    <button
+                      onClick={() => console.log('Settings clicked')}
+                      className="text-xs text-gray-600 bg-gray-100/50 hover:bg-gray-200/50 rounded-lg px-3 py-1.5 transition-all duration-200"
+                      title="Impostazioni"
+                    >
+                      ⚙️
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
             
             {/* Actions Bar Semplificata */}
-            <div className="px-6 py-3 border-b border-gray-200/50">
+            <div className="px-6 py-2 border-b border-gray-200/50">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <HomeButton variant="compact" className="bg-blue-100/50 text-blue-600 hover:bg-blue-200/50 rounded-lg px-3 py-1.5 transition-all duration-200 text-sm" />
                 </div>
                 
-                <div className="flex items-center">
-                  <QuickActions 
-                    onRefresh={() => window.location.reload()}
-                    onReport={() => console.log('Report clicked')}
-                    onSettings={() => console.log('Settings clicked')}
-                    onExport={() => console.log('Export clicked')}
-                    onHelp={() => console.log('Help clicked')}
-                    onCreateProject={handleCreateProject}
-                    onCreateCampaign={handleCreateCampaign}
-                    onMonitorCampaigns={handleMonitorCampaigns}
-                    onAddExpense={handleAddExpense}
-                    onCreateQuote={handleCreateQuote}
-                  />
+                <div className="text-xs text-gray-500">
+                  Dashboard Management System
                 </div>
               </div>
             </div>
