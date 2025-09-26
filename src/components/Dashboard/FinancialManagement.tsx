@@ -626,11 +626,11 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
     <div className="space-y-6 min-h-full p-6">
       {/* Statistiche Overview */}
 
-      {/* Tabs */}
-      <div className="bg-white rounded-lg shadow-sm mb-6">
-        <div className="border-b border-gray-200">
+      {/* Tabs Semplificati */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-sm mb-6 border border-gray-200/50">
+        <div className="border-b border-gray-200/50">
           <div className="flex items-center justify-between px-6">
-            <nav className="flex space-x-8">
+            <nav className="flex space-x-6">
               {[
                 { id: 'overview', label: '📊 Overview', icon: '📊' },
                 { id: 'fixed-costs', label: '💸 Costi Fissi', icon: '💸' },
@@ -642,10 +642,10 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  className={`py-3 px-3 rounded-lg font-medium text-sm transition-all duration-200 ${
                     activeTab === tab.id
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-700 font-semibold hover:text-gray-700 hover:border-gray-300'
+                      ? 'bg-blue-500/20 text-blue-700 border border-blue-200/50'
+                      : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-800'
                   }`}
                 >
                   {tab.label}

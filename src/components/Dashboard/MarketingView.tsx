@@ -434,11 +434,11 @@ export default function MarketingView() {
 
 
 
-      {/* Menu Tabs e Contenuto Unificato */}
-      <div className="bg-white rounded-lg shadow-sm">
-        {/* Tabs Navigation */}
-        <div className="border-b border-gray-200 px-6">
-          <nav className="-mb-px flex space-x-8">
+      {/* Menu Tabs e Contenuto Unificato Semplificato */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-gray-200/50">
+        {/* Tabs Navigation Semplificata */}
+        <div className="border-b border-gray-200/50 px-6">
+          <nav className="flex space-x-6">
             {[
               { id: 'overview', label: 'Panoramica & Analytics', count: campaigns.length + leads.length },
               { id: 'campaigns', label: 'Campagne', count: filteredCampaigns.length },
@@ -447,15 +447,15 @@ export default function MarketingView() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-3 px-4 rounded-lg font-medium text-sm transition-all duration-200 ${
                   activeTab === tab.id
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'bg-blue-500/20 text-blue-700 border border-blue-200/50'
+                    : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-800'
                 }`}
               >
                 {tab.label}
                 {'count' in tab && tab.count !== undefined && (
-                  <span className="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2 rounded-full text-xs">
+                  <span className="ml-2 bg-gray-100/50 text-gray-700 py-0.5 px-2 rounded-full text-xs">
                     {tab.count}
                   </span>
                 )}
