@@ -100,7 +100,7 @@ export default function DashboardNavigation({ activeSection = 'dashboard', onSec
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+    <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg border border-gray-100 p-6">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Navigazione Dashboard</h2>
         <p className="text-gray-600">Scegli la sezione da visualizzare</p>
@@ -120,7 +120,7 @@ export default function DashboardNavigation({ activeSection = 'dashboard', onSec
             <div className="flex items-start space-x-4">
               <div className={`p-3 rounded-lg ${
                 activeSection === item.key
-                  ? 'bg-white bg-opacity-20'
+                  ? 'bg-white/30 backdrop-blurbg-opacity-20'
                   : `bg-gradient-to-r ${item.gradient} text-white`
               }`}>
                 <span className="text-2xl">{item.icon}</span>

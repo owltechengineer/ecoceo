@@ -234,7 +234,7 @@ export default function TasksView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">📋 Task Management</h1>
@@ -252,7 +252,7 @@ export default function TasksView() {
       </div>
 
       {/* Filters and Actions */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             {/* Search */}
@@ -262,7 +262,7 @@ export default function TasksView() {
                 placeholder="Cerca task..."
                 value={filter.search}
                 onChange={(e) => setFilter(prev => ({ ...prev, search: e.target.value }))}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span className="text-gray-400">🔍</span>
@@ -273,7 +273,7 @@ export default function TasksView() {
             <select
               value={filter.status}
               onChange={(e) => setFilter(prev => ({ ...prev, status: e.target.value }))}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             >
               <option value="all">Tutti gli stati</option>
               <option value="todo">📋 Da fare</option>
@@ -287,7 +287,7 @@ export default function TasksView() {
             <select
               value={filter.priority}
               onChange={(e) => setFilter(prev => ({ ...prev, priority: e.target.value }))}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             >
               <option value="all">Tutte le priorità</option>
               <option value="urgent">🚨 Urgente</option>
@@ -300,7 +300,7 @@ export default function TasksView() {
             <select
               value={filter.assigned_to}
               onChange={(e) => setFilter(prev => ({ ...prev, assigned_to: e.target.value }))}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             >
               <option value="all">Tutti gli assegnatari</option>
               {getUniqueAssignees().map(assignee => (
@@ -319,7 +319,7 @@ export default function TasksView() {
       </div>
 
       {/* Tasks Table */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-8 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
@@ -356,7 +356,7 @@ export default function TasksView() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white/30 backdrop-blur divide-y divide-gray-200">
                 {filteredTasks.map((task) => (
                   <tr key={task.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -466,7 +466,7 @@ export default function TasksView() {
       {/* Task Details Modal */}
       {selectedTask && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white/30 backdrop-blur rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
                 {selectedTask.title}
@@ -487,7 +487,7 @@ export default function TasksView() {
                     <select
                       value={selectedTask.status}
                       onChange={(e) => updateTaskStatus(selectedTask.id, e.target.value as Task['status'])}
-                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                     >
                       <option value="todo">📋 Da fare</option>
                       <option value="in-progress">🔄 In corso</option>
@@ -598,7 +598,7 @@ export default function TasksView() {
       {/* New Task Modal */}
       {showNewTask && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white/30 backdrop-blur rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">Nuovo Task</h3>
               <button
@@ -616,7 +616,7 @@ export default function TasksView() {
                   type="text"
                   value={newTask.title}
                   onChange={(e) => setNewTask(prev => ({ ...prev, title: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="Titolo del task"
                 />
               </div>
@@ -626,7 +626,7 @@ export default function TasksView() {
                 <textarea
                   value={newTask.description}
                   onChange={(e) => setNewTask(prev => ({ ...prev, description: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   rows={3}
                   placeholder="Descrizione del task"
                 />
@@ -638,7 +638,7 @@ export default function TasksView() {
                   <select
                     value={newTask.status}
                     onChange={(e) => setNewTask(prev => ({ ...prev, status: e.target.value as any }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   >
                     <option value="todo">📋 Da fare</option>
                     <option value="in-progress">🔄 In corso</option>
@@ -651,7 +651,7 @@ export default function TasksView() {
                   <select
                     value={newTask.priority}
                     onChange={(e) => setNewTask(prev => ({ ...prev, priority: e.target.value as any }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   >
                     <option value="low">🟢 Bassa</option>
                     <option value="medium">🟡 Media</option>
@@ -667,7 +667,7 @@ export default function TasksView() {
                   type="text"
                   value={newTask.assigned_to}
                   onChange={(e) => setNewTask(prev => ({ ...prev, assigned_to: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="Nome assegnatario"
                 />
               </div>
@@ -678,7 +678,7 @@ export default function TasksView() {
                   type="date"
                   value={newTask.due_date}
                   onChange={(e) => setNewTask(prev => ({ ...prev, due_date: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                 />
               </div>
               
@@ -689,7 +689,7 @@ export default function TasksView() {
                   step="0.5"
                   value={newTask.estimated_hours}
                   onChange={(e) => setNewTask(prev => ({ ...prev, estimated_hours: parseFloat(e.target.value) || 0 }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="0"
                 />
               </div>
@@ -700,7 +700,7 @@ export default function TasksView() {
                   type="text"
                   value={newTask.tags}
                   onChange={(e) => setNewTask(prev => ({ ...prev, tags: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="tag1, tag2, tag3"
                 />
               </div>
@@ -710,7 +710,7 @@ export default function TasksView() {
                 <textarea
                   value={newTask.notes}
                   onChange={(e) => setNewTask(prev => ({ ...prev, notes: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   rows={2}
                   placeholder="Note aggiuntive"
                 />

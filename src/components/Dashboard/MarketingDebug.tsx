@@ -92,7 +92,7 @@ export default function MarketingDebug() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+    <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg p-6 border border-gray-100">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
           <div className="p-2 bg-red-100 rounded-lg mr-3">
@@ -132,7 +132,7 @@ export default function MarketingDebug() {
               {/* Config Test */}
               <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <h4 className="font-semibold text-blue-800 mb-2">🔧 Configurazione</h4>
-                <pre className="text-sm text-blue-700 bg-white p-2 rounded border overflow-auto">
+                <pre className="text-sm text-blue-700 bg-white/30 backdrop-blurp-2 rounded border overflow-auto">
                   {JSON.stringify(debugInfo.tests.config, null, 2)}
                 </pre>
               </div>
@@ -149,7 +149,7 @@ export default function MarketingDebug() {
                   🎯 Campagne {debugInfo.tests.campaigns?.success ? '✅' : '❌'}
                 </h4>
                 <pre className={`text-sm p-2 rounded border overflow-auto ${
-                  debugInfo.tests.campaigns?.success ? 'text-green-700 bg-white' : 'text-red-700 bg-white'
+                  debugInfo.tests.campaigns?.success ? 'text-green-700 bg-white/30 backdrop-blur' : 'text-red-700 bg-white/30 backdrop-blur'
                 }`}>
                   {JSON.stringify(debugInfo.tests.campaigns, null, 2)}
                 </pre>
@@ -167,7 +167,7 @@ export default function MarketingDebug() {
                   👥 Lead {debugInfo.tests.leads?.success ? '✅' : '❌'}
                 </h4>
                 <pre className={`text-sm p-2 rounded border overflow-auto ${
-                  debugInfo.tests.leads?.success ? 'text-green-700 bg-white' : 'text-red-700 bg-white'
+                  debugInfo.tests.leads?.success ? 'text-green-700 bg-white/30 backdrop-blur' : 'text-red-700 bg-white/30 backdrop-blur'
                 }`}>
                   {JSON.stringify(debugInfo.tests.leads, null, 2)}
                 </pre>
@@ -185,7 +185,7 @@ export default function MarketingDebug() {
                   📊 Statistiche {debugInfo.tests.stats?.success ? '✅' : '❌'}
                 </h4>
                 <pre className={`text-sm p-2 rounded border overflow-auto ${
-                  debugInfo.tests.stats?.success ? 'text-green-700 bg-white' : 'text-red-700 bg-white'
+                  debugInfo.tests.stats?.success ? 'text-green-700 bg-white/30 backdrop-blur' : 'text-red-700 bg-white/30 backdrop-blur'
                 }`}>
                   {JSON.stringify(debugInfo.tests.stats, null, 2)}
                 </pre>

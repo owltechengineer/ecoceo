@@ -8,7 +8,7 @@ export default function SyncStatus() {
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
-      <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-4">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-lg border border-gray-200 p-4">
         <div className="flex items-center space-x-3">
           {/* Status Icon */}
           <div className="flex items-center space-x-2">

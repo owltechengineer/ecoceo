@@ -330,7 +330,7 @@ export default function UnifiedTests() {
   return (
     <div className="space-y-8 min-h-full p-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-end">
           <div className="flex items-center space-x-4">
             <button
@@ -344,7 +344,7 @@ export default function UnifiedTests() {
       </div>
 
       {/* Connection Tests */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🔗 Test Connessione Supabase</h3>
         
         <div className="space-y-4">
@@ -424,7 +424,7 @@ export default function UnifiedTests() {
       </div>
 
       {/* Input Tests */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">⌨️ Test Campi di Input</h3>
         
         <div className="space-y-4">
@@ -498,7 +498,7 @@ export default function UnifiedTests() {
       </div>
 
       {/* Visibility Tests */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">👁️ Test Visibilità Input</h3>
         
         <div className="space-y-4">

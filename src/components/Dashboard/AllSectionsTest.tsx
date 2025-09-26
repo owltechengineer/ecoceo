@@ -188,7 +188,7 @@ export default function AllSectionsTest() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 border-2 border-purple-200">
+    <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6 border-2 border-purple-200">
       <h3 className="text-xl font-bold text-gray-900 mb-4">🧪 Test Tutte le Sezioni Business Plan</h3>
       
       <div className="space-y-4">

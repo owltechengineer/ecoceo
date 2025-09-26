@@ -69,7 +69,7 @@ const MiniCart = () => {
 
       {/* Mini Cart Dropdown */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+        <div className="absolute right-0 mt-2 w-80 bg-white/30 backdrop-blurrounded-lg shadow-xl border border-gray-200 z-50">
           <div className="p-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-black">

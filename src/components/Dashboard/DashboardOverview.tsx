@@ -94,7 +94,7 @@ export default function DashboardOverview() {
   return (
     <div className="space-y-6">
       {/* Header con filtri */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-sm p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
             <div>
@@ -187,7 +187,7 @@ export default function DashboardOverview() {
       </div>
 
       {/* Task Giornalieri */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-sm p-6">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold text-gray-900">📋 Task per Oggi</h3>
           <span className="text-sm text-gray-500">{todayTasks.length} task totali</span>
@@ -235,7 +235,7 @@ export default function DashboardOverview() {
       </div>
 
       {/* Progresso Progetti */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-6">🏗️ Progresso Progetti</h3>
         
         {activeProjects.length > 0 ? (
@@ -282,7 +282,7 @@ export default function DashboardOverview() {
 
       {/* Statistiche Sito e Performance */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blur rounded-xl shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-6">🌐 Statistiche Sito</h3>
           
           <div className="space-y-4">
@@ -312,7 +312,7 @@ export default function DashboardOverview() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blur rounded-xl shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-6">📊 Performance Rapida</h3>
           
           <div className="space-y-4">
@@ -353,7 +353,7 @@ export default function DashboardOverview() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-6">⚡ Azioni Rapide</h3>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -38,7 +38,7 @@ export default function LoginForm({ onLogin, isLoading = false, error }: LoginFo
         </div>
 
         {/* Login Form */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+        <div className="bg-white/30 backdrop-blurrounded-2xl shadow-xl p-8 border border-gray-100">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -51,7 +51,7 @@ export default function LoginForm({ onLogin, isLoading = false, error }: LoginFo
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Inserisci la password"
-                  className="w-full px-4 py-3 pr-12 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white text-gray-900 font-medium placeholder-gray-500"
+                  className="w-full px-4 py-3 pr-12 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white/30 backdrop-blurtext-gray-900 font-medium placeholder-gray-500"
                   disabled={isLoading}
                   autoComplete="current-password"
                   style={{ color: '#111827' }}

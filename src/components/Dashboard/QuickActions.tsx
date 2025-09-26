@@ -191,7 +191,7 @@ export default function QuickActions({
 
       {/* Expanded Actions */}
       {isExpanded && (
-        <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+        <div className="absolute top-full right-0 mt-2 w-80 bg-white/30 backdrop-blurrounded-lg shadow-xl border border-gray-200 py-2 z-50">
           {/* Category Tabs */}
           <div className="flex border-b border-gray-200 mb-2">
             {(['create', 'monitor', 'system'] as const).map((category) => (

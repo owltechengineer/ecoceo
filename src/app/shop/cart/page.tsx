@@ -99,7 +99,7 @@ const CartPage = () => {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Cart Items */}
                 <div className="lg:col-span-2">
-                  <div className="bg-white rounded-lg shadow-lg p-6">
+                  <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6">
                     <div className="flex items-center justify-between mb-6">
                       <h2 className="text-xl font-bold text-black">
                         Prodotti ({state.items.length})
@@ -196,7 +196,7 @@ const CartPage = () => {
 
                 {/* Order Summary */}
                 <div className="lg:col-span-1">
-                  <div className="bg-white rounded-lg shadow-lg p-6 sticky top-4">
+                  <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6 sticky top-4">
                     <h2 className="text-xl font-bold text-black mb-6">
                       Riepilogo Ordine
                     </h2>

@@ -231,7 +231,7 @@ export default function SectionTests({ sectionName, sectionIcon, tables, testFun
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+    <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg border border-gray-100">
       {/* Header */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center justify-between">
@@ -289,7 +289,7 @@ export default function SectionTests({ sectionName, sectionIcon, tables, testFun
                 </div>
                 
                 {result.details && (
-                  <div className="mt-3 p-3 bg-white bg-opacity-50 rounded text-xs">
+                  <div className="mt-3 p-3 bg-white/30 backdrop-blurbg-opacity-50 rounded text-xs">
                     <pre className="whitespace-pre-wrap">
                       {JSON.stringify(result.details, null, 2)}
                     </pre>

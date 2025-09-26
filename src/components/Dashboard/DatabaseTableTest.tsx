@@ -128,7 +128,7 @@ export default function DatabaseTableTest() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+    <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg p-6 border border-gray-100">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
           <div className="p-2 bg-purple-100 rounded-lg mr-3">
@@ -197,7 +197,7 @@ export default function DatabaseTableTest() {
                       {testResults.tables.campaigns.structure.sampleData && (
                         <div className="mt-1">
                           <strong>Dati di esempio:</strong>
-                          <pre className="text-xs mt-1 bg-white p-1 rounded border overflow-auto">
+                          <pre className="text-xs mt-1 bg-white/30 backdrop-blurp-1 rounded border overflow-auto">
                             {JSON.stringify(testResults.tables.campaigns.structure.sampleData, null, 2)}
                           </pre>
                         </div>
@@ -239,7 +239,7 @@ export default function DatabaseTableTest() {
                       {testResults.tables.leads.structure.sampleData && (
                         <div className="mt-1">
                           <strong>Dati di esempio:</strong>
-                          <pre className="text-xs mt-1 bg-white p-1 rounded border overflow-auto">
+                          <pre className="text-xs mt-1 bg-white/30 backdrop-blurp-1 rounded border overflow-auto">
                             {JSON.stringify(testResults.tables.leads.structure.sampleData, null, 2)}
                           </pre>
                         </div>

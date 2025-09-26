@@ -14,7 +14,7 @@ export default function ServiceCard({ service, onEdit, onDelete }: ServiceCardPr
 
 
   return (
-    <div className="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200">
+    <div className="bg-white/30 backdrop-blurrounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200">
       {/* Header della card */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-start justify-between">

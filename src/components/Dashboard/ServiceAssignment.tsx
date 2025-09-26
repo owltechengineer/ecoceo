@@ -111,7 +111,7 @@ export default function ServiceAssignment() {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🔗 Assegnazione Servizi</h3>
         <div className="flex items-center justify-center py-8">
           <svg className="animate-spin h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -125,7 +125,7 @@ export default function ServiceAssignment() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
+    <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center">
           <div>
@@ -212,7 +212,7 @@ export default function ServiceAssignment() {
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white/30 backdrop-blurdivide-y divide-gray-200">
             {sanityProjects.map((project) => (
               <tr key={project._id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap">

@@ -233,7 +233,7 @@ export default function DashboardTotal() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-end">
           <div className="flex items-center space-x-4">
             <InfoButton onClick={() => openInfo('Dashboard Totale', 'Panoramica completa di tutti i dati e attività aziendali con statistiche in tempo reale.')} />
@@ -244,7 +244,7 @@ export default function DashboardTotal() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {statCards.map((stat, index) => (
-          <div key={index} className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+          <div key={index} className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">{stat.title}</p>
@@ -264,7 +264,7 @@ export default function DashboardTotal() {
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Recent Activities */}
-        <div className="lg:col-span-2 bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+        <div className="lg:col-span-2 bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📈 Attività Recenti</h3>
           <div className="space-y-4">
             {recentActivities.map((activity) => (
@@ -290,7 +290,7 @@ export default function DashboardTotal() {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">⚡ Azioni Rapide</h3>
           <div className="space-y-3">
             {quickActions.map((action, index) => (
@@ -315,7 +315,7 @@ export default function DashboardTotal() {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Task Status Chart */}
-        <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📊 Stato Task</h3>
           <div className="space-y-4">
             {['pending', 'in-progress', 'on-hold', 'completed', 'cancelled'].map((status) => {
@@ -348,7 +348,7 @@ export default function DashboardTotal() {
         </div>
 
         {/* Revenue Chart */}
-        <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">💰 Ricavi per Servizio</h3>
           <div className="space-y-4">
             {services.slice(0, 5).map((service, index) => {
@@ -381,7 +381,7 @@ export default function DashboardTotal() {
       </div>
 
       {/* System Status */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🔧 Stato Sistema</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="flex items-center space-x-3">

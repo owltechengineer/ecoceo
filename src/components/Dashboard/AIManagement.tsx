@@ -181,7 +181,7 @@ console.log(result);
 
   const renderContentGeneration = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🤖 Generazione Contenuti AI</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -192,7 +192,7 @@ console.log(result);
             <select
               value={contentType}
               onChange={(e) => setContentType(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             >
               {contentTypes.map(type => (
                 <option key={type.value} value={type.value}>{type.label}</option>
@@ -207,7 +207,7 @@ console.log(result);
             <select
               value={contentLength}
               onChange={(e) => setContentLength(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             >
               {contentLengths.map(length => (
                 <option key={length.value} value={length.value}>{length.label}</option>
@@ -223,7 +223,7 @@ console.log(result);
           <textarea
             value={contentPrompt}
             onChange={(e) => setContentPrompt(e.target.value)}
-            className="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+            className="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             placeholder="Descrivi il contenuto che vuoi generare... (es. 'Articolo su come ottimizzare la produttività aziendale')"
           />
         </div>
@@ -242,7 +242,7 @@ console.log(result);
       </div>
       
       {generatedContent && (
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📝 Contenuto Generato</h3>
           <div className="prose max-w-none">
             <pre className="whitespace-pre-wrap text-gray-700 bg-gray-50 p-4 rounded-lg border">
@@ -267,7 +267,7 @@ console.log(result);
 
   const renderSEOOptimization = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🔍 SEO & Ottimizzazione</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -279,7 +279,7 @@ console.log(result);
               type="url"
               value={seoUrl}
               onChange={(e) => setSeoUrl(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
               placeholder="https://example.com/page"
             />
           </div>
@@ -292,7 +292,7 @@ console.log(result);
               type="text"
               value={seoKeywords}
               onChange={(e) => setSeoKeywords(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
               placeholder="dashboard, business plan, management"
             />
           </div>
@@ -312,7 +312,7 @@ console.log(result);
       </div>
       
       {seoAnalysis && (
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📊 Risultati Analisi SEO</h3>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -350,7 +350,7 @@ console.log(result);
 
   const renderImageGeneration = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🎨 Generazione Immagini AI</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -361,7 +361,7 @@ console.log(result);
             <select
               value={imageStyle}
               onChange={(e) => setImageStyle(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             >
               {imageStyles.map(style => (
                 <option key={style.value} value={style.value}>{style.label}</option>
@@ -376,7 +376,7 @@ console.log(result);
             <select
               value={imageSize}
               onChange={(e) => setImageSize(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             >
               <option value="512x512">512x512</option>
               <option value="1024x1024">1024x1024</option>
@@ -393,7 +393,7 @@ console.log(result);
           <textarea
             value={imagePrompt}
             onChange={(e) => setImagePrompt(e.target.value)}
-            className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+            className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             placeholder="Descrivi l'immagine che vuoi generare... (es. 'Un ufficio moderno con dashboard digitale')"
           />
         </div>
@@ -412,7 +412,7 @@ console.log(result);
       </div>
       
       {generatedImages.length > 0 && (
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">🖼️ Immagini Generate</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {generatedImages.map((image, index) => (
@@ -423,10 +423,10 @@ console.log(result);
                   className="w-full h-64 object-cover rounded-lg border"
                 />
                 <div className="absolute top-2 right-2 flex space-x-2">
-                  <button className="px-3 py-1 bg-white bg-opacity-90 rounded text-sm hover:bg-opacity-100">
+                  <button className="px-3 py-1 bg-white/30 backdrop-blurbg-opacity-90 rounded text-sm hover:bg-opacity-100">
                     📥 Download
                   </button>
-                  <button className="px-3 py-1 bg-white bg-opacity-90 rounded text-sm hover:bg-opacity-100">
+                  <button className="px-3 py-1 bg-white/30 backdrop-blurbg-opacity-90 rounded text-sm hover:bg-opacity-100">
                     ✏️ Modifica
                   </button>
                 </div>
@@ -440,7 +440,7 @@ console.log(result);
 
   const renderCodeGeneration = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">💻 Generazione Codice AI</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -451,7 +451,7 @@ console.log(result);
             <select
               value={codeLanguage}
               onChange={(e) => setCodeLanguage(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             >
               {codeLanguages.map(lang => (
                 <option key={lang.value} value={lang.value}>{lang.label}</option>
@@ -463,7 +463,7 @@ console.log(result);
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Tipo di Codice
             </label>
-            <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white">
+            <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur">
               <option value="function">Funzione</option>
               <option value="component">Componente</option>
               <option value="class">Classe</option>
@@ -480,7 +480,7 @@ console.log(result);
           <textarea
             value={codePrompt}
             onChange={(e) => setCodePrompt(e.target.value)}
-            className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+            className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             placeholder="Descrivi il codice che vuoi generare... (es. 'Funzione per calcolare il ROI di un progetto')"
           />
         </div>
@@ -499,7 +499,7 @@ console.log(result);
       </div>
       
       {generatedCode && (
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">💻 Codice Generato</h3>
           <pre className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto">
             <code>{generatedCode}</code>
@@ -522,7 +522,7 @@ console.log(result);
 
   const renderAnalyticsAI = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📊 Analytics AI</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -530,7 +530,7 @@ console.log(result);
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Periodo di Analisi
             </label>
-            <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white">
+            <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur">
               <option value="7d">Ultimi 7 giorni</option>
               <option value="30d">Ultimi 30 giorni</option>
               <option value="90d">Ultimi 90 giorni</option>
@@ -542,7 +542,7 @@ console.log(result);
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Tipo di Analisi
             </label>
-            <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white">
+            <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur">
               <option value="traffic">Traffico Web</option>
               <option value="conversions">Conversioni</option>
               <option value="performance">Performance</option>
@@ -565,7 +565,7 @@ console.log(result);
       </div>
       
       {aiInsights.length > 0 && (
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">🧠 Insights AI</h3>
           <div className="space-y-4">
             {aiInsights.map((insight, index) => (
@@ -582,7 +582,7 @@ console.log(result);
 
   const renderIntegrations = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🔗 Integrazioni AI</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -702,7 +702,7 @@ console.log(result);
         </div>
       </div>
       
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">⚙️ Configurazione API</h3>
         <div className="space-y-4">
           <div>
@@ -711,7 +711,7 @@ console.log(result);
             </label>
             <input
               type="password"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
               placeholder="sk-..."
             />
           </div>
@@ -721,7 +721,7 @@ console.log(result);
             </label>
             <input
               type="password"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
               placeholder="AIza..."
             />
           </div>
@@ -736,7 +736,7 @@ console.log(result);
   return (
     <div className="space-y-6 min-h-full p-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">🤖 AI Management</h1>
@@ -752,7 +752,7 @@ console.log(result);
       </div>
 
       {/* Tabs */}
-      <div className="bg-white rounded-lg shadow-sm">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm">
         <div className="border-b border-gray-200">
           <nav className="flex space-x-8 px-6" aria-label="Tabs">
             {tabs.map((tab) => (

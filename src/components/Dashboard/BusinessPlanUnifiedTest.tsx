@@ -396,7 +396,7 @@ export default function BusinessPlanUnifiedTest() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="bg-white/30 backdrop-blurrounded-lg shadow-md p-6">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-900">
           🧪 Test Unificato Business Plan
@@ -473,7 +473,7 @@ export default function BusinessPlanUnifiedTest() {
                 {result.loadSuccess && result.loadedData && (
                   <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
                     <h6 className="font-medium text-green-800 mb-2">📋 Dati Caricati</h6>
-                    <pre className="text-xs text-green-700 bg-white p-2 rounded border overflow-auto max-h-32">
+                    <pre className="text-xs text-green-700 bg-white/30 backdrop-blurp-2 rounded border overflow-auto max-h-32">
                       {JSON.stringify(result.loadedData, null, 2)}
                     </pre>
                   </div>

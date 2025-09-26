@@ -64,7 +64,7 @@ const Contact = () => {
           component={contactFormComponent}
           componentName="ContactForm"
           as="div"
-          className="wow fadeInUp mb-12 rounded-sm bg-white p-8 shadow-three dark:bg-dark dark:shadow-gray-dark sm:p-10 lg:px-12 xl:p-14"
+          className="wow fadeInUp mb-12 rounded-sm bg-white/30 backdrop-blurp-8 shadow-three dark:bg-dark dark:shadow-gray-dark sm:p-10 lg:px-12 xl:p-14"
         >
           <h2 className="mb-8 text-3xl font-bold text-dark dark:text-white">
             Invia un Messaggio
@@ -127,7 +127,7 @@ const Contact = () => {
 
       {/* Contact Information */}
       <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
-        <div className="wow fadeInUp rounded-sm bg-white p-8 shadow-three dark:bg-dark dark:shadow-gray-dark sm:p-10 lg:px-12 xl:p-14">
+        <div className="wow fadeInUp rounded-sm bg-white/30 backdrop-blurp-8 shadow-three dark:bg-dark dark:shadow-gray-dark sm:p-10 lg:px-12 xl:p-14">
           <h3 className="mb-8 text-2xl font-bold text-dark dark:text-white">
             Hai Bisogno di Aiuto?
           </h3>

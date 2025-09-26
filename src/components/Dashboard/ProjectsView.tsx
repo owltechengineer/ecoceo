@@ -313,7 +313,7 @@ export default function ProjectsView() {
     <div className="space-y-6 min-h-full p-6">
 
       {/* Filters and Actions */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             {/* Search */}
@@ -323,7 +323,7 @@ export default function ProjectsView() {
                 placeholder="Cerca progetti..."
                 value={filter.search}
                 onChange={(e) => setFilter(prev => ({ ...prev, search: e.target.value }))}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span className="text-gray-400">🔍</span>
@@ -334,7 +334,7 @@ export default function ProjectsView() {
             <select
               value={filter.status}
               onChange={(e) => setFilter(prev => ({ ...prev, status: e.target.value }))}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             >
               <option value="all">Tutti gli stati</option>
               <option value="planning">📋 Pianificazione</option>
@@ -348,7 +348,7 @@ export default function ProjectsView() {
             <select
               value={filter.priority}
               onChange={(e) => setFilter(prev => ({ ...prev, priority: e.target.value }))}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             >
               <option value="all">Tutte le priorità</option>
               <option value="urgent">🚨 Urgente</option>
@@ -383,7 +383,7 @@ export default function ProjectsView() {
           filteredProjects.map((project) => {
             const stats = projectStats[project.id];
             return (
-              <div key={project.id} className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-200 border border-gray-100">
+              <div key={project.id} className="bg-white/30 backdrop-blur rounded-lg shadow-sm hover:shadow-lg transition-all duration-200 border border-gray-100">
                 {/* Header */}
                 <div className="p-6 border-b border-gray-100">
                   <div className="flex items-start justify-between mb-4">
@@ -393,7 +393,7 @@ export default function ProjectsView() {
                           type="text"
                           value={editForm.name || ''}
                           onChange={(e) => handleEditFormChange('name', e.target.value)}
-                          className="text-xl font-bold text-gray-900 mb-2 w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                          className="text-xl font-bold text-gray-900 mb-2 w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/30 backdrop-blur"
                         />
                       ) : (
                         <h3 className="text-xl font-bold text-gray-900 mb-2">{project.name}</h3>
@@ -404,7 +404,7 @@ export default function ProjectsView() {
                             <select
                               value={editForm.status || project.status}
                               onChange={(e) => handleEditFormChange('status', e.target.value)}
-                              className="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                              className="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/30 backdrop-blur"
                             >
                               <option value="planning">📋 Pianificazione</option>
                               <option value="active">🟢 Attivo</option>
@@ -415,7 +415,7 @@ export default function ProjectsView() {
                             <select
                               value={editForm.priority || project.priority}
                               onChange={(e) => handleEditFormChange('priority', e.target.value)}
-                              className="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                              className="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/30 backdrop-blur"
                             >
                               <option value="low">🟢 Bassa</option>
                               <option value="medium">🟡 Media</option>
@@ -488,7 +488,7 @@ export default function ProjectsView() {
                     <textarea
                       value={editForm.description || ''}
                       onChange={(e) => handleEditFormChange('description', e.target.value)}
-                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white text-sm mb-4"
+                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur text-sm mb-4"
                       rows={2}
                       placeholder="Descrizione del progetto"
                     />
@@ -613,7 +613,7 @@ export default function ProjectsView() {
                             type="text"
                             value={editForm.project_manager || ''}
                             onChange={(e) => handleEditFormChange('project_manager', e.target.value)}
-                            className="w-32 p-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white text-sm"
+                            className="w-32 p-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur text-sm"
                             placeholder="Manager"
                           />
                         </div>
@@ -623,7 +623,7 @@ export default function ProjectsView() {
                             type="date"
                             value={editForm.start_date || ''}
                             onChange={(e) => handleEditFormChange('start_date', e.target.value)}
-                            className="w-32 p-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white text-sm"
+                            className="w-32 p-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur text-sm"
                           />
                         </div>
                         <div className="flex justify-between items-center">
@@ -632,7 +632,7 @@ export default function ProjectsView() {
                             type="date"
                             value={editForm.end_date || ''}
                             onChange={(e) => handleEditFormChange('end_date', e.target.value)}
-                            className="w-32 p-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white text-sm"
+                            className="w-32 p-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur text-sm"
                           />
                         </div>
                         <div className="flex justify-between items-center">
@@ -642,7 +642,7 @@ export default function ProjectsView() {
                             step="0.01"
                             value={editForm.budget || ''}
                             onChange={(e) => handleEditFormChange('budget', parseFloat(e.target.value) || 0)}
-                            className="w-32 p-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white text-sm"
+                            className="w-32 p-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur text-sm"
                             placeholder="0.00"
                           />
                         </div>
@@ -680,7 +680,7 @@ export default function ProjectsView() {
                           type="text"
                           value={editForm.tags?.join(', ') || ''}
                           onChange={(e) => handleEditFormChange('tags', e.target.value.split(',').map(t => t.trim()).filter(t => t))}
-                          className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white text-sm"
+                          className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur text-sm"
                           placeholder="tag1, tag2, tag3"
                         />
                       </div>
@@ -720,7 +720,7 @@ export default function ProjectsView() {
       {/* Project Details Modal */}
       {selectedProject && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white/30 backdrop-blur rounded-lg p-6 max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-semibold text-gray-900">
                 {selectedProject.name}
@@ -1031,7 +1031,7 @@ export default function ProjectsView() {
       {/* New Project Modal */}
       {showNewProject && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white/30 backdrop-blur rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">Nuovo Progetto</h3>
               <button
@@ -1049,7 +1049,7 @@ export default function ProjectsView() {
                   type="text"
                   value={newProject.name}
                   onChange={(e) => setNewProject(prev => ({ ...prev, name: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="Nome del progetto"
                 />
               </div>
@@ -1059,7 +1059,7 @@ export default function ProjectsView() {
                 <textarea
                   value={newProject.description}
                   onChange={(e) => setNewProject(prev => ({ ...prev, description: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   rows={3}
                   placeholder="Descrizione del progetto"
                 />
@@ -1071,7 +1071,7 @@ export default function ProjectsView() {
                   <select
                     value={newProject.status}
                     onChange={(e) => setNewProject(prev => ({ ...prev, status: e.target.value as any }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   >
                     <option value="planning">📋 Pianificazione</option>
                     <option value="active">🟢 Attivo</option>
@@ -1085,7 +1085,7 @@ export default function ProjectsView() {
                   <select
                     value={newProject.priority}
                     onChange={(e) => setNewProject(prev => ({ ...prev, priority: e.target.value as any }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   >
                     <option value="low">🟢 Bassa</option>
                     <option value="medium">🟡 Media</option>
@@ -1103,7 +1103,7 @@ export default function ProjectsView() {
                     type="date"
                     value={newProject.start_date}
                     onChange={(e) => setNewProject(prev => ({ ...prev, start_date: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   />
                 </div>
                 <div>
@@ -1112,7 +1112,7 @@ export default function ProjectsView() {
                     type="date"
                     value={newProject.end_date}
                     onChange={(e) => setNewProject(prev => ({ ...prev, end_date: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   />
                 </div>
               </div>
@@ -1124,7 +1124,7 @@ export default function ProjectsView() {
                   step="0.01"
                   value={newProject.budget}
                   onChange={(e) => setNewProject(prev => ({ ...prev, budget: parseFloat(e.target.value) || 0 }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="0.00"
                 />
               </div>
@@ -1135,7 +1135,7 @@ export default function ProjectsView() {
                   type="text"
                   value={newProject.project_manager}
                   onChange={(e) => setNewProject(prev => ({ ...prev, project_manager: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="Nome del project manager"
                 />
               </div>
@@ -1146,7 +1146,7 @@ export default function ProjectsView() {
                   type="text"
                   value={newProject.team_members}
                   onChange={(e) => setNewProject(prev => ({ ...prev, team_members: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="member1, member2, member3"
                 />
               </div>
@@ -1157,7 +1157,7 @@ export default function ProjectsView() {
                   type="text"
                   value={newProject.tags}
                   onChange={(e) => setNewProject(prev => ({ ...prev, tags: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="tag1, tag2, tag3"
                 />
               </div>
@@ -1167,7 +1167,7 @@ export default function ProjectsView() {
                 <textarea
                   value={newProject.notes}
                   onChange={(e) => setNewProject(prev => ({ ...prev, notes: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   rows={2}
                   placeholder="Note aggiuntive"
                 />

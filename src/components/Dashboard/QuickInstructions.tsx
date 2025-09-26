@@ -70,7 +70,7 @@ INSERT INTO leads (name, email, source, campaign, status, value, date, roi, plan
 ('Giulia Bianchi', 'giulia.bianchi@email.com', 'Facebook', 'Campagna Facebook Q1', 'qualified', 0.00, '2024-01-20', 0.00, 500.00, 0.00);`;
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+    <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg p-6 border border-gray-100">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
           <div className="p-2 bg-red-100 rounded-lg mr-3">

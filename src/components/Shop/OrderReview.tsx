@@ -23,7 +23,7 @@ const OrderReview = ({ customer, shippingAddress, cartItems, orderSummary, onEdi
   return (
     <div className="space-y-6">
       {/* Customer Information */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-bold text-black">Informazioni Personali</h3>
           <button
@@ -50,7 +50,7 @@ const OrderReview = ({ customer, shippingAddress, cartItems, orderSummary, onEdi
       </div>
 
       {/* Shipping Address */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-bold text-black">Indirizzo di Spedizione</h3>
           <button
@@ -70,7 +70,7 @@ const OrderReview = ({ customer, shippingAddress, cartItems, orderSummary, onEdi
       </div>
 
       {/* Order Items */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-bold text-black">Prodotti Ordinati</h3>
           <button
@@ -107,7 +107,7 @@ const OrderReview = ({ customer, shippingAddress, cartItems, orderSummary, onEdi
       </div>
 
       {/* Shipping Method */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-bold text-black">Metodo di Spedizione</h3>
           <button
@@ -131,7 +131,7 @@ const OrderReview = ({ customer, shippingAddress, cartItems, orderSummary, onEdi
       </div>
 
       {/* Order Summary */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6">
         <h3 className="text-lg font-bold text-black mb-4">Riepilogo Ordine</h3>
         <div className="space-y-3">
           <div className="flex justify-between">

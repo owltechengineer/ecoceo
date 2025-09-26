@@ -132,7 +132,7 @@ export default function MarketingStatsOverview() {
   const errorTables = stats.filter(stat => stat.status === 'error').length;
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+    <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg border border-gray-100">
       {/* Header */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center justify-between">
@@ -231,7 +231,7 @@ export default function MarketingStatsOverview() {
                   key={stat.tableName}
                   className={`rounded-lg border p-4 transition-all duration-200 hover:shadow-md ${
                     stat.status === 'success'
-                      ? 'bg-white border-gray-200'
+                      ? 'bg-white/30 backdrop-blurborder-gray-200'
                       : 'bg-red-50 border-red-200'
                   }`}
                 >

@@ -235,7 +235,7 @@ export default function FinancialTablesDiagnostic() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+    <div className="bg-white/30 backdrop-blur rounded-lg shadow-md p-6 mb-6">
       <div className="flex items-center mb-4">
         <span className="text-2xl mr-3">🔧</span>
         <h2 className="text-xl font-bold text-gray-900">Diagnostica Tabelle Finanziarie</h2>

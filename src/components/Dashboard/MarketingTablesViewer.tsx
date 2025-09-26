@@ -109,7 +109,7 @@ export default function MarketingTablesViewer() {
   const currentTable = tables.find(t => t.key === activeTab);
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+    <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg border border-gray-100">
       {/* Header */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center justify-between">
@@ -200,7 +200,7 @@ export default function MarketingTablesViewer() {
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-white/30 backdrop-blurdivide-y divide-gray-200">
                     {currentData.map((row, index) => (
                       <tr key={index} className="hover:bg-gray-50">
                         {Object.entries(row).map(([key, value]) => (

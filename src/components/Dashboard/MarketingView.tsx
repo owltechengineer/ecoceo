@@ -332,7 +332,7 @@ export default function MarketingView() {
   return (
     <div className="space-y-6 min-h-full p-6">
       {/* Marketing Dashboard Unificato */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           {/* Bottoni Azioni */}
           <div className="flex gap-3">
@@ -404,7 +404,7 @@ export default function MarketingView() {
               <select
                 value={filter.status}
                 onChange={(e) => setFilter(prev => ({ ...prev, status: e.target.value }))}
-                className="block px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block px-3 py-2 border border-gray-300 bg-white/30 backdrop-blur rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
                 <option value="all">Tutti gli status</option>
                 <option value="planning">Planning</option>
@@ -419,7 +419,7 @@ export default function MarketingView() {
               <select
                 value={filter.priority}
                 onChange={(e) => setFilter(prev => ({ ...prev, priority: e.target.value }))}
-                className="block px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block px-3 py-2 border border-gray-300 bg-white/30 backdrop-blur rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
                 <option value="all">Tutte le priorità</option>
                 <option value="low">Bassa</option>
@@ -435,7 +435,7 @@ export default function MarketingView() {
 
 
       {/* Menu Tabs e Contenuto Unificato Semplificato */}
-      <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-gray-300/50">
+      <div className="bg-white/30 backdrop-blur/80 backdrop-blur-sm rounded-lg shadow-sm border border-gray-200/50">
         {/* Tabs Navigation Semplificata */}
         <div className="border-b border-gray-200/50 px-6">
           <nav className="flex space-x-6">
@@ -586,7 +586,7 @@ export default function MarketingView() {
         {activeTab === 'campaigns' && (
           <div className="space-y-6">
             {filteredCampaigns.length === 0 ? (
-              <div className="text-center py-12 border border-gray-300 rounded-lg">
+              <div className="text-center py-12 border border-gray-200 rounded-lg">
                 <span className="text-6xl">📊</span>
                 <h3 className="mt-2 text-sm font-medium text-gray-900">Nessuna campagna</h3>
                 <p className="mt-1 text-sm text-gray-500">Inizia creando la tua prima campagna marketing.</p>
@@ -658,13 +658,13 @@ export default function MarketingView() {
                             tags: campaign.tags
                           });
                         }}
-                        className="flex-1 inline-flex items-center justify-center px-3 py-2 border border-blue-300 shadow-sm text-xs font-medium rounded text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        className="flex-1 inline-flex items-center justify-center px-3 py-2 border border-blue-300 shadow-sm text-xs font-medium rounded text-blue-700 bg-white/30 backdrop-blur hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                       >
                         ✏️ Modifica
                       </button>
                       <button
                         onClick={() => handleDeleteCampaign(campaign.id)}
-                        className="flex-1 inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-xs font-medium rounded text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                        className="flex-1 inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-xs font-medium rounded text-red-700 bg-white/30 backdrop-blur hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                       >
                         🗑️ Elimina
                       </button>
@@ -680,7 +680,7 @@ export default function MarketingView() {
         {activeTab === 'leads' && (
           <div className="space-y-6">
             {filteredLeads.length === 0 ? (
-              <div className="text-center py-12 border border-gray-300 rounded-lg">
+              <div className="text-center py-12 border border-gray-200 rounded-lg">
                 <span className="text-6xl">👥</span>
                 <h3 className="mt-2 text-sm font-medium text-gray-900">Nessun lead</h3>
                 <p className="mt-1 text-sm text-gray-500">Inizia aggiungendo il tuo primo lead.</p>
@@ -753,13 +753,13 @@ export default function MarketingView() {
                             tags: lead.tags
                           });
                         }}
-                        className="flex-1 inline-flex items-center justify-center px-2 py-1.5 border border-green-300 shadow-sm text-xs font-medium rounded text-green-700 bg-white hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                        className="flex-1 inline-flex items-center justify-center px-2 py-1.5 border border-green-300 shadow-sm text-xs font-medium rounded text-green-700 bg-white/30 backdrop-blur hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                       >
                         ✏️
                       </button>
                       <button
                         onClick={() => handleDeleteLead(lead.id)}
-                        className="flex-1 inline-flex items-center justify-center px-2 py-1.5 border border-red-300 shadow-sm text-xs font-medium rounded text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                        className="flex-1 inline-flex items-center justify-center px-2 py-1.5 border border-red-300 shadow-sm text-xs font-medium rounded text-red-700 bg-white/30 backdrop-blur hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                       >
                         🗑️
                       </button>
@@ -781,7 +781,7 @@ export default function MarketingView() {
           <div className="flex items-center justify-center min-h-screen p-4">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75" onClick={() => setShowNewCampaign(false)}></div>
 
-            <div className="relative bg-white/30 backdrop-blur-sm rounded-lg p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-xl">
+            <div className="relative bg-white/30 backdrop-blur rounded-lg p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-xl">
               <div>
                 <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Nuova Campagna</h3>
                 
@@ -792,7 +792,7 @@ export default function MarketingView() {
                       type="text"
                       value={newCampaign.name}
                       onChange={(e) => setNewCampaign(prev => ({ ...prev, name: e.target.value }))}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       placeholder="Nome della campagna"
                     />
                   </div>
@@ -802,7 +802,7 @@ export default function MarketingView() {
                     <textarea
                       value={newCampaign.description}
                       onChange={(e) => setNewCampaign(prev => ({ ...prev, description: e.target.value }))}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       rows={3}
                       placeholder="Descrizione della campagna"
                     />
@@ -814,7 +814,7 @@ export default function MarketingView() {
                       <select
                         value={newCampaign.type}
                         onChange={(e) => setNewCampaign(prev => ({ ...prev, type: e.target.value as any }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       >
                         <option value="digital">Digital</option>
                         <option value="print">Stampa</option>
@@ -832,7 +832,7 @@ export default function MarketingView() {
                       <select
                         value={newCampaign.status}
                         onChange={(e) => setNewCampaign(prev => ({ ...prev, status: e.target.value as any }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       >
                         <option value="planning">Planning</option>
                         <option value="active">Attiva</option>
@@ -850,7 +850,7 @@ export default function MarketingView() {
                         type="number"
                         value={newCampaign.budget}
                         onChange={(e) => setNewCampaign(prev => ({ ...prev, budget: Number(e.target.value) }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                         min="0"
                         step="0.01"
                       />
@@ -862,7 +862,7 @@ export default function MarketingView() {
                         type="date"
                         value={newCampaign.start_date}
                         onChange={(e) => setNewCampaign(prev => ({ ...prev, start_date: e.target.value }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       />
                     </div>
                   </div>
@@ -878,7 +878,7 @@ export default function MarketingView() {
                 </button>
                 <button
                   onClick={() => setShowNewCampaign(false)}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white/30 backdrop-blur text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
                 >
                   Annulla
                 </button>
@@ -897,7 +897,7 @@ export default function MarketingView() {
               setShowNewLead(false);
             }}></div>
 
-            <div className="inline-block bg-white/30 backdrop-blur-sm rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all max-w-lg w-full p-6 relative z-10">
+            <div className="inline-block bg-white/30 backdrop-blur rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all max-w-lg w-full p-6 relative z-10">
               <div>
                 <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Nuovo Lead</h3>
                 
@@ -909,7 +909,7 @@ export default function MarketingView() {
                         type="text"
                         value={newLead.first_name}
                         onChange={(e) => setNewLead(prev => ({ ...prev, first_name: e.target.value }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                         placeholder="Nome"
                       />
                     </div>
@@ -920,7 +920,7 @@ export default function MarketingView() {
                         type="text"
                         value={newLead.last_name}
                         onChange={(e) => setNewLead(prev => ({ ...prev, last_name: e.target.value }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                         placeholder="Cognome"
                       />
                     </div>
@@ -932,7 +932,7 @@ export default function MarketingView() {
                       type="email"
                       value={newLead.email}
                       onChange={(e) => setNewLead(prev => ({ ...prev, email: e.target.value }))}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       placeholder="email@esempio.com"
                     />
                   </div>
@@ -944,7 +944,7 @@ export default function MarketingView() {
                         type="text"
                         value={newLead.company}
                         onChange={(e) => setNewLead(prev => ({ ...prev, company: e.target.value }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                         placeholder="Nome azienda"
                       />
                     </div>
@@ -955,7 +955,7 @@ export default function MarketingView() {
                         type="text"
                         value={newLead.job_title}
                         onChange={(e) => setNewLead(prev => ({ ...prev, job_title: e.target.value }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                         placeholder="Ruolo aziendale"
                       />
                     </div>
@@ -967,7 +967,7 @@ export default function MarketingView() {
                       <select
                         value={newLead.source}
                         onChange={(e) => setNewLead(prev => ({ ...prev, source: e.target.value as any }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       >
                         <option value="website">Website</option>
                         <option value="social">Social</option>
@@ -985,7 +985,7 @@ export default function MarketingView() {
                       <select
                         value={newLead.status}
                         onChange={(e) => setNewLead(prev => ({ ...prev, status: e.target.value as any }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       >
                         <option value="new">Nuovo</option>
                         <option value="contacted">Contattato</option>
@@ -1003,7 +1003,7 @@ export default function MarketingView() {
                         type="number"
                         value={newLead.score}
                         onChange={(e) => setNewLead(prev => ({ ...prev, score: Number(e.target.value) }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                         min="0"
                         max="100"
                       />
@@ -1021,7 +1021,7 @@ export default function MarketingView() {
                 </button>
                 <button
                   onClick={() => setShowNewLead(false)}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:mt-0 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white/30 backdrop-blur text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:mt-0 sm:w-auto sm:text-sm"
                 >
                   Annulla
                 </button>
@@ -1037,7 +1037,7 @@ export default function MarketingView() {
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={() => setEditingCampaign(null)}></div>
 
-            <div className="inline-block align-bottom bg-white/30 backdrop-blur-sm rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+            <div className="inline-block align-bottom bg-white/30 backdrop-blur rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
               <div>
                 <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Modifica Campagna</h3>
                 
@@ -1048,7 +1048,7 @@ export default function MarketingView() {
                       type="text"
                       value={editCampaignForm.name || ''}
                       onChange={(e) => setEditCampaignForm(prev => ({ ...prev, name: e.target.value }))}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                     />
                   </div>
 
@@ -1057,7 +1057,7 @@ export default function MarketingView() {
                     <textarea
                       value={editCampaignForm.description || ''}
                       onChange={(e) => setEditCampaignForm(prev => ({ ...prev, description: e.target.value }))}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       rows={3}
                     />
                   </div>
@@ -1068,7 +1068,7 @@ export default function MarketingView() {
                       <select
                         value={editCampaignForm.status || ''}
                         onChange={(e) => setEditCampaignForm(prev => ({ ...prev, status: e.target.value as any }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       >
                         <option value="planning">Planning</option>
                         <option value="active">Attiva</option>
@@ -1083,7 +1083,7 @@ export default function MarketingView() {
                       <select
                         value={editCampaignForm.priority || ''}
                         onChange={(e) => setEditCampaignForm(prev => ({ ...prev, priority: e.target.value as any }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       >
                         <option value="low">Bassa</option>
                         <option value="medium">Media</option>
@@ -1099,7 +1099,7 @@ export default function MarketingView() {
                       type="number"
                       value={editCampaignForm.budget || 0}
                       onChange={(e) => setEditCampaignForm(prev => ({ ...prev, budget: Number(e.target.value) }))}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       min="0"
                       step="0.01"
                     />
@@ -1116,7 +1116,7 @@ export default function MarketingView() {
                 </button>
                 <button
                   onClick={() => setEditingCampaign(null)}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white/30 backdrop-blur text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
                 >
                   Annulla
                 </button>
@@ -1132,7 +1132,7 @@ export default function MarketingView() {
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={() => setEditingLead(null)}></div>
 
-            <div className="inline-block bg-white/30 backdrop-blur-sm rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all max-w-lg w-full p-6 relative z-10">
+            <div className="inline-block bg-white/30 backdrop-blur rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all max-w-lg w-full p-6 relative z-10">
               <div>
                 <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Modifica Lead</h3>
                 
@@ -1144,7 +1144,7 @@ export default function MarketingView() {
                         type="text"
                         value={editLeadForm.first_name || ''}
                         onChange={(e) => setEditLeadForm(prev => ({ ...prev, first_name: e.target.value }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       />
                     </div>
 
@@ -1154,7 +1154,7 @@ export default function MarketingView() {
                         type="text"
                         value={editLeadForm.last_name || ''}
                         onChange={(e) => setEditLeadForm(prev => ({ ...prev, last_name: e.target.value }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       />
                     </div>
                   </div>
@@ -1176,7 +1176,7 @@ export default function MarketingView() {
                         type="text"
                         value={editLeadForm.company || ''}
                         onChange={(e) => setEditLeadForm(prev => ({ ...prev, company: e.target.value }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       />
                     </div>
 
@@ -1186,7 +1186,7 @@ export default function MarketingView() {
                         type="text"
                         value={editLeadForm.job_title || ''}
                         onChange={(e) => setEditLeadForm(prev => ({ ...prev, job_title: e.target.value }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       />
                     </div>
                   </div>
@@ -1197,7 +1197,7 @@ export default function MarketingView() {
                       <select
                         value={editLeadForm.status || ''}
                         onChange={(e) => setEditLeadForm(prev => ({ ...prev, status: e.target.value as any }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       >
                         <option value="new">Nuovo</option>
                         <option value="contacted">Contattato</option>
@@ -1214,7 +1214,7 @@ export default function MarketingView() {
                       <select
                         value={editLeadForm.priority || ''}
                         onChange={(e) => setEditLeadForm(prev => ({ ...prev, priority: e.target.value as any }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                       >
                         <option value="low">Bassa</option>
                         <option value="medium">Media</option>
@@ -1229,7 +1229,7 @@ export default function MarketingView() {
                         type="number"
                         value={editLeadForm.score || 0}
                         onChange={(e) => setEditLeadForm(prev => ({ ...prev, score: Number(e.target.value) }))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm text-gray-900 bg-white/30 backdrop-blur"
                         min="0"
                         max="100"
                       />
@@ -1247,7 +1247,7 @@ export default function MarketingView() {
                 </button>
                 <button
                   onClick={() => setEditingLead(null)}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:mt-0 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white/30 backdrop-blur text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:mt-0 sm:w-auto sm:text-sm"
                 >
                   Annulla
                 </button>

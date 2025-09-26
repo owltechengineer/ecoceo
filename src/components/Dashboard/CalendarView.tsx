@@ -214,7 +214,7 @@ export default function CalendarView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">📅 Calendario</h1>
@@ -232,7 +232,7 @@ export default function CalendarView() {
       </div>
 
       {/* Controls */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button
@@ -292,7 +292,7 @@ export default function CalendarView() {
       </div>
 
       {/* Calendar Grid */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm overflow-hidden">
         {view === 'month' && (
           <>
             {/* Days of week header */}
@@ -310,7 +310,7 @@ export default function CalendarView() {
                 <div
                   key={index}
                   className={`min-h-[120px] border-r border-b border-gray-200 p-2 ${
-                    !day.isCurrentMonth ? 'bg-gray-50' : 'bg-white'
+                    !day.isCurrentMonth ? 'bg-gray-50' : 'bg-white/30 backdrop-blur'
                   } ${day.isToday ? 'bg-blue-50' : ''}`}
                 >
                   <div className={`text-sm font-medium mb-1 ${
@@ -341,12 +341,40 @@ export default function CalendarView() {
             </div>
           </>
         )}
+
+        {/* Week View */}
+        {view === 'week' && (
+          <div className="p-6">
+            <div className="text-center text-gray-500 py-8">
+              <div className="text-4xl mb-4">📅</div>
+              <h3 className="text-lg font-medium mb-2">Vista Settimana</h3>
+              <p className="text-sm">La vista settimana è in fase di sviluppo</p>
+              <div className="mt-4 text-xs text-gray-400">
+                Data selezionata: {currentDate.toLocaleDateString('it-IT')}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Day View */}
+        {view === 'day' && (
+          <div className="p-6">
+            <div className="text-center text-gray-500 py-8">
+              <div className="text-4xl mb-4">📅</div>
+              <h3 className="text-lg font-medium mb-2">Vista Giorno</h3>
+              <p className="text-sm">La vista giorno è in fase di sviluppo</p>
+              <div className="mt-4 text-xs text-gray-400">
+                Data selezionata: {currentDate.toLocaleDateString('it-IT')}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Appointment Details Modal */}
       {selectedAppointment && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="bg-white/30 backdrop-blurrounded-lg p-6 max-w-md w-full mx-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
                 {getMeetingTypeIcon(selectedAppointment.type)} {selectedAppointment.title}
@@ -421,7 +449,7 @@ export default function CalendarView() {
       {/* New Appointment Modal */}
       {showNewAppointment && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white/30 backdrop-blurrounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">Nuovo Appuntamento</h3>
               <button
@@ -439,7 +467,7 @@ export default function CalendarView() {
                   type="text"
                   value={newAppointment.title}
                   onChange={(e) => setNewAppointment(prev => ({ ...prev, title: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="Titolo appuntamento"
                 />
               </div>
@@ -449,7 +477,7 @@ export default function CalendarView() {
                 <textarea
                   value={newAppointment.description}
                   onChange={(e) => setNewAppointment(prev => ({ ...prev, description: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   rows={3}
                   placeholder="Descrizione appuntamento"
                 />
@@ -462,7 +490,7 @@ export default function CalendarView() {
                     type="datetime-local"
                     value={newAppointment.start_time}
                     onChange={(e) => setNewAppointment(prev => ({ ...prev, start_time: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   />
                 </div>
                 <div>
@@ -471,7 +499,7 @@ export default function CalendarView() {
                     type="datetime-local"
                     value={newAppointment.end_time}
                     onChange={(e) => setNewAppointment(prev => ({ ...prev, end_time: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   />
                 </div>
               </div>
@@ -482,7 +510,7 @@ export default function CalendarView() {
                   type="text"
                   value={newAppointment.location}
                   onChange={(e) => setNewAppointment(prev => ({ ...prev, location: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="Luogo appuntamento"
                 />
               </div>
@@ -493,7 +521,7 @@ export default function CalendarView() {
                   type="text"
                   value={newAppointment.attendees}
                   onChange={(e) => setNewAppointment(prev => ({ ...prev, attendees: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="Nome1, Nome2, Nome3"
                 />
               </div>
@@ -503,7 +531,7 @@ export default function CalendarView() {
                 <select
                   value={newAppointment.type}
                   onChange={(e) => setNewAppointment(prev => ({ ...prev, type: e.target.value as any }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                 >
                   <option value="meeting">👥 Meeting</option>
                   <option value="call">📞 Chiamata</option>
@@ -520,7 +548,7 @@ export default function CalendarView() {
                   <select
                     value={newAppointment.status}
                     onChange={(e) => setNewAppointment(prev => ({ ...prev, status: e.target.value as any }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   >
                     <option value="scheduled">📅 Programmato</option>
                     <option value="confirmed">✅ Confermato</option>
@@ -534,7 +562,7 @@ export default function CalendarView() {
                   <select
                     value={newAppointment.priority}
                     onChange={(e) => setNewAppointment(prev => ({ ...prev, priority: e.target.value as any }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   >
                     <option value="low">🟢 Bassa</option>
                     <option value="medium">🟡 Media</option>
@@ -550,7 +578,7 @@ export default function CalendarView() {
                   type="url"
                   value={newAppointment.meeting_url}
                   onChange={(e) => setNewAppointment(prev => ({ ...prev, meeting_url: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="https://meet.google.com/..."
                 />
               </div>

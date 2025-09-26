@@ -355,7 +355,7 @@ export default function DatabaseSchemaTest() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-xl font-semibold text-gray-900">🗄️ Test Schema Database</h2>

@@ -419,7 +419,7 @@ export default function IntelligentTestSuite() {
   return (
     <div className="space-y-6 min-h-full p-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">🧪 Suite Test Intelligente</h1>
@@ -446,7 +446,7 @@ export default function IntelligentTestSuite() {
           const total = suite.tests.length;
           
           return (
-            <div key={suiteId} className="bg-white rounded-lg shadow-sm p-6">
+            <div key={suiteId} className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
                   <span className="text-2xl mr-3">{suite.icon}</span>
@@ -485,7 +485,7 @@ export default function IntelligentTestSuite() {
       </div>
 
       {/* Test Tabs */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm overflow-hidden">
         <div className="border-b border-gray-200">
           <nav className="flex space-x-8 px-6">
             {Object.entries(testSuites).map(([suiteId, suite]) => (

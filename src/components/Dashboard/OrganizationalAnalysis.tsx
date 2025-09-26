@@ -214,7 +214,7 @@ export default function OrganizationalAnalysis() {
   return (
     <div className="space-y-6 min-h-full p-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">🏢 Analisi Organizzativa</h1>
@@ -233,7 +233,7 @@ export default function OrganizationalAnalysis() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-4 text-white">
           <div className="flex items-center">
-            <div className="p-2 bg-white bg-opacity-20 rounded-lg">
+            <div className="p-2 bg-white/30 backdrop-blurbg-opacity-20 rounded-lg">
               <span className="text-2xl">📊</span>
             </div>
             <div className="ml-4">
@@ -246,7 +246,7 @@ export default function OrganizationalAnalysis() {
 
         <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-4 text-white">
           <div className="flex items-center">
-            <div className="p-2 bg-white bg-opacity-20 rounded-lg">
+            <div className="p-2 bg-white/30 backdrop-blurbg-opacity-20 rounded-lg">
               <span className="text-2xl">✅</span>
             </div>
             <div className="ml-4">
@@ -259,7 +259,7 @@ export default function OrganizationalAnalysis() {
 
         <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-lg p-4 text-white">
           <div className="flex items-center">
-            <div className="p-2 bg-white bg-opacity-20 rounded-lg">
+            <div className="p-2 bg-white/30 backdrop-blurbg-opacity-20 rounded-lg">
               <span className="text-2xl">⚠️</span>
             </div>
             <div className="ml-4">
@@ -272,7 +272,7 @@ export default function OrganizationalAnalysis() {
 
         <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg p-4 text-white">
           <div className="flex items-center">
-            <div className="p-2 bg-white bg-opacity-20 rounded-lg">
+            <div className="p-2 bg-white/30 backdrop-blurbg-opacity-20 rounded-lg">
               <span className="text-2xl">🔥</span>
             </div>
             <div className="ml-4">
@@ -287,7 +287,7 @@ export default function OrganizationalAnalysis() {
       {/* Sections Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {sections.map((section) => (
-          <div key={section.id} className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+          <div key={section.id} className="bg-white/30 backdrop-blurrounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
             <div className="p-6">
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
@@ -420,7 +420,7 @@ export default function OrganizationalAnalysis() {
       </div>
 
       {/* Action Plan */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <h3 className="text-lg font-bold text-gray-900 mb-4">📋 Piano d'Azione Suggerito</h3>
         <div className="space-y-4">
           {sections

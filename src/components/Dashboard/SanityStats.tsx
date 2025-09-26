@@ -32,7 +32,7 @@ export default function SanityStats() {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📊 Statistiche Sanity</h3>
         <div className="flex items-center justify-center py-8">
           <svg className="animate-spin h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -47,7 +47,7 @@ export default function SanityStats() {
 
   if (error) {
     return (
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📊 Statistiche Sanity</h3>
         <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
           <p className="text-red-800 text-sm">{error}</p>
@@ -70,7 +70,7 @@ export default function SanityStats() {
   const profitMargin = stats.totalRevenue > 0 ? (totalProfit / stats.totalRevenue) * 100 : 0;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
+    <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center">
           <div>

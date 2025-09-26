@@ -17,7 +17,7 @@ export default function MarketingVisualizations() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+      <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg p-6 border border-gray-100">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="p-2 bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg mr-3">
@@ -32,7 +32,7 @@ export default function MarketingVisualizations() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+      <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg border border-gray-100">
         <div className="border-b border-gray-200">
           <div className="flex">
             {views.map((view) => (

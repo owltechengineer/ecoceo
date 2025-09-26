@@ -69,7 +69,7 @@ const Services = () => {
           className="w-full"
         >
           <div className="wow fadeInUp" data-wow-delay={`${index * 100}ms`}>
-            <div className="group relative overflow-hidden rounded-sm bg-white shadow-one duration-300 hover:shadow-two dark:bg-dark dark:hover:shadow-gray-dark">
+            <div className="group relative overflow-hidden rounded-sm bg-white/30 backdrop-blurshadow-one duration-300 hover:shadow-two dark:bg-dark dark:hover:shadow-gray-dark">
               <div className="p-8">
                 <div className="mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-md bg-primary bg-opacity-10 text-4xl">
                   {service.icon || "💼"}

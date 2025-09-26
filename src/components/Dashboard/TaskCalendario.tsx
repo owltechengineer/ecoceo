@@ -100,7 +100,7 @@ export default function TaskCalendario() {
   return (
     <div className="space-y-6 min-h-full p-6">
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+      <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg p-6 border border-gray-100">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="p-2 bg-gradient-to-r from-green-600 to-green-700 rounded-lg mr-3">
@@ -212,7 +212,7 @@ export default function TaskCalendario() {
 
       {/* Content */}
       {viewMode === 'list' ? (
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+        <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg border border-gray-100">
           <div className="p-6 border-b border-gray-200">
             <h2 className="text-xl font-bold text-gray-900">Lista Task</h2>
           </div>
@@ -275,7 +275,7 @@ export default function TaskCalendario() {
           </div>
         </div>
       ) : (
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+        <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg border border-gray-100">
           <div className="p-6 border-b border-gray-200">
             <h2 className="text-xl font-bold text-gray-900">Vista Calendario</h2>
             <p className="text-gray-600 mt-1">Visualizzazione calendario in sviluppo</p>
@@ -296,7 +296,7 @@ export default function TaskCalendario() {
       )}
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+      <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg p-6 border border-gray-100">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Azioni Rapide</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-200 text-left">

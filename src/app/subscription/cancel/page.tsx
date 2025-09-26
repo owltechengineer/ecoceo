@@ -37,7 +37,7 @@ const SubscriptionCancelPage = () => {
               </p>
 
               {/* Information */}
-              <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+              <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6 mb-8">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">
                   Cosa succede ora?
                 </h2>

@@ -84,7 +84,7 @@ const BlogPostPage = () => {
           <div className="container">
             <div className="max-w-4xl mx-auto">
               {/* Article Header */}
-              <article className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              <article className="bg-white/30 backdrop-blur rounded-2xl shadow-lg overflow-hidden">
                 {/* Hero Image */}
                 {post.mainImage && (
                   <div className="relative aspect-[21/9] overflow-hidden">

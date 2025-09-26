@@ -260,7 +260,7 @@ ORDER BY table_name;`;
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
+    <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">🔧 Setup Schema Database</h3>
       
       <div className="space-y-4">

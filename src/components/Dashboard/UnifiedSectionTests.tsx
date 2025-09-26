@@ -323,7 +323,7 @@ export default function UnifiedSectionTests() {
   return (
     <div className="space-y-6 min-h-full p-6">
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+      <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg p-6 border border-gray-100">
         <div className="flex items-center">
           <div className="p-2 bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg mr-3">
             <span className="text-xl text-white">🧪</span>
@@ -336,7 +336,7 @@ export default function UnifiedSectionTests() {
       </div>
 
       {/* Section Selector */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+      <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg p-6 border border-gray-100">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Seleziona Sezione da Testare</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
           {Object.entries(sections).map(([key, section]) => (
@@ -373,7 +373,7 @@ export default function UnifiedSectionTests() {
       )}
 
       {/* Summary */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+      <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg p-6 border border-gray-100">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Riepilogo Test</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-green-50 rounded-lg p-4 border border-green-200">

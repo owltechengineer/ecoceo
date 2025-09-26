@@ -76,7 +76,7 @@ const OrderSuccessContent = () => {
               </p>
 
               {/* Order Details */}
-              <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+              <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6 mb-8">
                 <h2 className="text-xl font-bold text-black mb-4">
                   Cosa succede ora?
                 </h2>

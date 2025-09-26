@@ -20,7 +20,7 @@ const SingleTestimonial = ({ testimonial, index }) => {
       className="w-full"
     >
       <div className="wow fadeInUp" data-wow-delay={`${index * 100}ms`}>
-        <div className="group/tes relative rounded-sm bg-white p-8 shadow-testimonial dark:bg-dark lg:px-12 xl:p-14">
+        <div className="group/tes relative rounded-sm bg-white/30 backdrop-blurp-8 shadow-testimonial dark:bg-dark lg:px-12 xl:p-14">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="relative h-16 w-16 overflow-hidden rounded-full">

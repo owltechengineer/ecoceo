@@ -85,7 +85,7 @@ const LegalPage = () => {
               {legalPages.map((page, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-lg shadow-lg p-8 border border-gray-200 hover:shadow-xl transition-shadow duration-300"
+                  className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-8 border border-gray-200 hover:shadow-xl transition-shadow duration-300"
                 >
                   <h3 className="text-xl font-bold text-gray-800 mb-4">
                     {page.title}

@@ -165,7 +165,7 @@ const CheckoutWithPayment = ({ customer, shippingAddress, onBack }: CheckoutWith
       )}
 
       {selectedMethod === 'paypal' && (
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm border p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Pagamento con PayPal
           </h3>
@@ -183,7 +183,7 @@ const CheckoutWithPayment = ({ customer, shippingAddress, onBack }: CheckoutWith
       )}
 
       {selectedMethod === 'bank_transfer' && (
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm border p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Bonifico Bancario
           </h3>

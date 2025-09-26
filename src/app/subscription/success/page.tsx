@@ -69,7 +69,7 @@ const SubscriptionSuccessContent = () => {
 
               {/* Subscription Details */}
               {subscriptionDetails && (
-                <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                <div className="bg-white/30 backdrop-blurrounded-2xl shadow-lg p-8 mb-8">
                   <h2 className="text-2xl font-bold text-gray-900 mb-6">
                     Dettagli Abbonamento
                   </h2>

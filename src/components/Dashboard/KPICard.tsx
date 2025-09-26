@@ -27,7 +27,7 @@ export default function KPICard({ title, value, change, status, icon }: KPICardP
   };
 
   return (
-    <div className={`bg-white rounded-lg shadow-sm p-6 border-l-4 ${getStatusColor(status)}`}>
+    <div className={`bg-white/30 backdrop-blurrounded-lg shadow-sm p-6 border-l-4 ${getStatusColor(status)}`}>
       <div className="flex items-center justify-between mb-4">
         <div className="text-2xl">{icon}</div>
         <div className={`text-sm font-medium ${getChangeColor(change)}`}>

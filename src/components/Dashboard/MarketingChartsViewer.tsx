@@ -282,7 +282,7 @@ export default function MarketingChartsViewer() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+    <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg border border-gray-100">
       {/* Header */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center justify-between">
@@ -381,7 +381,7 @@ export default function MarketingChartsViewer() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-white/30 backdrop-blurdivide-y divide-gray-200">
                     {chartData.labels.map((label, index) => {
                       const value = chartData.datasets[0].data[index];
                       const total = chartData.datasets[0].data.reduce((sum, val) => sum + val, 0);

@@ -167,7 +167,7 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
       
 
       {/* Template Selector */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900">Template Selezionato</h3>
           <select
@@ -200,7 +200,7 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
 
       {/* Weekly Schedule Grid */}
       {selectedTemplate ? (
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm overflow-hidden">
           <div className="grid grid-cols-8 border-b border-gray-200">
             <div className="p-4 bg-gray-50 border-r border-gray-200">
               <div className="text-sm font-medium text-gray-500">Ora</div>
@@ -258,7 +258,7 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
           </div>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-sm p-8 text-center">
+        <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-8 text-center">
           <div className="text-gray-400 text-4xl mb-4">📅</div>
           <h3 className="text-lg font-semibold text-gray-900 mb-2">Nessun Template Selezionato</h3>
           <p className="text-gray-600">
@@ -268,7 +268,7 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
       )}
 
       {/* Legend */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Legenda</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>

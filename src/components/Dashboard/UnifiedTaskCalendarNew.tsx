@@ -177,7 +177,7 @@ export default function UnifiedTaskCalendarNew() {
     <div className="space-y-6 min-h-full p-6">
 
       {/* View Selector */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-center space-x-4">
           <button
             onClick={() => setActiveView('tasks')}
@@ -229,7 +229,7 @@ export default function UnifiedTaskCalendarNew() {
       {activeView === 'unified' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Task Summary */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">📋 Task Recenti</h2>
             {loading ? (
               <div className="text-center py-4">
@@ -273,7 +273,7 @@ export default function UnifiedTaskCalendarNew() {
           </div>
           
           {/* Calendar Summary */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">📅 Appuntamenti Oggi</h2>
             {loading ? (
               <div className="text-center py-4">

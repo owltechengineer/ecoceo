@@ -29,7 +29,7 @@ NEXT_PUBLIC_APP_NAME=Dashboard Aziendale`;
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
+    <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900">⚙️ Configurazione Ambiente</h3>
         <button

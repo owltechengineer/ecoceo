@@ -150,7 +150,7 @@ export default function MainDashboard() {
         {/* Main Content */}
         <div className="flex-1 flex flex-col p-4">
           {/* Top Bar con Effetto Vetro */}
-          <div className="bg-white/20 backdrop-blur-md rounded-xl shadow-lg border border-white/30 mb-4">
+          <div className="bg-white/30 backdrop-blur/20 backdrop-blur-md rounded-xl shadow-lg border border-white/30 mb-4">
             <div className="bg-blue-500/20 backdrop-blur-sm rounded-t-xl px-6 py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">

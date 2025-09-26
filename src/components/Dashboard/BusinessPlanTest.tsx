@@ -99,7 +99,7 @@ export default function BusinessPlanTest() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
+    <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">🧪 Test Business Plan Database</h3>
       
       <div className="space-y-4">
@@ -123,7 +123,7 @@ export default function BusinessPlanTest() {
         
         <div className="bg-gray-100 p-4 rounded-lg">
           <h4 className="font-semibold mb-2 text-gray-900">Risultati Test:</h4>
-          <pre className="text-sm whitespace-pre-wrap text-gray-900 bg-white p-3 rounded border">{testResult || 'Nessun test eseguito'}</pre>
+          <pre className="text-sm whitespace-pre-wrap text-gray-900 bg-white/30 backdrop-blurp-3 rounded border">{testResult || 'Nessun test eseguito'}</pre>
         </div>
         
         <div className="text-sm text-gray-600">

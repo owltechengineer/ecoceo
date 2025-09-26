@@ -95,7 +95,7 @@ const OrderPage = async ({ params }: OrderPageProps) => {
           <div className="container">
             <div className="max-w-4xl mx-auto">
               {/* Order Header */}
-              <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+              <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6 mb-8">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
                     <h1 className="text-2xl font-bold text-black">
@@ -123,7 +123,7 @@ const OrderPage = async ({ params }: OrderPageProps) => {
                 {/* Order Details */}
                 <div className="lg:col-span-2 space-y-6">
                   {/* Customer Information */}
-                  <div className="bg-white rounded-lg shadow-lg p-6">
+                  <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6">
                     <h2 className="text-xl font-bold text-black mb-4">
                       Informazioni Cliente
                     </h2>
@@ -144,7 +144,7 @@ const OrderPage = async ({ params }: OrderPageProps) => {
                   </div>
 
                   {/* Shipping Address */}
-                  <div className="bg-white rounded-lg shadow-lg p-6">
+                  <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6">
                     <h2 className="text-xl font-bold text-black mb-4">
                       Indirizzo di Spedizione
                     </h2>
@@ -158,7 +158,7 @@ const OrderPage = async ({ params }: OrderPageProps) => {
                   </div>
 
                   {/* Order Items */}
-                  <div className="bg-white rounded-lg shadow-lg p-6">
+                  <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6">
                     <h2 className="text-xl font-bold text-black mb-4">
                       Prodotti Ordinati
                     </h2>
@@ -188,7 +188,7 @@ const OrderPage = async ({ params }: OrderPageProps) => {
 
                   {/* Order Notes */}
                   {order.notes && (
-                    <div className="bg-white rounded-lg shadow-lg p-6">
+                    <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6">
                       <h2 className="text-xl font-bold text-black mb-4">
                         Note
                       </h2>
@@ -199,7 +199,7 @@ const OrderPage = async ({ params }: OrderPageProps) => {
 
                 {/* Order Summary */}
                 <div className="lg:col-span-1">
-                  <div className="bg-white rounded-lg shadow-lg p-6 sticky top-4">
+                  <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6 sticky top-4">
                     <h2 className="text-xl font-bold text-black mb-6">
                       Riepilogo Ordine
                     </h2>

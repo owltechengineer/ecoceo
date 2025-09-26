@@ -48,7 +48,7 @@ export default function Notification({ type, message, onClose, duration = 5000 }
 
   return (
     <div
-      className={`fixed top-4 right-4 z-50 max-w-sm w-full bg-white rounded-lg shadow-lg border-l-4 p-4 transition-all duration-300 ${
+      className={`fixed top-4 right-4 z-50 max-w-sm w-full bg-white/30 backdrop-blurrounded-lg shadow-lg border-l-4 p-4 transition-all duration-300 ${
         isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
       } ${getStyles()}`}
     >

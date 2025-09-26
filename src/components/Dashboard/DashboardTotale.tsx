@@ -432,7 +432,7 @@ export default function DashboardTotale() {
   return (
     <div className="space-y-6 min-h-full p-6">
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="p-2 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg mr-3">
@@ -461,7 +461,7 @@ export default function DashboardTotale() {
       </div>
 
       {/* Recap Pagamenti di Oggi */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
         <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
           <span className="text-2xl mr-2">💰</span>
           Recap Pagamenti di Oggi
@@ -520,7 +520,7 @@ export default function DashboardTotale() {
       </div>
 
       {/* Attività Giornaliere */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
         <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
           <span className="text-2xl mr-2">📅</span>
           Attività di Oggi
@@ -704,7 +704,7 @@ export default function DashboardTotale() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Azioni Rapide</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <button className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-200 text-left">
@@ -750,7 +750,7 @@ export default function DashboardTotale() {
       </div>
 
       {/* Sistema Status */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Stato Sistema</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="flex items-center p-4 bg-green-50 rounded-lg border border-green-200">

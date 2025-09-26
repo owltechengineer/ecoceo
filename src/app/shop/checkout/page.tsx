@@ -151,7 +151,7 @@ const CheckoutPage = () => {
 
                       <form onSubmit={handleFormSubmit} className="space-y-8">
                         {/* Personal Information */}
-                        <div className="bg-white rounded-lg shadow-lg p-6">
+                        <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6">
                           <h2 className="text-xl font-bold text-black mb-6">
                             Informazioni Personali
                           </h2>
@@ -212,7 +212,7 @@ const CheckoutPage = () => {
                         </div>
 
                         {/* Shipping Address */}
-                        <div className="bg-white rounded-lg shadow-lg p-6">
+                        <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6">
                           <h2 className="text-xl font-bold text-black mb-6">
                             Indirizzo di Spedizione
                           </h2>
@@ -308,7 +308,7 @@ const CheckoutPage = () => {
 
                 {/* Order Summary */}
                 <div className="lg:col-span-1">
-                  <div className="bg-white rounded-lg shadow-lg p-6 sticky top-4">
+                  <div className="bg-white/30 backdrop-blurrounded-lg shadow-lg p-6 sticky top-4">
                     <h2 className="text-xl font-bold text-black mb-6">
                       Riepilogo Ordine
                     </h2>

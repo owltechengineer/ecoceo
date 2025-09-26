@@ -343,7 +343,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
           <div className="space-y-2">
             {dayActivities.length > 0 ? (
               dayActivities.map(activity => (
-                <div key={activity.id} className="bg-white rounded-lg p-4 border-2 border-gray-200 shadow-md hover:shadow-lg transition-shadow">
+                <div key={activity.id} className="bg-white/30 backdrop-blurrounded-lg p-4 border-2 border-gray-200 shadow-md hover:shadow-lg transition-shadow">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex-1">
                       <h4 className="font-bold text-base text-gray-900 mb-1">{activity.name}</h4>
@@ -390,7 +390,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
     }
     
     return weeks.map((week, weekIndex) => (
-      <div key={weekIndex} className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+      <div key={weekIndex} className="bg-white/30 backdrop-blurrounded-lg p-4 border border-gray-200 shadow-sm">
         <h3 className="font-semibold text-gray-900 mb-3">Settimana {weekIndex + 1}</h3>
         <div className="grid grid-cols-7 gap-2">
           {week.map(day => {
@@ -402,7 +402,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
                 <div className="space-y-1">
                   {dayActivities.length > 0 ? (
                     dayActivities.map(activity => (
-                      <div key={activity.id} className="bg-white rounded-lg p-2 border-2 border-gray-200 shadow-md hover:shadow-lg transition-shadow">
+                      <div key={activity.id} className="bg-white/30 backdrop-blurrounded-lg p-2 border-2 border-gray-200 shadow-md hover:shadow-lg transition-shadow">
                         <div className="text-center">
                           <h5 className="text-sm font-bold text-gray-900 truncate mb-1">{activity.name}</h5>
                           <p className="text-sm font-medium text-blue-600 mb-1">{activity.time_of_day}</p>
@@ -437,7 +437,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
       />
       
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">🔄 Attività Ricorrenti</h2>
@@ -462,7 +462,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
       </div>
 
       {/* Tabs */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <div className="flex space-x-1 mb-6">
           {[
             { key: 'activities', label: 'Attività', icon: '🔄' },
@@ -495,7 +495,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
             {activeTab === 'activities' && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {activities.map(activity => (
-                  <div key={activity.id} className="bg-white rounded-lg p-6 border-2 border-gray-200 shadow-lg hover:shadow-xl transition-shadow">
+                  <div key={activity.id} className="bg-white/30 backdrop-blurrounded-lg p-6 border-2 border-gray-200 shadow-lg hover:shadow-xl transition-shadow">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-bold text-lg text-gray-900">{activity.name}</h3>
                       <span className={`px-3 py-1 text-sm font-bold rounded-full ${
@@ -619,7 +619,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
       {/* Form Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-          <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200">
+          <div className="bg-white/30 backdrop-blurrounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200">
             <div className="flex items-center justify-between mb-6 border-b border-gray-200 pb-4">
               <h3 className="text-xl font-bold text-gray-900">
                 {editingActivity ? 'Modifica Attività' : 'Nuova Attività'}

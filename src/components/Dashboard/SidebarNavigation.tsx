@@ -145,7 +145,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 bg-white/20 backdrop-blur-md rounded-lg shadow-lg border border-white/30"
+          className="p-2 bg-white/30 backdrop-blur/20 backdrop-blur-md rounded-lg shadow-lg border border-white/30"
         >
           <span className="text-gray-600 text-lg">
             {isMobileMenuOpen ? '✕' : '☰'}
@@ -168,7 +168,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
         isMobileMenuOpen ? 'fixed inset-y-0 left-0 z-50 lg:relative lg:inset-auto' : 'hidden lg:block'
       }`}>
         {/* Navigation con Effetto Vetro */}
-        <div className="bg-white/20 backdrop-blur-md rounded-xl shadow-lg border border-white/30 overflow-hidden h-full">
+        <div className="bg-white/30 backdrop-blur/20 backdrop-blur-md rounded-xl shadow-lg border border-white/30 overflow-hidden h-full">
         {/* Header con Effetto Vetro */}
         <div className="bg-blue-500/20 backdrop-blur-sm p-4 border-b border-white/30">
           <div className="flex items-center justify-between">
@@ -212,7 +212,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
                 <div className="my-4 mx-2">
                   <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
                   <div className="text-center mt-2">
-                    <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full border border-gray-200">
+                    <span className="text-xs text-gray-500 bg-white/30 backdrop-blur px-2 py-1 rounded-full border border-gray-200">
                       Gestione Operativa
                     </span>
                   </div>
@@ -224,7 +224,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
                 <div className="my-4 mx-2">
                   <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
                   <div className="text-center mt-2">
-                    <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full border border-gray-200">
+                    <span className="text-xs text-gray-500 bg-white/30 backdrop-blur px-2 py-1 rounded-full border border-gray-200">
                       Identità Aziendale
                     </span>
                   </div>

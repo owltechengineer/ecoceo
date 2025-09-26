@@ -44,7 +44,7 @@ export default function ContactRequests() {
   const qualifiedRequests = contactRequests.filter(r => r.status === 'qualified').length;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6">
+    <div className="bg-white/30 backdrop-blurrounded-xl shadow-sm p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-gray-900">📞 Richieste Contatti</h3>
         <div className="flex items-center space-x-4 text-sm">

@@ -200,7 +200,7 @@ export default function TaskManagement() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-sm p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
             <div>
@@ -315,7 +315,7 @@ export default function TaskManagement() {
       {viewMode === 'kanban' && (
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
           {Object.entries(groupedTasks).map(([status, statusTasks]) => (
-            <div key={status} className="bg-white rounded-xl shadow-sm p-4">
+            <div key={status} className="bg-white/30 backdrop-blur rounded-xl shadow-sm p-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold text-gray-900">{getStatusLabel(status)}</h3>
                 <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-sm">
@@ -388,7 +388,7 @@ export default function TaskManagement() {
 
       {/* Vista Lista */}
       {viewMode === 'list' && (
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-white/30 backdrop-blur rounded-xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -402,7 +402,7 @@ export default function TaskManagement() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Azioni</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white/30 backdrop-blur divide-y divide-gray-200">
                 {filteredTasks.map((task) => (
                   <tr key={task.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
@@ -450,7 +450,7 @@ export default function TaskManagement() {
 
       {/* Vista Calendario */}
       {viewMode === 'calendar' && (
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blur rounded-xl shadow-sm p-6">
           <div className="text-center text-gray-500">
             <p>Vista calendario in sviluppo...</p>
             <p className="text-sm">Presto disponibile con integrazione calendario completo</p>

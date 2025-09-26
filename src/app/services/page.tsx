@@ -93,7 +93,7 @@ const ServicesPage = () => {
                     className="w-full"
                   >
                     <div className="wow fadeInUp" data-wow-delay={`${index * 100}ms`}>
-                      <div className="group relative overflow-hidden rounded-sm bg-white shadow-one duration-300 hover:shadow-two dark:bg-dark dark:hover:shadow-gray-dark">
+                      <div className="group relative overflow-hidden rounded-sm bg-white/30 backdrop-blurshadow-one duration-300 hover:shadow-two dark:bg-dark dark:hover:shadow-gray-dark">
                         {/* Service Image */}
                         <div className="relative h-48 overflow-hidden">
                           {service.image ? (

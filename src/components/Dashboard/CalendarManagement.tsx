@@ -218,7 +218,7 @@ export default function CalendarManagement() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-xl shadow-sm p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
             <div>
@@ -308,7 +308,7 @@ export default function CalendarManagement() {
 
       {/* Vista Calendario Mensile */}
       {viewMode === 'month' && (
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blurrounded-xl shadow-sm p-6">
           <div className="grid grid-cols-7 gap-1 mb-4">
             {['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'].map(day => (
               <div key={day} className="p-2 text-center text-sm font-medium text-gray-500">
@@ -364,7 +364,7 @@ export default function CalendarManagement() {
 
       {/* Vista Settimanale */}
       {viewMode === 'week' && (
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blurrounded-xl shadow-sm p-6">
           <div className="text-center text-gray-500">
             <p>Vista settimanale in sviluppo...</p>
             <p className="text-sm">Presto disponibile con visualizzazione completa della settimana</p>
@@ -374,7 +374,7 @@ export default function CalendarManagement() {
 
       {/* Vista Giornaliera */}
       {viewMode === 'day' && (
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blurrounded-xl shadow-sm p-6">
           <div className="text-center text-gray-500">
             <p>Vista giornaliera in sviluppo...</p>
             <p className="text-sm">Presto disponibile con timeline dettagliata</p>
@@ -384,7 +384,7 @@ export default function CalendarManagement() {
 
       {/* Appuntamenti di Oggi */}
       {todayAppointments.length > 0 && (
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blurrounded-xl shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📅 Appuntamenti di Oggi</h3>
           <div className="space-y-3">
             {todayAppointments.map((appointment) => (
@@ -418,7 +418,7 @@ export default function CalendarManagement() {
 
       {/* Prossimi Appuntamenti */}
       {upcomingAppointments.length > 0 && (
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blurrounded-xl shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">⏰ Prossimi Appuntamenti</h3>
           <div className="space-y-3">
             {upcomingAppointments.map((appointment) => (

@@ -703,7 +703,7 @@ export default function BusinessPlanManagement() {
 
   const renderExecutiveSummary = () => (
     <div className="space-y-6">
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 Executive Summary</h3>
         
         {/* Editor WYSIWYG */}
@@ -714,7 +714,7 @@ export default function BusinessPlanManagement() {
           <textarea
             value={executiveSummary.content}
             onChange={(e) => setExecutiveSummary({...executiveSummary, content: e.target.value})}
-            className="w-full h-64 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+            className="w-full h-64 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             placeholder="Inserisci qui il contenuto completo del tuo business plan..."
           />
           <div className="text-sm text-gray-500 mt-1">
@@ -731,7 +731,7 @@ export default function BusinessPlanManagement() {
             value={executiveSummary.pitch}
             onChange={(e) => setExecutiveSummary({...executiveSummary, pitch: e.target.value})}
             maxLength={500}
-            className="w-full h-24 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+            className="w-full h-24 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
             placeholder="Inserisci qui il tuo pitch in poche righe..."
           />
           <div className={`text-sm mt-1 ${executiveSummary.pitch.length > 450 ? 'text-red-500' : 'text-gray-500'}`}>
@@ -761,7 +761,7 @@ export default function BusinessPlanManagement() {
             />
             <label
               htmlFor="file-upload-executive"
-              className="cursor-pointer inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+              className="cursor-pointer inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white/30 backdrop-blur hover:bg-gray-50"
             >
               📁 Carica File
             </label>
@@ -936,7 +936,7 @@ export default function BusinessPlanManagement() {
   const renderMarketAnalysis = () => (
     <div className="space-y-6">
       {/* Demografia */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">👥 Segmentazione Demografica</h3>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -949,7 +949,7 @@ export default function BusinessPlanManagement() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Azioni</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white/30 backdrop-blur divide-y divide-gray-200">
               {marketAnalysis.demographics.map((demo, index) => (
                 <tr key={index}>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -957,7 +957,7 @@ export default function BusinessPlanManagement() {
                       type="text"
                       value={demo.segment}
                       onChange={(e) => updateDemographicSegment(index, 'segment', e.target.value)}
-                      className="w-full px-2 py-1 text-sm font-medium text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                      className="w-full px-2 py-1 text-sm font-medium text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/30 backdrop-blur"
                     />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -965,7 +965,7 @@ export default function BusinessPlanManagement() {
                       type="number"
                       value={demo.size}
                       onChange={(e) => updateDemographicSegment(index, 'size', parseInt(e.target.value) || 0)}
-                      className="w-full px-2 py-1 text-sm text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                      className="w-full px-2 py-1 text-sm text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/30 backdrop-blur"
                     />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -973,7 +973,7 @@ export default function BusinessPlanManagement() {
                       type="number"
                       value={demo.percentage}
                       onChange={(e) => updateDemographicSegment(index, 'percentage', parseInt(e.target.value) || 0)}
-                      className="w-full px-2 py-1 text-sm text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                      className="w-full px-2 py-1 text-sm text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/30 backdrop-blur"
                     />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -981,7 +981,7 @@ export default function BusinessPlanManagement() {
                       type="number"
                       value={demo.growth}
                       onChange={(e) => updateDemographicSegment(index, 'growth', parseInt(e.target.value) || 0)}
-                      className="w-full px-2 py-1 text-sm text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                      className="w-full px-2 py-1 text-sm text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/30 backdrop-blur"
                     />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -1006,7 +1006,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* Concorrenza */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🏆 Analisi Concorrenza</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -1018,7 +1018,7 @@ export default function BusinessPlanManagement() {
                     type="text"
                     value={competitor.name}
                     onChange={(e) => updateCompetitor(index, 'name', e.target.value)}
-                    className="w-32 px-2 py-1 text-sm text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                    className="w-32 px-2 py-1 text-sm text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/30 backdrop-blur"
                   />
                   <div className="flex-1 mx-3">
                     <div className="w-full bg-gray-200 rounded-full h-2">
@@ -1075,7 +1075,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* SWOT */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🔍 Analisi SWOT</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
@@ -1088,7 +1088,7 @@ export default function BusinessPlanManagement() {
                       type="text"
                       value={strength}
                       onChange={(e) => updateSWOTItem('strengths', index, e.target.value)}
-                      className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm text-gray-900"
+                      className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm text-gray-900"
                     />
                     <button 
                       onClick={() => removeSWOTItem('strengths', index)}
@@ -1115,7 +1115,7 @@ export default function BusinessPlanManagement() {
                       type="text"
                       value={weakness}
                       onChange={(e) => updateSWOTItem('weaknesses', index, e.target.value)}
-                      className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm text-gray-900"
+                      className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm text-gray-900"
                     />
                     <button 
                       onClick={() => removeSWOTItem('weaknesses', index)}
@@ -1144,7 +1144,7 @@ export default function BusinessPlanManagement() {
                       type="text"
                       value={opportunity}
                       onChange={(e) => updateSWOTItem('opportunities', index, e.target.value)}
-                      className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm text-gray-900"
+                      className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm text-gray-900"
                     />
                     <button 
                       onClick={() => removeSWOTItem('opportunities', index)}
@@ -1171,7 +1171,7 @@ export default function BusinessPlanManagement() {
                       type="text"
                       value={threat}
                       onChange={(e) => updateSWOTItem('threats', index, e.target.value)}
-                      className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm text-gray-900"
+                      className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm text-gray-900"
                     />
                     <button 
                       onClick={() => removeSWOTItem('threats', index)}
@@ -1243,11 +1243,11 @@ export default function BusinessPlanManagement() {
   const renderMarketingStrategy = () => (
     <div className="space-y-6">
       {/* Strategie di Marketing */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🎯 Strategie di Marketing</h3>
         
         {marketingStrategy.strategies.map((strategy, index) => (
-          <div key={strategy.id} className="mb-6 p-4 border border-gray-300 rounded-lg">
+          <div key={strategy.id} className="mb-6 p-4 border border-gray-200 rounded-lg">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -1261,7 +1261,7 @@ export default function BusinessPlanManagement() {
                     newStrategies[index].name = e.target.value;
                     setMarketingStrategy({...marketingStrategy, strategies: newStrategies});
                   }}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="Es. Digital Marketing, Content Marketing..."
                 />
               </div>
@@ -1277,7 +1277,7 @@ export default function BusinessPlanManagement() {
                     newStrategies[index].budget = parseInt(e.target.value) || 0;
                     setMarketingStrategy({...marketingStrategy, strategies: newStrategies});
                   }}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                   placeholder="0"
                 />
               </div>
@@ -1293,7 +1293,7 @@ export default function BusinessPlanManagement() {
                   newStrategies[index].description = e.target.value;
                   setMarketingStrategy({...marketingStrategy, strategies: newStrategies});
                 }}
-                className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+                className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
                 placeholder="Descrivi qui i dettagli della strategia..."
               />
               <div className="text-sm text-gray-500 mt-1">
@@ -1323,7 +1323,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* Timeline Gantt */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📅 Timeline Attività Marketing</h3>
         <div className="overflow-x-auto">
           <div className="min-w-full">
@@ -1407,7 +1407,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* Customer Journey Map */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🗺️ Customer Journey Map</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
@@ -1423,7 +1423,7 @@ export default function BusinessPlanManagement() {
                   awareness: e.target.value
                 }
               })}
-              className="w-full h-20 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full h-20 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
               placeholder="Come il cliente scopre il prodotto..."
             />
           </div>
@@ -1440,7 +1440,7 @@ export default function BusinessPlanManagement() {
                   consideration: e.target.value
                 }
               })}
-              className="w-full h-20 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full h-20 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
               placeholder="Come il cliente valuta il prodotto..."
             />
           </div>
@@ -1459,7 +1459,7 @@ export default function BusinessPlanManagement() {
                   decision: e.target.value
                 }
               })}
-              className="w-full h-20 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full h-20 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
               placeholder="Come il cliente decide di acquistare..."
             />
           </div>
@@ -1476,7 +1476,7 @@ export default function BusinessPlanManagement() {
                   retention: e.target.value
                 }
               })}
-              className="w-full h-20 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
+              className="w-full h-20 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
               placeholder="Come mantenere il cliente..."
             />
           </div>
@@ -1494,7 +1494,7 @@ export default function BusinessPlanManagement() {
               <p className="text-sm text-gray-600 mb-3">{stage.description}</p>
               <div className="space-y-1">
                 {stage.touchpoints.map((touchpoint, i) => (
-                  <div key={i} className="text-xs bg-white px-2 py-1 rounded text-gray-700">
+                  <div key={i} className="text-xs bg-white/30 backdrop-blur px-2 py-1 rounded text-gray-700">
                     {touchpoint}
                   </div>
                 ))}
@@ -1559,7 +1559,7 @@ export default function BusinessPlanManagement() {
 
   const renderBusinessModel = () => (
     <div className="space-y-6">
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-6">🏗️ Business Model Canvas</h3>
         
         {/* Business Model Canvas Grid */}
@@ -1569,12 +1569,12 @@ export default function BusinessPlanManagement() {
             <h4 className="font-semibold text-blue-900 mb-2">Key Partners</h4>
             <div className="space-y-1">
               {businessModel.canvas.keyPartners.map((item, index) => (
-                <div key={`keyPartners-${index}`} className="bg-white p-2 rounded text-gray-700 flex items-center">
+                <div key={`keyPartners-${index}`} className="bg-white/30 backdrop-blur p-2 rounded text-gray-700 flex items-center">
                   <input
                     type="text"
                     value={item}
                     onChange={(e) => updateCanvasItem('keyPartners', index, e.target.value)}
-                    className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
+                    className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
                   />
                   <button 
                     onClick={() => removeCanvasItem('keyPartners', index)}
@@ -1597,12 +1597,12 @@ export default function BusinessPlanManagement() {
             <h4 className="font-semibold text-green-900 mb-2">Key Activities</h4>
             <div className="space-y-1">
               {businessModel.canvas.keyActivities.map((item, index) => (
-                <div key={index} className="bg-white p-2 rounded text-gray-700 flex items-center">
+                <div key={index} className="bg-white/30 backdrop-blur p-2 rounded text-gray-700 flex items-center">
                   <input
                     type="text"
                     value={item}
                     onChange={(e) => updateCanvasItem('keyActivities', index, e.target.value)}
-                    className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
+                    className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
                   />
                   <button 
                     onClick={() => removeCanvasItem('keyActivities', index)}
@@ -1625,12 +1625,12 @@ export default function BusinessPlanManagement() {
             <h4 className="font-semibold text-purple-900 mb-2">Value Propositions</h4>
             <div className="space-y-1">
               {businessModel.canvas.valuePropositions.map((item, index) => (
-                <div key={index} className="bg-white p-2 rounded text-gray-700 flex items-center">
+                <div key={index} className="bg-white/30 backdrop-blur p-2 rounded text-gray-700 flex items-center">
                   <input
                     type="text"
                     value={item}
                     onChange={(e) => updateCanvasItem('valuePropositions', index, e.target.value)}
-                    className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
+                    className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
                   />
                   <button 
                     onClick={() => removeCanvasItem('valuePropositions', index)}
@@ -1653,12 +1653,12 @@ export default function BusinessPlanManagement() {
             <h4 className="font-semibold text-orange-900 mb-2">Customer Relationships</h4>
             <div className="space-y-1">
               {businessModel.canvas.customerRelationships.map((item, index) => (
-                <div key={index} className="bg-white p-2 rounded text-gray-700 flex items-center">
+                <div key={index} className="bg-white/30 backdrop-blur p-2 rounded text-gray-700 flex items-center">
                   <input
                     type="text"
                     value={item}
                     onChange={(e) => updateCanvasItem('customerRelationships', index, e.target.value)}
-                    className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
+                    className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
                   />
                   <button 
                     onClick={() => removeCanvasItem('customerRelationships', index)}
@@ -1681,12 +1681,12 @@ export default function BusinessPlanManagement() {
             <h4 className="font-semibold text-red-900 mb-2">Customer Segments</h4>
             <div className="space-y-1">
               {businessModel.canvas.customerSegments.map((item, index) => (
-                <div key={index} className="bg-white p-2 rounded text-gray-700 flex items-center">
+                <div key={index} className="bg-white/30 backdrop-blur p-2 rounded text-gray-700 flex items-center">
                   <input
                     type="text"
                     value={item}
                     onChange={(e) => updateCanvasItem('customerSegments', index, e.target.value)}
-                    className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
+                    className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
                   />
                   <button 
                     onClick={() => removeCanvasItem('customerSegments', index)}
@@ -1710,12 +1710,12 @@ export default function BusinessPlanManagement() {
             <h4 className="font-semibold text-indigo-900 mb-2">Key Resources</h4>
             <div className="space-y-1">
               {businessModel.canvas.keyResources.map((item, index) => (
-                <div key={index} className="bg-white p-2 rounded text-gray-700 flex items-center">
+                <div key={index} className="bg-white/30 backdrop-blur p-2 rounded text-gray-700 flex items-center">
                   <input
                     type="text"
                     value={item}
                     onChange={(e) => updateCanvasItem('keyResources', index, e.target.value)}
-                    className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
+                    className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
                   />
                   <button 
                     onClick={() => removeCanvasItem('keyResources', index)}
@@ -1738,12 +1738,12 @@ export default function BusinessPlanManagement() {
             <h4 className="font-semibold text-teal-900 mb-2">Channels</h4>
             <div className="space-y-1">
               {businessModel.canvas.channels.map((item, index) => (
-                <div key={index} className="bg-white p-2 rounded text-gray-700 flex items-center">
+                <div key={index} className="bg-white/30 backdrop-blur p-2 rounded text-gray-700 flex items-center">
                   <input
                     type="text"
                     value={item}
                     onChange={(e) => updateCanvasItem('channels', index, e.target.value)}
-                    className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
+                    className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
                   />
                   <button 
                     onClick={() => removeCanvasItem('channels', index)}
@@ -1766,12 +1766,12 @@ export default function BusinessPlanManagement() {
             <h4 className="font-semibold text-pink-900 mb-2">Cost Structure</h4>
             <div className="space-y-1">
               {businessModel.canvas.costStructure.map((item, index) => (
-                <div key={index} className="bg-white p-2 rounded text-gray-700 flex items-center">
+                <div key={index} className="bg-white/30 backdrop-blur p-2 rounded text-gray-700 flex items-center">
                   <input
                     type="text"
                     value={item}
                     onChange={(e) => updateCanvasItem('costStructure', index, e.target.value)}
-                    className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
+                    className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
                   />
                   <button 
                     onClick={() => removeCanvasItem('costStructure', index)}
@@ -1794,12 +1794,12 @@ export default function BusinessPlanManagement() {
             <h4 className="font-semibold text-yellow-900 mb-2">Revenue Streams</h4>
             <div className="space-y-1">
               {businessModel.canvas.revenueStreams.map((item, index) => (
-                <div key={index} className="bg-white p-2 rounded text-gray-700 flex items-center">
+                <div key={index} className="bg-white/30 backdrop-blur p-2 rounded text-gray-700 flex items-center">
                   <input
                     type="text"
                     value={item}
                     onChange={(e) => updateCanvasItem('revenueStreams', index, e.target.value)}
-                    className="flex-1 px-2 py-1 bg-white border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
+                    className="flex-1 px-2 py-1 bg-white/30 backdrop-blur border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900"
                   />
                   <button 
                     onClick={() => removeCanvasItem('revenueStreams', index)}
@@ -1844,7 +1844,7 @@ export default function BusinessPlanManagement() {
   const renderRoadmap = () => (
     <div className="space-y-6">
       {/* Timeline Obiettivi */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-6">🗺️ Roadmap e Obiettivi</h3>
         
         {/* Timeline Visiva */}
@@ -1925,7 +1925,7 @@ export default function BusinessPlanManagement() {
                   {/* KPI Section */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {milestone.kpis.map((kpi, kpiIndex) => (
-                      <div key={kpiIndex} className="bg-white p-3 rounded border">
+                      <div key={kpiIndex} className="bg-white/30 backdrop-blur p-3 rounded border">
                         <div className="flex justify-between items-center mb-2">
                           <span className="text-sm font-medium text-gray-700">{kpi.name}</span>
                           <span className="text-sm text-gray-500">
@@ -1971,7 +1971,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* KPI Dashboard */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📊 KPI Dashboard</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
@@ -1997,7 +1997,7 @@ export default function BusinessPlanManagement() {
 
   const renderOperationalPlan = () => (
     <div className="space-y-6">
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">⚙️ Piano Operativo</h3>
         
         {/* Diagramma di Flusso */}
@@ -2005,17 +2005,17 @@ export default function BusinessPlanManagement() {
           <h4 className="text-md font-medium text-gray-800 mb-4">Diagramma di Flusso Operativo</h4>
           <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-lg">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+              <div className="bg-white/30 backdrop-blur p-4 rounded-lg shadow-sm text-center">
                 <div className="text-2xl mb-2">📥</div>
                 <h5 className="font-semibold text-gray-900">Input</h5>
                 <p className="text-sm text-gray-600">Richieste clienti</p>
               </div>
-              <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+              <div className="bg-white/30 backdrop-blur p-4 rounded-lg shadow-sm text-center">
                 <div className="text-2xl mb-2">⚙️</div>
                 <h5 className="font-semibold text-gray-900">Processo</h5>
                 <p className="text-sm text-gray-600">Elaborazione</p>
               </div>
-              <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+              <div className="bg-white/30 backdrop-blur p-4 rounded-lg shadow-sm text-center">
                 <div className="text-2xl mb-2">📤</div>
                 <h5 className="font-semibold text-gray-900">Output</h5>
                 <p className="text-sm text-gray-600">Prodotti/Servizi</p>
@@ -2045,7 +2045,7 @@ export default function BusinessPlanManagement() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Azioni</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white/30 backdrop-blur divide-y divide-gray-200">
                 {operationalPlan.roles.map((role) => (
                   <tr key={role.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -2053,7 +2053,7 @@ export default function BusinessPlanManagement() {
                         type="text"
                         value={role.role}
                         onChange={(e) => updateRole(role.id, 'role', e.target.value)}
-                        className="w-full px-2 py-1 text-sm font-medium text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                        className="w-full px-2 py-1 text-sm font-medium text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/30 backdrop-blur"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -2061,7 +2061,7 @@ export default function BusinessPlanManagement() {
                         type="text"
                         value={role.responsibilities}
                         onChange={(e) => updateRole(role.id, 'responsibilities', e.target.value)}
-                        className="w-full px-2 py-1 text-sm text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                        className="w-full px-2 py-1 text-sm text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/30 backdrop-blur"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -2069,7 +2069,7 @@ export default function BusinessPlanManagement() {
                         type="text"
                         value={role.skills}
                         onChange={(e) => updateRole(role.id, 'skills', e.target.value)}
-                        className="w-full px-2 py-1 text-sm text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                        className="w-full px-2 py-1 text-sm text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/30 backdrop-blur"
                       />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -2100,27 +2100,27 @@ export default function BusinessPlanManagement() {
           </div>
           <div className="space-y-4">
             {operationalPlan.milestones.map((milestone) => (
-              <div key={milestone.id} className="bg-white border border-gray-300 rounded-lg p-4">
+              <div key={milestone.id} className="bg-white/30 backdrop-blur border border-gray-200 rounded-lg p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex-1 space-y-2">
                     <input
                       type="text"
                       value={milestone.title}
                       onChange={(e) => updateMilestone(milestone.id, 'title', e.target.value)}
-                      className="w-full px-2 py-1 text-sm font-semibold text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                      className="w-full px-2 py-1 text-sm font-semibold text-gray-900 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/30 backdrop-blur"
                     />
                     <input
                       type="text"
                       value={milestone.description}
                       onChange={(e) => updateMilestone(milestone.id, 'description', e.target.value)}
-                      className="w-full px-2 py-1 text-sm text-gray-600 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                      className="w-full px-2 py-1 text-sm text-gray-600 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/30 backdrop-blur"
                     />
                   </div>
                   <div className="flex items-center space-x-2 ml-4">
                     <select
                       value={milestone.status}
                       onChange={(e) => updateMilestone(milestone.id, 'status', e.target.value)}
-                      className="px-2 py-1 text-xs font-medium rounded-full border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                      className="px-2 py-1 text-xs font-medium rounded-full border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/30 backdrop-blur"
                     >
                       <option value="completed">Completato</option>
                       <option value="in-progress">In Corso</option>
@@ -2143,7 +2143,7 @@ export default function BusinessPlanManagement() {
         <div>
           <h4 className="text-md font-medium text-gray-800 mb-4">Processi Chiave</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white border border-gray-300 rounded-lg p-4">
+            <div className="bg-white/30 backdrop-blur border border-gray-200 rounded-lg p-4">
               <h5 className="font-semibold text-gray-900 mb-2">🔄 Processo di Sviluppo</h5>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• Analisi requisiti</li>
@@ -2153,7 +2153,7 @@ export default function BusinessPlanManagement() {
                 <li>• Deploy</li>
               </ul>
             </div>
-            <div className="bg-white border border-gray-300 rounded-lg p-4">
+            <div className="bg-white/30 backdrop-blur border border-gray-200 rounded-lg p-4">
               <h5 className="font-semibold text-gray-900 mb-2">📞 Processo di Supporto</h5>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• Ricezione richiesta</li>
@@ -2188,7 +2188,7 @@ export default function BusinessPlanManagement() {
 
   const renderFinancialPlan = () => (
     <div className="space-y-6">
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">💰 Piano Finanziario</h3>
         
         {/* Bilancio Previsionale */}
@@ -2213,7 +2213,7 @@ export default function BusinessPlanManagement() {
                       type="text"
                       value={revenue.category}
                       onChange={(e) => updateRevenue(revenue.id, 'category', e.target.value)}
-                      className="flex-1 px-2 py-1 text-sm text-green-700 border border-green-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white mr-2"
+                      className="flex-1 px-2 py-1 text-sm text-green-700 border border-green-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white/30 backdrop-blur mr-2"
                     />
                     <div className="flex items-center space-x-2">
                       <span className="text-sm text-green-700">€</span>
@@ -2221,7 +2221,7 @@ export default function BusinessPlanManagement() {
                         type="number"
                         value={revenue.amount}
                         onChange={(e) => updateRevenue(revenue.id, 'amount', Number(e.target.value))}
-                        className="w-24 px-2 py-1 text-sm font-medium text-green-900 border border-green-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white"
+                        className="w-24 px-2 py-1 text-sm font-medium text-green-900 border border-green-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white/30 backdrop-blur"
                       />
                       <button
                         onClick={() => deleteRevenue(revenue.id)}
@@ -2259,7 +2259,7 @@ export default function BusinessPlanManagement() {
                       type="text"
                       value={expense.category}
                       onChange={(e) => updateExpense(expense.id, 'category', e.target.value)}
-                      className="flex-1 px-2 py-1 text-sm text-red-700 border border-red-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white mr-2"
+                      className="flex-1 px-2 py-1 text-sm text-red-700 border border-red-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white/30 backdrop-blur mr-2"
                     />
                     <div className="flex items-center space-x-2">
                       <span className="text-sm text-red-700">€</span>
@@ -2267,7 +2267,7 @@ export default function BusinessPlanManagement() {
                         type="number"
                         value={expense.amount}
                         onChange={(e) => updateExpense(expense.id, 'amount', Number(e.target.value))}
-                        className="w-24 px-2 py-1 text-sm font-medium text-red-900 border border-red-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white"
+                        className="w-24 px-2 py-1 text-sm font-medium text-red-900 border border-red-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white/30 backdrop-blur"
                       />
                       <button
                         onClick={() => deleteExpense(expense.id)}
@@ -2322,7 +2322,7 @@ export default function BusinessPlanManagement() {
         {/* Grafici Finanziari */}
         <div className="mb-8">
           <h4 className="text-md font-medium text-gray-800 mb-4">Proiezioni Finanziarie</h4>
-          <div className="bg-gray-50 border border-gray-300 rounded-lg p-6">
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
             <div className="space-y-4">
               {/* Grafico a barre semplificato */}
               <div>
@@ -2348,7 +2348,7 @@ export default function BusinessPlanManagement() {
         <div>
           <h4 className="text-md font-medium text-gray-800 mb-4">Investimenti e Funding</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white border border-gray-300 rounded-lg p-4">
+            <div className="bg-white/30 backdrop-blur border border-gray-200 rounded-lg p-4">
               <h5 className="font-semibold text-gray-900 mb-2">💼 Investimenti Attuali</h5>
               <div className="space-y-2">
                 <div className="flex justify-between">
@@ -2365,7 +2365,7 @@ export default function BusinessPlanManagement() {
                 </div>
               </div>
             </div>
-            <div className="bg-white border border-gray-300 rounded-lg p-4">
+            <div className="bg-white/30 backdrop-blur border border-gray-200 rounded-lg p-4">
               <h5 className="font-semibold text-gray-900 mb-2">🎯 Prossimi Round</h5>
               <div className="space-y-2">
                 <div className="flex justify-between">
@@ -2408,7 +2408,7 @@ export default function BusinessPlanManagement() {
   const renderDocumentation = () => (
     <div className="space-y-6">
       {/* Upload Area */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📁 Documentazione e Allegati</h3>
         
         {/* Upload Zone */}
@@ -2459,7 +2459,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* File List */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 Lista Documenti</h3>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -2473,7 +2473,7 @@ export default function BusinessPlanManagement() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Azioni</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white/30 backdrop-blur divide-y divide-gray-200">
               {[
                 { name: 'Business_Plan_2024.pdf', type: 'PDF', category: 'Business Plan', date: '2024-01-15', size: '2.3 MB' },
                 { name: 'Financial_Projections.xlsx', type: 'Excel', category: 'Financial Reports', date: '2024-01-10', size: '1.8 MB' },
@@ -2518,7 +2518,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* External Links */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🔗 Collegamenti Esterni</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
@@ -2526,7 +2526,7 @@ export default function BusinessPlanManagement() {
             { title: 'Dropbox - Financial Data', platform: 'Dropbox', url: 'https://dropbox.com/...', description: 'Dati finanziari e report' },
             { title: 'OneDrive - Market Research', platform: 'OneDrive', url: 'https://onedrive.com/...', description: 'Ricerche di mercato e analisi' }
           ].map((link, index) => (
-            <div key={index} className="border border-gray-300 rounded-lg p-4">
+            <div key={index} className="border border-gray-200 rounded-lg p-4">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <h4 className="font-medium text-gray-900 mb-1">{link.title}</h4>
@@ -2587,7 +2587,7 @@ export default function BusinessPlanManagement() {
         return renderDocumentation();
       default:
         return (
-          <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+          <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
             <div className="text-center py-12">
               <div className="text-6xl mb-4">🚧</div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Sezione in Sviluppo</h3>
@@ -2610,7 +2610,7 @@ export default function BusinessPlanManagement() {
       <BusinessPlanTablesDiagnostic />
       
       {/* Header */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-end">
                  <div className="flex items-center space-x-4">
                    {/* Indicatore di salvataggio */}
@@ -2650,7 +2650,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm">
         <div className="border-b border-gray-200">
           <nav className="flex space-x-8 px-6 overflow-x-auto">
             {tabs.map((tab) => (

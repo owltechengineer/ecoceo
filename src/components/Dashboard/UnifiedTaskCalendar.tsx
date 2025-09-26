@@ -264,7 +264,7 @@ export default function UnifiedTaskCalendar() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-end">
           <div className="flex items-center space-x-4">
             <InfoButton onClick={() => openInfo('Task & Calendario', 'Vista unificata per gestire task e appuntamenti in modo integrato.')} />
@@ -273,7 +273,7 @@ export default function UnifiedTaskCalendar() {
       </div>
 
       {/* View Tabs */}
-      <div className="bg-white rounded-lg shadow-sm">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm">
         <div className="border-b border-gray-200">
           <nav className="-mb-px flex space-x-8 px-6">
             {views.map((view) => (
@@ -295,7 +295,7 @@ export default function UnifiedTaskCalendar() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
         <div className="flex flex-wrap gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Filtro Stato</label>
@@ -342,7 +342,7 @@ export default function UnifiedTaskCalendar() {
       {activeView === 'unified' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Tasks Section */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 Task ({filteredTasks.length})</h3>
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {filteredTasks.map((task) => (
@@ -391,7 +391,7 @@ export default function UnifiedTaskCalendar() {
           </div>
 
           {/* Appointments Section */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">📅 Appuntamenti ({filteredAppointments.length})</h3>
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {filteredAppointments.map((appointment) => (
@@ -444,7 +444,7 @@ export default function UnifiedTaskCalendar() {
 
       {/* Tasks Only View */}
       {activeView === 'tasks' && (
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 Tutti i Task ({filteredTasks.length})</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -458,7 +458,7 @@ export default function UnifiedTaskCalendar() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Azioni</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white/30 backdrop-blur divide-y divide-gray-200">
                 {filteredTasks.map((task) => (
                   <tr key={task.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -507,7 +507,7 @@ export default function UnifiedTaskCalendar() {
 
       {/* Calendar Only View */}
       {activeView === 'calendar' && (
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📅 Tutti gli Appuntamenti ({filteredAppointments.length})</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -521,7 +521,7 @@ export default function UnifiedTaskCalendar() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Azioni</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white/30 backdrop-blur divide-y divide-gray-200">
                 {filteredAppointments.map((appointment) => (
                   <tr key={appointment.id}>
                     <td className="px-6 py-4 whitespace-nowrap">

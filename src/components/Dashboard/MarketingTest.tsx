@@ -408,7 +408,7 @@ export default function MarketingTest() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
+    <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
       <h2 className="text-xl font-bold text-gray-900 mb-4">🧪 Test Database Marketing</h2>
       <p className="text-gray-600 mb-4">
         Esegui i test per verificare la connessione e le operazioni CRUD (Create, Read, Update, Delete)

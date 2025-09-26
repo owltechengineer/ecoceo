@@ -263,7 +263,7 @@ export default function BusinessPlanDiagnostic() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div className="bg-white/30 backdrop-blur rounded-xl shadow-sm border border-gray-200 p-6">
       <div className="flex items-center gap-3 mb-6">
         <span className="text-2xl">🔍</span>
         <h2 className="text-xl font-bold text-gray-900">Business Plan Diagnostic</h2>

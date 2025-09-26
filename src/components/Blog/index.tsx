@@ -83,7 +83,7 @@ const Blog = () => {
   return (
     <div className="space-y-12">
       {/* Search and Filter Section */}
-      <div className="bg-white rounded-2xl shadow-lg p-6 lg:p-8">
+      <div className="bg-white/30 backdrop-blurrounded-2xl shadow-lg p-6 lg:p-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Search */}
           <div className="relative">
@@ -135,7 +135,7 @@ const Blog = () => {
         {currentPosts.map((post, index) => (
           <article
             key={post._id || index}
-            className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+            className="group bg-white/30 backdrop-blurrounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
           >
             {/* Image */}
             <Link href={`/blog/${post.slug?.current || post._id}`}>
@@ -228,7 +228,7 @@ const Blog = () => {
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-sm font-medium text-gray-500 bg-white/30 backdrop-blurborder border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Precedente
             </button>
@@ -240,7 +240,7 @@ const Blog = () => {
                 className={`px-4 py-2 text-sm font-medium rounded-lg ${
                   currentPage === page
                     ? 'bg-primary text-white'
-                    : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50'
+                    : 'text-gray-500 bg-white/30 backdrop-blurborder border-gray-300 hover:bg-gray-50'
                 }`}
               >
                 {page}
@@ -250,7 +250,7 @@ const Blog = () => {
             <button
               onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-sm font-medium text-gray-500 bg-white/30 backdrop-blurborder border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Successiva
             </button>

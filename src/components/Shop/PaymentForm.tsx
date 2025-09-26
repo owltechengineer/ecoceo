@@ -60,7 +60,7 @@ const PaymentForm = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm border p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Informazioni di Pagamento
         </h3>

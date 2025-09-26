@@ -246,7 +246,7 @@ export default function SimpleMarketingTest() {
   const overallStatus = getOverallStatus();
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+    <div className="bg-white/30 backdrop-blurrounded-xl shadow-lg p-6 border border-gray-100">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
           <div className="p-2 bg-blue-100 rounded-lg mr-3">

@@ -286,7 +286,7 @@ SELECT 'Setup completato! Tabelle Business Plan create con colonne corrette' as 
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+    <div className="bg-white/30 backdrop-blur p-6 rounded-lg shadow-lg border border-gray-200">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
         🔍 Diagnostica Tabelle Business Plan
       </h3>

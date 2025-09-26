@@ -185,7 +185,7 @@ export default function DatabaseStatusCheck() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
+    <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">🔍 Controllo Stato Database</h3>
       
       <div className="space-y-4">
@@ -209,7 +209,7 @@ export default function DatabaseStatusCheck() {
         
         <div className="bg-gray-100 p-4 rounded-lg">
           <h4 className="font-semibold mb-2 text-gray-900">Risultati Controllo:</h4>
-          <pre className="text-sm whitespace-pre-wrap max-h-96 overflow-y-auto text-gray-900 bg-white p-3 rounded border">{status || 'Nessun controllo eseguito'}</pre>
+          <pre className="text-sm whitespace-pre-wrap max-h-96 overflow-y-auto text-gray-900 bg-white/30 backdrop-blurp-3 rounded border">{status || 'Nessun controllo eseguito'}</pre>
         </div>
         
         <div className="text-sm text-gray-600 bg-blue-50 p-4 rounded-lg">

@@ -76,7 +76,7 @@ const Footer = () => {
                 <div className="flex items-center space-x-4">
                   <Link
                     href={siteSettings?.socialLinks?.facebook || "#"}
-                    className="bg-white/20 hover:bg-white/30 flex h-10 w-10 items-center justify-center rounded-full text-white hover:text-orange-300 transition duration-300 ease-in-out"
+                    className="bg-white/30 backdrop-blur/20 hover:bg-white/30 backdrop-blur/30 flex h-10 w-10 items-center justify-center rounded-full text-white hover:text-orange-300 transition duration-300 ease-in-out"
                   >
                     <svg
                       width="16"
@@ -89,7 +89,7 @@ const Footer = () => {
                   </Link>
                   <Link
                     href={siteSettings?.socialLinks?.twitter || "#"}
-                    className="bg-white/20 hover:bg-white/30 flex h-10 w-10 items-center justify-center rounded-full text-white hover:text-orange-300 transition duration-300 ease-in-out"
+                    className="bg-white/30 backdrop-blur/20 hover:bg-white/30 backdrop-blur/30 flex h-10 w-10 items-center justify-center rounded-full text-white hover:text-orange-300 transition duration-300 ease-in-out"
                   >
                     <svg
                       width="16"
@@ -102,7 +102,7 @@ const Footer = () => {
                   </Link>
                   <Link
                     href={siteSettings?.socialLinks?.instagram || "#"}
-                    className="bg-white/20 hover:bg-white/30 flex h-10 w-10 items-center justify-center rounded-full text-white hover:text-orange-300 transition duration-300 ease-in-out"
+                    className="bg-white/30 backdrop-blur/20 hover:bg-white/30 backdrop-blur/30 flex h-10 w-10 items-center justify-center rounded-full text-white hover:text-orange-300 transition duration-300 ease-in-out"
                   >
                     <svg
                       width="16"
@@ -115,7 +115,7 @@ const Footer = () => {
                   </Link>
                   <Link
                     href={siteSettings?.socialLinks?.linkedin || "#"}
-                    className="bg-white/20 hover:bg-white/30 flex h-10 w-10 items-center justify-center rounded-full text-white hover:text-orange-300 transition duration-300 ease-in-out"
+                    className="bg-white/30 backdrop-blur/20 hover:bg-white/30 backdrop-blur/30 flex h-10 w-10 items-center justify-center rounded-full text-white hover:text-orange-300 transition duration-300 ease-in-out"
                   >
                     <svg
                       width="16"
@@ -250,7 +250,7 @@ const Footer = () => {
                   {siteSettings?.footer?.contactTitle || "Contact Info"}
                 </h3>
                 <div className="mb-8 flex w-full max-w-[370px]">
-                  <div className="bg-white/20 mr-6 flex h-[60px] w-full max-w-[60px] items-center justify-center overflow-hidden rounded-full">
+                  <div className="bg-white/30 backdrop-blur/20 mr-6 flex h-[60px] w-full max-w-[60px] items-center justify-center overflow-hidden rounded-full">
                     <svg
                       width="28"
                       height="19"

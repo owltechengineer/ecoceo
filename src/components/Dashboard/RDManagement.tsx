@@ -157,7 +157,7 @@ export default function RDManagement() {
   return (
     <div className="space-y-8 min-h-full p-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div>
@@ -196,7 +196,7 @@ export default function RDManagement() {
       </div>
 
       {/* TRL Legend */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Technology Readiness Level (TRL)</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
@@ -227,7 +227,7 @@ export default function RDManagement() {
       </div>
 
       {/* Projects Table */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm overflow-hidden">
         <div className="p-6 border-b border-gray-200">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-semibold text-gray-900">Progetti R&D</h3>
@@ -273,7 +273,7 @@ export default function RDManagement() {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white/30 backdrop-blurdivide-y divide-gray-200">
               {rdProjects.map((project) => {
                 const roi = project.cost > 0 ? (project.expectedReturn - project.cost) / project.cost : 0;
                 return (
@@ -347,7 +347,7 @@ export default function RDManagement() {
 
       {/* ROI Analysis */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Analisi ROI per TRL</h3>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
@@ -365,7 +365,7 @@ export default function RDManagement() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/30 backdrop-blurrounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Distribuzione Risorse</h3>
           <div className="space-y-4">
             <div>

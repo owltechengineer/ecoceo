@@ -107,13 +107,13 @@ const Header = ({ siteSettings }: HeaderProps) => {
                   className="ring-primary absolute top-1/2 right-4 block translate-y-[-50%] rounded-lg px-3 py-[6px] focus:ring-2 lg:hidden"
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
-                  <span className="relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white"></span>
-                  <span className="relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white"></span>
-                  <span className="relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white"></span>
+                  <span className="relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white/30 backdrop-blur"></span>
+                  <span className="relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white/30 backdrop-blur"></span>
+                  <span className="relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white/30 backdrop-blur"></span>
                 </button>
                 <nav
                   id="navbarCollapse"
-                  className={`navbar border-body-color/50 dark:border-body-color/20 dark:bg-dark absolute right-0 z-30 w-[280px] rounded-lg border-[.5px] bg-white px-6 py-4 duration-300 lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 ${
+                  className={`navbar border-body-color/50 dark:border-body-color/20 dark:bg-dark absolute right-0 z-30 w-[280px] rounded-lg border-[.5px] bg-white/30 backdrop-blur px-6 py-4 duration-300 lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 ${
                     isMobileMenuOpen ? "visible top-full opacity-100" : "invisible top-[120%] opacity-0"
                   }`}
                 >
@@ -166,7 +166,7 @@ const Header = ({ siteSettings }: HeaderProps) => {
                           </button>
                           {/* Dropdown Menu */}
                           <div
-                            className={`absolute left-0 mt-2 w-64 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition-all duration-200 lg:block ${
+                            className={`absolute left-0 mt-2 w-64 rounded-md bg-white/30 backdrop-blur shadow-lg ring-1 ring-black ring-opacity-5 transition-all duration-200 lg:block ${
                               isServicesDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
                             }`}
                             onMouseEnter={() => setIsServicesDropdownOpen(true)}

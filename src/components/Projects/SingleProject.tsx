@@ -21,7 +21,7 @@ const SingleProject = ({ project, index }: ProjectCardProps) => {
       className="w-full"
     >
       <div className="wow fadeInUp" data-wow-delay={`${index * 100}ms`}>
-        <div className="group relative overflow-hidden rounded-sm bg-white shadow-one duration-300 hover:shadow-two dark:bg-dark dark:hover:shadow-gray-dark">
+        <div className="group relative overflow-hidden rounded-sm bg-white/30 backdrop-blurshadow-one duration-300 hover:shadow-two dark:bg-dark dark:hover:shadow-gray-dark">
           <Link href={`/projects/${project.slug?.current || project._id}`}>
             <div className="relative block aspect-[37/22] overflow-hidden">
               {project.mainImage ? (
