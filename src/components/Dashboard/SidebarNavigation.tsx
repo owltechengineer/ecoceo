@@ -21,6 +21,7 @@ interface SidebarNavigationProps {
 
 export default function SidebarNavigation({ activeSection = 'dashboard', onSectionChange }: SidebarNavigationProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [logo, setLogo] = useState<string | null>(null);
 
   // Carica il logo da Sanity
@@ -134,14 +135,40 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
     if (onSectionChange) {
       onSectionChange(item.key);
     }
+    // Chiudi il menu mobile dopo la navigazione
+    setIsMobileMenuOpen(false);
   };
 
   return (
-    <div className={`transition-all duration-300 ${
-      isCollapsed ? 'w-20' : 'w-72'
-    } p-4`}>
-      {/* Navigation con Effetto Vetro */}
-      <div className="bg-white/20 backdrop-blur-md rounded-xl shadow-lg border border-white/30 overflow-hidden h-full">
+    <>
+      {/* Mobile Menu Button */}
+      <div className="lg:hidden fixed top-4 left-4 z-50">
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="p-2 bg-white/20 backdrop-blur-md rounded-lg shadow-lg border border-white/30"
+        >
+          <span className="text-gray-600 text-lg">
+            {isMobileMenuOpen ? '✕' : '☰'}
+          </span>
+        </button>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="lg:hidden fixed inset-0 bg-black/50 z-40"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div className={`transition-all duration-300 ${
+        isCollapsed ? 'w-20' : 'w-72'
+      } p-4 ${
+        isMobileMenuOpen ? 'fixed inset-y-0 left-0 z-50 lg:relative lg:inset-auto' : 'hidden lg:block'
+      }`}>
+        {/* Navigation con Effetto Vetro */}
+        <div className="bg-white/20 backdrop-blur-md rounded-xl shadow-lg border border-white/30 overflow-hidden h-full">
         {/* Header con Effetto Vetro */}
         <div className="bg-blue-500/20 backdrop-blur-sm p-4 border-b border-white/30">
           <div className="flex items-center justify-between">
@@ -151,11 +178,11 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
                   <img 
                     src={logo} 
                     alt="Logo" 
-                    className="h-8 w-auto max-w-[120px] object-contain"
+                    className="h-10 w-auto max-w-[160px] object-contain"
                   />
                 ) : (
-                  <div className="h-8 w-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                    <span className="text-blue-600 font-bold text-sm">L</span>
+                  <div className="h-10 w-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                    <span className="text-blue-600 font-bold text-lg">L</span>
                   </div>
                 )}
               </div>
@@ -166,7 +193,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
               title={isCollapsed ? 'Espandi menu' : 'Comprimi menu'}
             >
               <span className="text-gray-600 text-sm">
-                {isCollapsed ? '📋' : '📌'}
+                {isCollapsed ? '▶️' : '◀️'}
               </span>
             </button>
           </div>
@@ -263,10 +290,15 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
 
         {/* Navigation Buttons Semplificati */}
         <div className="p-4 border-t border-gray-200/50 space-y-2">
-          <HomeButton className="w-full justify-center text-blue-600 hover:bg-blue-100/50 rounded-lg p-2 transition-all duration-200 text-sm" />
-          <LogoutButton className="w-full justify-center rounded-lg p-2 transition-all duration-200 text-sm" />
+          <div onClick={() => setIsMobileMenuOpen(false)}>
+            <HomeButton className="w-full justify-center text-blue-600 hover:bg-blue-100/50 rounded-lg p-2 transition-all duration-200 text-sm" />
+          </div>
+          <div onClick={() => setIsMobileMenuOpen(false)}>
+            <LogoutButton className="w-full justify-center rounded-lg p-2 transition-all duration-200 text-sm" />
+          </div>
         </div>
       </div>
     </div>
+    </>
   );
 }
