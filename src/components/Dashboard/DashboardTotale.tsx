@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useClientDate } from '../../hooks/useClientDate';
 import { supabase } from '@/lib/supabase';
-import { saveTask } from '@/lib/supabase';
 
 interface DashboardStats {
   // Marketing
@@ -90,6 +89,7 @@ export default function DashboardTotale() {
     revenues: 0,
     netFlow: 0
   });
+  const [quickTasks, setQuickTasks] = useState<any[]>([]);
   
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
@@ -296,7 +296,27 @@ export default function DashboardTotale() {
 
   useEffect(() => {
     loadDashboardStats();
+    loadQuickTasks();
   }, []);
+
+  const loadQuickTasks = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('quick_tasks')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      if (error) {
+        console.error('Errore caricamento quick tasks:', error);
+        return;
+      }
+
+      setQuickTasks(data || []);
+    } catch (error) {
+      console.error('Errore caricamento quick tasks:', error);
+    }
+  };
 
   // Funzioni per task veloci
   const quickTaskTypes = [
@@ -315,18 +335,40 @@ export default function DashboardTotale() {
     if (!quickTaskForm.title.trim()) return;
 
     try {
-      const taskData = {
-        title: `${quickTaskTypes.find(t => t.id === quickTaskForm.type)?.icon} ${quickTaskForm.title}`,
-        description: quickTaskForm.description,
-        status: 'pending' as const,
-        priority: quickTaskForm.priority as 'low' | 'medium' | 'high',
+      // Combina titolo e descrizione in modo intelligente
+      const combinedTitle = `${quickTaskTypes.find(t => t.id === quickTaskForm.type)?.icon} ${quickTaskForm.title}`;
+      const combinedDescription = quickTaskForm.description 
+        ? `${quickTaskForm.description}${quickTaskForm.stakeholder ? ` | Stakeholder: ${quickTaskForm.stakeholder}` : ''}`
+        : quickTaskForm.stakeholder ? `Stakeholder: ${quickTaskForm.stakeholder}` : '';
+
+      const quickTaskData = {
+        type: quickTaskForm.type,
+        title: combinedTitle,
+        description: combinedDescription,
+        stakeholder: quickTaskForm.stakeholder,
+        priority: quickTaskForm.priority,
+        status: 'pending',
         due_date: new Date().toISOString(),
-        assigned_to: quickTaskForm.stakeholder,
-        category: quickTaskForm.type,
         user_id: 'default-user'
       };
 
-      await saveTask(taskData);
+      // Salva nella tabella quick_tasks
+      const { data, error } = await supabase
+        .from('quick_tasks')
+        .insert([quickTaskData])
+        .select()
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      // Sincronizza automaticamente con task_calendar_tasks
+      const { error: syncError } = await supabase.rpc('sync_quick_tasks_to_calendar');
+      
+      if (syncError) {
+        console.warn('Errore sincronizzazione con calendario:', syncError);
+      }
       
       // Reset form
       setQuickTaskForm({
@@ -341,8 +383,9 @@ export default function DashboardTotale() {
       
       // Ricarica i dati
       loadDashboardStats();
+      loadQuickTasks();
       
-      alert('Task veloce creato con successo!');
+      alert('Task veloce creato e sincronizzato con successo!');
     } catch (error) {
       console.error('Errore creazione task veloce:', error);
       alert('Errore nella creazione del task');
@@ -615,6 +658,57 @@ export default function DashboardTotale() {
           </div>
         )}
       </div>
+
+      {/* Quick Tasks Recenti */}
+      {quickTasks.length > 0 && (
+        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
+          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <span className="text-2xl mr-2">⚡</span>
+            Task Veloci Recenti
+          </h2>
+          <div className="space-y-3">
+            {quickTasks.slice(0, 5).map((task) => (
+              <div key={task.id} className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <div className="flex-shrink-0 mr-3">
+                  <span className="text-2xl">
+                    {quickTaskTypes.find(t => t.id === task.type)?.icon || '📝'}
+                  </span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium text-gray-900 truncate">{task.title}</div>
+                  <div className="text-sm text-gray-600 truncate">{task.description}</div>
+                  <div className="flex items-center mt-1 space-x-2">
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      task.priority === 'high' ? 'bg-red-100 text-red-800' :
+                      task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-green-100 text-green-800'
+                    }`}>
+                      {task.priority === 'high' ? '🔴 Alta' :
+                       task.priority === 'medium' ? '🟡 Media' : '🟢 Bassa'}
+                    </span>
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      task.status === 'completed' ? 'bg-green-100 text-green-800' :
+                      task.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {task.status === 'completed' ? '✅ Completato' :
+                       task.status === 'in_progress' ? '🔄 In corso' : '⏳ In attesa'}
+                    </span>
+                    {task.stakeholder && (
+                      <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                        👤 {task.stakeholder}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="text-xs text-gray-500">
+                  {new Date(task.created_at).toLocaleDateString('it-IT')}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Modal Task Veloce */}
       {showQuickTask && (
