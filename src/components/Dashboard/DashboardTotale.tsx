@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useClientDate } from '../../hooks/useClientDate';
 import { supabase } from '@/lib/supabase';
+import { saveTask } from '@/lib/supabase';
 
 interface DashboardStats {
   // Marketing
@@ -92,6 +93,14 @@ export default function DashboardTotale() {
   
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  const [showQuickTask, setShowQuickTask] = useState(false);
+  const [quickTaskForm, setQuickTaskForm] = useState({
+    type: 'reminder',
+    title: '',
+    description: '',
+    stakeholder: '',
+    priority: 'medium'
+  });
   const { formatDateTime } = useClientDate();
 
   const loadDashboardStats = async () => {
@@ -289,6 +298,57 @@ export default function DashboardTotale() {
     loadDashboardStats();
   }, []);
 
+  // Funzioni per task veloci
+  const quickTaskTypes = [
+    { id: 'reminder', label: 'Reminder', icon: '⏰', color: 'blue' },
+    { id: 'order', label: 'Ordine', icon: '📦', color: 'green' },
+    { id: 'invoice', label: 'Fattura', icon: '🧾', color: 'purple' },
+    { id: 'document', label: 'Documento', icon: '📄', color: 'orange' },
+    { id: 'email', label: 'Mail', icon: '📧', color: 'indigo' },
+    { id: 'call', label: 'Chiamata', icon: '📞', color: 'red' },
+    { id: 'meeting', label: 'Riunione', icon: '🤝', color: 'teal' },
+    { id: 'payment', label: 'Pagamento', icon: '💳', color: 'yellow' }
+  ];
+
+  const handleQuickTaskSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!quickTaskForm.title.trim()) return;
+
+    try {
+      const taskData = {
+        title: `${quickTaskTypes.find(t => t.id === quickTaskForm.type)?.icon} ${quickTaskForm.title}`,
+        description: quickTaskForm.description,
+        status: 'pending' as const,
+        priority: quickTaskForm.priority as 'low' | 'medium' | 'high',
+        due_date: new Date().toISOString(),
+        assigned_to: quickTaskForm.stakeholder,
+        category: quickTaskForm.type,
+        user_id: 'default-user'
+      };
+
+      await saveTask(taskData);
+      
+      // Reset form
+      setQuickTaskForm({
+        type: 'reminder',
+        title: '',
+        description: '',
+        stakeholder: '',
+        priority: 'medium'
+      });
+      
+      setShowQuickTask(false);
+      
+      // Ricarica i dati
+      loadDashboardStats();
+      
+      alert('Task veloce creato con successo!');
+    } catch (error) {
+      console.error('Errore creazione task veloce:', error);
+      alert('Errore nella creazione del task');
+    }
+  };
+
   const statCards = [
     // Marketing
     {
@@ -433,14 +493,22 @@ export default function DashboardTotale() {
     <div className="space-y-6 min-h-full p-6">
       {/* Header Semplificato */}
       <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-        <div className="flex items-center">
-          <div className="p-2 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg mr-3">
-            <span className="text-xl text-white">📊</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="p-2 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg mr-3">
+              <span className="text-xl text-white">📊</span>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Dashboard Totale</h1>
+              <p className="text-gray-600">Panoramica rapida delle attività di oggi</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Dashboard Totale</h1>
-            <p className="text-gray-600">Panoramica rapida delle attività di oggi</p>
-          </div>
+          <button
+            onClick={() => setShowQuickTask(true)}
+            className="bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium text-sm"
+          >
+            ⚡ Task Veloce
+          </button>
         </div>
       </div>
 
@@ -547,6 +615,115 @@ export default function DashboardTotale() {
           </div>
         )}
       </div>
+
+      {/* Modal Task Veloce */}
+      {showQuickTask && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-gray-900">⚡ Task Veloce</h3>
+              <button
+                onClick={() => setShowQuickTask(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <form onSubmit={handleQuickTaskSubmit} className="space-y-4">
+              {/* Tipo Task */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
+                <div className="grid grid-cols-4 gap-2">
+                  {quickTaskTypes.map((type) => (
+                    <button
+                      key={type.id}
+                      type="button"
+                      onClick={() => setQuickTaskForm({...quickTaskForm, type: type.id})}
+                      className={`p-2 rounded-lg text-sm font-medium transition-all ${
+                        quickTaskForm.type === type.id
+                          ? `bg-${type.color}-100 text-${type.color}-800 border-2 border-${type.color}-300`
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
+                    >
+                      <div className="text-lg">{type.icon}</div>
+                      <div className="text-xs">{type.label}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Titolo */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Titolo</label>
+                <input
+                  type="text"
+                  value={quickTaskForm.title}
+                  onChange={(e) => setQuickTaskForm({...quickTaskForm, title: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Inserisci il titolo del task..."
+                  required
+                />
+              </div>
+
+              {/* Descrizione */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Descrizione</label>
+                <textarea
+                  value={quickTaskForm.description}
+                  onChange={(e) => setQuickTaskForm({...quickTaskForm, description: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Descrizione opzionale..."
+                  rows={2}
+                />
+              </div>
+
+              {/* Stakeholder */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Stakeholder</label>
+                <input
+                  type="text"
+                  value={quickTaskForm.stakeholder}
+                  onChange={(e) => setQuickTaskForm({...quickTaskForm, stakeholder: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Nome del stakeholder..."
+                />
+              </div>
+
+              {/* Priorità */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Priorità</label>
+                <select
+                  value={quickTaskForm.priority}
+                  onChange={(e) => setQuickTaskForm({...quickTaskForm, priority: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="low">🟢 Bassa</option>
+                  <option value="medium">🟡 Media</option>
+                  <option value="high">🔴 Alta</option>
+                </select>
+              </div>
+
+              {/* Bottoni */}
+              <div className="flex space-x-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowQuickTask(false)}
+                  className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  Annulla
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200"
+                >
+                  ⚡ Crea Task
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
     </div>
   );
