@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LogoutButton from '../Auth/LogoutButton';
 import HomeButton from '../Navigation/HomeButton';
+import { client } from '@/lib/sanity';
 
 interface NavigationItem {
   key: string;
@@ -20,6 +21,31 @@ interface SidebarNavigationProps {
 
 export default function SidebarNavigation({ activeSection = 'dashboard', onSectionChange }: SidebarNavigationProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [logo, setLogo] = useState<string | null>(null);
+
+  // Carica il logo da Sanity
+  useEffect(() => {
+    const fetchLogo = async () => {
+      try {
+        const query = `*[_type == "siteSettings"][0]{
+          logo {
+            asset->{
+              url
+            }
+          }
+        }`;
+        
+        const result = await client.fetch(query);
+        if (result?.logo?.asset?.url) {
+          setLogo(result.logo.asset.url);
+        }
+      } catch (error) {
+        console.error('Errore nel caricamento del logo:', error);
+      }
+    };
+
+    fetchLogo();
+  }, []);
 
   const navigationItems: NavigationItem[] = [
     {
@@ -121,11 +147,17 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
           <div className="flex items-center justify-between">
             {!isCollapsed && (
               <div className="flex items-center">
-                <img 
-                  src="/images/logo/logo-2.svg" 
-                  alt="Logo" 
-                  className="h-6 w-auto"
-                />
+                {logo ? (
+                  <img 
+                    src={logo} 
+                    alt="Logo" 
+                    className="h-8 w-auto max-w-[120px] object-contain"
+                  />
+                ) : (
+                  <div className="h-8 w-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                    <span className="text-blue-600 font-bold text-sm">L</span>
+                  </div>
+                )}
               </div>
             )}
             <button
