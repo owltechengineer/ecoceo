@@ -33,7 +33,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER IF NOT EXISTS trigger_update_quick_tasks_updated_at
+DROP TRIGGER IF EXISTS trigger_update_quick_tasks_updated_at ON quick_tasks;
+CREATE TRIGGER trigger_update_quick_tasks_updated_at
     BEFORE UPDATE ON quick_tasks
     FOR EACH ROW
     EXECUTE FUNCTION update_quick_tasks_updated_at();
@@ -51,7 +52,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER IF NOT EXISTS trigger_set_quick_tasks_completed_at
+DROP TRIGGER IF EXISTS trigger_set_quick_tasks_completed_at ON quick_tasks;
+CREATE TRIGGER trigger_set_quick_tasks_completed_at
     BEFORE UPDATE ON quick_tasks
     FOR EACH ROW
     EXECUTE FUNCTION set_quick_tasks_completed_at();
@@ -60,7 +62,8 @@ CREATE TRIGGER IF NOT EXISTS trigger_set_quick_tasks_completed_at
 ALTER TABLE quick_tasks ENABLE ROW LEVEL SECURITY;
 
 -- Policy per permettere tutte le operazioni (per ora)
-CREATE POLICY IF NOT EXISTS "Allow all operations for now" ON quick_tasks
+DROP POLICY IF EXISTS "Allow all operations for now" ON quick_tasks;
+CREATE POLICY "Allow all operations for now" ON quick_tasks
     FOR ALL USING (true);
 
 -- Funzione per convertire quick_task in task normale
