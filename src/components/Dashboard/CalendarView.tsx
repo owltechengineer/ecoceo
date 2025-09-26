@@ -38,7 +38,6 @@ export default function CalendarView() {
     end_time: '',
     location: '',
     attendees: '',
-    type: 'meeting' as const,
     status: 'scheduled' as const,
     priority: 'medium' as const,
     notes: ''
@@ -74,7 +73,6 @@ export default function CalendarView() {
           end_time: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
           location: 'Ufficio',
           attendees: ['Manager', 'Developer', 'Marketing'],
-          type: 'meeting',
           status: 'scheduled',
           priority: 'medium',
           is_recurring: false,
@@ -142,7 +140,6 @@ export default function CalendarView() {
         user_id: 'default-user',
         title: newAppointment.title,
         description: newAppointment.description || undefined,
-        type: newAppointment.type,
         status: newAppointment.status,
         priority: newAppointment.priority,
         start_time: newAppointment.start_time,
@@ -163,7 +160,6 @@ export default function CalendarView() {
         end_time: '',
         location: '',
         attendees: '',
-        type: 'meeting',
         status: 'scheduled',
         priority: 'medium',
         notes: ''
@@ -193,15 +189,6 @@ export default function CalendarView() {
     }
   };
 
-  const getMeetingTypeIcon = (type: string) => {
-    switch (type) {
-      case 'meeting': return '👥';
-      case 'call': return '📞';
-      case 'presentation': return '📊';
-      case 'workshop': return '🎓';
-      default: return '📅';
-    }
-  };
 
   const formatTime = (dateString: string) => {
     return new Date(dateString).toLocaleTimeString('it-IT', {
@@ -364,7 +351,7 @@ export default function CalendarView() {
                         className="text-xs p-1 rounded cursor-pointer hover:bg-gray-100 bg-blue-100 text-blue-800 truncate"
                         title={appointment.title}
                       >
-                        {getMeetingTypeIcon(appointment.type)} {formatTime(appointment.start_time)} {appointment.title}
+                        📅 {formatTime(appointment.start_time)} {appointment.title}
                       </div>
                     ))}
                     {day.appointments.length > 3 && (
@@ -453,7 +440,7 @@ export default function CalendarView() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
                           <div className="text-2xl">
-                            {getMeetingTypeIcon(appointment.type)}
+                            📅
                           </div>
                           <div>
                             <h4 className="font-medium text-gray-900">{appointment.title}</h4>
@@ -463,9 +450,7 @@ export default function CalendarView() {
                           </div>
                         </div>
                         <div className="text-sm text-gray-500">
-                          {appointment.type === 'meeting' ? 'Riunione' : 
-                           appointment.type === 'call' ? 'Chiamata' : 
-                           appointment.type === 'training' ? 'Formazione' : 'Altro'}
+                          Appuntamento
                         </div>
                       </div>
                       
@@ -498,7 +483,7 @@ export default function CalendarView() {
           <div className="bg-white/30 backdrop-blurrounded-lg p-6 max-w-md w-full mx-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
-                {getMeetingTypeIcon(selectedAppointment.type)} {selectedAppointment.title}
+                📅 {selectedAppointment.title}
               </h3>
               <button
                 onClick={() => setSelectedAppointment(null)}
@@ -640,21 +625,6 @@ export default function CalendarView() {
               </div>
               
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
-                <select
-                  value={newAppointment.type}
-                  onChange={(e) => setNewAppointment(prev => ({ ...prev, type: e.target.value as any }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
-                >
-                  <option value="meeting">👥 Meeting</option>
-                  <option value="call">📞 Chiamata</option>
-                  <option value="presentation">📊 Presentazione</option>
-                  <option value="interview">💼 Intervista</option>
-                  <option value="training">🎓 Training</option>
-                  <option value="other">📅 Altro</option>
-                </select>
-              </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
