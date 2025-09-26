@@ -214,33 +214,6 @@ export default function MainDashboard() {
               </div>
             </div>
             
-            {/* Actions Bar Semplificata */}
-            <div className="px-6 py-2 border-b border-gray-200/50">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <HomeButton variant="compact" className="bg-blue-100/50 text-blue-600 hover:bg-blue-200/50 rounded-lg px-3 py-1.5 transition-all duration-200 text-sm" />
-                </div>
-                
-                <div className="text-xs text-gray-500">
-                  Dashboard Management System
-                </div>
-              </div>
-            </div>
-            
-            {/* Breadcrumb/Info */}
-            <div className="px-6 py-3 bg-gray-50 rounded-b-2xl">
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center space-x-2 text-gray-600">
-                  <span>🏠</span>
-                  <span>Dashboard</span>
-                  <span>→</span>
-                  <span className="font-medium text-gray-800">{currentSection?.title || 'Totale'}</span>
-                </div>
-                <div className="text-gray-500">
-                  Ultimo aggiornamento: {getCurrentDate()}
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Content Area */}
