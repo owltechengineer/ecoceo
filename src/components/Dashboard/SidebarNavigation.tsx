@@ -82,6 +82,14 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
       gradient: 'from-orange-600 to-orange-700'
     },
     {
+      key: 'warehouse',
+      name: 'Magazzino e Documenti',
+      icon: '📦',
+      description: 'Gestione inventario e preventivi',
+      color: 'amber',
+      gradient: 'from-amber-600 to-amber-700'
+    },
+    {
       key: 'management',
       name: 'Gestione',
       icon: '⚙️',

@@ -17,6 +17,7 @@ import RDManagement from './RDManagement';
 import UnifiedSectionTests from './UnifiedSectionTests';
 import IntelligentTestSuite from './IntelligentTestSuite';
 import OrganizationalAnalysis from './OrganizationalAnalysis';
+import WarehouseManagement from './WarehouseManagement';
 import QuickQuoteModal from './QuickQuoteModal';
 import QuickCreateModal from './QuickCreateModal';
 import DatabaseConnectionTest from './DatabaseConnectionTest';
@@ -132,6 +133,12 @@ export default function MainDashboard() {
       title: 'Analisi Organizzativa',
       icon: '🏢',
       description: 'Valutazione cultura e dinamiche aziendali'
+    },
+    warehouse: {
+      component: WarehouseManagement,
+      title: 'Magazzino e Documenti',
+      icon: '📦',
+      description: 'Gestione inventario e creazione preventivi'
     }
   };
 
