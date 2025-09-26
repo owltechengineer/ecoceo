@@ -209,6 +209,42 @@ export default function CalendarView() {
     });
   };
 
+  // Funzione per ottenere i giorni della settimana
+  const getWeekDays = (): CalendarDay[] => {
+    const startOfWeek = new Date(currentDate);
+    const day = startOfWeek.getDay();
+    const diff = startOfWeek.getDate() - day;
+    startOfWeek.setDate(diff);
+    
+    const weekDays: CalendarDay[] = [];
+    for (let i = 0; i < 7; i++) {
+      const dayDate = new Date(startOfWeek);
+      dayDate.setDate(startOfWeek.getDate() + i);
+      
+      const dayAppointments = appointments.filter(apt => {
+        const aptDate = new Date(apt.start_time);
+        return aptDate.toDateString() === dayDate.toDateString();
+      });
+      
+      weekDays.push({
+        date: dayDate,
+        isCurrentMonth: dayDate.getMonth() === currentDate.getMonth(),
+        isToday: dayDate.toDateString() === new Date().toDateString(),
+        appointments: dayAppointments
+      });
+    }
+    
+    return weekDays;
+  };
+
+  // Funzione per ottenere gli appuntamenti del giorno
+  const getDayAppointments = (): Appointment[] => {
+    return appointments.filter(apt => {
+      const aptDate = new Date(apt.start_time);
+      return aptDate.toDateString() === currentDate.toDateString();
+    });
+  };
+
   const calendarDays = getCalendarDays();
 
   return (
@@ -344,27 +380,111 @@ export default function CalendarView() {
 
         {/* Week View */}
         {view === 'week' && (
-          <div className="p-6">
-            <div className="text-center text-gray-500 py-8">
-              <div className="text-4xl mb-4">📅</div>
-              <h3 className="text-lg font-medium mb-2">Vista Settimana</h3>
-              <p className="text-sm">La vista settimana è in fase di sviluppo</p>
-              <div className="mt-4 text-xs text-gray-400">
-                Data selezionata: {currentDate.toLocaleDateString('it-IT')}
-              </div>
+          <>
+            {/* Days of week header */}
+            <div className="grid grid-cols-7 border-b border-gray-200">
+              {daysOfWeek.map(day => (
+                <div key={day} className="p-4 text-center font-medium text-gray-500 bg-gray-50">
+                  {day}
+                </div>
+              ))}
             </div>
-          </div>
+            
+            {/* Week days */}
+            <div className="grid grid-cols-7">
+              {getWeekDays().map((day, index) => (
+                <div
+                  key={index}
+                  className={`min-h-[200px] border-r border-b border-gray-200 p-3 ${
+                    day.isToday ? 'bg-blue-50' : 'bg-white/30 backdrop-blur'
+                  }`}
+                >
+                  <div className={`text-sm font-medium mb-2 ${
+                    day.isToday ? 'text-blue-600' : 'text-gray-900'
+                  }`}>
+                    {day.date.getDate()}
+                  </div>
+                  
+                  <div className="space-y-1">
+                    {day.appointments.map(appointment => (
+                      <div
+                        key={appointment.id}
+                        onClick={() => setSelectedAppointment(appointment)}
+                        className="text-xs p-2 rounded cursor-pointer hover:bg-gray-100 bg-blue-100 text-blue-800"
+                        title={appointment.title}
+                      >
+                        <div className="font-medium">{formatTime(appointment.start_time)}</div>
+                        <div className="truncate">{appointment.title}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
 
         {/* Day View */}
         {view === 'day' && (
           <div className="p-6">
-            <div className="text-center text-gray-500 py-8">
-              <div className="text-4xl mb-4">📅</div>
-              <h3 className="text-lg font-medium mb-2">Vista Giorno</h3>
-              <p className="text-sm">La vista giorno è in fase di sviluppo</p>
-              <div className="mt-4 text-xs text-gray-400">
-                Data selezionata: {currentDate.toLocaleDateString('it-IT')}
+            <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm">
+              {/* Day header */}
+              <div className="p-4 border-b border-gray-200 bg-gray-50">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {currentDate.toLocaleDateString('it-IT', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </h3>
+              </div>
+              
+              {/* Day content */}
+              <div className="p-4">
+                <div className="space-y-4">
+                  {getDayAppointments().map(appointment => (
+                    <div
+                      key={appointment.id}
+                      onClick={() => setSelectedAppointment(appointment)}
+                      className="p-4 bg-blue-50 rounded-lg border border-blue-200 cursor-pointer hover:bg-blue-100 transition-colors"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <div className="text-2xl">
+                            {getMeetingTypeIcon(appointment.type)}
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-gray-900">{appointment.title}</h4>
+                            <p className="text-sm text-gray-600">
+                              {formatTime(appointment.start_time)} - {formatTime(appointment.end_time)}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {appointment.type === 'meeting' ? 'Riunione' : 
+                           appointment.type === 'call' ? 'Chiamata' : 
+                           appointment.type === 'training' ? 'Formazione' : 'Altro'}
+                        </div>
+                      </div>
+                      
+                      {appointment.description && (
+                        <p className="mt-2 text-sm text-gray-600">{appointment.description}</p>
+                      )}
+                      
+                      {appointment.location && (
+                        <p className="mt-1 text-xs text-gray-500">📍 {appointment.location}</p>
+                      )}
+                    </div>
+                  ))}
+                  
+                  {getDayAppointments().length === 0 && (
+                    <div className="text-center py-8 text-gray-500">
+                      <div className="text-4xl mb-2">📅</div>
+                      <p>Nessun appuntamento per oggi</p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
