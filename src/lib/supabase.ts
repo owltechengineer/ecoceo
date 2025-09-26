@@ -637,6 +637,17 @@ export const deleteTask = async (id: string): Promise<void> => {
 // Funzioni per Appointments
 export const saveAppointment = async (appointment: Omit<Appointment, 'id' | 'created_at' | 'updated_at'>): Promise<Appointment> => {
   try {
+    // Verifica accessibilità tabella
+    const { error: testError } = await supabase
+      .from('task_calendar_appointments')
+      .select('id')
+      .limit(1);
+
+    if (testError) {
+      console.error('Tabella task_calendar_appointments non accessibile:', testError);
+      throw new Error(`Tabella non accessibile: ${testError.message || 'Errore sconosciuto'}`);
+    }
+
     const { data, error } = await supabase
       .from('task_calendar_appointments')
       .insert([appointment])
@@ -644,14 +655,26 @@ export const saveAppointment = async (appointment: Omit<Appointment, 'id' | 'cre
       .single();
 
     if (error) {
-      console.error('Errore salvataggio appointment:', error);
-      throw new Error(`Errore salvataggio appointment: ${error.message}`);
+      console.error('Errore salvataggio appointment:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+        fullError: error
+      });
+      throw new Error(`Errore salvataggio appointment: ${error.message || 'Errore sconosciuto'}`);
     }
 
     return data;
-  } catch (error) {
-    console.error('Errore salvataggio appointment:', error);
-    throw error;
+  } catch (error: any) {
+    console.error('Errore salvataggio appointment:', {
+      message: error?.message,
+      details: error?.details,
+      hint: error?.hint,
+      code: error?.code,
+      fullError: error
+    });
+    throw new Error(`Errore salvataggio appointment: ${error?.message || 'Errore sconosciuto'}`);
   }
 };
 

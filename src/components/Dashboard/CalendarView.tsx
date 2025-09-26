@@ -175,9 +175,17 @@ export default function CalendarView() {
         meeting_url: '',
         notes: ''
       });
-    } catch (error) {
-      console.error('Errore nel salvataggio appointment:', error);
-      alert('Errore nel salvataggio dell\'appuntamento. Riprova.');
+    } catch (error: any) {
+      console.error('Errore nel salvataggio appointment:', {
+        message: error?.message,
+        details: error?.details,
+        hint: error?.hint,
+        code: error?.code,
+        fullError: error
+      });
+      
+      const errorMessage = error?.message || 'Errore sconosciuto';
+      alert(`Errore nel salvataggio dell'appuntamento: ${errorMessage}`);
     }
   };
 
