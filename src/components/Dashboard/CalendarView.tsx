@@ -38,13 +38,11 @@ export default function CalendarView() {
     end_time: '',
     location: '',
     attendees: '',
-    organizer: '',
     type: 'meeting' as const,
     status: 'scheduled' as const,
     priority: 'medium' as const,
     reminder_minutes: 15,
-    notes: '',
-    tags: ''
+    notes: ''
   });
 
   const months = [
@@ -142,11 +140,6 @@ export default function CalendarView() {
     }
 
     try {
-      // Calcola duration_minutes
-      const startTime = new Date(newAppointment.start_time);
-      const endTime = new Date(newAppointment.end_time);
-      const durationMinutes = Math.round((endTime.getTime() - startTime.getTime()) / (1000 * 60));
-
       const appointmentData = {
         user_id: 'default-user',
         title: newAppointment.title,
@@ -156,14 +149,11 @@ export default function CalendarView() {
         priority: newAppointment.priority,
         start_time: newAppointment.start_time,
         end_time: newAppointment.end_time,
-        duration_minutes: durationMinutes,
         location: newAppointment.location || undefined,
         attendees: newAppointment.attendees.split(',').map(a => a.trim()).filter(a => a),
-        organizer: newAppointment.organizer || undefined,
         is_recurring: false,
         reminder_minutes: newAppointment.reminder_minutes,
-        notes: newAppointment.notes || undefined,
-        tags: newAppointment.tags.split(',').map(t => t.trim()).filter(t => t)
+        notes: newAppointment.notes || undefined
       };
 
       const savedAppointment = await saveAppointment(appointmentData);
@@ -176,13 +166,11 @@ export default function CalendarView() {
         end_time: '',
         location: '',
         attendees: '',
-        organizer: '',
         type: 'meeting',
         status: 'scheduled',
         priority: 'medium',
         reminder_minutes: 15,
-        notes: '',
-        tags: ''
+        notes: ''
       });
     } catch (error: any) {
       console.error('Errore nel salvataggio appointment:', {
@@ -655,27 +643,6 @@ export default function CalendarView() {
                 />
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Organizzatore</label>
-                <input
-                  type="text"
-                  value={newAppointment.organizer}
-                  onChange={(e) => setNewAppointment(prev => ({ ...prev, organizer: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
-                  placeholder="Nome organizzatore"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
-                <input
-                  type="text"
-                  value={newAppointment.tags}
-                  onChange={(e) => setNewAppointment(prev => ({ ...prev, tags: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white/30 backdrop-blur"
-                  placeholder="tag1, tag2, tag3"
-                />
-              </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
