@@ -8,7 +8,9 @@ import {
   saveAppointment, 
   updateAppointment, 
   deleteAppointment as deleteAppointmentFromDB,
-  Appointment as DBAppointment 
+  Appointment as DBAppointment,
+  recurringActivitiesService,
+  RecurringActivity
 } from '@/lib/supabase';
 
 // Usa il tipo Appointment dal database
@@ -26,6 +28,7 @@ export default function CalendarView() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<'month' | 'week' | 'day'>('month');
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [recurringActivities, setRecurringActivities] = useState<RecurringActivity[]>([]);
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
   const [showNewAppointment, setShowNewAppointment] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -53,6 +56,7 @@ export default function CalendarView() {
   // Caricamento appuntamenti dal database
   useEffect(() => {
     loadAppointmentsFromDB();
+    loadRecurringActivities();
   }, [currentDate]);
 
   const loadAppointmentsFromDB = async () => {
@@ -86,6 +90,63 @@ export default function CalendarView() {
     }
   };
 
+  const loadRecurringActivities = async () => {
+    try {
+      const activities = await recurringActivitiesService.loadActivities();
+      setRecurringActivities(activities);
+    } catch (error) {
+      console.error('Errore nel caricamento attività ricorrenti:', error);
+    }
+  };
+
+  // Funzione per ottenere le attività ricorrenti per un giorno specifico
+  const getRecurringActivitiesForDay = (date: Date): Appointment[] => {
+    const dayOfWeek = date.getDay();
+    const dayOfMonth = date.getDate();
+    
+    return recurringActivities
+      .filter(activity => activity.status === 'active')
+      .filter(activity => {
+        if (activity.frequency === 'daily') {
+          return true;
+        } else if (activity.frequency === 'weekly' && activity.day_of_week === dayOfWeek) {
+          return true;
+        } else if (activity.frequency === 'monthly' && activity.day_of_month === dayOfMonth) {
+          return true;
+        }
+        return false;
+      })
+      .map(activity => {
+        const startTime = new Date(date);
+        if (activity.time_of_day) {
+          const [hours, minutes] = activity.time_of_day.split(':');
+          startTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+        } else {
+          startTime.setHours(9, 0, 0, 0); // Default 9:00
+        }
+        
+        const endTime = new Date(startTime);
+        endTime.setMinutes(endTime.getMinutes() + (activity.duration_minutes || 60));
+        
+        return {
+          id: `recurring-${activity.id}-${date.toISOString().split('T')[0]}`,
+          user_id: activity.user_id || 'default-user',
+          title: activity.name,
+          description: activity.description || '',
+          start_time: startTime.toISOString(),
+          end_time: endTime.toISOString(),
+          location: '',
+          attendees: [],
+          status: 'scheduled' as const,
+          priority: activity.priority || 'medium',
+          is_recurring: true,
+          notes: activity.notes || '',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+      });
+  };
+
   const getCalendarDays = (): CalendarDay[] => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -103,12 +164,16 @@ export default function CalendarView() {
         const aptDate = new Date(apt.start_time);
         return aptDate.toDateString() === currentDay.toDateString();
       });
+
+      // Aggiungi attività ricorrenti per questo giorno
+      const recurringForDay = getRecurringActivitiesForDay(currentDay);
+      const allAppointments = [...dayAppointments, ...recurringForDay];
       
       days.push({
         date: new Date(currentDay),
         isCurrentMonth: currentDay.getMonth() === month,
         isToday: currentDay.toDateString() === new Date().toDateString(),
-        appointments: dayAppointments
+        appointments: allAppointments
       });
       
       currentDay.setDate(currentDay.getDate() + 1);
@@ -213,12 +278,16 @@ export default function CalendarView() {
         const aptDate = new Date(apt.start_time);
         return aptDate.toDateString() === dayDate.toDateString();
       });
+
+      // Aggiungi attività ricorrenti per questo giorno
+      const recurringForDay = getRecurringActivitiesForDay(dayDate);
+      const allAppointments = [...dayAppointments, ...recurringForDay];
       
       weekDays.push({
         date: dayDate,
         isCurrentMonth: dayDate.getMonth() === currentDate.getMonth(),
         isToday: dayDate.toDateString() === new Date().toDateString(),
-        appointments: dayAppointments
+        appointments: allAppointments
       });
     }
     
@@ -227,10 +296,14 @@ export default function CalendarView() {
 
   // Funzione per ottenere gli appuntamenti del giorno
   const getDayAppointments = (): Appointment[] => {
-    return appointments.filter(apt => {
+    const dayAppointments = appointments.filter(apt => {
       const aptDate = new Date(apt.start_time);
       return aptDate.toDateString() === currentDate.toDateString();
     });
+
+    // Aggiungi attività ricorrenti per questo giorno
+    const recurringForDay = getRecurringActivitiesForDay(currentDate);
+    return [...dayAppointments, ...recurringForDay];
   };
 
   const calendarDays = getCalendarDays();
@@ -351,7 +424,7 @@ export default function CalendarView() {
                         className="text-xs p-1 rounded cursor-pointer hover:bg-gray-100 bg-blue-100 text-blue-800 truncate"
                         title={appointment.title}
                       >
-                        📅 {formatTime(appointment.start_time)} {appointment.title}
+                        {appointment.is_recurring ? '🔄' : '📅'} {formatTime(appointment.start_time)} {appointment.title}
                       </div>
                     ))}
                     {day.appointments.length > 3 && (
@@ -401,7 +474,7 @@ export default function CalendarView() {
                         className="text-xs p-2 rounded cursor-pointer hover:bg-gray-100 bg-blue-100 text-blue-800"
                         title={appointment.title}
                       >
-                        <div className="font-medium">{formatTime(appointment.start_time)}</div>
+                        <div className="font-medium">{appointment.is_recurring ? '🔄' : '📅'} {formatTime(appointment.start_time)}</div>
                         <div className="truncate">{appointment.title}</div>
                       </div>
                     ))}
@@ -440,7 +513,7 @@ export default function CalendarView() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
                           <div className="text-2xl">
-                            📅
+                            {appointment.is_recurring ? '🔄' : '📅'}
                           </div>
                           <div>
                             <h4 className="font-medium text-gray-900">{appointment.title}</h4>
@@ -483,7 +556,7 @@ export default function CalendarView() {
           <div className="bg-white/30 backdrop-blurrounded-lg p-6 max-w-md w-full mx-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
-                📅 {selectedAppointment.title}
+                {selectedAppointment.is_recurring ? '🔄' : '📅'} {selectedAppointment.title}
               </h3>
               <button
                 onClick={() => setSelectedAppointment(null)}
@@ -529,6 +602,15 @@ export default function CalendarView() {
                   {selectedAppointment.status}
                 </span>
               </div>
+              
+              {selectedAppointment.is_recurring && (
+                <div>
+                  <label className="text-sm font-medium text-gray-500">Tipo</label>
+                  <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    🔄 Attività Ricorrente
+                  </span>
+                </div>
+              )}
               
             </div>
             
