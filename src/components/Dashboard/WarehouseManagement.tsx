@@ -43,6 +43,7 @@ export default function WarehouseManagement() {
   const [activeTab, setActiveTab] = useState<'warehouse' | 'quotes'>('warehouse');
   const [showNewItem, setShowNewItem] = useState(false);
   const [showNewQuote, setShowNewQuote] = useState(false);
+  const [showQuotePreview, setShowQuotePreview] = useState(false);
   const [selectedItems, setSelectedItems] = useState<WarehouseItem[]>([]);
   const [quoteItems, setQuoteItems] = useState<QuoteItem[]>([]);
   const [currentQuote, setCurrentQuote] = useState<Partial<Quote>>({
@@ -174,6 +175,9 @@ export default function WarehouseManagement() {
       };
       setQuoteItems([...quoteItems, newQuoteItem]);
     }
+    
+    // Mostra l'anteprima del preventivo
+    setShowQuotePreview(true);
   };
 
   const handleRemoveQuoteItem = (itemId: string) => {
@@ -659,6 +663,122 @@ export default function WarehouseManagement() {
               >
                 📄 Genera PDF
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Anteprima Preventivo */}
+      {showQuotePreview && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center">
+                  <div className="p-2 bg-gradient-to-r from-green-600 to-green-700 rounded-lg mr-3">
+                    <span className="text-xl text-white">📄</span>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900">Anteprima Preventivo</h3>
+                    <p className="text-gray-600">Controlla gli articoli selezionati</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowQuotePreview(false)}
+                  className="text-gray-400 hover:text-gray-600 text-2xl"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Contenuto Anteprima */}
+              <div className="space-y-6">
+                {/* Riepilogo Articoli */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Articoli Selezionati</h4>
+                  {quoteItems.length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">
+                      <span className="text-4xl mb-2 block">📦</span>
+                      <p>Nessun articolo selezionato</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {quoteItems.map((item) => (
+                        <div key={item.id} className="bg-white rounded-lg p-4 border border-gray-200">
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1">
+                              <h5 className="font-medium text-gray-900">{item.name}</h5>
+                              <p className="text-sm text-gray-600">€{item.unitPrice.toFixed(2)} x {item.quantity}</p>
+                            </div>
+                            <div className="flex items-center space-x-4">
+                              <div className="text-right">
+                                <div className="text-sm text-gray-500">Totale</div>
+                                <div className="font-semibold text-gray-900">€{item.total.toFixed(2)}</div>
+                              </div>
+                              <button
+                                onClick={() => handleRemoveQuoteItem(item.itemId)}
+                                className="text-red-500 hover:text-red-700 p-1"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Calcoli */}
+                {quoteItems.length > 0 && (
+                  <div className="bg-white rounded-lg p-4 border border-gray-200">
+                    <h4 className="text-lg font-semibold text-gray-900 mb-4">Riepilogo Costi</h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600">Subtotale:</span>
+                        <span className="font-medium">€{calculateQuoteSubtotal().toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600">IVA (22%):</span>
+                        <span className="font-medium">€{calculateQuoteTax().toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between items-center border-t pt-2">
+                        <span className="font-semibold text-gray-900">Totale:</span>
+                        <span className="text-xl font-bold text-gray-900">€{calculateQuoteFinalTotal().toFixed(2)}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Azioni */}
+                <div className="flex space-x-3 pt-4">
+                  <button
+                    onClick={() => setShowQuotePreview(false)}
+                    className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    Continua Selezione
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowQuotePreview(false);
+                      setShowNewQuote(true);
+                    }}
+                    className="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                  >
+                    📝 Completa Preventivo
+                  </button>
+                  <button
+                    onClick={() => {
+                      setQuoteItems([]);
+                      setShowQuotePreview(false);
+                    }}
+                    className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                  >
+                    🗑️ Cancella Tutto
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
