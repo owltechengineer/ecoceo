@@ -149,41 +149,41 @@ export default function MainDashboard() {
 
         {/* Main Content */}
         <div className="flex-1 flex flex-col p-4">
-          {/* Top Bar Card */}
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 mb-4">
-            <div className="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-t-2xl px-6 py-4 text-white">
+          {/* Top Bar Semplificato */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 mb-4">
+            <div className="bg-blue-500/10 rounded-t-xl px-6 py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-white bg-opacity-20 rounded-xl">
-                    <span className="text-2xl">{currentSection?.icon || '📊'}</span>
+                  <div className="p-2 bg-blue-500/20 rounded-lg">
+                    <span className="text-xl">{currentSection?.icon || '📊'}</span>
                   </div>
                   <div>
-                    <h1 className="text-2xl font-bold">
+                    <h1 className="text-xl font-bold text-gray-900">
                       {currentSection?.title || 'Dashboard Totale'}
                     </h1>
-                    <p className="text-indigo-100 text-sm">
+                    <p className="text-gray-600 text-sm">
                       {currentSection?.description || 'Panoramica generale del sistema'}
                     </p>
                   </div>
                 </div>
                 
                 <div className="flex items-center space-x-3">
-                  <div className="hidden lg:flex items-center space-x-2 bg-white bg-opacity-20 rounded-xl px-4 py-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <div className="text-sm font-medium">Sistema Attivo</div>
+                  <div className="hidden lg:flex items-center space-x-2 bg-green-500/20 rounded-lg px-3 py-1.5">
+                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                    <div className="text-xs font-medium text-green-700">Sistema Attivo</div>
                   </div>
-                  <div className="text-sm text-indigo-100 bg-white bg-opacity-20 rounded-xl px-3 py-2">
+                  <div className="text-xs text-gray-600 bg-gray-100/50 rounded-lg px-3 py-1.5">
                     {getCurrentDate()}
                   </div>
                 </div>
               </div>
             </div>
             
-            {/* Actions Bar */}
-            <div className="px-6 py-4 border-b border-gray-100">
+            {/* Actions Bar Semplificata */}
+            <div className="px-6 py-3 border-b border-gray-200/50">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <HomeButton variant="compact" className="bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-xl px-4 py-2 transition-all duration-200" />
+                  <HomeButton variant="compact" className="bg-blue-100/50 text-blue-600 hover:bg-blue-200/50 rounded-lg px-3 py-1.5 transition-all duration-200 text-sm" />
                 </div>
                 
                 <div className="flex items-center">
