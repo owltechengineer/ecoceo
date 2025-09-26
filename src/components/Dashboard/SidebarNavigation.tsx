@@ -163,7 +163,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
 
       {/* Sidebar */}
       <div className={`transition-all duration-300 ${
-        isCollapsed ? 'w-20' : 'w-72'
+        isCollapsed ? 'w-24' : 'w-72'
       } p-4 ${
         isMobileMenuOpen ? 'fixed inset-y-0 left-0 z-50 lg:relative lg:inset-auto' : 'hidden lg:block'
       }`}>
@@ -204,7 +204,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
         </div>
 
         {/* Navigation Items */}
-        <div className="p-4 space-y-2">
+        <div className={`${isCollapsed ? 'p-3' : 'p-4'} space-y-3`}>
           {navigationItems.map((item, index) => (
             <div key={item.key}>
               {/* Barra di divisione sotto Dashboard Totale */}
@@ -234,7 +234,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
               <button
                 onClick={() => handleNavigation(item)}
                 className={`w-full flex items-center ${
-                  isCollapsed ? 'p-2 justify-center' : 'p-3'
+                  isCollapsed ? 'p-3 justify-center' : 'p-3'
                 } rounded-lg transition-all duration-200 group ${
                   activeSection === item.key
                     ? 'bg-blue-500/20 text-blue-700 border border-blue-200/50'
@@ -243,13 +243,13 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
                 title={isCollapsed ? item.name : undefined}
               >
                 <div className={`${
-                  isCollapsed ? 'p-3' : 'p-2'
+                  isCollapsed ? 'p-2' : 'p-2'
                 } rounded-md transition-all duration-200 ${
                   activeSection === item.key
                     ? 'bg-blue-500/30'
                     : 'bg-gray-100/50 group-hover:bg-gray-200/50'
                 }`}>
-                  <span className={`${isCollapsed ? 'text-xl' : 'text-lg'}`}>{item.icon}</span>
+                  <span className={`${isCollapsed ? 'text-lg' : 'text-lg'}`}>{item.icon}</span>
                 </div>
                 
                 {!isCollapsed && (
