@@ -41,7 +41,6 @@ export default function CalendarView() {
     type: 'meeting' as const,
     status: 'scheduled' as const,
     priority: 'medium' as const,
-    reminder_minutes: 15,
     notes: ''
   });
 
@@ -79,7 +78,6 @@ export default function CalendarView() {
           status: 'scheduled',
           priority: 'medium',
           is_recurring: false,
-          reminder_minutes: 15,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         }
@@ -152,7 +150,6 @@ export default function CalendarView() {
         location: newAppointment.location || undefined,
         attendees: newAppointment.attendees.split(',').map(a => a.trim()).filter(a => a),
         is_recurring: false,
-        reminder_minutes: newAppointment.reminder_minutes,
         notes: newAppointment.notes || undefined
       };
 
@@ -169,7 +166,6 @@ export default function CalendarView() {
         type: 'meeting',
         status: 'scheduled',
         priority: 'medium',
-        reminder_minutes: 15,
         notes: ''
       });
     } catch (error: any) {
