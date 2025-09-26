@@ -555,6 +555,57 @@ export default function DashboardTotale() {
         </div>
       </div>
 
+      {/* Quick Tasks Recenti */}
+      {quickTasks.length > 0 && (
+        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
+          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <span className="text-2xl mr-2">⚡</span>
+            Task Veloci Recenti
+          </h2>
+          <div className="space-y-3">
+            {quickTasks.slice(0, 5).map((task) => (
+              <div key={task.id} className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <div className="flex-shrink-0 mr-3">
+                  <span className="text-2xl">
+                    {quickTaskTypes.find(t => t.id === task.type)?.icon || '📝'}
+                  </span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium text-gray-900 truncate">{task.title}</div>
+                  <div className="text-sm text-gray-600 truncate">{task.description}</div>
+                  <div className="flex items-center mt-1 space-x-2">
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      task.priority === 'high' ? 'bg-red-100 text-red-800' :
+                      task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-green-100 text-green-800'
+                    }`}>
+                      {task.priority === 'high' ? '🔴 Alta' :
+                       task.priority === 'medium' ? '🟡 Media' : '🟢 Bassa'}
+                    </span>
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      task.status === 'completed' ? 'bg-green-100 text-green-800' :
+                      task.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {task.status === 'completed' ? '✅ Completato' :
+                       task.status === 'in_progress' ? '🔄 In corso' : '⏳ In attesa'}
+                    </span>
+                    {task.stakeholder && (
+                      <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                        👤 {task.stakeholder}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="text-xs text-gray-500">
+                  {new Date(task.created_at).toLocaleDateString('it-IT')}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Recap Pagamenti di Oggi */}
       <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
         <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
@@ -658,57 +709,6 @@ export default function DashboardTotale() {
           </div>
         )}
       </div>
-
-      {/* Quick Tasks Recenti */}
-      {quickTasks.length > 0 && (
-        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-2xl mr-2">⚡</span>
-            Task Veloci Recenti
-          </h2>
-          <div className="space-y-3">
-            {quickTasks.slice(0, 5).map((task) => (
-              <div key={task.id} className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div className="flex-shrink-0 mr-3">
-                  <span className="text-2xl">
-                    {quickTaskTypes.find(t => t.id === task.type)?.icon || '📝'}
-                  </span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-medium text-gray-900 truncate">{task.title}</div>
-                  <div className="text-sm text-gray-600 truncate">{task.description}</div>
-                  <div className="flex items-center mt-1 space-x-2">
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      task.priority === 'high' ? 'bg-red-100 text-red-800' :
-                      task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-green-100 text-green-800'
-                    }`}>
-                      {task.priority === 'high' ? '🔴 Alta' :
-                       task.priority === 'medium' ? '🟡 Media' : '🟢 Bassa'}
-                    </span>
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      task.status === 'completed' ? 'bg-green-100 text-green-800' :
-                      task.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
-                      {task.status === 'completed' ? '✅ Completato' :
-                       task.status === 'in_progress' ? '🔄 In corso' : '⏳ In attesa'}
-                    </span>
-                    {task.stakeholder && (
-                      <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
-                        👤 {task.stakeholder}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="text-xs text-gray-500">
-                  {new Date(task.created_at).toLocaleDateString('it-IT')}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Modal Task Veloce */}
       {showQuickTask && (
