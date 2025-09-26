@@ -114,10 +114,10 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
     <div className={`transition-all duration-300 ${
       isCollapsed ? 'w-20' : 'w-72'
     } p-4`}>
-      {/* Navigation Semplificata */}
-      <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 overflow-hidden h-full">
-        {/* Header Semplificato */}
-        <div className="bg-blue-500/10 p-4 border-b border-gray-200/50">
+      {/* Navigation con Effetto Vetro */}
+      <div className="bg-white/20 backdrop-blur-md rounded-xl shadow-lg border border-white/30 overflow-hidden h-full">
+        {/* Header con Effetto Vetro */}
+        <div className="bg-blue-500/20 backdrop-blur-sm p-4 border-b border-white/30">
           <div className="flex items-center justify-between">
             {!isCollapsed && (
               <div className="flex items-center">

@@ -149,9 +149,9 @@ export default function MainDashboard() {
 
         {/* Main Content */}
         <div className="flex-1 flex flex-col p-4">
-          {/* Top Bar Semplificato */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 mb-4">
-            <div className="bg-blue-500/10 rounded-t-xl px-6 py-4">
+          {/* Top Bar con Effetto Vetro */}
+          <div className="bg-white/20 backdrop-blur-md rounded-xl shadow-lg border border-white/30 mb-4">
+            <div className="bg-blue-500/20 backdrop-blur-sm rounded-t-xl px-6 py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <div className="p-2 bg-blue-500/20 rounded-lg">

@@ -332,7 +332,7 @@ export default function MarketingView() {
   return (
     <div className="space-y-6 min-h-full p-6">
       {/* Marketing Dashboard Unificato */}
-      <div className="bg-white/20 backdrop-blur-md rounded-lg shadow-sm border border-white/30 p-6">
+      <div className="bg-white rounded-lg shadow-sm p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           {/* Bottoni Azioni */}
           <div className="flex gap-3">
@@ -472,7 +472,7 @@ export default function MarketingView() {
             {/* Analytics Cards - Template Colorato */}
             {marketingStats && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-blue-500/20 backdrop-blur-sm border border-blue-300/30 rounded-lg p-4">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-4">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <span className="text-2xl">📈</span>
@@ -484,7 +484,7 @@ export default function MarketingView() {
                   </div>
                 </div>
 
-                <div className="bg-green-500/20 backdrop-blur-sm border border-green-300/30 rounded-lg p-4">
+                <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-4">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <span className="text-2xl">👁️</span>
@@ -496,7 +496,7 @@ export default function MarketingView() {
                   </div>
                 </div>
 
-                <div className="bg-purple-500/20 backdrop-blur-sm border border-purple-300/30 rounded-lg p-4">
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-lg p-4">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <span className="text-2xl">👆</span>
@@ -508,7 +508,7 @@ export default function MarketingView() {
                   </div>
                 </div>
 
-                <div className="bg-orange-500/20 backdrop-blur-sm border border-orange-300/30 rounded-lg p-4">
+                <div className="bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-lg p-4">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <span className="text-2xl">💸</span>
@@ -603,7 +603,7 @@ export default function MarketingView() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredCampaigns.map((campaign) => (
-                  <div key={campaign.id} className="bg-blue-500/20 backdrop-blur-sm border border-blue-300/30 rounded-lg p-6 hover:shadow-lg hover:bg-blue-500/30 transition-all duration-300">
+                  <div key={campaign.id} className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
                         <h3 className="text-lg font-semibold text-blue-900 mb-2">{campaign.name}</h3>
@@ -700,7 +700,7 @@ export default function MarketingView() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {filteredLeads.map((lead) => (
-                  <div key={lead.id} className="bg-green-500/20 backdrop-blur-sm border border-green-300/30 rounded-lg p-4 hover:shadow-md hover:bg-green-500/30 transition-all duration-300">
+                  <div key={lead.id} className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
                         <h4 className="text-sm font-semibold text-green-900 mb-1">{lead.first_name} {lead.last_name}</h4>
