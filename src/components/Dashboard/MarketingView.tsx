@@ -332,7 +332,7 @@ export default function MarketingView() {
   return (
     <div className="space-y-6 min-h-full p-6">
       {/* Marketing Dashboard Unificato */}
-      <div className="bg-white/30 backdrop-blur-md rounded-lg shadow-sm border border-white/50 p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           {/* Bottoni Azioni */}
           <div className="flex gap-3">
@@ -386,7 +386,7 @@ export default function MarketingView() {
         </div>
 
         {/* Filtri e Ricerca */}
-        <div className="mt-6 pt-6 border-t border-gray-300">
+        <div className="mt-6 pt-6 border-t border-gray-200">
           <div className="flex flex-wrap gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Cerca</label>
@@ -437,7 +437,7 @@ export default function MarketingView() {
       {/* Menu Tabs e Contenuto Unificato Semplificato */}
       <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-gray-300/50">
         {/* Tabs Navigation Semplificata */}
-        <div className="border-b border-gray-300/60 px-6">
+        <div className="border-b border-gray-200/50 px-6">
           <nav className="flex space-x-6">
             {[
               { id: 'overview', label: 'Panoramica & Analytics', count: campaigns.length + leads.length },
@@ -781,7 +781,7 @@ export default function MarketingView() {
           <div className="flex items-center justify-center min-h-screen p-4">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75" onClick={() => setShowNewCampaign(false)}></div>
 
-            <div className="relative bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-xl">
+            <div className="relative bg-white/30 backdrop-blur-sm rounded-lg p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-xl">
               <div>
                 <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Nuova Campagna</h3>
                 
@@ -897,7 +897,7 @@ export default function MarketingView() {
               setShowNewLead(false);
             }}></div>
 
-            <div className="inline-block bg-white/30 backdrop-blur-md rounded-lg border border-white/50 px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all max-w-lg w-full p-6 relative z-10">
+            <div className="inline-block bg-white/30 backdrop-blur-sm rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all max-w-lg w-full p-6 relative z-10">
               <div>
                 <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Nuovo Lead</h3>
                 
@@ -1037,7 +1037,7 @@ export default function MarketingView() {
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={() => setEditingCampaign(null)}></div>
 
-            <div className="inline-block align-bottom bg-white/30 backdrop-blur-md rounded-lg border border-white/50 px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+            <div className="inline-block align-bottom bg-white/30 backdrop-blur-sm rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
               <div>
                 <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Modifica Campagna</h3>
                 
@@ -1132,7 +1132,7 @@ export default function MarketingView() {
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={() => setEditingLead(null)}></div>
 
-            <div className="inline-block bg-white/30 backdrop-blur-md rounded-lg border border-white/50 px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all max-w-lg w-full p-6 relative z-10">
+            <div className="inline-block bg-white/30 backdrop-blur-sm rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all max-w-lg w-full p-6 relative z-10">
               <div>
                 <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Modifica Lead</h3>
                 

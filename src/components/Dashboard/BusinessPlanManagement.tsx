@@ -703,7 +703,7 @@ export default function BusinessPlanManagement() {
 
   const renderExecutiveSummary = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 Executive Summary</h3>
         
         {/* Editor WYSIWYG */}
@@ -936,7 +936,7 @@ export default function BusinessPlanManagement() {
   const renderMarketAnalysis = () => (
     <div className="space-y-6">
       {/* Demografia */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">👥 Segmentazione Demografica</h3>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -1006,7 +1006,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* Concorrenza */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🏆 Analisi Concorrenza</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -1075,7 +1075,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* SWOT */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🔍 Analisi SWOT</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
@@ -1243,11 +1243,11 @@ export default function BusinessPlanManagement() {
   const renderMarketingStrategy = () => (
     <div className="space-y-6">
       {/* Strategie di Marketing */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🎯 Strategie di Marketing</h3>
         
         {marketingStrategy.strategies.map((strategy, index) => (
-          <div key={strategy.id} className="mb-6 p-4 border border-gray-200 rounded-lg">
+          <div key={strategy.id} className="mb-6 p-4 border border-gray-300 rounded-lg">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -1323,7 +1323,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* Timeline Gantt */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📅 Timeline Attività Marketing</h3>
         <div className="overflow-x-auto">
           <div className="min-w-full">
@@ -1407,7 +1407,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* Customer Journey Map */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🗺️ Customer Journey Map</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
@@ -1559,7 +1559,7 @@ export default function BusinessPlanManagement() {
 
   const renderBusinessModel = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-6">🏗️ Business Model Canvas</h3>
         
         {/* Business Model Canvas Grid */}
@@ -1844,7 +1844,7 @@ export default function BusinessPlanManagement() {
   const renderRoadmap = () => (
     <div className="space-y-6">
       {/* Timeline Obiettivi */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-6">🗺️ Roadmap e Obiettivi</h3>
         
         {/* Timeline Visiva */}
@@ -1971,7 +1971,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* KPI Dashboard */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📊 KPI Dashboard</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
@@ -1997,7 +1997,7 @@ export default function BusinessPlanManagement() {
 
   const renderOperationalPlan = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">⚙️ Piano Operativo</h3>
         
         {/* Diagramma di Flusso */}
@@ -2100,7 +2100,7 @@ export default function BusinessPlanManagement() {
           </div>
           <div className="space-y-4">
             {operationalPlan.milestones.map((milestone) => (
-              <div key={milestone.id} className="bg-white border border-gray-200 rounded-lg p-4">
+              <div key={milestone.id} className="bg-white border border-gray-300 rounded-lg p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex-1 space-y-2">
                     <input
@@ -2143,7 +2143,7 @@ export default function BusinessPlanManagement() {
         <div>
           <h4 className="text-md font-medium text-gray-800 mb-4">Processi Chiave</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="bg-white border border-gray-300 rounded-lg p-4">
               <h5 className="font-semibold text-gray-900 mb-2">🔄 Processo di Sviluppo</h5>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• Analisi requisiti</li>
@@ -2153,7 +2153,7 @@ export default function BusinessPlanManagement() {
                 <li>• Deploy</li>
               </ul>
             </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="bg-white border border-gray-300 rounded-lg p-4">
               <h5 className="font-semibold text-gray-900 mb-2">📞 Processo di Supporto</h5>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• Ricezione richiesta</li>
@@ -2188,7 +2188,7 @@ export default function BusinessPlanManagement() {
 
   const renderFinancialPlan = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">💰 Piano Finanziario</h3>
         
         {/* Bilancio Previsionale */}
@@ -2322,7 +2322,7 @@ export default function BusinessPlanManagement() {
         {/* Grafici Finanziari */}
         <div className="mb-8">
           <h4 className="text-md font-medium text-gray-800 mb-4">Proiezioni Finanziarie</h4>
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+          <div className="bg-gray-50 border border-gray-300 rounded-lg p-6">
             <div className="space-y-4">
               {/* Grafico a barre semplificato */}
               <div>
@@ -2348,7 +2348,7 @@ export default function BusinessPlanManagement() {
         <div>
           <h4 className="text-md font-medium text-gray-800 mb-4">Investimenti e Funding</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="bg-white border border-gray-300 rounded-lg p-4">
               <h5 className="font-semibold text-gray-900 mb-2">💼 Investimenti Attuali</h5>
               <div className="space-y-2">
                 <div className="flex justify-between">
@@ -2365,7 +2365,7 @@ export default function BusinessPlanManagement() {
                 </div>
               </div>
             </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="bg-white border border-gray-300 rounded-lg p-4">
               <h5 className="font-semibold text-gray-900 mb-2">🎯 Prossimi Round</h5>
               <div className="space-y-2">
                 <div className="flex justify-between">
@@ -2408,7 +2408,7 @@ export default function BusinessPlanManagement() {
   const renderDocumentation = () => (
     <div className="space-y-6">
       {/* Upload Area */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📁 Documentazione e Allegati</h3>
         
         {/* Upload Zone */}
@@ -2459,7 +2459,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* File List */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 Lista Documenti</h3>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -2518,7 +2518,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* External Links */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">🔗 Collegamenti Esterni</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
@@ -2526,7 +2526,7 @@ export default function BusinessPlanManagement() {
             { title: 'Dropbox - Financial Data', platform: 'Dropbox', url: 'https://dropbox.com/...', description: 'Dati finanziari e report' },
             { title: 'OneDrive - Market Research', platform: 'OneDrive', url: 'https://onedrive.com/...', description: 'Ricerche di mercato e analisi' }
           ].map((link, index) => (
-            <div key={index} className="border border-gray-200 rounded-lg p-4">
+            <div key={index} className="border border-gray-300 rounded-lg p-4">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <h4 className="font-medium text-gray-900 mb-1">{link.title}</h4>
@@ -2587,7 +2587,7 @@ export default function BusinessPlanManagement() {
         return renderDocumentation();
       default:
         return (
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
             <div className="text-center py-12">
               <div className="text-6xl mb-4">🚧</div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Sezione in Sviluppo</h3>
@@ -2610,7 +2610,7 @@ export default function BusinessPlanManagement() {
       <BusinessPlanTablesDiagnostic />
       
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-end">
                  <div className="flex items-center space-x-4">
                    {/* Indicatore di salvataggio */}
@@ -2650,7 +2650,7 @@ export default function BusinessPlanManagement() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="bg-white rounded-lg shadow-sm">
+      <div className="bg-white/30 backdrop-blur-sm rounded-lg shadow-sm">
         <div className="border-b border-gray-200">
           <nav className="flex space-x-8 px-6 overflow-x-auto">
             {tabs.map((tab) => (

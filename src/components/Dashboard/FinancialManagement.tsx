@@ -744,7 +744,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
 
               {/* Indicatori avanzati */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-4 border border-gray-300">
+                <div className="bg-white/30 backdrop-blur-sm rounded-lg p-4 border border-gray-300">
                   <h4 className="font-semibold text-gray-900 mb-3">📈 Rapporto Costi/Ricavi</h4>
                   <div className="space-y-2">
                     <div className="flex justify-between">
@@ -764,7 +764,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                   </div>
                 </div>
 
-                <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-4 border border-gray-300">
+                <div className="bg-white/30 backdrop-blur-sm rounded-lg p-4 border border-gray-300">
                   <h4 className="font-semibold text-gray-900 mb-3">🎯 Break-Even Point</h4>
                   <div className="space-y-2">
                     <div className="flex justify-between">
@@ -783,7 +783,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                   </div>
                 </div>
 
-                <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-4 border border-gray-300">
+                <div className="bg-white/30 backdrop-blur-sm rounded-lg p-4 border border-gray-300">
                   <h4 className="font-semibold text-gray-900 mb-3">📊 Crescita Annuale</h4>
                   <div className="space-y-2">
                     <div className="flex justify-between">
@@ -806,7 +806,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
               </div>
 
               {/* Grafico a barre per distribuzione annuale */}
-              <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-6 border border-gray-300">
+              <div className="bg-white/30 backdrop-blur-sm rounded-lg p-6 border border-gray-300">
                 <h4 className="font-semibold text-gray-900 mb-4">Distribuzione Annuale Costi vs Ricavi</h4>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -1101,7 +1101,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
               
               {/* Categorie Personalizzate */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-6 border border-gray-300">
+                <div className="bg-white/30 backdrop-blur-sm rounded-lg p-6 border border-gray-300">
                   <h4 className="font-bold text-lg text-gray-900 mb-4">📂 Categorie Costi Fissi</h4>
                   <div className="space-y-3">
                     <div className="flex space-x-2">
@@ -1145,7 +1145,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
             </div>
                 </div>
 
-                <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-6 border border-gray-300">
+                <div className="bg-white/30 backdrop-blur-sm rounded-lg p-6 border border-gray-300">
                   <h4 className="font-bold text-lg text-gray-900 mb-4">📈 Categorie Costi Variabili</h4>
                   <div className="space-y-3">
                     <div className="flex space-x-2">
@@ -1189,7 +1189,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
         </div>
       </div>
 
-                <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-6 border border-gray-300">
+                <div className="bg-white/30 backdrop-blur-sm rounded-lg p-6 border border-gray-300">
                   <h4 className="font-bold text-lg text-gray-900 mb-4">💵 Categorie Entrate</h4>
                   <div className="space-y-3">
                     <div className="flex space-x-2">
@@ -1236,7 +1236,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
 
               {/* Clienti e Fornitori */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-6 border border-gray-300">
+                <div className="bg-white/30 backdrop-blur-sm rounded-lg p-6 border border-gray-300">
                   <h4 className="font-bold text-lg text-gray-900 mb-4">👥 Clienti</h4>
                   <div className="space-y-3">
                     <div className="flex space-x-2">
@@ -1278,7 +1278,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                   </div>
                 </div>
 
-                <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-6 border border-gray-300">
+                <div className="bg-white/30 backdrop-blur-sm rounded-lg p-6 border border-gray-300">
                   <h4 className="font-bold text-lg text-gray-900 mb-4">🏢 Fornitori</h4>
                   <div className="space-y-3">
                     <div className="flex space-x-2">
@@ -1323,7 +1323,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
 
               {/* Metodi di Pagamento e Valute */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-6 border border-gray-300">
+                <div className="bg-white/30 backdrop-blur-sm rounded-lg p-6 border border-gray-300">
                   <h4 className="font-bold text-lg text-gray-900 mb-4">💳 Metodi di Pagamento</h4>
                   <div className="space-y-3">
                     <div className="flex space-x-2">
@@ -1365,7 +1365,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                   </div>
                 </div>
 
-                <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-6 border border-gray-300">
+                <div className="bg-white/30 backdrop-blur-sm rounded-lg p-6 border border-gray-300">
                   <h4 className="font-bold text-lg text-gray-900 mb-4">💰 Valute</h4>
                   <div className="space-y-3">
                     <div className="flex space-x-2">
@@ -1426,7 +1426,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
               </div>
 
               {/* Impostazioni Generali */}
-              <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-6 border border-gray-300">
+              <div className="bg-white/30 backdrop-blur-sm rounded-lg p-6 border border-gray-300">
                 <h4 className="font-bold text-lg text-gray-900 mb-4">🔧 Impostazioni Generali</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -1455,7 +1455,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
       {/* Form Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
-          <div className="bg-white/30 backdrop-blur-md rounded-lg border border-white/50 p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-300">
+          <div className="bg-white/30 backdrop-blur-sm rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-300">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               {editingItem ? 'Modifica' : 'Nuovo'} {
                 activeTab === 'fixed-costs' ? 'Costo Fisso' : 
