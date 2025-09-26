@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import LogoutButton from '../Auth/LogoutButton';
 import HomeButton from '../Navigation/HomeButton';
-import { client } from '@/lib/sanity';
+import { client } from '@/sanity/lib/client';
 
 interface NavigationItem {
   key: string;
