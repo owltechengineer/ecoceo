@@ -208,7 +208,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
           {navigationItems.map((item, index) => (
             <div key={item.key}>
               {/* Barra di divisione sotto Dashboard Totale */}
-              {item.key === 'tasks' && (
+              {item.key === 'tasks' && !isCollapsed && (
                 <div className="my-4 mx-2">
                   <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
                   <div className="text-center mt-2">
@@ -220,7 +220,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
               )}
               
               {/* Barra di divisione sopra Red */}
-              {item.key === 'red' && (
+              {item.key === 'red' && !isCollapsed && (
                 <div className="my-4 mx-2">
                   <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
                   <div className="text-center mt-2">
