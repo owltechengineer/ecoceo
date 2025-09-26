@@ -35,7 +35,7 @@ export default function ProjectCard({ project, services, onEdit, onDelete }: Pro
   // Note: assignedServices not available in current Project type
 
   return (
-    <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 mb-6">
+    <div className="bg-white/20 backdrop-blur-md rounded-xl shadow-lg border border-white/30 hover:shadow-xl hover:bg-white/30 transition-all duration-300 mb-6">
       {/* Header principale */}
       <div className="p-8">
         <div className="flex items-center justify-between mb-6">
@@ -101,25 +101,25 @@ export default function ProjectCard({ project, services, onEdit, onDelete }: Pro
 
         {/* Statistiche principali */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+          <div className="bg-white/30 backdrop-blur-sm rounded-lg p-4 shadow-sm border border-white/40">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-green-500/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
                 <span className="text-green-600 text-lg">💰</span>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Budget</p>
+                <p className="text-sm text-gray-700">Budget</p>
                 <p className="text-xl font-bold text-gray-900">€{project.budget?.toLocaleString() || '0'}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+          <div className="bg-white/30 backdrop-blur-sm rounded-lg p-4 shadow-sm border border-white/40">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-blue-500/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
                 <span className="text-blue-600 text-lg">📅</span>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Durata</p>
+                <p className="text-sm text-gray-700">Durata</p>
                 <p className="text-xl font-bold text-gray-900">
                   {Math.ceil((new Date(project.endDate).getTime() - new Date(project.startDate).getTime()) / (1000 * 60 * 60 * 24))} giorni
                 </p>
@@ -127,13 +127,13 @@ export default function ProjectCard({ project, services, onEdit, onDelete }: Pro
             </div>
           </div>
 
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+          <div className="bg-white/30 backdrop-blur-sm rounded-lg p-4 shadow-sm border border-white/40">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-purple-500/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
                 <span className="text-purple-600 text-lg">📊</span>
               </div>
               <div>
-                <p className="text-sm text-gray-600">ROI</p>
+                <p className="text-sm text-gray-700">ROI</p>
                 <p className="text-xl font-bold text-gray-900">{project.roi?.toFixed(1) || '0'}%</p>
               </div>
             </div>
@@ -143,24 +143,24 @@ export default function ProjectCard({ project, services, onEdit, onDelete }: Pro
 
       {/* Contenuto espandibile migliorato */}
       {isExpanded && (
-        <div className="border-t border-gray-200 bg-gray-50 p-8">
+        <div className="border-t border-white/30 bg-white/10 backdrop-blur-sm p-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Dettagli temporali */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white/30 backdrop-blur-sm rounded-lg p-6 shadow-sm border border-white/40">
               <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 <span>📅</span> Timeline del Progetto
               </h4>
               <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Data di Inizio</span>
+                <div className="flex justify-between items-center py-2 border-b border-white/30">
+                  <span className="text-gray-700">Data di Inizio</span>
                   <span className="font-semibold text-gray-900">{new Date(project.startDate).toLocaleDateString('it-IT')}</span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Data di Fine</span>
+                <div className="flex justify-between items-center py-2 border-b border-white/30">
+                  <span className="text-gray-700">Data di Fine</span>
                   <span className="font-semibold text-gray-900">{new Date(project.endDate).toLocaleDateString('it-IT')}</span>
                 </div>
                 <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-600">Giorni Rimanenti</span>
+                  <span className="text-gray-700">Giorni Rimanenti</span>
                   <span className="font-semibold text-gray-900">
                     {Math.max(0, Math.ceil((new Date(project.endDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)))}
                   </span>
@@ -169,25 +169,25 @@ export default function ProjectCard({ project, services, onEdit, onDelete }: Pro
             </div>
             
             {/* Dettagli finanziari */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white/30 backdrop-blur-sm rounded-lg p-6 shadow-sm border border-white/40">
               <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 <span>💰</span> Analisi Finanziaria
               </h4>
               <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Budget Pianificato</span>
+                <div className="flex justify-between items-center py-2 border-b border-white/30">
+                  <span className="text-gray-700">Budget Pianificato</span>
                   <span className="font-semibold text-gray-900">€{project.budget?.toLocaleString() || '0'}</span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Costo Effettivo</span>
+                <div className="flex justify-between items-center py-2 border-b border-white/30">
+                  <span className="text-gray-700">Costo Effettivo</span>
                   <span className="font-semibold text-gray-900">€{project.actualCost?.toLocaleString() || '0'}</span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Ricavi Attesi</span>
+                <div className="flex justify-between items-center py-2 border-b border-white/30">
+                  <span className="text-gray-700">Ricavi Attesi</span>
                   <span className="font-semibold text-gray-900">€{project.expectedRevenue?.toLocaleString() || '0'}</span>
                 </div>
                 <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-600">Ricavi Effettivi</span>
+                  <span className="text-gray-700">Ricavi Effettivi</span>
                   <span className="font-semibold text-gray-900">€{project.actualRevenue?.toLocaleString() || '0'}</span>
                 </div>
               </div>
