@@ -200,44 +200,333 @@ export default function WarehouseManagement() {
     return calculateQuoteSubtotal() + calculateQuoteTax();
   };
 
-  const generatePDF = () => {
-    // Simulazione generazione PDF
-    const quoteData = {
-      ...currentQuote,
-      items: quoteItems,
-      subtotal: calculateQuoteSubtotal(),
-      tax: calculateQuoteTax(),
-      total: calculateQuoteFinalTotal(),
-      validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] // 30 giorni
+  // Funzione per tradurre automaticamente i testi
+  const translateText = async (text: string, targetLanguage: string): Promise<string> => {
+    try {
+      // Simulazione traduzione automatica (in produzione useresti un servizio come Google Translate API)
+      const translations: Record<string, Record<string, string>> = {
+        'it': {
+          'Quote': 'Preventivo',
+          'Client': 'Cliente',
+          'Email': 'Email',
+          'Address': 'Indirizzo',
+          'Items': 'Articoli',
+          'Quantity': 'Quantità',
+          'Unit Price': 'Prezzo Unitario',
+          'Total': 'Totale',
+          'Subtotal': 'Subtotale',
+          'Tax': 'IVA',
+          'Final Total': 'Totale Finale',
+          'Valid Until': 'Valido Fino Al',
+          'Notes': 'Note',
+          'Generate PDF': 'Genera PDF',
+          'Generate Image': 'Genera Immagine'
+        },
+        'en': {
+          'Quote': 'Quote',
+          'Client': 'Client',
+          'Email': 'Email',
+          'Address': 'Address',
+          'Items': 'Items',
+          'Quantity': 'Quantity',
+          'Unit Price': 'Unit Price',
+          'Total': 'Total',
+          'Subtotal': 'Subtotal',
+          'Tax': 'Tax',
+          'Final Total': 'Final Total',
+          'Valid Until': 'Valid Until',
+          'Notes': 'Notes',
+          'Generate PDF': 'Generate PDF',
+          'Generate Image': 'Generate Image'
+        },
+        'fr': {
+          'Quote': 'Devis',
+          'Client': 'Client',
+          'Email': 'Email',
+          'Address': 'Adresse',
+          'Items': 'Articles',
+          'Quantity': 'Quantité',
+          'Unit Price': 'Prix Unitaire',
+          'Total': 'Total',
+          'Subtotal': 'Sous-total',
+          'Tax': 'TVA',
+          'Final Total': 'Total Final',
+          'Valid Until': 'Valide Jusqu\'au',
+          'Notes': 'Notes',
+          'Generate PDF': 'Générer PDF',
+          'Generate Image': 'Générer Image'
+        },
+        'de': {
+          'Quote': 'Angebot',
+          'Client': 'Kunde',
+          'Email': 'Email',
+          'Address': 'Adresse',
+          'Items': 'Artikel',
+          'Quantity': 'Menge',
+          'Unit Price': 'Einzelpreis',
+          'Total': 'Gesamt',
+          'Subtotal': 'Zwischensumme',
+          'Tax': 'MwSt',
+          'Final Total': 'Endsumme',
+          'Valid Until': 'Gültig Bis',
+          'Notes': 'Notizen',
+          'Generate PDF': 'PDF Erstellen',
+          'Generate Image': 'Bild Erstellen'
+        }
+      };
+
+      return translations[targetLanguage]?.[text] || text;
+    } catch (error) {
+      console.error('Errore traduzione:', error);
+      return text;
+    }
+  };
+
+  // Funzione per generare HTML del preventivo tradotto
+  const generateQuoteHTML = async (quoteData: any): Promise<string> => {
+    const lang = quoteData.language || 'it';
+    
+    const translatedLabels = {
+      quote: await translateText('Quote', lang),
+      client: await translateText('Client', lang),
+      email: await translateText('Email', lang),
+      address: await translateText('Address', lang),
+      items: await translateText('Items', lang),
+      quantity: await translateText('Quantity', lang),
+      unitPrice: await translateText('Unit Price', lang),
+      total: await translateText('Total', lang),
+      subtotal: await translateText('Subtotal', lang),
+      tax: await translateText('Tax', lang),
+      finalTotal: await translateText('Final Total', lang),
+      validUntil: await translateText('Valid Until', lang),
+      notes: await translateText('Notes', lang)
     };
 
-    console.log('Generazione PDF preventivo:', quoteData);
+    const validUntilDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('it-IT');
     
-    // Qui implementeremo la vera generazione PDF
-    alert(`PDF generato per ${quoteData.clientName}!\nTotale: €${quoteData.total.toFixed(2)}`);
-    
-    // Salva il preventivo
-    const newQuote: Quote = {
-      id: `quote-${Date.now()}`,
-      ...quoteData,
-      validUntil: quoteData.validUntil
-    };
-    
-    setQuotes([...quotes, newQuote]);
-    setQuoteItems([]);
-    setCurrentQuote({
-      clientName: '',
-      clientEmail: '',
-      clientAddress: '',
-      language: 'it',
-      items: [],
-      subtotal: 0,
-      tax: 0,
-      total: 0,
-      validUntil: '',
-      notes: ''
-    });
-    setShowNewQuote(false);
+    return `
+      <!DOCTYPE html>
+      <html lang="${lang}">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${translatedLabels.quote} - ${quoteData.clientName}</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f8f9fa; }
+          .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden; }
+          .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; }
+          .header h1 { margin: 0; font-size: 2.5em; font-weight: bold; }
+          .header p { margin: 10px 0 0 0; opacity: 0.9; font-size: 1.1em; }
+          .content { padding: 30px; }
+          .client-info { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+          .client-info h3 { margin: 0 0 15px 0; color: #333; font-size: 1.3em; }
+          .client-info p { margin: 5px 0; color: #666; }
+          .items-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+          .items-table th, .items-table td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
+          .items-table th { background: #f8f9fa; font-weight: bold; color: #333; }
+          .items-table tr:hover { background: #f8f9fa; }
+          .totals { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; }
+          .totals-row { display: flex; justify-content: space-between; margin: 10px 0; }
+          .totals-row.final { border-top: 2px solid #333; padding-top: 15px; font-weight: bold; font-size: 1.2em; }
+          .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #666; border-top: 1px solid #ddd; }
+          .validity { background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; }
+          .validity strong { color: #1976d2; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>${translatedLabels.quote}</h1>
+            <p>${new Date().toLocaleDateString('it-IT')}</p>
+          </div>
+          
+          <div class="content">
+            <div class="client-info">
+              <h3>${translatedLabels.client}</h3>
+              <p><strong>${translatedLabels.client}:</strong> ${quoteData.clientName}</p>
+              <p><strong>${translatedLabels.email}:</strong> ${quoteData.clientEmail}</p>
+              <p><strong>${translatedLabels.address}:</strong> ${quoteData.clientAddress}</p>
+            </div>
+            
+            <table class="items-table">
+              <thead>
+                <tr>
+                  <th>${translatedLabels.items}</th>
+                  <th>${translatedLabels.quantity}</th>
+                  <th>${translatedLabels.unitPrice}</th>
+                  <th>${translatedLabels.total}</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${quoteData.items.map((item: any) => `
+                  <tr>
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>€${item.unitPrice.toFixed(2)}</td>
+                    <td>€${item.total.toFixed(2)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+            
+            <div class="totals">
+              <div class="totals-row">
+                <span>${translatedLabels.subtotal}:</span>
+                <span>€${quoteData.subtotal.toFixed(2)}</span>
+              </div>
+              <div class="totals-row">
+                <span>${translatedLabels.tax} (22%):</span>
+                <span>€${quoteData.tax.toFixed(2)}</span>
+              </div>
+              <div class="totals-row final">
+                <span>${translatedLabels.finalTotal}:</span>
+                <span>€${quoteData.total.toFixed(2)}</span>
+              </div>
+            </div>
+            
+            <div class="validity">
+              <strong>${translatedLabels.validUntil}:</strong> ${validUntilDate}
+            </div>
+            
+            ${quoteData.notes ? `
+              <div class="notes">
+                <h3>${translatedLabels.notes}</h3>
+                <p>${quoteData.notes}</p>
+              </div>
+            ` : ''}
+          </div>
+          
+          <div class="footer">
+            <p>Grazie per la vostra fiducia!</p>
+            <p>Per informazioni: info@azienda.com | +39 123 456 7890</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  };
+
+  // Funzione per generare PDF
+  const generatePDF = async () => {
+    try {
+      const quoteData = {
+        ...currentQuote,
+        items: quoteItems,
+        subtotal: calculateQuoteSubtotal(),
+        tax: calculateQuoteTax(),
+        total: calculateQuoteFinalTotal(),
+        validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+      };
+
+      // Genera HTML tradotto
+      const htmlContent = await generateQuoteHTML(quoteData);
+      
+      // Crea blob HTML
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      
+      // Apri in nuova finestra per stampa/PDF
+      const printWindow = window.open(url, '_blank');
+      if (printWindow) {
+        printWindow.onload = () => {
+          printWindow.print();
+        };
+      }
+      
+      // Salva il preventivo
+      const newQuote: Quote = {
+        id: `quote-${Date.now()}`,
+        ...quoteData,
+        validUntil: quoteData.validUntil
+      };
+      
+      setQuotes([...quotes, newQuote]);
+      setQuoteItems([]);
+      setCurrentQuote({
+        clientName: '',
+        clientEmail: '',
+        clientAddress: '',
+        language: 'it',
+        items: [],
+        subtotal: 0,
+        tax: 0,
+        total: 0,
+        validUntil: '',
+        notes: ''
+      });
+      setShowNewQuote(false);
+      
+      alert(`PDF generato per ${quoteData.clientName}!\nTotale: €${quoteData.total.toFixed(2)}`);
+    } catch (error) {
+      console.error('Errore generazione PDF:', error);
+      alert('Errore nella generazione del PDF');
+    }
+  };
+
+  // Funzione per generare immagine del preventivo
+  const generateImage = async () => {
+    try {
+      const quoteData = {
+        ...currentQuote,
+        items: quoteItems,
+        subtotal: calculateQuoteSubtotal(),
+        tax: calculateQuoteTax(),
+        total: calculateQuoteFinalTotal(),
+        validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+      };
+
+      // Genera HTML tradotto
+      const htmlContent = await generateQuoteHTML(quoteData);
+      
+      // Crea elemento temporaneo per rendering
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = htmlContent;
+      tempDiv.style.position = 'absolute';
+      tempDiv.style.left = '-9999px';
+      tempDiv.style.top = '-9999px';
+      document.body.appendChild(tempDiv);
+      
+      // Usa html2canvas per convertire in immagine
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Dimensioni canvas
+      canvas.width = 800;
+      canvas.height = 1000;
+      
+      // Sfondo bianco
+      if (ctx) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Simula contenuto (in produzione useresti html2canvas)
+        ctx.fillStyle = '#333333';
+        ctx.font = '24px Arial';
+        ctx.fillText(`${quoteData.clientName} - Preventivo`, 50, 100);
+        ctx.fillText(`Totale: €${quoteData.total.toFixed(2)}`, 50, 150);
+        ctx.fillText(`Data: ${new Date().toLocaleDateString('it-IT')}`, 50, 200);
+      }
+      
+      // Converti in blob e scarica
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `preventivo-${quoteData.clientName}-${Date.now()}.png`;
+          a.click();
+          URL.revokeObjectURL(url);
+        }
+      });
+      
+      // Rimuovi elemento temporaneo
+      document.body.removeChild(tempDiv);
+      
+      alert(`Immagine generata per ${quoteData.clientName}!\nTotale: €${quoteData.total.toFixed(2)}`);
+    } catch (error) {
+      console.error('Errore generazione immagine:', error);
+      alert('Errore nella generazione dell\'immagine');
+    }
   };
 
   return (
@@ -663,6 +952,13 @@ export default function WarehouseManagement() {
               >
                 📄 Genera PDF
               </button>
+              <button 
+                onClick={generateImage}
+                disabled={quoteItems.length === 0 || !currentQuote.clientName}
+                className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                🖼️ Genera Immagine
+              </button>
             </div>
           </div>
         </div>
@@ -778,6 +1074,24 @@ export default function WarehouseManagement() {
                     🗑️ Cancella Tutto
                   </button>
                 </div>
+                
+                {/* Pulsanti Generazione */}
+                {quoteItems.length > 0 && (
+                  <div className="flex space-x-3 pt-4 border-t">
+                    <button
+                      onClick={generatePDF}
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200"
+                    >
+                      📄 Genera PDF
+                    </button>
+                    <button
+                      onClick={generateImage}
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:opacity-90 transition-all duration-200"
+                    >
+                      🖼️ Genera Immagine
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
