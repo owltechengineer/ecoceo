@@ -718,7 +718,7 @@ export default function DashboardTotale() {
       {/* Layout a 2 colonne per PC */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Colonna Sinistra - Attività di Oggi */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg border border-gray-100 p-6">
           <div className="flex items-center mb-6">
             <div className="p-3 bg-blue-100 rounded-lg mr-4">
               <span className="text-2xl">📅</span>
@@ -776,7 +776,7 @@ export default function DashboardTotale() {
 
         {/* Colonna Destra - Quick Tasks Recenti */}
         {quickTasks.length > 0 && (
-          <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+          <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg border border-gray-100 p-6">
             <div className="flex items-center mb-6">
               <div className="p-3 bg-green-100 rounded-lg mr-4">
                 <span className="text-2xl">⚡</span>
@@ -832,7 +832,7 @@ export default function DashboardTotale() {
       </div>
 
       {/* Recap Pagamenti di Oggi */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg border border-gray-100 p-6">
         <div className="flex items-center mb-6">
           <div className="p-3 bg-yellow-100 rounded-lg mr-4">
             <span className="text-2xl">💰</span>
@@ -931,7 +931,7 @@ export default function DashboardTotale() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Colonna Sinistra - Campagne Attive */}
         {campaigns.filter(c => c.status === 'active').length > 0 && (
-          <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+          <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg border border-gray-100 p-6">
             <div className="flex items-center mb-6">
               <div className="p-3 bg-green-100 rounded-lg mr-4">
                 <span className="text-2xl">📈</span>
@@ -977,7 +977,7 @@ export default function DashboardTotale() {
 
         {/* Colonna Destra - Lead Importanti */}
         {importantLeads.length > 0 && (
-          <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+          <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg border border-gray-100 p-6">
             <div className="flex items-center mb-6">
               <div className="p-3 bg-orange-100 rounded-lg mr-4">
                 <span className="text-2xl">🔥</span>
