@@ -46,6 +46,9 @@ export default function WarehouseManagement() {
   const [showQuotePreview, setShowQuotePreview] = useState(false);
   const [selectedItems, setSelectedItems] = useState<WarehouseItem[]>([]);
   const [quoteItems, setQuoteItems] = useState<QuoteItem[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [sortBy, setSortBy] = useState('name');
   const [currentQuote, setCurrentQuote] = useState<Partial<Quote>>({
     clientName: '',
     clientEmail: '',
@@ -68,7 +71,7 @@ export default function WarehouseManagement() {
       quantity: 15,
       unit: 'pz',
       price: 1299.00,
-      description: 'Laptop ultrabook con processore Intel i7',
+      description: 'Laptop ultrabook con processore Intel i7, 16GB RAM, SSD 512GB',
       sku: 'DELL-XPS13-001',
       location: 'A1-B2',
       minStock: 5,
@@ -76,40 +79,144 @@ export default function WarehouseManagement() {
     },
     {
       id: '2',
-      name: 'Monitor Samsung 27"',
+      name: 'Monitor Samsung 27" 4K',
       category: 'Elettronica',
       quantity: 8,
       unit: 'pz',
-      price: 299.00,
-      description: 'Monitor 4K 27 pollici',
-      sku: 'SAMS-27-4K',
+      price: 399.00,
+      description: 'Monitor 4K da 27 pollici con tecnologia IPS e HDR',
+      sku: 'SAMS-27-4K-002',
       location: 'A2-B1',
       minStock: 3,
       maxStock: 20
     },
     {
       id: '3',
-      name: 'Cavo HDMI 2m',
+      name: 'Tastiera Logitech MX Keys',
       category: 'Accessori',
-      quantity: 45,
+      quantity: 25,
       unit: 'pz',
-      price: 12.50,
-      description: 'Cavo HDMI ad alta velocità 2 metri',
-      sku: 'HDMI-2M-001',
+      price: 99.99,
+      description: 'Tastiera wireless con retroilluminazione e design ergonomico',
+      sku: 'LOG-MXK-003',
       location: 'B3-C1',
-      minStock: 10,
-      maxStock: 100
+      minStock: 5,
+      maxStock: 50
     },
     {
       id: '4',
-      name: 'Tastiera Meccanica',
+      name: 'Mouse Logitech MX Master 3',
+      category: 'Accessori',
+      quantity: 18,
+      unit: 'pz',
+      price: 89.99,
+      description: 'Mouse wireless ergonomico con scorrimento magnetico',
+      sku: 'LOG-MXM3-004',
+      location: 'B3-C2',
+      minStock: 5,
+      maxStock: 40
+    },
+    {
+      id: '5',
+      name: 'SSD Samsung 1TB NVMe',
+      category: 'Storage',
+      quantity: 22,
+      unit: 'pz',
+      price: 129.99,
+      description: 'SSD NVMe ad alta velocità per laptop e desktop',
+      sku: 'SAMS-SSD1T-005',
+      location: 'C1-D1',
+      minStock: 10,
+      maxStock: 50
+    },
+    {
+      id: '6',
+      name: 'Webcam Logitech C920 HD',
       category: 'Accessori',
       quantity: 12,
       unit: 'pz',
+      price: 79.99,
+      description: 'Webcam HD per videoconferenze e streaming',
+      sku: 'LOG-C920-006',
+      location: 'C1-D2',
+      minStock: 3,
+      maxStock: 25
+    },
+    {
+      id: '7',
+      name: 'Cuffie Sony WH-1000XM4',
+      category: 'Audio',
+      quantity: 8,
+      unit: 'pz',
+      price: 349.99,
+      description: 'Cuffie wireless con cancellazione rumore e audio ad alta qualità',
+      sku: 'SONY-WH1000XM4-007',
+      location: 'D1-E1',
+      minStock: 2,
+      maxStock: 20
+    },
+    {
+      id: '8',
+      name: 'Tablet iPad Air 10.9"',
+      category: 'Elettronica',
+      quantity: 6,
+      unit: 'pz',
+      price: 599.00,
+      description: 'Tablet Apple con chip A14 Bionic e display Liquid Retina',
+      sku: 'APPLE-IPADAIR-008',
+      location: 'D1-E2',
+      minStock: 2,
+      maxStock: 15
+    },
+    {
+      id: '9',
+      name: 'Router WiFi 6 Netgear',
+      category: 'Networking',
+      quantity: 10,
+      unit: 'pz',
+      price: 199.99,
+      description: 'Router WiFi 6 con velocità fino a 6Gbps e copertura estesa',
+      sku: 'NETG-WIFI6-009',
+      location: 'E1-F1',
+      minStock: 3,
+      maxStock: 20
+    },
+    {
+      id: '10',
+      name: 'Hard Disk Esterno 2TB',
+      category: 'Storage',
+      quantity: 35,
+      unit: 'pz',
       price: 89.99,
-      description: 'Tastiera meccanica RGB',
-      sku: 'KEY-MECH-RGB',
-      location: 'B2-C2',
+      description: 'Hard disk esterno USB 3.0 da 2TB per backup e archiviazione',
+      sku: 'WD-EXT2TB-010',
+      location: 'E1-F2',
+      minStock: 10,
+      maxStock: 60
+    },
+    {
+      id: '11',
+      name: 'Cavo HDMI 2m Premium',
+      category: 'Accessori',
+      quantity: 50,
+      unit: 'pz',
+      price: 15.99,
+      description: 'Cavo HDMI ad alta velocità 2 metri con connettori dorati',
+      sku: 'HDMI-2M-PREM-011',
+      location: 'F1-G1',
+      minStock: 20,
+      maxStock: 100
+    },
+    {
+      id: '12',
+      name: 'Tastiera Meccanica RGB',
+      category: 'Accessori',
+      quantity: 14,
+      unit: 'pz',
+      price: 129.99,
+      description: 'Tastiera gaming meccanica con switch Cherry MX e retroilluminazione RGB',
+      sku: 'KEYB-MECH-RGB-012',
+      location: 'F1-G2',
       minStock: 5,
       maxStock: 30
     }
@@ -140,6 +247,41 @@ export default function WarehouseManagement() {
       case 'high': return '🟢';
       default: return '🔵';
     }
+  };
+
+  // Funzione per filtrare e ordinare i prodotti
+  const getFilteredAndSortedItems = () => {
+    let filtered = warehouseItems.filter(item => {
+      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           item.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           item.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+
+    // Ordinamento
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'price':
+          return a.price - b.price;
+        case 'quantity':
+          return b.quantity - a.quantity;
+        case 'category':
+          return a.category.localeCompare(b.category);
+        default:
+          return 0;
+      }
+    });
+
+    return filtered;
+  };
+
+  // Funzione per ottenere le categorie uniche
+  const getUniqueCategories = () => {
+    const categories = [...new Set(warehouseItems.map(item => item.category))];
+    return categories.sort();
   };
 
   const handleAddToQuote = (item: WarehouseItem) => {
@@ -600,9 +742,73 @@ export default function WarehouseManagement() {
               ))}
             </div>
 
+            {/* Controlli Ricerca e Filtri */}
+            <div className="mb-6 space-y-4">
+              <div className="flex flex-col md:flex-row gap-4">
+                {/* Ricerca */}
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    placeholder="Cerca per nome, SKU o descrizione..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                
+                {/* Filtro Categoria */}
+                <div className="md:w-48">
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="all">Tutte le categorie</option>
+                    {getUniqueCategories().map(category => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                {/* Ordinamento */}
+                <div className="md:w-48">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="name">Nome</option>
+                    <option value="price">Prezzo</option>
+                    <option value="quantity">Quantità</option>
+                    <option value="category">Categoria</option>
+                  </select>
+                </div>
+              </div>
+              
+              {/* Contatore risultati */}
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">
+                  {getFilteredAndSortedItems().length} prodotti trovati
+                </span>
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm text-gray-500">Filtri attivi:</span>
+                  {searchTerm && (
+                    <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
+                      Ricerca: "{searchTerm}"
+                    </span>
+                  )}
+                  {selectedCategory !== 'all' && (
+                    <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+                      Categoria: {selectedCategory}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+
             {/* Grid Magazzino */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {warehouseItems.map((item) => {
+              {getFilteredAndSortedItems().map((item) => {
                 const stockStatus = getStockStatus(item);
                 return (
                   <div
@@ -626,7 +832,12 @@ export default function WarehouseManagement() {
                       
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-medium">Prezzo:</span>
-                        <span className="text-lg font-bold">€{item.price.toFixed(2)}</span>
+                        <span className="text-lg font-bold text-green-600">€{item.price.toFixed(2)}</span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium">Valore Stock:</span>
+                        <span className="text-sm font-semibold text-blue-600">€{(item.price * item.quantity).toFixed(2)}</span>
                       </div>
                       
                       <div className="flex items-center justify-between">
@@ -1092,6 +1303,27 @@ export default function WarehouseManagement() {
                     </button>
                   </div>
                 )}
+              </div>
+            </div>
+            
+            {/* Riepilogo Valore Magazzino */}
+            <div className="mt-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <span className="text-2xl mr-3">💰</span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">Valore Totale Magazzino</h3>
+                    <p className="text-sm text-gray-600">Valore complessivo dell'inventario</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-blue-600">
+                    €{warehouseItems.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2)}
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    {warehouseItems.length} prodotti
+                  </div>
+                </div>
               </div>
             </div>
           </div>
