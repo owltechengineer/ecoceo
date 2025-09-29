@@ -856,70 +856,73 @@ export default function DashboardTotale() {
       </div>
 
 
-      {/* Campagne Attive */}
-      {campaigns.filter(c => c.status === 'active').length > 0 && (
-        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-2xl mr-2">📈</span>
-            Campagne Attive
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {campaigns.filter(c => c.status === 'active').slice(0, 4).map((campaign) => (
-              <div key={campaign.id} className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-3 border border-green-200 hover:shadow-md transition-all duration-200 cursor-pointer">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <h3 className="font-medium text-gray-900 truncate text-sm">{campaign.name}</h3>
-                    <p className="text-xs text-gray-600 truncate hidden md:block">{campaign.description}</p>
+      {/* Layout a 2 colonne per Campagne e Lead */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Colonna Sinistra - Campagne Attive */}
+        {campaigns.filter(c => c.status === 'active').length > 0 && (
+          <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+              <span className="text-2xl mr-2">📈</span>
+              Campagne Attive
+            </h2>
+            <div className="space-y-3">
+              {campaigns.filter(c => c.status === 'active').slice(0, 4).map((campaign) => (
+                <div key={campaign.id} className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-3 border border-green-200 hover:shadow-md transition-all duration-200 cursor-pointer">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1">
+                      <h3 className="font-medium text-gray-900 truncate text-sm">{campaign.name}</h3>
+                      <p className="text-xs text-gray-600 truncate">{campaign.description}</p>
+                    </div>
+                    <span className="text-lg">📈</span>
                   </div>
-                  <span className="text-lg">📈</span>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="px-2 py-1 rounded bg-green-100 text-green-800 text-xs">
+                      🟢 Attiva
+                    </span>
+                    {campaign.budget && (
+                      <span className="text-gray-600 text-xs">€{campaign.budget.toLocaleString('it-IT')}</span>
+                    )}
+                  </div>
                 </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="px-2 py-1 rounded bg-green-100 text-green-800 text-xs">
-                    🟢 Attiva
-                  </span>
-                  {campaign.budget && (
-                    <span className="text-gray-600 text-xs">€{campaign.budget.toLocaleString('it-IT')}</span>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Lead Importanti */}
-      {importantLeads.length > 0 && (
-        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-2xl mr-2">🔥</span>
-            Lead Importanti
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {importantLeads.slice(0, 4).map((lead) => (
-              <div key={lead.id} className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg p-3 border border-orange-200 hover:shadow-md transition-all duration-200 cursor-pointer">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <div className="font-medium text-gray-900 truncate text-sm">{lead.name}</div>
-                    <div className="text-xs text-gray-600 truncate hidden md:block">{lead.email}</div>
+        {/* Colonna Destra - Lead Importanti */}
+        {importantLeads.length > 0 && (
+          <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+              <span className="text-2xl mr-2">🔥</span>
+              Lead Importanti
+            </h2>
+            <div className="space-y-3">
+              {importantLeads.slice(0, 4).map((lead) => (
+                <div key={lead.id} className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg p-3 border border-orange-200 hover:shadow-md transition-all duration-200 cursor-pointer">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1">
+                      <div className="font-medium text-gray-900 truncate text-sm">{lead.name}</div>
+                      <div className="text-xs text-gray-600 truncate">{lead.email}</div>
+                    </div>
+                    <span className="text-lg">🔥</span>
                   </div>
-                  <span className="text-lg">🔥</span>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className={`px-2 py-1 rounded ${
+                      lead.priority === 'hot' ? 'bg-red-100 text-red-800' :
+                      'bg-orange-100 text-orange-800'
+                    }`}>
+                      {lead.priority === 'hot' ? '🔥 Hot' : '🔴 Alta'}
+                    </span>
+                    <span className="text-gray-500 text-xs">
+                      {new Date(lead.created_at).toLocaleDateString('it-IT')}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className={`px-2 py-1 rounded ${
-                    lead.priority === 'hot' ? 'bg-red-100 text-red-800' :
-                    'bg-orange-100 text-orange-800'
-                  }`}>
-                    {lead.priority === 'hot' ? '🔥 Hot' : '🔴 Alta'}
-                  </span>
-                  <span className="text-gray-500 text-xs">
-                    {new Date(lead.created_at).toLocaleDateString('it-IT')}
-                  </span>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Modal Task Veloce */}
       {showQuickTask && (
