@@ -870,50 +870,6 @@ export default function DashboardTotale() {
         </div>
       </div>
 
-      {/* Attività Giornaliere */}
-      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-        <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-          <span className="text-2xl mr-2">📅</span>
-          Attività di Oggi
-        </h2>
-        {dailyActivities.length > 0 ? (
-          <div className="space-y-3">
-            {dailyActivities.map((activity) => (
-              <div key={activity.id} className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <span className="text-2xl mr-4">{activity.icon}</span>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <div className="font-medium text-gray-900">{activity.title}</div>
-                    <div className="text-sm text-gray-500">{activity.time}</div>
-                  </div>
-                  <div className="text-sm text-gray-600">{activity.description}</div>
-                  <div className="flex items-center mt-1">
-                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">{activity.section}</span>
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      activity.status === 'completed' ? 'bg-green-100 text-green-800' :
-                      activity.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
-                    }`}>
-                      {activity.status === 'completed' ? 'Completato' :
-                       activity.status === 'pending' ? 'In attesa' : 'In ritardo'}
-                    </span>
-                    {activity.amount && (
-                      <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded ml-2">
-                        €{activity.amount.toLocaleString('it-IT', { minimumFractionDigits: 2 })}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-8 text-gray-500">
-            <span className="text-4xl mb-2 block">📅</span>
-            <p>Nessuna attività programmata per oggi</p>
-          </div>
-        )}
-      </div>
 
       {/* Campagne Attive */}
       {campaigns.filter(c => c.status === 'active').length > 0 && (
