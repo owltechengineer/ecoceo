@@ -713,8 +713,6 @@ export default function DashboardTotale() {
             </button>
           </div>
         </div>
-          </button>
-        </div>
       </div>
 
       {/* Attività di Oggi */}
