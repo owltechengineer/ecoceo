@@ -97,12 +97,22 @@ export default function DashboardTotale() {
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [showQuickTask, setShowQuickTask] = useState(false);
+  const [showQuickQuote, setShowQuickQuote] = useState(false);
   const [quickTaskForm, setQuickTaskForm] = useState({
     type: 'reminder',
     title: '',
     description: '',
     stakeholder: '',
     priority: 'medium'
+  });
+  const [quickQuoteForm, setQuickQuoteForm] = useState({
+    clientName: '',
+    clientEmail: '',
+    clientPhone: '',
+    company: '',
+    description: '',
+    estimatedValue: '',
+    priority: 'high'
   });
   const { formatDateTime } = useClientDate();
 
@@ -459,6 +469,81 @@ export default function DashboardTotale() {
     }
   };
 
+  const handleQuickQuoteSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!quickQuoteForm.clientName.trim()) return;
+
+    try {
+      // Crea il lead con priorità alta
+      const leadData = {
+        name: quickQuoteForm.clientName,
+        email: quickQuoteForm.clientEmail,
+        phone: quickQuoteForm.clientPhone,
+        company: quickQuoteForm.company,
+        source: 'Preventivo Veloce',
+        status: 'new',
+        priority: 'high',
+        notes: `Preventivo veloce: ${quickQuoteForm.description}${quickQuoteForm.estimatedValue ? ` | Valore stimato: €${quickQuoteForm.estimatedValue}` : ''}`,
+        user_id: 'default-user'
+      };
+
+      const { data: lead, error: leadError } = await supabase
+        .from('marketing_leads')
+        .insert([leadData])
+        .select()
+        .single();
+
+      if (leadError) {
+        throw leadError;
+      }
+
+      // Crea il preventivo
+      const quoteData = {
+        client_name: quickQuoteForm.clientName,
+        client_email: quickQuoteForm.clientEmail,
+        client_phone: quickQuoteForm.clientPhone,
+        client_company: quickQuoteForm.company,
+        description: quickQuoteForm.description,
+        estimated_value: quickQuoteForm.estimatedValue ? parseFloat(quickQuoteForm.estimatedValue) : 0,
+        status: 'draft',
+        priority: 'high',
+        lead_id: lead.id,
+        user_id: 'default-user'
+      };
+
+      const { data: quote, error: quoteError } = await supabase
+        .from('marketing_quotes')
+        .insert([quoteData])
+        .select()
+        .single();
+
+      if (quoteError) {
+        console.warn('Errore creazione preventivo:', quoteError);
+      }
+
+      // Reset form
+      setQuickQuoteForm({
+        clientName: '',
+        clientEmail: '',
+        clientPhone: '',
+        company: '',
+        description: '',
+        estimatedValue: '',
+        priority: 'high'
+      });
+      setShowQuickQuote(false);
+      
+      // Reload data
+      loadDashboardStats();
+      loadImportantLeads();
+      
+      alert(`Lead creato con successo!\nNome: ${quickQuoteForm.clientName}\nPriorità: Alta\nPreventivo: ${quote ? 'Creato' : 'Errore'}`);
+    } catch (error) {
+      console.error('Errore creazione preventivo veloce:', error);
+      alert('Errore nella creazione del lead e preventivo');
+    }
+  };
+
   const statCards = [
     // Marketing
     {
@@ -613,11 +698,21 @@ export default function DashboardTotale() {
               <p className="text-gray-600">Panoramica rapida delle attività di oggi</p>
             </div>
           </div>
-          <button
-            onClick={() => setShowQuickTask(true)}
-            className="bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium text-sm"
-          >
-            ⚡ Task Veloce
+          <div className="flex space-x-3">
+            <button
+              onClick={() => setShowQuickTask(true)}
+              className="bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium text-sm"
+            >
+              ⚡ Task Veloce
+            </button>
+            <button
+              onClick={() => setShowQuickQuote(true)}
+              className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium text-sm"
+            >
+              📄 Preventivo Veloce
+            </button>
+          </div>
+        </div>
           </button>
         </div>
       </div>
@@ -1002,6 +1097,130 @@ export default function DashboardTotale() {
                   className="flex-1 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200"
                 >
                   ⚡ Crea Task
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Preventivo Veloce */}
+      {showQuickQuote && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-gray-900">📄 Preventivo Veloce</h3>
+              <button
+                onClick={() => setShowQuickQuote(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <form onSubmit={handleQuickQuoteSubmit} className="space-y-4">
+              {/* Nome Cliente */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Nome Cliente *</label>
+                <input
+                  type="text"
+                  value={quickQuoteForm.clientName}
+                  onChange={(e) => setQuickQuoteForm({...quickQuoteForm, clientName: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Nome del cliente..."
+                  required
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input
+                  type="email"
+                  value={quickQuoteForm.clientEmail}
+                  onChange={(e) => setQuickQuoteForm({...quickQuoteForm, clientEmail: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="email@cliente.com"
+                />
+              </div>
+
+              {/* Telefono */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Telefono</label>
+                <input
+                  type="tel"
+                  value={quickQuoteForm.clientPhone}
+                  onChange={(e) => setQuickQuoteForm({...quickQuoteForm, clientPhone: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="+39 123 456 7890"
+                />
+              </div>
+
+              {/* Azienda */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Azienda</label>
+                <input
+                  type="text"
+                  value={quickQuoteForm.company}
+                  onChange={(e) => setQuickQuoteForm({...quickQuoteForm, company: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Nome dell'azienda..."
+                />
+              </div>
+
+              {/* Descrizione */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Descrizione Preventivo</label>
+                <textarea
+                  value={quickQuoteForm.description}
+                  onChange={(e) => setQuickQuoteForm({...quickQuoteForm, description: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Descrizione del preventivo..."
+                  rows={3}
+                />
+              </div>
+
+              {/* Valore Stimato */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Valore Stimato (€)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={quickQuoteForm.estimatedValue}
+                  onChange={(e) => setQuickQuoteForm({...quickQuoteForm, estimatedValue: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="0.00"
+                />
+              </div>
+
+              {/* Priorità */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Priorità</label>
+                <select
+                  value={quickQuoteForm.priority}
+                  onChange={(e) => setQuickQuoteForm({...quickQuoteForm, priority: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                >
+                  <option value="high">🔴 Alta</option>
+                  <option value="medium">🟡 Media</option>
+                  <option value="low">🟢 Bassa</option>
+                </select>
+              </div>
+
+              {/* Bottoni */}
+              <div className="flex space-x-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowQuickQuote(false)}
+                  className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  Annulla
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:opacity-90 transition-all duration-200"
+                >
+                  📄 Crea Lead + Preventivo
                 </button>
               </div>
             </form>
