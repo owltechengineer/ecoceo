@@ -718,76 +718,111 @@ export default function DashboardTotale() {
       {/* Layout a 2 colonne per PC */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Colonna Sinistra - Attività di Oggi */}
-        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-2xl mr-2">📅</span>
-            Attività di Oggi
-          </h2>
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+          <div className="flex items-center mb-6">
+            <div className="p-3 bg-blue-100 rounded-lg mr-4">
+              <span className="text-2xl">📅</span>
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">Attività di Oggi</h2>
+              <p className="text-sm text-gray-600">Le tue attività programmate</p>
+            </div>
+          </div>
+          
           {dailyActivities.length > 0 ? (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {dailyActivities.map((activity) => (
-                <div key={activity.id} className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                  <span className="text-xl mr-3">{activity.icon}</span>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <div className="font-medium text-gray-900 text-sm">{activity.title}</div>
-                      <div className="text-xs text-gray-500">{activity.time}</div>
+                <div key={activity.id} className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-100 hover:shadow-md transition-all duration-200">
+                  <div className="flex items-start">
+                    <div className="p-2 bg-blue-100 rounded-lg mr-4 flex-shrink-0">
+                      <span className="text-lg">{activity.icon}</span>
                     </div>
-                    <div className="text-xs text-gray-600 truncate">{activity.description}</div>
-                    <div className="flex items-center mt-1">
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">{activity.section}</span>
-                      <span className={`text-xs px-2 py-1 rounded ${
-                        activity.status === 'completed' ? 'bg-green-100 text-green-800' :
-                        activity.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-red-100 text-red-800'
-                      }`}>
-                        {activity.status === 'completed' ? 'Completato' :
-                         activity.status === 'pending' ? 'In attesa' : 'In ritardo'}
-                      </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-semibold text-gray-900 text-base leading-tight">{activity.title}</h3>
+                        <span className="text-sm font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full">
+                          {activity.time}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-700 mb-3 leading-relaxed">{activity.description}</p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                          📋 {activity.section}
+                        </span>
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                          activity.status === 'completed' ? 'bg-green-100 text-green-800' :
+                          activity.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-red-100 text-red-800'
+                        }`}>
+                          {activity.status === 'completed' ? '✅ Completato' :
+                           activity.status === 'pending' ? '⏳ In attesa' : '🚨 In ritardo'}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-6 text-gray-500">
-              <span className="text-3xl mb-2 block">📅</span>
-              <p className="text-sm">Nessuna attività programmata per oggi</p>
+            <div className="text-center py-8">
+              <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <span className="text-3xl">📅</span>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Nessuna attività</h3>
+              <p className="text-gray-600">Nessuna attività programmata per oggi</p>
             </div>
           )}
         </div>
 
         {/* Colonna Destra - Quick Tasks Recenti */}
         {quickTasks.length > 0 && (
-          <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-              <span className="text-2xl mr-2">⚡</span>
-              Task Veloci Recenti
-            </h2>
-            <div className="space-y-3">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+            <div className="flex items-center mb-6">
+              <div className="p-3 bg-green-100 rounded-lg mr-4">
+                <span className="text-2xl">⚡</span>
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Task Veloci Recenti</h2>
+                <p className="text-sm text-gray-600">I tuoi task più recenti</p>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
               {quickTasks.slice(0, 4).map((task) => (
-                <div key={task.id} className="bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex-1">
-                      <div className="font-medium text-gray-900 truncate text-sm">{task.title}</div>
-                      <div className="text-xs text-gray-600 truncate">{task.description}</div>
+                <div key={task.id} className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border border-green-100 hover:shadow-md transition-all duration-200">
+                  <div className="flex items-start">
+                    <div className="p-2 bg-green-100 rounded-lg mr-4 flex-shrink-0">
+                      <span className="text-lg">
+                        {quickTaskTypes.find(t => t.id === task.type)?.icon || '📝'}
+                      </span>
                     </div>
-                    <span className="text-lg">
-                      {quickTaskTypes.find(t => t.id === task.type)?.icon || '📝'}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className={`px-2 py-1 rounded ${
-                      task.priority === 'high' ? 'bg-red-100 text-red-800' :
-                      task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-green-100 text-green-800'
-                    }`}>
-                      {task.priority === 'high' ? '🔴 Alta' :
-                       task.priority === 'medium' ? '🟡 Media' : '🟢 Bassa'}
-                    </span>
-                    <span className="text-gray-500 text-xs">
-                      {new Date(task.created_at).toLocaleDateString('it-IT')}
-                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-semibold text-gray-900 text-base leading-tight">{task.title}</h3>
+                        <span className="text-sm font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                          {new Date(task.created_at).toLocaleDateString('it-IT')}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-700 mb-3 leading-relaxed">{task.description}</p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                          task.priority === 'high' ? 'bg-red-100 text-red-800' :
+                          task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-green-100 text-green-800'
+                        }`}>
+                          {task.priority === 'high' ? '🔴 Alta' :
+                           task.priority === 'medium' ? '🟡 Media' : '🟢 Bassa'}
+                        </span>
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                          task.status === 'completed' ? 'bg-green-100 text-green-800' :
+                          task.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}>
+                          {task.status === 'completed' ? '✅ Completato' :
+                           task.status === 'in_progress' ? '🔄 In corso' : '⏳ In attesa'}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -797,59 +832,95 @@ export default function DashboardTotale() {
       </div>
 
       {/* Recap Pagamenti di Oggi */}
-      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-        <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-          <span className="text-2xl mr-2">💰</span>
-          Recap Pagamenti di Oggi
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-lg p-4 border border-red-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-sm text-red-600 font-medium">Costi Fissi</div>
-                <div className="text-2xl font-bold text-red-800">
+      <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+        <div className="flex items-center mb-6">
+          <div className="p-3 bg-yellow-100 rounded-lg mr-4">
+            <span className="text-2xl">💰</span>
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-gray-900">Recap Pagamenti di Oggi</h2>
+            <p className="text-sm text-gray-600">Riepilogo finanziario giornaliero</p>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="bg-gradient-to-br from-red-50 to-rose-100 rounded-xl p-6 border border-red-200 hover:shadow-lg transition-all duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 bg-red-100 rounded-lg">
+                <span className="text-2xl">🏠</span>
+              </div>
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-600 mb-1">Costi Fissi</p>
+                <p className="text-2xl font-bold text-red-800">
                   €{todayPayments.fixedCosts.toLocaleString('it-IT', { minimumFractionDigits: 2 })}
-                </div>
+                </p>
               </div>
-              <span className="text-2xl">🏠</span>
+            </div>
+            <div className="text-sm text-red-700">
+              <span className="inline-flex items-center">
+                <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                Spese ricorrenti
+              </span>
             </div>
           </div>
           
-          <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-4 border border-orange-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-sm text-orange-600 font-medium">Costi Variabili</div>
-                <div className="text-2xl font-bold text-orange-800">
+          <div className="bg-gradient-to-br from-orange-50 to-amber-100 rounded-xl p-6 border border-orange-200 hover:shadow-lg transition-all duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 bg-orange-100 rounded-lg">
+                <span className="text-2xl">🛒</span>
+              </div>
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-600 mb-1">Costi Variabili</p>
+                <p className="text-2xl font-bold text-orange-800">
                   €{todayPayments.variableCosts.toLocaleString('it-IT', { minimumFractionDigits: 2 })}
-                </div>
+                </p>
               </div>
-              <span className="text-2xl">🛒</span>
+            </div>
+            <div className="text-sm text-orange-700">
+              <span className="inline-flex items-center">
+                <span className="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
+                Spese operative
+              </span>
             </div>
           </div>
           
-          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 border border-green-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-sm text-green-600 font-medium">Entrate</div>
-                <div className="text-2xl font-bold text-green-800">
+          <div className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl p-6 border border-green-200 hover:shadow-lg transition-all duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 bg-green-100 rounded-lg">
+                <span className="text-2xl">💳</span>
+              </div>
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-600 mb-1">Entrate</p>
+                <p className="text-2xl font-bold text-green-800">
                   €{todayPayments.revenues.toLocaleString('it-IT', { minimumFractionDigits: 2 })}
-                </div>
+                </p>
               </div>
-              <span className="text-2xl">💳</span>
+            </div>
+            <div className="text-sm text-green-700">
+              <span className="inline-flex items-center">
+                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                Incassi giornalieri
+              </span>
             </div>
           </div>
           
-          <div className={`bg-gradient-to-br ${todayPayments.netFlow >= 0 ? 'from-emerald-50 to-emerald-100 border-emerald-200' : 'from-red-50 to-red-100 border-red-200'} rounded-lg p-4 border`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <div className={`text-sm font-medium ${todayPayments.netFlow >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
-                  Flusso Netto
-                </div>
-                <div className={`text-2xl font-bold ${todayPayments.netFlow >= 0 ? 'text-emerald-800' : 'text-red-800'}`}>
-                  €{todayPayments.netFlow.toLocaleString('it-IT', { minimumFractionDigits: 2 })}
-                </div>
+          <div className={`bg-gradient-to-br ${todayPayments.netFlow >= 0 ? 'from-emerald-50 to-emerald-100 border-emerald-200' : 'from-red-50 to-rose-100 border-red-200'} rounded-xl p-6 border hover:shadow-lg transition-all duration-200`}>
+            <div className="flex items-center justify-between mb-4">
+              <div className={`p-3 rounded-lg ${todayPayments.netFlow >= 0 ? 'bg-emerald-100' : 'bg-red-100'}`}>
+                <span className="text-2xl">{todayPayments.netFlow >= 0 ? '💰' : '⚠️'}</span>
               </div>
-              <span className="text-2xl">{todayPayments.netFlow >= 0 ? '📈' : '📉'}</span>
+              <div className="text-right">
+                <p className={`text-sm font-medium text-gray-600 mb-1`}>Flusso Netto</p>
+                <p className={`text-2xl font-bold ${todayPayments.netFlow >= 0 ? 'text-emerald-800' : 'text-red-800'}`}>
+                  €{todayPayments.netFlow.toLocaleString('it-IT', { minimumFractionDigits: 2 })}
+                </p>
+              </div>
+            </div>
+            <div className={`text-sm ${todayPayments.netFlow >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
+              <span className="inline-flex items-center">
+                <span className={`w-2 h-2 rounded-full mr-2 ${todayPayments.netFlow >= 0 ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
+                {todayPayments.netFlow >= 0 ? 'Saldo positivo' : 'Saldo negativo'}
+              </span>
             </div>
           </div>
         </div>
@@ -860,28 +931,43 @@ export default function DashboardTotale() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Colonna Sinistra - Campagne Attive */}
         {campaigns.filter(c => c.status === 'active').length > 0 && (
-          <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-              <span className="text-2xl mr-2">📈</span>
-              Campagne Attive
-            </h2>
-            <div className="space-y-3">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+            <div className="flex items-center mb-6">
+              <div className="p-3 bg-green-100 rounded-lg mr-4">
+                <span className="text-2xl">📈</span>
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Campagne Attive</h2>
+                <p className="text-sm text-gray-600">Le tue campagne in corso</p>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
               {campaigns.filter(c => c.status === 'active').slice(0, 4).map((campaign) => (
-                <div key={campaign.id} className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-3 border border-green-200 hover:shadow-md transition-all duration-200 cursor-pointer">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex-1">
-                      <h3 className="font-medium text-gray-900 truncate text-sm">{campaign.name}</h3>
-                      <p className="text-xs text-gray-600 truncate">{campaign.description}</p>
+                <div key={campaign.id} className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border border-green-100 hover:shadow-md transition-all duration-200 cursor-pointer">
+                  <div className="flex items-start">
+                    <div className="p-2 bg-green-100 rounded-lg mr-4 flex-shrink-0">
+                      <span className="text-lg">📈</span>
                     </div>
-                    <span className="text-lg">📈</span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="px-2 py-1 rounded bg-green-100 text-green-800 text-xs">
-                      🟢 Attiva
-                    </span>
-                    {campaign.budget && (
-                      <span className="text-gray-600 text-xs">€{campaign.budget.toLocaleString('it-IT')}</span>
-                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-semibold text-gray-900 text-base leading-tight">{campaign.name}</h3>
+                        <span className="text-sm font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                          🟢 Attiva
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-700 mb-3 leading-relaxed">{campaign.description}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {campaign.budget && (
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            💰 €{campaign.budget.toLocaleString('it-IT')}
+                          </span>
+                        )}
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                          📊 Marketing
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -891,31 +977,44 @@ export default function DashboardTotale() {
 
         {/* Colonna Destra - Lead Importanti */}
         {importantLeads.length > 0 && (
-          <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-              <span className="text-2xl mr-2">🔥</span>
-              Lead Importanti
-            </h2>
-            <div className="space-y-3">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+            <div className="flex items-center mb-6">
+              <div className="p-3 bg-orange-100 rounded-lg mr-4">
+                <span className="text-2xl">🔥</span>
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Lead Importanti</h2>
+                <p className="text-sm text-gray-600">I tuoi lead prioritari</p>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
               {importantLeads.slice(0, 4).map((lead) => (
-                <div key={lead.id} className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg p-3 border border-orange-200 hover:shadow-md transition-all duration-200 cursor-pointer">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex-1">
-                      <div className="font-medium text-gray-900 truncate text-sm">{lead.name}</div>
-                      <div className="text-xs text-gray-600 truncate">{lead.email}</div>
+                <div key={lead.id} className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-lg p-4 border border-orange-100 hover:shadow-md transition-all duration-200 cursor-pointer">
+                  <div className="flex items-start">
+                    <div className="p-2 bg-orange-100 rounded-lg mr-4 flex-shrink-0">
+                      <span className="text-lg">🔥</span>
                     </div>
-                    <span className="text-lg">🔥</span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className={`px-2 py-1 rounded ${
-                      lead.priority === 'hot' ? 'bg-red-100 text-red-800' :
-                      'bg-orange-100 text-orange-800'
-                    }`}>
-                      {lead.priority === 'hot' ? '🔥 Hot' : '🔴 Alta'}
-                    </span>
-                    <span className="text-gray-500 text-xs">
-                      {new Date(lead.created_at).toLocaleDateString('it-IT')}
-                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-semibold text-gray-900 text-base leading-tight">{lead.name}</h3>
+                        <span className="text-sm font-medium text-orange-600 bg-orange-100 px-2 py-1 rounded-full">
+                          {new Date(lead.created_at).toLocaleDateString('it-IT')}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-700 mb-3 leading-relaxed">{lead.email}</p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                          lead.priority === 'hot' ? 'bg-red-100 text-red-800' :
+                          'bg-orange-100 text-orange-800'
+                        }`}>
+                          {lead.priority === 'hot' ? '🔥 Hot' : '🔴 Alta'}
+                        </span>
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                          👤 Lead
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
