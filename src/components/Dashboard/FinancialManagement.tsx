@@ -1629,45 +1629,6 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                       <option value="paid">Pagato</option>
                     </select>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id="is_recurring"
-                      checked={formData.is_recurring || false}
-                      onChange={(e) => setFormData({...formData, is_recurring: e.target.checked})}
-                      className="mr-3 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                    />
-                    <label htmlFor="is_recurring" className="text-sm font-medium text-gray-800">
-                      Costo Ricorrente
-                    </label>
-                  </div>
-                  {formData.is_recurring && (
-                    <>
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-800 mb-1">Pattern Ricorrente</label>
-                        <select
-                          value={formData.recurring_pattern || 'monthly'}
-                          onChange={(e) => setFormData({...formData, recurring_pattern: e.target.value})}
-                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                        >
-                          <option value="daily">Giornaliero</option>
-                          <option value="weekly">Settimanale</option>
-                          <option value="monthly">Mensile</option>
-                          <option value="quarterly">Trimestrale</option>
-                          <option value="yearly">Annuale</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-800 mb-1">Ricorrente Fino A</label>
-                        <input
-                          type="date"
-                          value={formData.recurring_until || ''}
-                          onChange={(e) => setFormData({...formData, recurring_until: e.target.value})}
-                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                        />
-                      </div>
-                    </>
-                  )}
                 </>
               )}
 
