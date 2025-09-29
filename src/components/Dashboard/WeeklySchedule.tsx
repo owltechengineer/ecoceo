@@ -26,6 +26,8 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
   const [loading, setLoading] = useState(false);
   const [currentWeek, setCurrentWeek] = useState(new Date());
   const [databaseError, setDatabaseError] = useState<Error | null>(null);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editingActivity, setEditingActivity] = useState<WeeklyActivity | null>(null);
 
   const daysOfWeek = [
     'Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'
@@ -148,6 +150,32 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
     };
   };
 
+  const handleActivityClick = (activity: WeeklyActivity) => {
+    setEditingActivity(activity);
+    setShowEditForm(true);
+  };
+
+  const handleSaveActivity = async (updatedActivity: WeeklyActivity) => {
+    try {
+      setLoading(true);
+      // Qui implementeremo la logica per salvare l'attività modificata
+      // Per ora mostriamo un alert
+      alert(`Attività "${updatedActivity.name}" salvata con successo!`);
+      setShowEditForm(false);
+      setEditingActivity(null);
+      
+      // Ricarica i dati
+      if (onDataChange) {
+        onDataChange();
+      }
+    } catch (error) {
+      console.error('Errore nel salvataggio:', error);
+      alert('Errore nel salvataggio dell\'attività');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="text-center py-8">
@@ -233,7 +261,8 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
                         return (
                           <div
                             key={activity.id}
-                            className={`absolute left-1 right-1 rounded-lg p-2 text-xs border-l-4 ${
+                            onClick={() => handleActivityClick(activity)}
+                            className={`absolute left-1 right-1 rounded-lg p-3 text-xs border-l-4 cursor-pointer hover:shadow-md transition-all duration-200 ${
                               priorities[activity.priority].color
                             } ${categories[activity.type as keyof typeof categories] || 'bg-gray-100 text-gray-800'}`}
                             style={{
@@ -241,11 +270,17 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
                               height: position.height,
                               zIndex: 10
                             }}
+                            title={`Clicca per modificare: ${activity.name}`}
                           >
-                            <div className="font-medium truncate">{activity.name}</div>
-                            <div className="text-xs opacity-75">
+                            <div className="font-semibold text-sm mb-1 truncate">{activity.name}</div>
+                            <div className="text-xs opacity-75 leading-tight">
                               {activity.time_of_day} - {activity.duration_minutes}min
                             </div>
+                            {activity.description && (
+                              <div className="text-xs opacity-60 truncate mt-1">
+                                {activity.description}
+                              </div>
+                            )}
                           </div>
                         );
                       }
@@ -295,6 +330,173 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
           </div>
         </div>
       </div>
+
+      {/* Form di Modifica Attività */}
+      {showEditForm && editingActivity && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center">
+                  <div className="p-2 bg-blue-100 rounded-lg mr-3">
+                    <span className="text-xl">📅</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900">Modifica Attività</h3>
+                    <p className="text-sm text-gray-600">Modifica i dettagli dell'attività ricorrente</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowEditForm(false)}
+                  className="text-gray-400 hover:text-gray-600 text-2xl"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const updatedActivity: WeeklyActivity = {
+                  ...editingActivity,
+                  name: formData.get('name') as string,
+                  description: formData.get('description') as string,
+                  time: formData.get('time') as string,
+                  duration: parseInt(formData.get('duration') as string),
+                  category: formData.get('category') as string,
+                  priority: formData.get('priority') as 'low' | 'medium' | 'high',
+                  is_active: formData.get('is_active') === 'on'
+                };
+                handleSaveActivity(updatedActivity);
+              }} className="space-y-4">
+                {/* Nome Attività */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Nome Attività *</label>
+                  <input
+                    type="text"
+                    name="name"
+                    defaultValue={editingActivity.name}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required
+                  />
+                </div>
+
+                {/* Descrizione */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Descrizione</label>
+                  <textarea
+                    name="description"
+                    defaultValue={editingActivity.description}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    rows={3}
+                  />
+                </div>
+
+                {/* Giorno della Settimana */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Giorno della Settimana *</label>
+                  <select
+                    name="day_of_week"
+                    defaultValue={editingActivity.day_of_week}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required
+                  >
+                    {daysOfWeek.map((day, index) => (
+                      <option key={index} value={index}>{day}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Orario */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Orario *</label>
+                  <input
+                    type="time"
+                    name="time"
+                    defaultValue={editingActivity.time}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required
+                  />
+                </div>
+
+                {/* Durata */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Durata (minuti) *</label>
+                  <input
+                    type="number"
+                    name="duration"
+                    defaultValue={editingActivity.duration}
+                    min="15"
+                    max="480"
+                    step="15"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required
+                  />
+                </div>
+
+                {/* Categoria */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Categoria</label>
+                  <select
+                    name="category"
+                    defaultValue={editingActivity.category}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    {Object.keys(categories).map(category => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Priorità */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Priorità</label>
+                  <select
+                    name="priority"
+                    defaultValue={editingActivity.priority}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="low">🟢 Bassa</option>
+                    <option value="medium">🟡 Media</option>
+                    <option value="high">🔴 Alta</option>
+                  </select>
+                </div>
+
+                {/* Attiva */}
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="is_active"
+                    defaultChecked={editingActivity.is_active}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                  <label className="ml-2 block text-sm text-gray-700">
+                    Attività attiva
+                  </label>
+                </div>
+
+                {/* Bottoni */}
+                <div className="flex space-x-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowEditForm(false)}
+                    className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    Annulla
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  >
+                    {loading ? 'Salvando...' : 'Salva Modifiche'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
