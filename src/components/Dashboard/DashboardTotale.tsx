@@ -715,88 +715,86 @@ export default function DashboardTotale() {
         </div>
       </div>
 
-      {/* Attività di Oggi */}
-      <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-        <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-          <span className="text-2xl mr-2">📅</span>
-          Attività di Oggi
-        </h2>
-        {dailyActivities.length > 0 ? (
-          <div className="space-y-3">
-            {dailyActivities.map((activity) => (
-              <div key={activity.id} className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <span className="text-2xl mr-4">{activity.icon}</span>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <div className="font-medium text-gray-900">{activity.title}</div>
-                    <div className="text-sm text-gray-500">{activity.time}</div>
-                  </div>
-                  <div className="text-sm text-gray-600">{activity.description}</div>
-                  <div className="flex items-center mt-1">
-                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">{activity.section}</span>
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      activity.status === 'completed' ? 'bg-green-100 text-green-800' :
-                      activity.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
-                    }`}>
-                      {activity.status === 'completed' ? 'Completato' :
-                       activity.status === 'pending' ? 'In attesa' : 'In ritardo'}
-                    </span>
-                    {activity.amount && (
-                      <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded ml-2">
-                        €{activity.amount.toLocaleString('it-IT', { minimumFractionDigits: 2 })}
+      {/* Layout a 2 colonne per PC */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Colonna Sinistra - Attività di Oggi */}
+        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
+          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <span className="text-2xl mr-2">📅</span>
+            Attività di Oggi
+          </h2>
+          {dailyActivities.length > 0 ? (
+            <div className="space-y-3">
+              {dailyActivities.map((activity) => (
+                <div key={activity.id} className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                  <span className="text-xl mr-3">{activity.icon}</span>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <div className="font-medium text-gray-900 text-sm">{activity.title}</div>
+                      <div className="text-xs text-gray-500">{activity.time}</div>
+                    </div>
+                    <div className="text-xs text-gray-600 truncate">{activity.description}</div>
+                    <div className="flex items-center mt-1">
+                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">{activity.section}</span>
+                      <span className={`text-xs px-2 py-1 rounded ${
+                        activity.status === 'completed' ? 'bg-green-100 text-green-800' :
+                        activity.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {activity.status === 'completed' ? 'Completato' :
+                         activity.status === 'pending' ? 'In attesa' : 'In ritardo'}
                       </span>
-                    )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-8 text-gray-500">
-            <span className="text-4xl mb-2 block">📅</span>
-            <p>Nessuna attività programmata per oggi</p>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-6 text-gray-500">
+              <span className="text-3xl mb-2 block">📅</span>
+              <p className="text-sm">Nessuna attività programmata per oggi</p>
+            </div>
+          )}
+        </div>
+
+        {/* Colonna Destra - Quick Tasks Recenti */}
+        {quickTasks.length > 0 && (
+          <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+              <span className="text-2xl mr-2">⚡</span>
+              Task Veloci Recenti
+            </h2>
+            <div className="space-y-3">
+              {quickTasks.slice(0, 4).map((task) => (
+                <div key={task.id} className="bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1">
+                      <div className="font-medium text-gray-900 truncate text-sm">{task.title}</div>
+                      <div className="text-xs text-gray-600 truncate">{task.description}</div>
+                    </div>
+                    <span className="text-lg">
+                      {quickTaskTypes.find(t => t.id === task.type)?.icon || '📝'}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className={`px-2 py-1 rounded ${
+                      task.priority === 'high' ? 'bg-red-100 text-red-800' :
+                      task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-green-100 text-green-800'
+                    }`}>
+                      {task.priority === 'high' ? '🔴 Alta' :
+                       task.priority === 'medium' ? '🟡 Media' : '🟢 Bassa'}
+                    </span>
+                    <span className="text-gray-500 text-xs">
+                      {new Date(task.created_at).toLocaleDateString('it-IT')}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
-
-      {/* Quick Tasks Recenti */}
-      {quickTasks.length > 0 && (
-        <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-2xl mr-2">⚡</span>
-            Task Veloci Recenti
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {quickTasks.slice(0, 4).map((task) => (
-              <div key={task.id} className="bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <div className="font-medium text-gray-900 truncate text-sm">{task.title}</div>
-                    <div className="text-xs text-gray-600 truncate hidden md:block">{task.description}</div>
-                  </div>
-                  <span className="text-lg">
-                    {quickTaskTypes.find(t => t.id === task.type)?.icon || '📝'}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className={`px-2 py-1 rounded ${
-                    task.priority === 'high' ? 'bg-red-100 text-red-800' :
-                    task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-green-100 text-green-800'
-                  }`}>
-                    {task.priority === 'high' ? '🔴 Alta' :
-                     task.priority === 'medium' ? '🟡 Media' : '🟢 Bassa'}
-                  </span>
-                  <span className="text-gray-500 text-xs">
-                    {new Date(task.created_at).toLocaleDateString('it-IT')}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Recap Pagamenti di Oggi */}
       <div className="bg-white/30 backdrop-blur rounded-xl shadow-lg p-6 border border-gray-100">
