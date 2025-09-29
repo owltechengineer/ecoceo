@@ -506,7 +506,7 @@ export default function CalendarView() {
                   const dayDate = getWeekDays()[index]?.date;
                   const isToday = dayDate?.toDateString() === new Date().toDateString();
                   return (
-                    <div key={day} className={`p-4 text-center border-r border-gray-200 last:border-r-0 ${
+                    <div key={day} className={`p-3 text-center border-r border-gray-200 last:border-r-0 ${
                       isToday ? 'bg-blue-100' : 'bg-white/50'
                     }`}>
                       <div className={`text-sm font-semibold mb-1 ${
@@ -525,8 +525,8 @@ export default function CalendarView() {
               </div>
             </div>
             
-            {/* Week Content */}
-            <div className="grid grid-cols-7 min-h-[600px]">
+            {/* Week Content - Enhanced */}
+            <div className="grid grid-cols-7 min-h-[500px]">
               {getWeekDays().map((day, index) => (
                 <div
                   key={index}
@@ -534,66 +534,35 @@ export default function CalendarView() {
                     day.isToday ? 'bg-blue-50/50' : 'bg-white/20'
                   }`}
                 >
-                  {/* Time slots */}
                   <div className="space-y-2">
-                    {Array.from({ length: 12 }, (_, hour) => {
-                      const timeSlot = hour + 8; // 8:00 to 19:00
-                      const slotAppointments = day.appointments.filter(apt => {
-                        const aptHour = new Date(apt.start_time).getHours();
-                        return aptHour === timeSlot;
-                      });
-                      
-                      return (
-                        <div key={timeSlot} className="relative min-h-[40px] border-b border-gray-100">
-                          {/* Time label */}
-                          <div className="absolute left-0 top-0 text-xs text-gray-400 font-medium">
-                            {timeSlot.toString().padStart(2, '0')}:00
-                          </div>
-                          
-                          {/* Appointments in this time slot */}
-                          <div className="ml-12 space-y-1">
-                            {slotAppointments.map(appointment => (
-                              <div
-                                key={appointment.id}
-                                onClick={() => setSelectedAppointment(appointment)}
-                                className={`text-xs p-2 rounded-lg cursor-pointer hover:shadow-md transition-all duration-200 ${
-                                  appointment.is_task 
-                                    ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-200' 
-                                    : appointment.is_recurring 
-                                    ? 'bg-gradient-to-r from-purple-100 to-violet-100 text-purple-800 border border-purple-200' 
-                                    : 'bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-800 border border-blue-200'
-                                }`}
-                                title={appointment.title}
-                              >
-                                <div className="flex items-center space-x-1 mb-1">
-                                  <span className="text-sm">
-                                    {appointment.is_recurring ? '🔄' : appointment.is_task ? '✅' : '📅'}
-                                  </span>
-                                  <span className="font-semibold text-xs">
-                                    {formatTime(appointment.start_time)}
-                                  </span>
-                                </div>
-                                <div className="font-medium text-xs leading-tight truncate">
-                                  {appointment.title}
-                                </div>
-                                {appointment.location && (
-                                  <div className="text-xs text-gray-600 truncate mt-1">
-                                    📍 {appointment.location}
-                                  </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
+                    {day.appointments.map(appointment => (
+                      <div
+                        key={appointment.id}
+                        onClick={() => setSelectedAppointment(appointment)}
+                        className={`text-xs p-3 rounded-lg cursor-pointer hover:shadow-md transition-all duration-200 ${
+                          appointment.is_task 
+                            ? 'bg-green-100 text-green-800 border border-green-200' 
+                            : appointment.is_recurring 
+                            ? 'bg-purple-100 text-purple-800 border border-purple-200' 
+                            : 'bg-blue-100 text-blue-800 border border-blue-200'
+                        }`}
+                        title={appointment.title}
+                      >
+                        <div className="font-semibold text-sm mb-1">
+                          {appointment.is_recurring ? '🔄' : appointment.is_task ? '✅' : '📅'} {formatTime(appointment.start_time)}
                         </div>
-                      );
-                    })}
+                        <div className="font-medium text-xs leading-tight">
+                          {appointment.title}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                   
-                  {/* Empty state for days with no appointments */}
+                  {/* Empty state */}
                   {day.appointments.length === 0 && (
                     <div className="text-center py-8 text-gray-400">
                       <div className="text-2xl mb-2">📅</div>
-                      <p className="text-xs">Nessun appuntamento</p>
+                      <p className="text-sm">Nessun appuntamento</p>
                     </div>
                   )}
                 </div>
