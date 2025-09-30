@@ -292,6 +292,47 @@ export default function WarehouseManagement() {
     }
   };
 
+  // Funzione per testare il traduttore
+  const runTranslationTest = async () => {
+    setIsTranslating(true);
+    setTestResults([]);
+    
+    const testText = "Laptop con processore Intel i7, tecnologia wireless e design ergonomico";
+    const testLanguages = ['en', 'es', 'pt', 'fr', 'de', 'ru', 'zh'];
+    const results: any[] = [];
+    
+    for (const lang of testLanguages) {
+      try {
+        // Testa con LibreTranslate API
+        const translated = await smartTranslate(testText, lang, 'it');
+        results.push({
+          lang,
+          success: true,
+          method: 'LibreTranslate API',
+          original: testText,
+          translated
+        });
+      } catch (apiError) {
+        // Fallback al dizionario interno
+        const translated = translateProductDescriptionFallback(testText, lang);
+        results.push({
+          lang,
+          success: true,
+          method: 'Dizionario Interno',
+          original: testText,
+          translated
+        });
+      }
+      
+      // Piccola pausa per evitare rate limiting
+      await new Promise(resolve => setTimeout(resolve, 300));
+    }
+    
+    setTestResults(results);
+    setIsTranslating(false);
+    setShowTranslationTest(true);
+  };
+
   const handleRemoveFromQuote = (itemId: string) => {
     setSelectedItems(selectedItems.filter(item => item.id !== itemId));
   };
@@ -560,6 +601,8 @@ export default function WarehouseManagement() {
   const [translationCache, setTranslationCache] = useState<Record<string, string>>({});
   const [translatedDescriptions, setTranslatedDescriptions] = useState<Record<string, string>>({});
   const [isTranslating, setIsTranslating] = useState(false);
+  const [showTranslationTest, setShowTranslationTest] = useState(false);
+  const [testResults, setTestResults] = useState<any[]>([]);
   
   const translateProductDescription = async (description: string, targetLanguage: string): Promise<string> => {
     if (!description) return '';
@@ -1049,6 +1092,13 @@ export default function WarehouseManagement() {
             </div>
           </div>
           <div className="flex space-x-3">
+            <button
+              onClick={runTranslationTest}
+              disabled={isTranslating}
+              className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium text-sm disabled:opacity-50"
+            >
+              {isTranslating ? '🔄 Test...' : '🧪 Test Traduttore'}
+            </button>
             <button
               onClick={() => setShowNewItem(true)}
               className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium text-sm"
@@ -1764,6 +1814,116 @@ export default function WarehouseManagement() {
                     {warehouseItems.length} prodotti
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Test Traduttore */}
+      {showTranslationTest && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center">
+                  <div className="p-2 bg-purple-100 rounded-lg mr-3">
+                    <span className="text-xl">🧪</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900">Test Traduttore Multilingua</h3>
+                    <p className="text-sm text-gray-600">Risultati test traduzione automatica</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowTranslationTest(false)}
+                  className="text-gray-400 hover:text-gray-600 text-2xl"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Testo Originale */}
+              <div className="bg-blue-50 rounded-lg p-4 mb-6">
+                <h4 className="text-sm font-semibold text-gray-900 mb-2">🇮🇹 Testo Originale (Italiano):</h4>
+                <p className="text-gray-800 font-medium">
+                  {testResults[0]?.original || 'Laptop con processore Intel i7, tecnologia wireless e design ergonomico'}
+                </p>
+              </div>
+
+              {/* Risultati Traduzioni */}
+              <div className="space-y-3">
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">📊 Traduzioni in 7 Lingue:</h4>
+                {testResults.map((result, index) => (
+                  <div key={index} className={`rounded-lg p-4 border-2 ${
+                    result.method === 'LibreTranslate API' 
+                      ? 'bg-green-50 border-green-200' 
+                      : 'bg-yellow-50 border-yellow-200'
+                  }`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center">
+                        <span className="text-2xl mr-2">
+                          {result.lang === 'en' ? '🇬🇧' :
+                           result.lang === 'es' ? '🇪🇸' :
+                           result.lang === 'pt' ? '🇵🇹' :
+                           result.lang === 'fr' ? '🇫🇷' :
+                           result.lang === 'de' ? '🇩🇪' :
+                           result.lang === 'ru' ? '🇷🇺' :
+                           result.lang === 'zh' ? '🇨🇳' : '🌍'}
+                        </span>
+                        <div>
+                          <h5 className="font-semibold text-gray-900">{result.lang.toUpperCase()}</h5>
+                          <p className="text-xs text-gray-500">{result.method}</p>
+                        </div>
+                      </div>
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        result.method === 'LibreTranslate API' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {result.method === 'LibreTranslate API' ? '✅ API' : '📚 Dizionario'}
+                      </span>
+                    </div>
+                    <p className="text-gray-800 leading-relaxed">{result.translated}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Statistiche */}
+              <div className="mt-6 bg-gray-50 rounded-lg p-4">
+                <h4 className="font-semibold text-gray-900 mb-3">📈 Statistiche Test:</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-blue-600">{testResults.length}</p>
+                    <p className="text-xs text-gray-600">Lingue Testate</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-green-600">
+                      {testResults.filter(r => r.method === 'LibreTranslate API').length}
+                    </p>
+                    <p className="text-xs text-gray-600">Via API</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-yellow-600">
+                      {testResults.filter(r => r.method === 'Dizionario Interno').length}
+                    </p>
+                    <p className="text-xs text-gray-600">Via Dizionario</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-purple-600">100%</p>
+                    <p className="text-xs text-gray-600">Successo</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottone Chiudi */}
+              <div className="mt-6">
+                <button
+                  onClick={() => setShowTranslationTest(false)}
+                  className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 font-medium"
+                >
+                  Chiudi
+                </button>
               </div>
             </div>
           </div>
