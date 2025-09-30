@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 interface WarehouseItem {
   id: string;
   name: string;
-  category: string;
+  category: 'Tutti' | 'Elettronica' | 'Accessori' | 'Software' | 'Servizi';
   quantity: number;
   unit: string;
   price: number;
@@ -14,6 +14,7 @@ interface WarehouseItem {
   location: string;
   minStock: number;
   maxStock: number;
+  imageUrl?: string;
 }
 
 interface QuoteItem {
@@ -93,7 +94,7 @@ export default function WarehouseManagement() {
     {
       id: '3',
       name: 'Tastiera Logitech MX Keys',
-      category: 'Accessori',
+      category: 'Accessori' as const,
       quantity: 25,
       unit: 'pz',
       price: 99.99,
@@ -279,9 +280,10 @@ export default function WarehouseManagement() {
   };
 
   // Funzione per ottenere le categorie uniche
+  const categories = ['Tutti', 'Elettronica', 'Accessori', 'Software', 'Servizi'] as const;
+  
   const getUniqueCategories = () => {
-    const categories = [...new Set(warehouseItems.map(item => item.category))];
-    return categories.sort();
+    return categories.filter(cat => cat !== 'Tutti');
   };
 
   const handleAddToQuote = (item: WarehouseItem) => {
