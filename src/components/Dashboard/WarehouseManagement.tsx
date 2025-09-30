@@ -594,6 +594,7 @@ export default function WarehouseManagement() {
   const [isTranslating, setIsTranslating] = useState(false);
   const [showTranslationTest, setShowTranslationTest] = useState(false);
   const [testResults, setTestResults] = useState<any[]>([]);
+  const [showTranslationPreview, setShowTranslationPreview] = useState(false);
   
   // Le traduzioni avvengono in tempo reale tramite translateWithDictionary()
   // Non serve più pre-traduzione con useEffect
@@ -1577,7 +1578,52 @@ export default function WarehouseManagement() {
               
               {/* Articoli Selezionati */}
               <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-gray-900">Articoli Selezionati</h4>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <h4 className="text-lg font-semibold text-gray-900">Articoli Selezionati</h4>
+                    {currentQuote.language && (
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        currentQuote.language === 'it' 
+                          ? 'bg-blue-100 text-blue-800' 
+                          : 'bg-green-100 text-green-800'
+                      }`}>
+                        {currentQuote.language === 'it' ? '🇮🇹 Italiano' : `🌍 ${currentQuote.language.toUpperCase()} - Tradotto`}
+                      </span>
+                    )}
+                  </div>
+                  {quoteItems.length > 0 && currentQuote.language && currentQuote.language !== 'it' && (
+                    <button
+                      onClick={() => {
+                        setShowTranslationPreview(!showTranslationPreview);
+                      }}
+                      className="px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 text-sm font-medium shadow-lg"
+                    >
+                      {showTranslationPreview ? '👁️ Nascondi Traduzione' : '🌍 Mostra Traduzione'}
+                    </button>
+                  )}
+                </div>
+                
+                {/* Info Traduzione Attiva */}
+                {showTranslationPreview && quoteItems.length > 0 && currentQuote.language !== 'it' && (
+                  <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-lg p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <span className="text-lg">🌍</span>
+                      <h5 className="font-semibold text-purple-900">Anteprima Traduzione Attiva</h5>
+                    </div>
+                    <p className="text-sm text-purple-700 mb-2">
+                      I nomi e le descrizioni dei prodotti qui sotto sono mostrati in <strong>{currentQuote.language?.toUpperCase()}</strong>
+                    </p>
+                    <div className="flex items-center space-x-2 text-xs text-purple-600">
+                      <span>✅ Etichette tradotte</span>
+                      <span>•</span>
+                      <span>✅ Nomi prodotti tradotti</span>
+                      <span>•</span>
+                      <span>✅ Descrizioni tradotte</span>
+                      <span>•</span>
+                      <span>✅ Note tradotte</span>
+                    </div>
+                  </div>
+                )}
                 {quoteItems.length === 0 ? (
                   <div className="text-center py-8 text-gray-500">
                     <span className="text-4xl mb-2 block">📦</span>
@@ -1590,8 +1636,16 @@ export default function WarehouseManagement() {
                       <div key={item.id} className="bg-gray-50 rounded-lg p-3">
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
-                            <h5 className="font-medium text-gray-900">{translateWithDictionary(item.name || '', currentQuote.language || 'it')}</h5>
-                            <p className="text-xs text-gray-500 mb-1">{translateWithDictionary(item.description || '', currentQuote.language || 'it')}</p>
+                            <h5 className="font-medium text-gray-900">
+                              {showTranslationPreview && currentQuote.language !== 'it' 
+                                ? translateWithDictionary(item.name || '', currentQuote.language || 'it')
+                                : item.name}
+                            </h5>
+                            <p className="text-xs text-gray-500 mb-1">
+                              {showTranslationPreview && currentQuote.language !== 'it'
+                                ? translateWithDictionary(item.description || '', currentQuote.language || 'it')
+                                : item.description}
+                            </p>
                             <p className="text-sm text-gray-600">€{item.unitPrice.toFixed(2)} x {item.quantity}</p>
                           </div>
                           <div className="flex items-center space-x-2">
