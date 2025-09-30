@@ -1731,16 +1731,9 @@ export default function WarehouseManagement() {
               <button 
                 onClick={generatePDF}
                 disabled={quoteItems.length === 0 || !currentQuote.clientName || isTranslating}
-                className="flex-1 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-semibold shadow-lg"
               >
-                {isTranslating ? '🔄 Traduzione...' : '📄 Genera PDF'}
-              </button>
-              <button 
-                onClick={generateImage}
-                disabled={quoteItems.length === 0 || !currentQuote.clientName || isTranslating}
-                className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isTranslating ? '🔄 Traduzione...' : '🖼️ Genera Immagine'}
+                {isTranslating ? '🔄 Traduzione in corso...' : '📄 Genera Preventivo PDF'}
               </button>
             </div>
           </div>
@@ -1865,15 +1858,9 @@ export default function WarehouseManagement() {
                   <div className="flex space-x-3 pt-4 border-t">
                     <button
                       onClick={generatePDF}
-                      className="flex-1 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200"
+                      className="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 font-semibold shadow-lg"
                     >
-                      📄 Genera PDF
-                    </button>
-                    <button
-                      onClick={generateImage}
-                      className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:opacity-90 transition-all duration-200"
-                    >
-                      🖼️ Genera Immagine
+                      📄 Genera Preventivo PDF
                     </button>
                   </div>
                 )}
