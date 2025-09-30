@@ -15,6 +15,14 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'rumore': 'noise', 'microfono': 'microphone', 'integrato': 'integrated',
     'Grazie': 'Thank you', 'per': 'for', 'vostra': 'your', 'fiducia': 'trust',
     'Per informazioni': 'For information',
+    // Etichette PDF
+    'Quote': 'Quote', 'Client': 'Client', 'Email': 'Email', 'Address': 'Address',
+    'Item': 'Item', 'Description': 'Description', 'Quantity': 'Quantity',
+    'Unit Price': 'Unit Price', 'Total': 'Total', 'Subtotal': 'Subtotal',
+    'Tax': 'VAT', 'Final Total': 'Final Total', 'Valid Until': 'Valid Until',
+    'Notes': 'Notes', 'Cavo': 'Cable', 'HDMI': 'HDMI', 'alta': 'high',
+    'velocità': 'speed', 'metri': 'meters', 'connettori': 'connectors',
+    'dorati': 'gold-plated', 'Premium': 'Premium', 'ad': 'with',
     'e': 'and', 'a': 'to', 'di': 'of', 'il': 'the', 'la': 'the', 'in': 'in'
   },
   'es': {
@@ -26,6 +34,14 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'rumore': 'ruido', 'microfono': 'micrófono', 'integrato': 'integrado',
     'Grazie': 'Gracias', 'per': 'por', 'vostra': 'su', 'fiducia': 'confianza',
     'Per informazioni': 'Para información',
+    // Etichette PDF
+    'Quote': 'Presupuesto', 'Client': 'Cliente', 'Email': 'Correo', 'Address': 'Dirección',
+    'Item': 'Artículo', 'Description': 'Descripción', 'Quantity': 'Cantidad',
+    'Unit Price': 'Precio unitario', 'Total': 'Total', 'Subtotal': 'Subtotal',
+    'Tax': 'IVA', 'Final Total': 'Total final', 'Valid Until': 'Válido hasta',
+    'Notes': 'Notas', 'Cavo': 'Cable', 'HDMI': 'HDMI', 'alta': 'alta',
+    'velocità': 'velocidad', 'metri': 'metros', 'connettori': 'conectores',
+    'dorati': 'dorados', 'Premium': 'Premium', 'ad': 'con',
     'e': 'y', 'a': 'a', 'di': 'de', 'il': 'el', 'la': 'la', 'in': 'en'
   },
   'pt': {
@@ -37,6 +53,14 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'rumore': 'ruído', 'microfono': 'microfone', 'integrato': 'integrado',
     'Grazie': 'Obrigado', 'per': 'por', 'vostra': 'sua', 'fiducia': 'confiança',
     'Per informazioni': 'Para informações',
+    // Etichette PDF
+    'Quote': 'Orçamento', 'Client': 'Cliente', 'Email': 'E-mail', 'Address': 'Endereço',
+    'Item': 'Item', 'Description': 'Descrição', 'Quantity': 'Quantidade',
+    'Unit Price': 'Preço unitário', 'Total': 'Total', 'Subtotal': 'Subtotal',
+    'Tax': 'IVA', 'Final Total': 'Total final', 'Valid Until': 'Válido até',
+    'Notes': 'Notas', 'Cavo': 'Cabo', 'HDMI': 'HDMI', 'alta': 'alta',
+    'velocità': 'velocidade', 'metri': 'metros', 'connettori': 'conectores',
+    'dorati': 'dourados', 'Premium': 'Premium', 'ad': 'com',
     'e': 'e', 'a': 'para', 'di': 'de', 'il': 'o', 'la': 'a', 'in': 'em'
   },
   'fr': {
@@ -48,6 +72,14 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'rumore': 'bruit', 'microfono': 'microphone', 'integrato': 'intégré',
     'Grazie': 'Merci', 'per': 'pour', 'vostra': 'votre', 'fiducia': 'confiance',
     'Per informazioni': 'Pour informations',
+    // Etichette PDF
+    'Quote': 'Devis', 'Client': 'Client', 'Email': 'E-mail', 'Address': 'Adresse',
+    'Item': 'Article', 'Description': 'Description', 'Quantity': 'Quantité',
+    'Unit Price': 'Prix unitaire', 'Total': 'Total', 'Subtotal': 'Sous-total',
+    'Tax': 'TVA', 'Final Total': 'Total final', 'Valid Until': 'Valide jusqu\'à',
+    'Notes': 'Notes', 'Cavo': 'Câble', 'HDMI': 'HDMI', 'alta': 'haute',
+    'velocità': 'vitesse', 'metri': 'mètres', 'connettori': 'connecteurs',
+    'dorati': 'dorés', 'Premium': 'Premium', 'ad': 'à',
     'e': 'et', 'a': 'à', 'di': 'de', 'il': 'le', 'la': 'la', 'in': 'dans'
   },
   'de': {
@@ -78,6 +110,14 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'rumore': 'шум', 'microfono': 'микрофон', 'integrato': 'встроенный',
     'Grazie': 'Спасибо', 'per': 'за', 'vostra': 'ваше', 'fiducia': 'доверие',
     'Per informazioni': 'Для информации',
+    // Etichette PDF
+    'Quote': 'Предложение', 'Client': 'Клиент', 'Email': 'Эл. почта', 'Address': 'Адрес',
+    'Item': 'Товар', 'Description': 'Описание', 'Quantity': 'Количество',
+    'Unit Price': 'Цена за единицу', 'Total': 'Итого', 'Subtotal': 'Промежуточный итог',
+    'Tax': 'НДС', 'Final Total': 'Окончательный итог', 'Valid Until': 'Действителен до',
+    'Notes': 'Примечания', 'Cavo': 'Кабель', 'HDMI': 'HDMI', 'alta': 'высокая',
+    'velocità': 'скорость', 'metri': 'метров', 'connettori': 'разъемы',
+    'dorati': 'позолоченные', 'Premium': 'Премиум', 'ad': 'с',
     'e': 'и', 'a': 'в', 'di': 'из', 'il': '', 'la': '', 'in': 'в'
   },
   'zh': {
@@ -89,6 +129,14 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'rumore': '噪音', 'microfono': '麦克风', 'integrato': '集成',
     'Grazie': '谢谢', 'per': '为', 'vostra': '您的', 'fiducia': '信任',
     'Per informazioni': '联系方式',
+    // Etichette PDF
+    'Quote': '报价单', 'Client': '客户', 'Email': '电子邮件', 'Address': '地址',
+    'Item': '项目', 'Description': '描述', 'Quantity': '数量',
+    'Unit Price': '单价', 'Total': '总计', 'Subtotal': '小计',
+    'Tax': '税费', 'Final Total': '最终总计', 'Valid Until': '有效期至',
+    'Notes': '备注', 'Cavo': '电缆', 'HDMI': 'HDMI', 'alta': '高',
+    'velocità': '速度', 'metri': '米', 'connettori': '连接器',
+    'dorati': '镀金', 'Premium': '高级', 'ad': '与',
     'e': '和', 'a': '到', 'di': '的', 'il': '', 'la': '', 'in': '在'
   }
 };
