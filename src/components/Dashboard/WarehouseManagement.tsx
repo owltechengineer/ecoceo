@@ -43,8 +43,8 @@ interface Quote {
 export default function WarehouseManagement() {
   const [activeTab, setActiveTab] = useState<'warehouse' | 'quotes'>('warehouse');
   const [showNewItem, setShowNewItem] = useState(false);
-  const [showNewQuote, setShowNewQuote] = useState(false);
-  const [showQuotePreview, setShowQuotePreview] = useState(false);
+  const [showQuoteEditor, setShowQuoteEditor] = useState(false);
+  const [editingQuote, setEditingQuote] = useState<Quote | null>(null);
   const [selectedItems, setSelectedItems] = useState<WarehouseItem[]>([]);
   const [quoteItems, setQuoteItems] = useState<QuoteItem[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -302,6 +302,39 @@ export default function WarehouseManagement() {
     ));
   };
 
+  // Funzione unificata per aprire l'editor preventivo
+  const openQuoteEditor = (mode: 'new' | 'edit' | 'add', quote?: Quote) => {
+    if (mode === 'edit' && quote) {
+      setEditingQuote(quote);
+      setQuoteItems(quote.items);
+      setCurrentQuote({
+        clientName: quote.clientName,
+        clientEmail: quote.clientEmail,
+        clientAddress: quote.clientAddress,
+        language: quote.language,
+        validUntil: quote.validUntil,
+        notes: quote.notes
+      });
+    } else if (mode === 'new') {
+      setEditingQuote(null);
+      setQuoteItems([]);
+      setCurrentQuote({
+        clientName: '',
+        clientEmail: '',
+        clientAddress: '',
+        language: 'it',
+        items: [],
+        subtotal: 0,
+        tax: 0,
+        total: 0,
+        validUntil: '',
+        notes: ''
+      });
+    }
+    // mode 'add' mantiene i quoteItems esistenti
+    setShowQuoteEditor(true);
+  };
+
   const handleAddQuoteItem = (item: WarehouseItem, quantity: number = 1) => {
     const existingItem = quoteItems.find(qi => qi.itemId === item.id);
     if (existingItem) {
@@ -318,8 +351,8 @@ export default function WarehouseManagement() {
       setQuoteItems([...quoteItems, newQuoteItem]);
     }
     
-    // Mostra l'anteprima del preventivo
-    setShowQuotePreview(true);
+    // Apre l'editor unificato
+    openQuoteEditor('add');
   };
 
   const handleRemoveQuoteItem = (itemId: string) => {
@@ -693,7 +726,7 @@ export default function WarehouseManagement() {
               ➕ Nuovo Articolo
             </button>
             <button
-              onClick={() => setShowNewQuote(true)}
+              onClick={() => openQuoteEditor('new')}
               className="bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium text-sm"
             >
               📄 Nuovo Preventivo
@@ -880,7 +913,7 @@ export default function WarehouseManagement() {
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Nessun preventivo creato</h3>
                 <p className="text-gray-600 mb-6">Crea il tuo primo preventivo selezionando articoli dal magazzino</p>
                 <button
-                  onClick={() => setShowNewQuote(true)}
+                  onClick={() => openQuoteEditor('new')}
                   className="bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium"
                 >
                   📄 Crea Preventivo
@@ -1017,14 +1050,16 @@ export default function WarehouseManagement() {
         </div>
       )}
 
-      {/* Modal Nuovo Preventivo */}
-      {showNewQuote && (
+      {/* Modal Preventivo Unificato */}
+      {showQuoteEditor && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-6 max-w-4xl w-full mx-4 shadow-2xl">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-gray-900">📄 Nuovo Preventivo</h3>
+              <h3 className="text-xl font-bold text-gray-900">
+                📄 {editingQuote ? 'Modifica Preventivo' : 'Nuovo Preventivo'}
+              </h3>
               <button
-                onClick={() => setShowNewQuote(false)}
+                onClick={() => setShowQuoteEditor(false)}
                 className="text-gray-400 hover:text-gray-600"
               >
                 ✕
@@ -1176,7 +1211,7 @@ export default function WarehouseManagement() {
       )}
 
       {/* Anteprima Preventivo */}
-      {showQuotePreview && (
+      {false && showQuotePreview && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
@@ -1268,8 +1303,7 @@ export default function WarehouseManagement() {
                   </button>
                   <button
                     onClick={() => {
-                      setShowQuotePreview(false);
-                      setShowNewQuote(true);
+                      openQuoteEditor('add');
                     }}
                     className="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
                   >
