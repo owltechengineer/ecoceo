@@ -233,26 +233,16 @@ export default function TasksView() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">📋 Task Management</h1>
-            <p className="text-gray-600 mt-1">
-              Gestisci e monitora tutti i task del team
-            </p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <InfoButton
-              onClick={() => openInfo('Task', 'Gestione delle attività e task con priorità, assegnazioni e scadenze')}
-              className="text-blue-600 hover:text-blue-700"
-            />
-          </div>
-        </div>
-      </div>
-
       {/* Filters and Actions */}
       <div className="bg-white/30 backdrop-blur rounded-lg shadow-sm p-6">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <button
+            onClick={() => setShowNewTask(true)}
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            + Nuovo Task
+          </button>
+        </div>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             {/* Search */}
@@ -308,13 +298,6 @@ export default function TasksView() {
               ))}
             </select>
           </div>
-
-          <button
-            onClick={() => setShowNewTask(true)}
-            className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-          >
-            + Nuovo Task
-          </button>
         </div>
       </div>
 
