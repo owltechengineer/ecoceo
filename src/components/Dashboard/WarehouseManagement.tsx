@@ -368,14 +368,16 @@ export default function WarehouseManagement() {
   };
 
   const calculateQuoteTax = () => {
-    return calculateQuoteSubtotal() * 0.22; // 22% IVA
+    // IVA al 22% solo per lingua italiana, 0% per altre lingue
+    const taxRate = currentQuote.language === 'it' ? 0.22 : 0;
+    return calculateQuoteSubtotal() * taxRate;
   };
 
   const calculateQuoteFinalTotal = () => {
     return calculateQuoteSubtotal() + calculateQuoteTax();
   };
 
-  // Funzione per tradurre automaticamente i testi
+  // Funzione per tradurre automaticamente i testi e descrizioni prodotti
   const translateText = async (text: string, targetLanguage: string): Promise<string> => {
     try {
       // Simulazione traduzione automatica (in produzione useresti un servizio come Google Translate API)
@@ -386,6 +388,8 @@ export default function WarehouseManagement() {
           'Email': 'Email',
           'Address': 'Indirizzo',
           'Items': 'Articoli',
+          'Item': 'Articolo',
+          'Description': 'Descrizione',
           'Quantity': 'Quantità',
           'Unit Price': 'Prezzo Unitario',
           'Total': 'Totale',
@@ -403,11 +407,13 @@ export default function WarehouseManagement() {
           'Email': 'Email',
           'Address': 'Address',
           'Items': 'Items',
+          'Item': 'Item',
+          'Description': 'Description',
           'Quantity': 'Quantity',
           'Unit Price': 'Unit Price',
           'Total': 'Total',
           'Subtotal': 'Subtotal',
-          'Tax': 'Tax',
+          'Tax': 'VAT',
           'Final Total': 'Final Total',
           'Valid Until': 'Valid Until',
           'Notes': 'Notes',
@@ -420,6 +426,8 @@ export default function WarehouseManagement() {
           'Email': 'Email',
           'Address': 'Adresse',
           'Items': 'Articles',
+          'Item': 'Article',
+          'Description': 'Description',
           'Quantity': 'Quantité',
           'Unit Price': 'Prix Unitaire',
           'Total': 'Total',
@@ -437,6 +445,8 @@ export default function WarehouseManagement() {
           'Email': 'Email',
           'Address': 'Adresse',
           'Items': 'Artikel',
+          'Item': 'Artikel',
+          'Description': 'Beschreibung',
           'Quantity': 'Menge',
           'Unit Price': 'Einzelpreis',
           'Total': 'Gesamt',
@@ -457,6 +467,79 @@ export default function WarehouseManagement() {
     }
   };
 
+  // Funzione per tradurre le descrizioni dei prodotti
+  const translateProductDescription = (description: string, targetLanguage: string): string => {
+    if (targetLanguage === 'it') return description;
+    
+    // Traduzioni semplificate delle parole chiave comuni
+    const productTranslations: Record<string, Record<string, string>> = {
+      'en': {
+        'con': 'with',
+        'processore': 'processor',
+        'tecnologia': 'technology',
+        'design': 'design',
+        'wireless': 'wireless',
+        'retroilluminazione': 'backlight',
+        'ergonomico': 'ergonomic',
+        'pacchetto': 'package',
+        'suite': 'suite',
+        'licenza': 'license',
+        'annuale': 'annual',
+        'consulenza': 'consulting',
+        'personalizzata': 'customized',
+        'strategia': 'strategy',
+        'digitale': 'digital',
+        'completa': 'complete'
+      },
+      'fr': {
+        'con': 'avec',
+        'processore': 'processeur',
+        'tecnologia': 'technologie',
+        'design': 'design',
+        'wireless': 'sans fil',
+        'retroilluminazione': 'rétroéclairage',
+        'ergonomico': 'ergonomique',
+        'pacchetto': 'paquet',
+        'suite': 'suite',
+        'licenza': 'licence',
+        'annuale': 'annuel',
+        'consulenza': 'conseil',
+        'personalizzata': 'personnalisé',
+        'strategia': 'stratégie',
+        'digitale': 'numérique',
+        'completa': 'complet'
+      },
+      'de': {
+        'con': 'mit',
+        'processore': 'Prozessor',
+        'tecnologia': 'Technologie',
+        'design': 'Design',
+        'wireless': 'drahtlos',
+        'retroilluminazione': 'Hintergrundbeleuchtung',
+        'ergonomico': 'ergonomisch',
+        'pacchetto': 'Paket',
+        'suite': 'Suite',
+        'licenza': 'Lizenz',
+        'annuale': 'jährlich',
+        'consulenza': 'Beratung',
+        'personalizzata': 'maßgeschneidert',
+        'strategia': 'Strategie',
+        'digitale': 'digital',
+        'completa': 'vollständig'
+      }
+    };
+
+    let translated = description;
+    const langDict = productTranslations[targetLanguage] || {};
+    
+    Object.entries(langDict).forEach(([italian, foreign]) => {
+      const regex = new RegExp(`\\b${italian}\\b`, 'gi');
+      translated = translated.replace(regex, foreign);
+    });
+    
+    return translated;
+  };
+
   // Funzione per generare HTML del preventivo tradotto
   const generateQuoteHTML = async (quoteData: any): Promise<string> => {
     const lang = quoteData.language || 'it';
@@ -467,6 +550,8 @@ export default function WarehouseManagement() {
       email: await translateText('Email', lang),
       address: await translateText('Address', lang),
       items: await translateText('Items', lang),
+      item: await translateText('Item', lang),
+      description: await translateText('Description', lang),
       quantity: await translateText('Quantity', lang),
       unitPrice: await translateText('Unit Price', lang),
       total: await translateText('Total', lang),
@@ -526,21 +611,30 @@ export default function WarehouseManagement() {
             <table class="items-table">
               <thead>
                 <tr>
-                  <th>${translatedLabels.items}</th>
+                  <th>${translatedLabels.item}</th>
+                  <th>${translatedLabels.description}</th>
                   <th>${translatedLabels.quantity}</th>
                   <th>${translatedLabels.unitPrice}</th>
                   <th>${translatedLabels.total}</th>
                 </tr>
               </thead>
               <tbody>
-                ${quoteData.items.map((item: any) => `
-                  <tr>
-                    <td>${item.name}</td>
-                    <td>${item.quantity}</td>
-                    <td>€${item.unitPrice.toFixed(2)}</td>
-                    <td>€${item.total.toFixed(2)}</td>
-                  </tr>
-                `).join('')}
+                ${quoteData.items.map((item: any) => {
+                  // Trova l'articolo originale per la descrizione
+                  const warehouseItem = warehouseItems.find(wi => wi.id === item.itemId);
+                  const description = warehouseItem?.description || '';
+                  const translatedDescription = translateProductDescription(description, lang);
+                  
+                  return `
+                    <tr>
+                      <td><strong>${item.name}</strong></td>
+                      <td style="font-size: 0.9em; color: #666;">${translatedDescription}</td>
+                      <td>${item.quantity}</td>
+                      <td>€${item.unitPrice.toFixed(2)}</td>
+                      <td><strong>€${item.total.toFixed(2)}</strong></td>
+                    </tr>
+                  `;
+                }).join('')}
               </tbody>
             </table>
             
@@ -549,10 +643,12 @@ export default function WarehouseManagement() {
                 <span>${translatedLabels.subtotal}:</span>
                 <span>€${quoteData.subtotal.toFixed(2)}</span>
               </div>
-              <div class="totals-row">
-                <span>${translatedLabels.tax} (22%):</span>
-                <span>€${quoteData.tax.toFixed(2)}</span>
-              </div>
+              ${lang === 'it' ? `
+                <div class="totals-row">
+                  <span>${translatedLabels.tax} (22%):</span>
+                  <span>€${quoteData.tax.toFixed(2)}</span>
+                </div>
+              ` : ''}
               <div class="totals-row final">
                 <span>${translatedLabels.finalTotal}:</span>
                 <span>€${quoteData.total.toFixed(2)}</span>
@@ -1164,10 +1260,12 @@ export default function WarehouseManagement() {
                         <span className="text-gray-600">Subtotale:</span>
                         <span className="font-medium">€{calculateQuoteSubtotal().toFixed(2)}</span>
                       </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-600">IVA (22%):</span>
-                        <span className="font-medium">€{calculateQuoteTax().toFixed(2)}</span>
-                      </div>
+                      {currentQuote.language === 'it' && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600">IVA (22%):</span>
+                          <span className="font-medium">€{calculateQuoteTax().toFixed(2)}</span>
+                        </div>
+                      )}
                       <div className="flex justify-between items-center border-t pt-2">
                         <span className="font-semibold text-gray-900">Totale:</span>
                         <span className="text-xl font-bold text-gray-900">€{calculateQuoteFinalTotal().toFixed(2)}</span>
@@ -1281,10 +1379,12 @@ export default function WarehouseManagement() {
                         <span className="text-gray-600">Subtotale:</span>
                         <span className="font-medium">€{calculateQuoteSubtotal().toFixed(2)}</span>
                       </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-600">IVA (22%):</span>
-                        <span className="font-medium">€{calculateQuoteTax().toFixed(2)}</span>
-                      </div>
+                      {currentQuote.language === 'it' && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600">IVA (22%):</span>
+                          <span className="font-medium">€{calculateQuoteTax().toFixed(2)}</span>
+                        </div>
+                      )}
                       <div className="flex justify-between items-center border-t pt-2">
                         <span className="font-semibold text-gray-900">Totale:</span>
                         <span className="text-xl font-bold text-gray-900">€{calculateQuoteFinalTotal().toFixed(2)}</span>
