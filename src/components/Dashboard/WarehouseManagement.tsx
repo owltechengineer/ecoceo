@@ -824,13 +824,25 @@ export default function WarehouseManagement() {
       notes: await translateText('Notes', lang)
     };
 
-    // Pre-traduci tutte le descrizioni dei prodotti
+    // Pre-traduci TUTTO il contenuto degli articoli (nome + descrizione)
     const translatedItems = await Promise.all(
       quoteData.items.map(async (item: any) => ({
         ...item,
+        translatedName: await smartTranslate(item.name || '', lang, 'it'),
         translatedDescription: await translateProductDescription(item.description || '', lang)
       }))
     );
+
+    // Traduci anche le note se presenti
+    const translatedNotes = quoteData.notes 
+      ? await smartTranslate(quoteData.notes, lang, 'it')
+      : '';
+
+    // Traduci testi statici del footer
+    const footerTexts = {
+      thanks: await smartTranslate('Grazie per la vostra fiducia!', lang, 'it'),
+      info: await smartTranslate('Per informazioni', lang, 'it')
+    };
 
     const validUntilDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('it-IT');
     
@@ -891,7 +903,7 @@ export default function WarehouseManagement() {
               <tbody>
                 ${translatedItems.map((item: any) => `
                   <tr>
-                    <td><strong>${item.name}</strong></td>
+                    <td><strong>${item.translatedName || item.name}</strong></td>
                     <td style="font-size: 0.9em; color: #666;">${item.translatedDescription}</td>
                     <td>${item.quantity}</td>
                     <td>€${item.unitPrice.toFixed(2)}</td>
@@ -922,17 +934,17 @@ export default function WarehouseManagement() {
               <strong>${translatedLabels.validUntil}:</strong> ${validUntilDate}
             </div>
             
-            ${quoteData.notes ? `
+            ${translatedNotes ? `
               <div class="notes">
                 <h3>${translatedLabels.notes}</h3>
-                <p>${quoteData.notes}</p>
+                <p>${translatedNotes}</p>
               </div>
             ` : ''}
           </div>
           
           <div class="footer">
-            <p>Grazie per la vostra fiducia!</p>
-            <p>Per informazioni: info@azienda.com | +39 123 456 7890</p>
+            <p>${footerTexts.thanks}</p>
+            <p>${footerTexts.info}: info@azienda.com | +39 123 456 7890</p>
           </div>
         </div>
       </body>

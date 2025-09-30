@@ -13,6 +13,8 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'retroilluminazione': 'backlight', 'ergonomico': 'ergonomic', 'design': 'design',
     'Cuffie': 'Headphones', 'cancellazione': 'cancellation', 'attiva': 'active', 'del': 'of',
     'rumore': 'noise', 'microfono': 'microphone', 'integrato': 'integrated',
+    'Grazie': 'Thank you', 'per': 'for', 'vostra': 'your', 'fiducia': 'trust',
+    'Per informazioni': 'For information',
     'e': 'and', 'a': 'to', 'di': 'of', 'il': 'the', 'la': 'the', 'in': 'in'
   },
   'es': {
@@ -22,6 +24,8 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'retroilluminazione': 'retroiluminación', 'ergonomico': 'ergonómico', 'design': 'diseño',
     'Cuffie': 'Auriculares', 'cancellazione': 'cancelación', 'attiva': 'activa', 'del': 'del',
     'rumore': 'ruido', 'microfono': 'micrófono', 'integrato': 'integrado',
+    'Grazie': 'Gracias', 'per': 'por', 'vostra': 'su', 'fiducia': 'confianza',
+    'Per informazioni': 'Para información',
     'e': 'y', 'a': 'a', 'di': 'de', 'il': 'el', 'la': 'la', 'in': 'en'
   },
   'pt': {
@@ -31,6 +35,8 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'retroilluminazione': 'retroiluminação', 'ergonomico': 'ergonômico', 'design': 'design',
     'Cuffie': 'Fones de ouvido', 'cancellazione': 'cancelamento', 'attiva': 'ativa', 'del': 'do',
     'rumore': 'ruído', 'microfono': 'microfone', 'integrato': 'integrado',
+    'Grazie': 'Obrigado', 'per': 'por', 'vostra': 'sua', 'fiducia': 'confiança',
+    'Per informazioni': 'Para informações',
     'e': 'e', 'a': 'para', 'di': 'de', 'il': 'o', 'la': 'a', 'in': 'em'
   },
   'fr': {
@@ -40,6 +46,8 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'retroilluminazione': 'rétroéclairage', 'ergonomico': 'ergonomique', 'design': 'design',
     'Cuffie': 'Casque', 'cancellazione': 'annulation', 'attiva': 'active', 'del': 'du',
     'rumore': 'bruit', 'microfono': 'microphone', 'integrato': 'intégré',
+    'Grazie': 'Merci', 'per': 'pour', 'vostra': 'votre', 'fiducia': 'confiance',
+    'Per informazioni': 'Pour informations',
     'e': 'et', 'a': 'à', 'di': 'de', 'il': 'le', 'la': 'la', 'in': 'dans'
   },
   'de': {
@@ -49,6 +57,8 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'retroilluminazione': 'Hintergrundbeleuchtung', 'ergonomico': 'ergonomisch', 'design': 'Design',
     'Cuffie': 'Kopfhörer', 'cancellazione': 'Löschung', 'attiva': 'aktiv', 'del': 'des',
     'rumore': 'Geräusch', 'microfono': 'Mikrofon', 'integrato': 'integriert',
+    'Grazie': 'Danke', 'per': 'für', 'vostra': 'Ihr', 'fiducia': 'Vertrauen',
+    'Per informazioni': 'Für Informationen',
     'e': 'und', 'a': 'zu', 'di': 'von', 'il': 'der', 'la': 'die', 'in': 'in'
   },
   'ru': {
@@ -58,6 +68,8 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'retroilluminazione': 'подсветка', 'ergonomico': 'эргономичный', 'design': 'дизайн',
     'Cuffie': 'Наушники', 'cancellazione': 'шумоподавление', 'attiva': 'активный', 'del': 'из',
     'rumore': 'шум', 'microfono': 'микрофон', 'integrato': 'встроенный',
+    'Grazie': 'Спасибо', 'per': 'за', 'vostra': 'ваше', 'fiducia': 'доверие',
+    'Per informazioni': 'Для информации',
     'e': 'и', 'a': 'в', 'di': 'из', 'il': '', 'la': '', 'in': 'в'
   },
   'zh': {
@@ -67,6 +79,8 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'retroilluminazione': '背光', 'ergonomico': '人体工程学', 'design': '设计',
     'Cuffie': '耳机', 'cancellazione': '降噪', 'attiva': '主动', 'del': '的',
     'rumore': '噪音', 'microfono': '麦克风', 'integrato': '集成',
+    'Grazie': '谢谢', 'per': '为', 'vostra': '您的', 'fiducia': '信任',
+    'Per informazioni': '联系方式',
     'e': '和', 'a': '到', 'di': '的', 'il': '', 'la': '', 'in': '在'
   }
 };
