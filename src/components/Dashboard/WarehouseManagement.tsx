@@ -1215,9 +1215,14 @@ export default function WarehouseManagement() {
                     <div className="p-4">
                       {/* Titolo e Descrizione */}
                       <div className="mb-4">
-                        <h3 className="text-lg font-bold text-gray-900 mb-1 leading-tight">{item.name}</h3>
-                        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">{item.description}</p>
-                        <p className="text-xs text-gray-400 mt-2">SKU: {item.sku}</p>
+                        <div className="flex items-start justify-between mb-2">
+                          <h3 className="text-lg font-bold text-gray-900 leading-tight flex-1">{item.name}</h3>
+                        </div>
+                        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-2">{item.description}</p>
+                        {/* Codice SKU prominente */}
+                        <div className="bg-gray-900 text-white px-3 py-1.5 rounded-lg inline-block">
+                          <span className="text-xs font-mono font-bold tracking-wider">{item.sku}</span>
+                        </div>
                       </div>
                       
                       {/* Info Griglia */}
