@@ -3241,3 +3241,221 @@ export const financialService = {
     }
   }
 };
+
+// =====================================================
+// PREVENTIVI (QUOTES)
+// =====================================================
+
+export const quotesService = {
+  // Salva un nuovo preventivo
+  async saveQuote(quoteData: {
+    clientName: string;
+    clientEmail?: string;
+    clientAddress?: string;
+    language: string;
+    subtotal: number;
+    tax: number;
+    total: number;
+    validUntil?: string;
+    notes?: string;
+    status?: string;
+    items: Array<{
+      itemId?: string;
+      name: string;
+      description?: string;
+      quantity: number;
+      unitPrice: number;
+      total: number;
+    }>;
+  }) {
+    try {
+      console.log('💾 Salvataggio preventivo:', quoteData);
+
+      // 1. Salva il preventivo principale
+      const { data: quote, error: quoteError } = await supabase
+        .from('quotes')
+        .insert([{
+          client_name: quoteData.clientName,
+          client_email: quoteData.clientEmail || null,
+          client_address: quoteData.clientAddress || null,
+          language: quoteData.language || 'it',
+          subtotal: quoteData.subtotal,
+          tax: quoteData.tax,
+          total: quoteData.total,
+          valid_until: quoteData.validUntil || null,
+          notes: quoteData.notes || null,
+          status: quoteData.status || 'draft'
+        }])
+        .select()
+        .single();
+
+      if (quoteError) {
+        console.error('❌ Errore salvataggio preventivo:', quoteError);
+        throw quoteError;
+      }
+
+      console.log('✅ Preventivo salvato:', quote);
+
+      // 2. Salva gli articoli del preventivo
+      if (quoteData.items && quoteData.items.length > 0) {
+        const items = quoteData.items.map(item => ({
+          quote_id: quote.id,
+          item_id: item.itemId || null,
+          name: item.name,
+          description: item.description || null,
+          quantity: item.quantity,
+          unit_price: item.unitPrice,
+          total: item.total
+        }));
+
+        const { error: itemsError } = await supabase
+          .from('quote_items')
+          .insert(items);
+
+        if (itemsError) {
+          console.error('❌ Errore salvataggio articoli:', itemsError);
+          throw itemsError;
+        }
+
+        console.log(`✅ ${items.length} articoli salvati`);
+      }
+
+      return quote;
+    } catch (error) {
+      console.error('Errore salvataggio preventivo:', error);
+      throw error;
+    }
+  },
+
+  // Carica tutti i preventivi
+  async loadQuotes() {
+    try {
+      const { data, error } = await supabase
+        .from('quotes')
+        .select(`
+          *,
+          quote_items (
+            id,
+            item_id,
+            name,
+            description,
+            quantity,
+            unit_price,
+            total
+          )
+        `)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      console.log(`✅ Caricati ${data?.length || 0} preventivi`);
+      return data || [];
+    } catch (error) {
+      console.error('Errore caricamento preventivi:', error);
+      throw error;
+    }
+  },
+
+  // Carica un singolo preventivo
+  async loadQuote(quoteId: string) {
+    try {
+      const { data, error } = await supabase
+        .from('quotes')
+        .select(`
+          *,
+          quote_items (
+            id,
+            item_id,
+            name,
+            description,
+            quantity,
+            unit_price,
+            total
+          )
+        `)
+        .eq('id', quoteId)
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Errore caricamento preventivo:', error);
+      throw error;
+    }
+  },
+
+  // Aggiorna un preventivo esistente
+  async updateQuote(quoteId: string, quoteData: {
+    clientName?: string;
+    clientEmail?: string;
+    clientAddress?: string;
+    language?: string;
+    subtotal?: number;
+    tax?: number;
+    total?: number;
+    validUntil?: string;
+    notes?: string;
+    status?: string;
+  }) {
+    try {
+      const updateData: any = {};
+      if (quoteData.clientName !== undefined) updateData.client_name = quoteData.clientName;
+      if (quoteData.clientEmail !== undefined) updateData.client_email = quoteData.clientEmail;
+      if (quoteData.clientAddress !== undefined) updateData.client_address = quoteData.clientAddress;
+      if (quoteData.language !== undefined) updateData.language = quoteData.language;
+      if (quoteData.subtotal !== undefined) updateData.subtotal = quoteData.subtotal;
+      if (quoteData.tax !== undefined) updateData.tax = quoteData.tax;
+      if (quoteData.total !== undefined) updateData.total = quoteData.total;
+      if (quoteData.validUntil !== undefined) updateData.valid_until = quoteData.validUntil;
+      if (quoteData.notes !== undefined) updateData.notes = quoteData.notes;
+      if (quoteData.status !== undefined) updateData.status = quoteData.status;
+
+      const { data, error } = await supabase
+        .from('quotes')
+        .update(updateData)
+        .eq('id', quoteId)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Errore aggiornamento preventivo:', error);
+      throw error;
+    }
+  },
+
+  // Elimina un preventivo
+  async deleteQuote(quoteId: string) {
+    try {
+      const { error } = await supabase
+        .from('quotes')
+        .delete()
+        .eq('id', quoteId);
+
+      if (error) throw error;
+      console.log(`✅ Preventivo ${quoteId} eliminato`);
+    } catch (error) {
+      console.error('Errore eliminazione preventivo:', error);
+      throw error;
+    }
+  },
+
+  // Aggiorna lo stato di un preventivo
+  async updateQuoteStatus(quoteId: string, status: 'draft' | 'sent' | 'accepted' | 'rejected' | 'expired') {
+    try {
+      const { data, error } = await supabase
+        .from('quotes')
+        .update({ status })
+        .eq('id', quoteId)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Errore aggiornamento stato preventivo:', error);
+      throw error;
+    }
+  }
+};

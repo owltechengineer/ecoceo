@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { smartTranslate, translateWithDictionary } from '@/lib/translation';
+import { quotesService } from '@/lib/supabase';
 
 interface WarehouseItem {
   id: string;
@@ -225,10 +226,56 @@ export default function WarehouseManagement() {
     }
   ]);
 
-  // Mock data per i preventivi
+  // Stati per i preventivi
   const [quotes, setQuotes] = useState<Quote[]>([]);
+  const [isLoadingQuotes, setIsLoadingQuotes] = useState(false);
+  const [isSavingQuote, setIsSavingQuote] = useState(false);
 
   const categories = ['Tutti', 'Elettronica', 'Accessori', 'Software', 'Servizi'];
+
+  // Carica preventivi all'avvio
+  useEffect(() => {
+    loadQuotes();
+  }, []);
+
+  // Funzione per caricare i preventivi
+  const loadQuotes = async () => {
+    try {
+      setIsLoadingQuotes(true);
+      const data = await quotesService.loadQuotes();
+      
+      // Converti i dati dal database al formato dell'interfaccia Quote
+      const formattedQuotes: Quote[] = data.map((q: any) => ({
+        id: q.id,
+        clientName: q.client_name,
+        clientEmail: q.client_email || '',
+        clientAddress: q.client_address || '',
+        language: q.language || 'it',
+        items: q.quote_items?.map((item: any) => ({
+          id: item.id,
+          itemId: item.item_id || '',
+          name: item.name,
+          description: item.description || '',
+          quantity: item.quantity,
+          unitPrice: item.unit_price,
+          total: item.total
+        })) || [],
+        subtotal: q.subtotal,
+        tax: q.tax,
+        total: q.total,
+        validUntil: q.valid_until || '',
+        notes: q.notes || ''
+      }));
+      
+      setQuotes(formattedQuotes);
+      console.log(`✅ Caricati ${formattedQuotes.length} preventivi`);
+    } catch (error) {
+      console.error('Errore caricamento preventivi:', error);
+      alert('Errore nel caricamento dei preventivi');
+    } finally {
+      setIsLoadingQuotes(false);
+    }
+  };
 
   const getStockStatus = (item: WarehouseItem) => {
     if (item.quantity <= item.minStock) return 'low';
@@ -987,30 +1034,58 @@ export default function WarehouseManagement() {
         };
       }
       
-      // Salva il preventivo
-      const newQuote: Quote = {
-        id: `quote-${Date.now()}`,
-        ...quoteData,
-        validUntil: quoteData.validUntil
-      };
-      
-      setQuotes([...quotes, newQuote]);
-      setQuoteItems([]);
-      setCurrentQuote({
-        clientName: '',
-        clientEmail: '',
-        clientAddress: '',
-        language: 'it',
-        items: [],
-        subtotal: 0,
-        tax: 0,
-        total: 0,
-        validUntil: '',
-        notes: ''
-      });
-      setShowQuoteEditor(false);
-      
-      alert(`✅ PDF generato in ${currentQuote.language?.toUpperCase()}!\nCliente: ${quoteData.clientName}\nTotale: €${quoteData.total.toFixed(2)}`);
+      // Salva il preventivo su Supabase
+      try {
+        setIsSavingQuote(true);
+        const savedQuote = await quotesService.saveQuote({
+          clientName: quoteData.clientName!,
+          clientEmail: quoteData.clientEmail,
+          clientAddress: quoteData.clientAddress,
+          language: quoteData.language!,
+          subtotal: quoteData.subtotal!,
+          tax: quoteData.tax!,
+          total: quoteData.total!,
+          validUntil: quoteData.validUntil,
+          notes: quoteData.notes,
+          status: 'sent',
+          items: quoteItems.map(item => ({
+            itemId: item.itemId,
+            name: item.name,
+            description: item.description,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            total: item.total
+          }))
+        });
+
+        console.log('✅ Preventivo salvato:', savedQuote);
+
+        // Ricarica i preventivi
+        await loadQuotes();
+
+        // Reset form
+        setQuoteItems([]);
+        setCurrentQuote({
+          clientName: '',
+          clientEmail: '',
+          clientAddress: '',
+          language: 'it',
+          items: [],
+          subtotal: 0,
+          tax: 0,
+          total: 0,
+          validUntil: '',
+          notes: ''
+        });
+        setShowQuoteEditor(false);
+        
+        alert(`✅ PDF generato e preventivo salvato!\n📄 Numero: ${savedQuote.quote_number}\n👤 Cliente: ${quoteData.clientName}\n💰 Totale: €${quoteData.total.toFixed(2)}\n🌍 Lingua: ${currentQuote.language?.toUpperCase()}`);
+      } catch (saveError) {
+        console.error('⚠️ Errore salvataggio preventivo:', saveError);
+        alert('⚠️ PDF generato ma errore nel salvataggio del preventivo');
+      } finally {
+        setIsSavingQuote(false);
+      }
     } catch (error) {
       console.error('Errore generazione PDF:', error);
       alert('Errore nella generazione del PDF');
@@ -1330,10 +1405,15 @@ export default function WarehouseManagement() {
         {/* Preventivi Tab */}
         {activeTab === 'quotes' && (
           <div className="space-y-6">
-            {quotes.length === 0 ? (
+            {isLoadingQuotes ? (
+              <div className="text-center py-12">
+                <div className="animate-spin text-6xl mb-4">⏳</div>
+                <p className="text-gray-600">Caricamento preventivi...</p>
+              </div>
+            ) : quotes.length === 0 ? (
               <div className="text-center py-12">
                 <span className="text-6xl mb-4 block">📄</span>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Nessun preventivo creato</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Nessun preventivo salvato</h3>
                 <p className="text-gray-600 mb-6">Crea il tuo primo preventivo selezionando articoli dal magazzino</p>
                 <button
                   onClick={() => openQuoteEditor('new')}
@@ -1343,28 +1423,92 @@ export default function WarehouseManagement() {
                 </button>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {quotes.map((quote) => (
-                  <div key={quote.id} className="bg-white rounded-lg p-6 shadow-lg border border-gray-200">
-                    <div className="flex items-center justify-between mb-4">
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">Preventivo #{quote.id}</h3>
-                        <p className="text-gray-600">Cliente: {quote.clientName}</p>
+                  <div key={quote.id} className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border-2 border-gray-200 hover:border-orange-300 transition-all duration-200">
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <h3 className="text-lg font-bold text-gray-900">
+                            {quote.clientName}
+                          </h3>
+                          <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
+                            quote.language === 'it' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'
+                          }`}>
+                            {quote.language?.toUpperCase() || 'IT'}
+                          </span>
+                        </div>
+                        {quote.clientEmail && (
+                          <p className="text-sm text-gray-600">📧 {quote.clientEmail}</p>
+                        )}
+                        <p className="text-xs text-gray-500 mt-1">
+                          📅 {quote.validUntil ? new Date(quote.validUntil).toLocaleDateString('it-IT') : 'N/D'}
+                        </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-gray-900">€{quote.total.toFixed(2)}</p>
-                        <p className="text-sm text-gray-500">Totale</p>
+                        <p className="text-2xl font-bold text-green-600">€{quote.total.toFixed(2)}</p>
+                        <p className="text-xs text-gray-500">{quote.items?.length || 0} articoli</p>
                       </div>
                     </div>
-                    <div className="flex space-x-3">
-                      <button className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors">
-                        👁️ Visualizza
+
+                    {/* Articoli Preview */}
+                    <div className="mb-4 bg-gray-50 rounded-lg p-3 max-h-32 overflow-y-auto">
+                      {quote.items && quote.items.length > 0 ? (
+                        <div className="space-y-1">
+                          {quote.items.slice(0, 3).map((item, index) => (
+                            <div key={index} className="flex items-center justify-between text-xs">
+                              <span className="text-gray-700 truncate flex-1">{item.name}</span>
+                              <span className="text-gray-500 ml-2">x{item.quantity}</span>
+                            </div>
+                          ))}
+                          {quote.items.length > 3 && (
+                            <p className="text-xs text-gray-500 italic text-center pt-1">
+                              ...e altri {quote.items.length - 3} articoli
+                            </p>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-xs text-gray-500 text-center">Nessun articolo</p>
+                      )}
+                    </div>
+
+                    {/* Azioni */}
+                    <div className="grid grid-cols-3 gap-2">
+                      <button 
+                        onClick={() => {
+                          // TODO: Visualizza dettagli preventivo
+                          alert('Visualizza dettagli in arrivo!');
+                        }}
+                        className="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-xs font-medium hover:bg-blue-200 transition-colors"
+                      >
+                        👁️ Vedi
                       </button>
-                      <button className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors">
+                      <button 
+                        onClick={() => {
+                          // TODO: Rigenera PDF
+                          alert('Rigenera PDF in arrivo!');
+                        }}
+                        className="px-3 py-2 bg-green-100 text-green-700 rounded-lg text-xs font-medium hover:bg-green-200 transition-colors"
+                      >
                         📄 PDF
                       </button>
-                      <button className="bg-gray-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors">
-                        ✏️ Modifica
+                      <button 
+                        onClick={async () => {
+                          if (confirm(`Eliminare il preventivo per ${quote.clientName}?`)) {
+                            try {
+                              await quotesService.deleteQuote(quote.id);
+                              await loadQuotes();
+                              alert('✅ Preventivo eliminato!');
+                            } catch (error) {
+                              console.error('Errore eliminazione:', error);
+                              alert('❌ Errore nell\'eliminazione del preventivo');
+                            }
+                          }
+                        }}
+                        className="px-3 py-2 bg-red-100 text-red-700 rounded-lg text-xs font-medium hover:bg-red-200 transition-colors"
+                      >
+                        🗑️ Elimina
                       </button>
                     </div>
                   </div>
@@ -1717,7 +1861,7 @@ export default function WarehouseManagement() {
             
             <div className="flex space-x-3 pt-6">
               <button
-                onClick={() => setShowNewQuote(false)}
+                onClick={() => setShowQuoteEditor(false)}
                 className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
               >
                 Annulla
