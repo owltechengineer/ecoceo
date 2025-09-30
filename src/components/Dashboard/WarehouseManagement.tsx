@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { smartTranslate } from '@/lib/translation';
 
 interface WarehouseItem {
   id: string;
@@ -545,8 +546,37 @@ export default function WarehouseManagement() {
     }
   };
 
-  // Funzione per tradurre le descrizioni dei prodotti
-  const translateProductDescription = (description: string, targetLanguage: string): string => {
+  // Cache per traduzioni (evita chiamate API duplicate)
+  const [translationCache, setTranslationCache] = useState<Record<string, string>>({});
+  const [translatedDescriptions, setTranslatedDescriptions] = useState<Record<string, string>>({});
+  
+  const translateProductDescription = async (description: string, targetLanguage: string): Promise<string> => {
+    if (!description) return '';
+    if (targetLanguage === 'it') return description;
+    
+    // Controlla la cache
+    const cacheKey = `${description}-${targetLanguage}`;
+    if (translationCache[cacheKey]) {
+      return translationCache[cacheKey];
+    }
+    
+    try {
+      // Usa LibreTranslate API (gratuita)
+      const translated = await smartTranslate(description, targetLanguage, 'it');
+      
+      // Salva in cache
+      setTranslationCache(prev => ({ ...prev, [cacheKey]: translated }));
+      
+      return translated;
+    } catch (error) {
+      console.warn('Traduzione API fallita, uso dizionario interno');
+      // Fallback al dizionario interno
+      return translateProductDescriptionFallback(description, targetLanguage);
+    }
+  };
+  
+  // Fallback con dizionario interno
+  const translateProductDescriptionFallback = (description: string, targetLanguage: string): string => {
     if (!description) return '';
     if (targetLanguage === 'it') return description;
     
@@ -808,9 +838,9 @@ export default function WarehouseManagement() {
                 </tr>
               </thead>
               <tbody>
-                ${quoteData.items.map((item: any) => {
-                  // Traduce la descrizione del prodotto
-                  const translatedDescription = translateProductDescription(item.description || '', lang);
+                ${await Promise.all(quoteData.items.map(async (item: any) => {
+                  // Traduce la descrizione del prodotto con LibreTranslate
+                  const translatedDescription = await translateProductDescription(item.description || '', lang);
                   
                   return `
                     <tr>
@@ -821,7 +851,7 @@ export default function WarehouseManagement() {
                       <td><strong>€${item.total.toFixed(2)}</strong></td>
                     </tr>
                   `;
-                }).join('')}
+                })).then(rows => rows.join(''))}
               </tbody>
             </table>
             
@@ -1445,7 +1475,7 @@ export default function WarehouseManagement() {
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
                             <h5 className="font-medium text-gray-900">{item.name}</h5>
-                            <p className="text-xs text-gray-500 mb-1">{translateProductDescription(item.description || '', currentQuote.language || 'it')}</p>
+                            <p className="text-xs text-gray-500 mb-1">{translateProductDescriptionFallback(item.description || '', currentQuote.language || 'it')}</p>
                             <p className="text-sm text-gray-600">€{item.unitPrice.toFixed(2)} x {item.quantity}</p>
                           </div>
                           <div className="flex items-center space-x-2">
@@ -1568,7 +1598,7 @@ export default function WarehouseManagement() {
                           <div className="flex items-center justify-between">
                             <div className="flex-1">
                               <h5 className="font-medium text-gray-900">{item.name}</h5>
-                              <p className="text-xs text-gray-500 mb-1">{translateProductDescription(item.description || '', currentQuote.language || 'it')}</p>
+                              <p className="text-xs text-gray-500 mb-1">{translateProductDescriptionFallback(item.description || '', currentQuote.language || 'it')}</p>
                               <p className="text-sm text-gray-600">€{item.unitPrice.toFixed(2)} x {item.quantity}</p>
                             </div>
                             <div className="flex items-center space-x-4">
