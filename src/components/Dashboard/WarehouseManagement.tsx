@@ -21,6 +21,7 @@ interface QuoteItem {
   id: string;
   itemId: string;
   name: string;
+  description: string;
   quantity: number;
   unitPrice: number;
   total: number;
@@ -344,6 +345,7 @@ export default function WarehouseManagement() {
         id: `quote-${Date.now()}`,
         itemId: item.id,
         name: item.name,
+        description: item.description,
         quantity,
         unitPrice: item.price,
         total: quantity * item.price
@@ -620,10 +622,8 @@ export default function WarehouseManagement() {
               </thead>
               <tbody>
                 ${quoteData.items.map((item: any) => {
-                  // Trova l'articolo originale per la descrizione
-                  const warehouseItem = warehouseItems.find(wi => wi.id === item.itemId);
-                  const description = warehouseItem?.description || '';
-                  const translatedDescription = translateProductDescription(description, lang);
+                  // Traduce la descrizione del prodotto
+                  const translatedDescription = translateProductDescription(item.description || '', lang);
                   
                   return `
                     <tr>
@@ -1227,6 +1227,7 @@ export default function WarehouseManagement() {
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
                             <h5 className="font-medium text-gray-900">{item.name}</h5>
+                            <p className="text-xs text-gray-500 mb-1">{translateProductDescription(item.description || '', currentQuote.language || 'it')}</p>
                             <p className="text-sm text-gray-600">€{item.unitPrice.toFixed(2)} x {item.quantity}</p>
                           </div>
                           <div className="flex items-center space-x-2">
@@ -1349,6 +1350,7 @@ export default function WarehouseManagement() {
                           <div className="flex items-center justify-between">
                             <div className="flex-1">
                               <h5 className="font-medium text-gray-900">{item.name}</h5>
+                              <p className="text-xs text-gray-500 mb-1">{translateProductDescription(item.description || '', currentQuote.language || 'it')}</p>
                               <p className="text-sm text-gray-600">€{item.unitPrice.toFixed(2)} x {item.quantity}</p>
                             </div>
                             <div className="flex items-center space-x-4">
