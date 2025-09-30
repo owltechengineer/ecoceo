@@ -43,8 +43,23 @@ interface Quote {
   notes: string;
 }
 
+// Interfaccia per impostazioni preventivo
+interface QuoteSettings {
+  companyName: string;
+  companyAddress: string;
+  companyPhone: string;
+  companyEmail: string;
+  companyLogo?: string;
+  footerText: string;
+  primaryColor: string;
+  secondaryColor: string;
+  showLogo: boolean;
+  showFooter: boolean;
+  defaultValidityDays: number;
+}
+
 export default function WarehouseManagement() {
-  const [activeTab, setActiveTab] = useState<'warehouse' | 'quotes'>('warehouse');
+  const [activeTab, setActiveTab] = useState<'warehouse' | 'quotes' | 'settings'>('warehouse');
   const [showNewItem, setShowNewItem] = useState(false);
   const [showQuoteEditor, setShowQuoteEditor] = useState(false);
   const [editingQuote, setEditingQuote] = useState<Quote | null>(null);
@@ -231,11 +246,38 @@ export default function WarehouseManagement() {
   const [isLoadingQuotes, setIsLoadingQuotes] = useState(false);
   const [isSavingQuote, setIsSavingQuote] = useState(false);
 
+  // Stati per impostazioni
+  const [quoteSettings, setQuoteSettings] = useState<QuoteSettings>({
+    companyName: 'La Tua Azienda',
+    companyAddress: 'Via Esempio 123, 00100 Roma',
+    companyPhone: '+39 123 456 7890',
+    companyEmail: 'info@azienda.com',
+    companyLogo: '',
+    footerText: 'Grazie per la vostra fiducia! Per informazioni: info@azienda.com | +39 123 456 7890',
+    primaryColor: '#2563eb',
+    secondaryColor: '#16a34a',
+    showLogo: true,
+    showFooter: true,
+    defaultValidityDays: 30
+  });
+
   const categories = ['Tutti', 'Elettronica', 'Accessori', 'Software', 'Servizi'];
 
   // Carica preventivi all'avvio
   useEffect(() => {
     loadQuotes();
+    
+    // Carica impostazioni da localStorage
+    const savedSettings = localStorage.getItem('quoteSettings');
+    if (savedSettings) {
+      try {
+        const parsed = JSON.parse(savedSettings);
+        setQuoteSettings(parsed);
+        console.log('✅ Impostazioni preventivo caricate');
+      } catch (error) {
+        console.error('Errore caricamento impostazioni:', error);
+      }
+    }
   }, []);
 
   // Funzione per caricare i preventivi
@@ -1224,6 +1266,16 @@ export default function WarehouseManagement() {
           >
             📄 Preventivi
           </button>
+          <button
+            onClick={() => setActiveTab('settings')}
+            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+              activeTab === 'settings'
+                ? 'bg-orange-500 text-white'
+                : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            ⚙️ Impostazioni
+          </button>
         </div>
 
         {/* Magazzino Tab */}
@@ -1485,13 +1537,46 @@ export default function WarehouseManagement() {
                         👁️ Vedi
                       </button>
                       <button 
-                        onClick={() => {
-                          // TODO: Rigenera PDF
-                          alert('Rigenera PDF in arrivo!');
+                        onClick={async () => {
+                          try {
+                            // Prepara dati per PDF
+                            const quoteData = {
+                              clientName: quote.clientName,
+                              clientEmail: quote.clientEmail,
+                              clientAddress: quote.clientAddress,
+                              language: quote.language,
+                              items: quote.items || [],
+                              subtotal: quote.subtotal,
+                              tax: quote.tax,
+                              total: quote.total,
+                              validUntil: quote.validUntil,
+                              notes: quote.notes
+                            };
+
+                            // Genera HTML tradotto
+                            const htmlContent = await generateQuoteHTML(quoteData);
+                            
+                            // Crea blob HTML
+                            const blob = new Blob([htmlContent], { type: 'text/html' });
+                            const url = URL.createObjectURL(blob);
+                            
+                            // Apri in nuova finestra per stampa/PDF
+                            const printWindow = window.open(url, '_blank');
+                            if (printWindow) {
+                              printWindow.onload = () => {
+                                printWindow.print();
+                              };
+                            }
+                            
+                            alert(`✅ PDF rigenerato!\n👤 Cliente: ${quote.clientName}\n💰 Totale: €${quote.total.toFixed(2)}\n🌍 Lingua: ${quote.language?.toUpperCase()}`);
+                          } catch (error) {
+                            console.error('Errore generazione PDF:', error);
+                            alert('❌ Errore nella generazione del PDF');
+                          }
                         }}
                         className="px-3 py-2 bg-green-100 text-green-700 rounded-lg text-xs font-medium hover:bg-green-200 transition-colors"
                       >
-                        📄 PDF
+                        📄 Inoltra
                       </button>
                       <button 
                         onClick={async () => {
@@ -1515,6 +1600,287 @@ export default function WarehouseManagement() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {/* Impostazioni Tab */}
+        {activeTab === 'settings' && (
+          <div className="space-y-6">
+            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-lg p-6 mb-6">
+              <div className="flex items-center space-x-3 mb-2">
+                <span className="text-3xl">⚙️</span>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900">Impostazioni Preventivo</h3>
+                  <p className="text-sm text-gray-600">Personalizza l'aspetto e i contenuti dei tuoi preventivi</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Informazioni Azienda */}
+              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200">
+                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                  <span className="mr-2">🏢</span> Informazioni Azienda
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Nome Azienda</label>
+                    <input
+                      type="text"
+                      value={quoteSettings.companyName}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, companyName: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      placeholder="La Tua Azienda S.r.l."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Indirizzo</label>
+                    <textarea
+                      value={quoteSettings.companyAddress}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, companyAddress: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      rows={2}
+                      placeholder="Via Esempio 123, 00100 Roma"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Telefono</label>
+                      <input
+                        type="text"
+                        value={quoteSettings.companyPhone}
+                        onChange={(e) => setQuoteSettings({...quoteSettings, companyPhone: e.target.value})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        placeholder="+39 123 456 7890"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                      <input
+                        type="email"
+                        value={quoteSettings.companyEmail}
+                        onChange={(e) => setQuoteSettings({...quoteSettings, companyEmail: e.target.value})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        placeholder="info@azienda.com"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Personalizzazione */}
+              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200">
+                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                  <span className="mr-2">🎨</span> Personalizzazione
+                </h4>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Colore Primario</label>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="color"
+                          value={quoteSettings.primaryColor}
+                          onChange={(e) => setQuoteSettings({...quoteSettings, primaryColor: e.target.value})}
+                          className="w-12 h-10 rounded border border-gray-300"
+                        />
+                        <input
+                          type="text"
+                          value={quoteSettings.primaryColor}
+                          onChange={(e) => setQuoteSettings({...quoteSettings, primaryColor: e.target.value})}
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm font-mono"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Colore Secondario</label>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="color"
+                          value={quoteSettings.secondaryColor}
+                          onChange={(e) => setQuoteSettings({...quoteSettings, secondaryColor: e.target.value})}
+                          className="w-12 h-10 rounded border border-gray-300"
+                        />
+                        <input
+                          type="text"
+                          value={quoteSettings.secondaryColor}
+                          onChange={(e) => setQuoteSettings({...quoteSettings, secondaryColor: e.target.value})}
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm font-mono"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Validità Preventivo (giorni)</label>
+                    <input
+                      type="number"
+                      value={quoteSettings.defaultValidityDays}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, defaultValidityDays: parseInt(e.target.value) || 30})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      min="1"
+                      max="365"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={quoteSettings.showLogo}
+                        onChange={(e) => setQuoteSettings({...quoteSettings, showLogo: e.target.checked})}
+                        className="w-4 h-4 text-orange-600 rounded focus:ring-orange-500"
+                      />
+                      <span className="text-sm text-gray-700">Mostra Logo</span>
+                    </label>
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={quoteSettings.showFooter}
+                        onChange={(e) => setQuoteSettings({...quoteSettings, showFooter: e.target.checked})}
+                        className="w-4 h-4 text-orange-600 rounded focus:ring-orange-500"
+                      />
+                      <span className="text-sm text-gray-700">Mostra Footer</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              {/* Testo Footer */}
+              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200 lg:col-span-2">
+                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                  <span className="mr-2">📝</span> Testo Footer
+                </h4>
+                <textarea
+                  value={quoteSettings.footerText}
+                  onChange={(e) => setQuoteSettings({...quoteSettings, footerText: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  rows={3}
+                  placeholder="Grazie per la vostra fiducia! Per informazioni: info@azienda.com | +39 123 456 7890"
+                />
+                <p className="text-xs text-gray-500 mt-2">
+                  Questo testo apparirà in fondo a tutti i preventivi generati
+                </p>
+              </div>
+            </div>
+
+            {/* Anteprima */}
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 shadow-lg border border-blue-200">
+              <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                <span className="mr-2">👁️</span> Anteprima Preventivo
+              </h4>
+              <div className="bg-white rounded-lg p-6 shadow-inner border-2 border-dashed border-gray-300">
+                {/* Header Anteprima */}
+                <div className="mb-6" style={{ borderBottomColor: quoteSettings.primaryColor, borderBottomWidth: '3px' }}>
+                  <h2 className="text-2xl font-bold mb-2" style={{ color: quoteSettings.primaryColor }}>
+                    {quoteSettings.companyName}
+                  </h2>
+                  <p className="text-sm text-gray-600 mb-3">{quoteSettings.companyAddress}</p>
+                  <div className="flex items-center space-x-4 text-xs text-gray-500 pb-3">
+                    <span>📞 {quoteSettings.companyPhone}</span>
+                    <span>📧 {quoteSettings.companyEmail}</span>
+                  </div>
+                </div>
+
+                {/* Corpo Anteprima */}
+                <div className="py-4">
+                  <h3 className="text-xl font-bold mb-2" style={{ color: quoteSettings.secondaryColor }}>
+                    PREVENTIVO
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4 text-sm mb-4">
+                    <div>
+                      <p className="text-gray-600">Cliente: <strong>Cliente Esempio</strong></p>
+                      <p className="text-gray-600">Email: esempio@cliente.com</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-gray-600">Data: {new Date().toLocaleDateString('it-IT')}</p>
+                      <p className="text-gray-600">Valido fino: {new Date(Date.now() + quoteSettings.defaultValidityDays * 24 * 60 * 60 * 1000).toLocaleDateString('it-IT')}</p>
+                    </div>
+                  </div>
+                  
+                  {/* Tabella Esempio */}
+                  <div className="border border-gray-200 rounded-lg overflow-hidden mb-4">
+                    <table className="w-full text-sm">
+                      <thead style={{ backgroundColor: quoteSettings.primaryColor, color: 'white' }}>
+                        <tr>
+                          <th className="px-3 py-2 text-left">Articolo</th>
+                          <th className="px-3 py-2 text-center">Qtà</th>
+                          <th className="px-3 py-2 text-right">Prezzo</th>
+                          <th className="px-3 py-2 text-right">Totale</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b">
+                          <td className="px-3 py-2">Laptop Dell XPS 13</td>
+                          <td className="px-3 py-2 text-center">1</td>
+                          <td className="px-3 py-2 text-right">€1,299.00</td>
+                          <td className="px-3 py-2 text-right font-semibold">€1,299.00</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Totali */}
+                  <div className="flex justify-end">
+                    <div className="w-64 space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span>Subtotale:</span>
+                        <span className="font-semibold">€1,299.00</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>IVA (22%):</span>
+                        <span className="font-semibold">€285.78</span>
+                      </div>
+                      <div className="flex justify-between border-t-2 pt-1" style={{ borderTopColor: quoteSettings.secondaryColor }}>
+                        <span className="font-bold">Totale:</span>
+                        <span className="font-bold text-lg" style={{ color: quoteSettings.secondaryColor }}>€1,584.78</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer Anteprima */}
+                {quoteSettings.showFooter && (
+                  <div className="mt-6 pt-4 border-t-2 border-gray-200 text-center">
+                    <p className="text-xs text-gray-600 italic">{quoteSettings.footerText}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Salva Impostazioni */}
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => {
+                  // Reset to default
+                  setQuoteSettings({
+                    companyName: 'La Tua Azienda',
+                    companyAddress: 'Via Esempio 123, 00100 Roma',
+                    companyPhone: '+39 123 456 7890',
+                    companyEmail: 'info@azienda.com',
+                    companyLogo: '',
+                    footerText: 'Grazie per la vostra fiducia! Per informazioni: info@azienda.com | +39 123 456 7890',
+                    primaryColor: '#2563eb',
+                    secondaryColor: '#16a34a',
+                    showLogo: true,
+                    showFooter: true,
+                    defaultValidityDays: 30
+                  });
+                  alert('✅ Impostazioni ripristinate ai valori predefiniti');
+                }}
+                className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+              >
+                🔄 Ripristina Default
+              </button>
+              <button
+                onClick={() => {
+                  // TODO: Salvare in localStorage o Supabase
+                  localStorage.setItem('quoteSettings', JSON.stringify(quoteSettings));
+                  alert('✅ Impostazioni salvate con successo!');
+                }}
+                className="px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium"
+              >
+                💾 Salva Impostazioni
+              </button>
+            </div>
           </div>
         )}
       </div>
