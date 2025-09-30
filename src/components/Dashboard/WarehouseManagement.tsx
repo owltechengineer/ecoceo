@@ -817,6 +817,7 @@ export default function WarehouseManagement() {
   const generateQuoteHTML = async (quoteData: any): Promise<string> => {
     const lang = quoteData.language || 'it';
     
+    // Traduci tutte le etichette
     const translatedLabels = {
       quote: await translateText('Quote', lang),
       client: await translateText('Client', lang),
@@ -834,6 +835,14 @@ export default function WarehouseManagement() {
       validUntil: await translateText('Valid Until', lang),
       notes: await translateText('Notes', lang)
     };
+
+    // Pre-traduci tutte le descrizioni dei prodotti
+    const translatedItems = await Promise.all(
+      quoteData.items.map(async (item: any) => ({
+        ...item,
+        translatedDescription: await translateProductDescription(item.description || '', lang)
+      }))
+    );
 
     const validUntilDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('it-IT');
     
@@ -892,20 +901,15 @@ export default function WarehouseManagement() {
                 </tr>
               </thead>
               <tbody>
-                ${await Promise.all(quoteData.items.map(async (item: any) => {
-                  // Traduce la descrizione del prodotto con LibreTranslate
-                  const translatedDescription = await translateProductDescription(item.description || '', lang);
-                  
-                  return `
-                    <tr>
-                      <td><strong>${item.name}</strong></td>
-                      <td style="font-size: 0.9em; color: #666;">${translatedDescription}</td>
-                      <td>${item.quantity}</td>
-                      <td>€${item.unitPrice.toFixed(2)}</td>
-                      <td><strong>€${item.total.toFixed(2)}</strong></td>
-                    </tr>
-                  `;
-                })).then(rows => rows.join(''))}
+                ${translatedItems.map((item: any) => `
+                  <tr>
+                    <td><strong>${item.name}</strong></td>
+                    <td style="font-size: 0.9em; color: #666;">${item.translatedDescription}</td>
+                    <td>${item.quantity}</td>
+                    <td>€${item.unitPrice.toFixed(2)}</td>
+                    <td><strong>€${item.total.toFixed(2)}</strong></td>
+                  </tr>
+                `).join('')}
               </tbody>
             </table>
             
