@@ -942,55 +942,82 @@ export default function WarehouseManagement() {
                 return (
                   <div
                     key={item.id}
-                    className={`bg-gradient-to-br rounded-xl p-4 shadow-lg border hover:shadow-xl transition-all duration-300 cursor-pointer ${getStockColor(stockStatus)}`}
+                    className={`bg-white rounded-xl shadow-lg border-2 hover:shadow-2xl transition-all duration-300 overflow-hidden ${
+                      stockStatus === 'low' ? 'border-red-300' :
+                      stockStatus === 'high' ? 'border-green-300' :
+                      'border-gray-200'
+                    }`}
                   >
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900 truncate">{item.name}</h3>
-                        <p className="text-sm text-gray-600 truncate">{item.description}</p>
-                        <p className="text-xs text-gray-500 mt-1">SKU: {item.sku}</p>
+                    {/* Immagine Prodotto */}
+                    <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                      {item.imageUrl ? (
+                        <img 
+                          src={item.imageUrl} 
+                          alt={item.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-6xl opacity-50">📦</span>
+                      )}
+                      {/* Badge Categoria */}
+                      <div className="absolute top-2 left-2">
+                        <span className="px-3 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full shadow-lg">
+                          {item.category}
+                        </span>
                       </div>
-                      <span className="text-2xl">📦</span>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium">Quantità:</span>
-                        <span className="text-lg font-bold">{item.quantity} {item.unit}</span>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium">Prezzo:</span>
-                        <span className="text-lg font-bold text-green-600">€{item.price.toFixed(2)}</span>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium">Valore Stock:</span>
-                        <span className="text-sm font-semibold text-blue-600">€{(item.price * item.quantity).toFixed(2)}</span>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium">Posizione:</span>
-                        <span className="text-sm font-mono">{item.location}</span>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium">Stock:</span>
-                        <span className="text-sm">
-                          {getStockIcon(stockStatus)} {stockStatus === 'low' ? 'Basso' : stockStatus === 'high' ? 'Alto' : 'Normale'}
+                      {/* Badge Stock Status */}
+                      <div className="absolute top-2 right-2">
+                        <span className={`px-3 py-1 text-xs font-semibold rounded-full shadow-lg ${
+                          stockStatus === 'low' ? 'bg-red-500 text-white' :
+                          stockStatus === 'high' ? 'bg-green-500 text-white' :
+                          'bg-yellow-500 text-white'
+                        }`}>
+                          {getStockIcon(stockStatus)} {stockStatus === 'low' ? 'Scorte Basse' : stockStatus === 'high' ? 'Disponibile' : 'Normale'}
                         </span>
                       </div>
                     </div>
                     
-                    <div className="mt-4 flex space-x-2">
+                    {/* Contenuto Card */}
+                    <div className="p-4">
+                      {/* Titolo e Descrizione */}
+                      <div className="mb-4">
+                        <h3 className="text-lg font-bold text-gray-900 mb-1 leading-tight">{item.name}</h3>
+                        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">{item.description}</p>
+                        <p className="text-xs text-gray-400 mt-2">SKU: {item.sku}</p>
+                      </div>
+                      
+                      {/* Info Griglia */}
+                      <div className="grid grid-cols-2 gap-3 mb-4">
+                        <div className="bg-gray-50 rounded-lg p-3 text-center">
+                          <p className="text-xs text-gray-500 mb-1">Quantità</p>
+                          <p className="text-xl font-bold text-gray-900">{item.quantity}</p>
+                          <p className="text-xs text-gray-500">{item.unit}</p>
+                        </div>
+                        <div className="bg-green-50 rounded-lg p-3 text-center">
+                          <p className="text-xs text-gray-500 mb-1">Prezzo</p>
+                          <p className="text-xl font-bold text-green-600">€{item.price.toFixed(2)}</p>
+                          <p className="text-xs text-gray-500">unitario</p>
+                        </div>
+                      </div>
+                      
+                      {/* Valore e Posizione */}
+                      <div className="space-y-2 mb-4">
+                        <div className="flex items-center justify-between bg-blue-50 rounded-lg p-2">
+                          <span className="text-xs font-medium text-gray-700">💰 Valore Stock</span>
+                          <span className="text-sm font-bold text-blue-600">€{(item.price * item.quantity).toFixed(2)}</span>
+                        </div>
+                        <div className="flex items-center justify-between bg-purple-50 rounded-lg p-2">
+                          <span className="text-xs font-medium text-gray-700">📍 Posizione</span>
+                          <span className="text-sm font-mono font-semibold text-purple-600">{item.location}</span>
+                        </div>
+                      </div>
+                    
+                      {/* Bottone Aggiungi */}
                       <button
                         onClick={() => handleAddQuoteItem(item)}
-                        className="flex-1 bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors"
+                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-200 shadow-lg"
                       >
-                        ➕ Aggiungi
-                      </button>
-                      <button className="flex-1 bg-gray-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors">
-                        ✏️ Modifica
+                        ➕ Aggiungi al Preventivo
                       </button>
                     </div>
                   </div>
