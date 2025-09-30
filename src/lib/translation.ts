@@ -4,30 +4,70 @@
  * Fallback al dizionario interno in caso di errore
  */
 
-// Dizionario interno come fallback (già implementato)
+// Dizionario interno completo (sempre funzionante, veloce, gratuito)
 const internalDictionary: Record<string, Record<string, string>> = {
   'en': {
     'Laptop': 'Laptop', 'ultrabook': 'ultrabook', 'con': 'with', 'processore': 'processor',
-    'tecnologia': 'technology', 'Monitor': 'Monitor', 'pollici': 'inches',
-    'Tastiera': 'Keyboard', 'Mouse': 'Mouse', 'wireless': 'wireless',
+    'tecnologia': 'technology', 'Monitor': 'Monitor', 'pollici': 'inches', 'da': 'from',
+    'Tastiera': 'Keyboard', 'Mouse': 'Mouse', 'wireless': 'wireless', 'Bluetooth': 'Bluetooth',
     'retroilluminazione': 'backlight', 'ergonomico': 'ergonomic', 'design': 'design',
-    'e': 'and', 'da': 'from', 'a': 'to', 'di': 'of', 'il': 'the', 'la': 'the'
+    'Cuffie': 'Headphones', 'cancellazione': 'cancellation', 'attiva': 'active', 'del': 'of',
+    'rumore': 'noise', 'microfono': 'microphone', 'integrato': 'integrated',
+    'e': 'and', 'a': 'to', 'di': 'of', 'il': 'the', 'la': 'the', 'in': 'in'
   },
   'es': {
-    'Laptop': 'Portátil', 'con': 'con', 'processore': 'procesador',
-    'tecnologia': 'tecnología', 'wireless': 'inalámbrico', 'e': 'y'
+    'Laptop': 'Portátil', 'ultrabook': 'ultrabook', 'con': 'con', 'processore': 'procesador',
+    'tecnologia': 'tecnología', 'Monitor': 'Monitor', 'pollici': 'pulgadas', 'da': 'de',
+    'Tastiera': 'Teclado', 'Mouse': 'Ratón', 'wireless': 'inalámbrico', 'Bluetooth': 'Bluetooth',
+    'retroilluminazione': 'retroiluminación', 'ergonomico': 'ergonómico', 'design': 'diseño',
+    'Cuffie': 'Auriculares', 'cancellazione': 'cancelación', 'attiva': 'activa', 'del': 'del',
+    'rumore': 'ruido', 'microfono': 'micrófono', 'integrato': 'integrado',
+    'e': 'y', 'a': 'a', 'di': 'de', 'il': 'el', 'la': 'la', 'in': 'en'
   },
   'pt': {
-    'Laptop': 'Laptop', 'con': 'com', 'processore': 'processador',
-    'tecnologia': 'tecnologia', 'wireless': 'sem fio', 'e': 'e'
+    'Laptop': 'Laptop', 'ultrabook': 'ultrabook', 'con': 'com', 'processore': 'processador',
+    'tecnologia': 'tecnologia', 'Monitor': 'Monitor', 'pollici': 'polegadas', 'da': 'de',
+    'Tastiera': 'Teclado', 'Mouse': 'Mouse', 'wireless': 'sem fio', 'Bluetooth': 'Bluetooth',
+    'retroilluminazione': 'retroiluminação', 'ergonomico': 'ergonômico', 'design': 'design',
+    'Cuffie': 'Fones de ouvido', 'cancellazione': 'cancelamento', 'attiva': 'ativa', 'del': 'do',
+    'rumore': 'ruído', 'microfono': 'microfone', 'integrato': 'integrado',
+    'e': 'e', 'a': 'para', 'di': 'de', 'il': 'o', 'la': 'a', 'in': 'em'
+  },
+  'fr': {
+    'Laptop': 'Ordinateur portable', 'ultrabook': 'ultrabook', 'con': 'avec', 'processore': 'processeur',
+    'tecnologia': 'technologie', 'Monitor': 'Moniteur', 'pollici': 'pouces', 'da': 'de',
+    'Tastiera': 'Clavier', 'Mouse': 'Souris', 'wireless': 'sans fil', 'Bluetooth': 'Bluetooth',
+    'retroilluminazione': 'rétroéclairage', 'ergonomico': 'ergonomique', 'design': 'design',
+    'Cuffie': 'Casque', 'cancellazione': 'annulation', 'attiva': 'active', 'del': 'du',
+    'rumore': 'bruit', 'microfono': 'microphone', 'integrato': 'intégré',
+    'e': 'et', 'a': 'à', 'di': 'de', 'il': 'le', 'la': 'la', 'in': 'dans'
+  },
+  'de': {
+    'Laptop': 'Laptop', 'ultrabook': 'Ultrabook', 'con': 'mit', 'processore': 'Prozessor',
+    'tecnologia': 'Technologie', 'Monitor': 'Monitor', 'pollici': 'Zoll', 'da': 'von',
+    'Tastiera': 'Tastatur', 'Mouse': 'Maus', 'wireless': 'drahtlos', 'Bluetooth': 'Bluetooth',
+    'retroilluminazione': 'Hintergrundbeleuchtung', 'ergonomico': 'ergonomisch', 'design': 'Design',
+    'Cuffie': 'Kopfhörer', 'cancellazione': 'Löschung', 'attiva': 'aktiv', 'del': 'des',
+    'rumore': 'Geräusch', 'microfono': 'Mikrofon', 'integrato': 'integriert',
+    'e': 'und', 'a': 'zu', 'di': 'von', 'il': 'der', 'la': 'die', 'in': 'in'
   },
   'ru': {
-    'Laptop': 'Ноутбук', 'con': 'с', 'processore': 'процессор',
-    'tecnologia': 'технология', 'wireless': 'беспроводной', 'e': 'и'
+    'Laptop': 'Ноутбук', 'ultrabook': 'ультрабук', 'con': 'с', 'processore': 'процессор',
+    'tecnologia': 'технология', 'Monitor': 'Монитор', 'pollici': 'дюймов', 'da': 'от',
+    'Tastiera': 'Клавиатура', 'Mouse': 'Мышь', 'wireless': 'беспроводной', 'Bluetooth': 'Bluetooth',
+    'retroilluminazione': 'подсветка', 'ergonomico': 'эргономичный', 'design': 'дизайн',
+    'Cuffie': 'Наушники', 'cancellazione': 'шумоподавление', 'attiva': 'активный', 'del': 'из',
+    'rumore': 'шум', 'microfono': 'микрофон', 'integrato': 'встроенный',
+    'e': 'и', 'a': 'в', 'di': 'из', 'il': '', 'la': '', 'in': 'в'
   },
   'zh': {
-    'Laptop': '笔记本电脑', 'con': '与', 'processore': '处理器',
-    'tecnologia': '技术', 'wireless': '无线', 'e': '和'
+    'Laptop': '笔记本电脑', 'ultrabook': '超极本', 'con': '与', 'processore': '处理器',
+    'tecnologia': '技术', 'Monitor': '显示器', 'pollici': '英寸', 'da': '从',
+    'Tastiera': '键盘', 'Mouse': '鼠标', 'wireless': '无线', 'Bluetooth': 'Bluetooth',
+    'retroilluminazione': '背光', 'ergonomico': '人体工程学', 'design': '设计',
+    'Cuffie': '耳机', 'cancellazione': '降噪', 'attiva': '主动', 'del': '的',
+    'rumore': '噪音', 'microfono': '麦克风', 'integrato': '集成',
+    'e': '和', 'a': '到', 'di': '的', 'il': '', 'la': '', 'in': '在'
   }
 };
 
@@ -104,16 +144,22 @@ export const smartTranslate = async (
   if (!text || !text.trim()) return '';
   if (sourceLang === targetLang) return text;
 
+  // Usa dizionario interno come metodo principale (sempre funzionante, veloce, gratuito)
+  // LibreTranslate può essere aggiunto in futuro se serve traduzione più contestuale
+  const translated = translateWithInternalDictionary(text, targetLang);
+  console.log(`✅ Tradotto con Dizionario Interno: ${text.substring(0, 30)}... → ${translated.substring(0, 30)}...`);
+  return translated;
+  
+  /* OPZIONALE: Prova prima LibreTranslate API (commentato per affidabilità)
   try {
-    // Prova con LibreTranslate (gratuito e illimitato)
     const translated = await translateWithLibreTranslate(text, sourceLang, targetLang);
-    console.log(`✅ Tradotto con LibreTranslate: ${text.substring(0, 50)}... → ${translated.substring(0, 50)}...`);
+    console.log(`✅ Tradotto con LibreTranslate API`);
     return translated;
   } catch (error) {
-    // Fallback al dizionario interno
     console.warn('⚠️ LibreTranslate non disponibile, uso dizionario interno');
     return translateWithInternalDictionary(text, targetLang);
   }
+  */
 };
 
 /**

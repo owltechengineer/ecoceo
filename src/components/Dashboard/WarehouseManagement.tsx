@@ -302,30 +302,18 @@ export default function WarehouseManagement() {
     const results: any[] = [];
     
     for (const lang of testLanguages) {
-      try {
-        // Testa con LibreTranslate API
-        const translated = await smartTranslate(testText, lang, 'it');
-        results.push({
-          lang,
-          success: true,
-          method: 'LibreTranslate API',
-          original: testText,
-          translated
-        });
-      } catch (apiError) {
-        // Fallback al dizionario interno
-        const translated = translateProductDescriptionFallback(testText, lang);
-        results.push({
-          lang,
-          success: true,
-          method: 'Dizionario Interno',
-          original: testText,
-          translated
-        });
-      }
+      // Usa smartTranslate che ora usa il dizionario interno (sempre funzionante)
+      const translated = await smartTranslate(testText, lang, 'it');
+      results.push({
+        lang,
+        success: true,
+        method: 'Dizionario Interno (Keyword Translation)',
+        original: testText,
+        translated
+      });
       
-      // Piccola pausa per evitare rate limiting
-      await new Promise(resolve => setTimeout(resolve, 300));
+      // Piccola pausa per UI fluida
+      await new Promise(resolve => setTimeout(resolve, 100));
     }
     
     setTestResults(results);
@@ -1859,11 +1847,7 @@ export default function WarehouseManagement() {
               <div className="space-y-3">
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">📊 Traduzioni in 7 Lingue:</h4>
                 {testResults.map((result, index) => (
-                  <div key={index} className={`rounded-lg p-4 border-2 ${
-                    result.method === 'LibreTranslate API' 
-                      ? 'bg-green-50 border-green-200' 
-                      : 'bg-yellow-50 border-yellow-200'
-                  }`}>
+                  <div key={index} className="rounded-lg p-4 border-2 bg-blue-50 border-blue-200">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center">
                         <span className="text-2xl mr-2">
@@ -1880,12 +1864,8 @@ export default function WarehouseManagement() {
                           <p className="text-xs text-gray-500">{result.method}</p>
                         </div>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        result.method === 'LibreTranslate API' 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {result.method === 'LibreTranslate API' ? '✅ API' : '📚 Dizionario'}
+                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        ⚡ Keyword Translation
                       </span>
                     </div>
                     <p className="text-gray-800 leading-relaxed">{result.translated}</p>
@@ -1902,16 +1882,16 @@ export default function WarehouseManagement() {
                     <p className="text-xs text-gray-600">Lingue Testate</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-green-600">
-                      {testResults.filter(r => r.method === 'LibreTranslate API').length}
+                    <p className="text-2xl font-bold text-blue-600">
+                      {testResults.length}
                     </p>
-                    <p className="text-xs text-gray-600">Via API</p>
+                    <p className="text-xs text-gray-600">Keyword Translation</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-yellow-600">
-                      {testResults.filter(r => r.method === 'Dizionario Interno').length}
+                    <p className="text-2xl font-bold text-green-600">
+                      ⚡
                     </p>
-                    <p className="text-xs text-gray-600">Via Dizionario</p>
+                    <p className="text-xs text-gray-600">Istantanea</p>
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold text-purple-600">100%</p>
