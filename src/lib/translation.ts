@@ -4,6 +4,32 @@
  * Fallback al dizionario interno in caso di errore
  */
 
+// Dizionario base universale (etichette essenziali per TUTTE le lingue)
+const universalLabels: Record<string, Record<string, string>> = {
+  'ar': { 'Quote': 'عرض سعر', 'Client': 'عميل', 'Email': 'بريد إلكتروني', 'Address': 'عنوان', 'Item': 'منتج', 'Description': 'وصف', 'Quantity': 'كمية', 'Unit Price': 'سعر الوحدة', 'Total': 'المجموع', 'Subtotal': 'المجموع الفرعي', 'Final Total': 'المجموع النهائي', 'Valid Until': 'صالح حتى', 'Notes': 'ملاحظات' },
+  'tr': { 'Quote': 'Teklif', 'Client': 'Müşteri', 'Email': 'E-posta', 'Address': 'Adres', 'Item': 'Ürün', 'Description': 'Açıklama', 'Quantity': 'Miktar', 'Unit Price': 'Birim Fiyat', 'Total': 'Toplam', 'Subtotal': 'Ara Toplam', 'Final Total': 'Genel Toplam', 'Valid Until': 'Geçerlilik', 'Notes': 'Notlar' },
+  'ja': { 'Quote': '見積書', 'Client': 'クライアント', 'Email': 'メール', 'Address': '住所', 'Item': '商品', 'Description': '説明', 'Quantity': '数量', 'Unit Price': '単価', 'Total': '合計', 'Subtotal': '小計', 'Final Total': '総計', 'Valid Until': '有効期限', 'Notes': '備考' },
+  'ko': { 'Quote': '견적서', 'Client': '고객', 'Email': '이메일', 'Address': '주소', 'Item': '항목', 'Description': '설명', 'Quantity': '수량', 'Unit Price': '단가', 'Total': '합계', 'Subtotal': '소계', 'Final Total': '총계', 'Valid Until': '유효기간', 'Notes': '비고' },
+  'hi': { 'Quote': 'उद्धरण', 'Client': 'ग्राहक', 'Email': 'ईमेल', 'Address': 'पता', 'Item': 'वस्तु', 'Description': 'विवरण', 'Quantity': 'मात्रा', 'Unit Price': 'इकाई मूल्य', 'Total': 'कुल', 'Subtotal': 'उप-कुल', 'Final Total': 'अंतिम कुल', 'Valid Until': 'वैध तक', 'Notes': 'टिप्पणियाँ' },
+  'th': { 'Quote': 'ใบเสนอราคา', 'Client': 'ลูกค้า', 'Email': 'อีเมล', 'Address': 'ที่อยู่', 'Item': 'รายการ', 'Description': 'รายละเอียด', 'Quantity': 'จำนวน', 'Unit Price': 'ราคาต่อหน่วย', 'Total': 'รวม', 'Subtotal': 'รวมย่อย', 'Final Total': 'รวมทั้งหมด', 'Valid Until': 'ใช้ได้ถึง', 'Notes': 'หมายเหตุ' },
+  'vi': { 'Quote': 'Báo giá', 'Client': 'Khách hàng', 'Email': 'Email', 'Address': 'Địa chỉ', 'Item': 'Mặt hàng', 'Description': 'Mô tả', 'Quantity': 'Số lượng', 'Unit Price': 'Đơn giá', 'Total': 'Tổng', 'Subtotal': 'Tổng phụ', 'Final Total': 'Tổng cộng', 'Valid Until': 'Có hiệu lực đến', 'Notes': 'Ghi chú' },
+  'id': { 'Quote': 'Penawaran', 'Client': 'Klien', 'Email': 'Email', 'Address': 'Alamat', 'Item': 'Item', 'Description': 'Deskripsi', 'Quantity': 'Jumlah', 'Unit Price': 'Harga Satuan', 'Total': 'Total', 'Subtotal': 'Subtotal', 'Final Total': 'Total Akhir', 'Valid Until': 'Berlaku Hingga', 'Notes': 'Catatan' },
+  'nl': { 'Quote': 'Offerte', 'Client': 'Klant', 'Email': 'E-mail', 'Address': 'Adres', 'Item': 'Item', 'Description': 'Beschrijving', 'Quantity': 'Aantal', 'Unit Price': 'Eenheidsprijs', 'Total': 'Totaal', 'Subtotal': 'Subtotaal', 'Final Total': 'Eindtotaal', 'Valid Until': 'Geldig tot', 'Notes': 'Notities' },
+  'pl': { 'Quote': 'Oferta', 'Client': 'Klient', 'Email': 'E-mail', 'Address': 'Adres', 'Item': 'Pozycja', 'Description': 'Opis', 'Quantity': 'Ilość', 'Unit Price': 'Cena jednostkowa', 'Total': 'Suma', 'Subtotal': 'Podsuma', 'Final Total': 'Suma końcowa', 'Valid Until': 'Ważne do', 'Notes': 'Uwagi' },
+  'sv': { 'Quote': 'Offert', 'Client': 'Klient', 'Email': 'E-post', 'Address': 'Adress', 'Item': 'Artikel', 'Description': 'Beskrivning', 'Quantity': 'Antal', 'Unit Price': 'Enhetspris', 'Total': 'Totalt', 'Subtotal': 'Delsumma', 'Final Total': 'Slutsumma', 'Valid Until': 'Giltigt till', 'Notes': 'Anteckningar' },
+  'cs': { 'Quote': 'Nabídka', 'Client': 'Klient', 'Email': 'E-mail', 'Address': 'Adresa', 'Item': 'Položka', 'Description': 'Popis', 'Quantity': 'Množství', 'Unit Price': 'Jednotková cena', 'Total': 'Celkem', 'Subtotal': 'Mezisoučet', 'Final Total': 'Konečný součet', 'Valid Until': 'Platné do', 'Notes': 'Poznámky' },
+  'da': { 'Quote': 'Tilbud', 'Client': 'Klient', 'Email': 'E-mail', 'Address': 'Adresse', 'Item': 'Vare', 'Description': 'Beskrivelse', 'Quantity': 'Antal', 'Unit Price': 'Enhedspris', 'Total': 'Total', 'Subtotal': 'Subtotal', 'Final Total': 'Samlet total', 'Valid Until': 'Gyldig til', 'Notes': 'Noter' },
+  'fi': { 'Quote': 'Tarjous', 'Client': 'Asiakas', 'Email': 'Sähköposti', 'Address': 'Osoite', 'Item': 'Tuote', 'Description': 'Kuvaus', 'Quantity': 'Määrä', 'Unit Price': 'Yksikköhinta', 'Total': 'Yhteensä', 'Subtotal': 'Välisumma', 'Final Total': 'Loppusumma', 'Valid Until': 'Voimassa', 'Notes': 'Huomautukset' },
+  'el': { 'Quote': 'Προσφορά', 'Client': 'Πελάτης', 'Email': 'Email', 'Address': 'Διεύθυνση', 'Item': 'Αντικείμενο', 'Description': 'Περιγραφή', 'Quantity': 'Ποσότητα', 'Unit Price': 'Τιμή μονάδας', 'Total': 'Σύνολο', 'Subtotal': 'Υποσύνολο', 'Final Total': 'Τελικό σύνολο', 'Valid Until': 'Ισχύει μέχρι', 'Notes': 'Σημειώσεις' },
+  'ro': { 'Quote': 'Ofertă', 'Client': 'Client', 'Email': 'Email', 'Address': 'Adresă', 'Item': 'Articol', 'Description': 'Descriere', 'Quantity': 'Cantitate', 'Unit Price': 'Preț unitar', 'Total': 'Total', 'Subtotal': 'Subtotal', 'Final Total': 'Total final', 'Valid Until': 'Valabil până', 'Notes': 'Note' },
+  'hu': { 'Quote': 'Árajánlat', 'Client': 'Ügyfél', 'Email': 'E-mail', 'Address': 'Cím', 'Item': 'Tétel', 'Description': 'Leírás', 'Quantity': 'Mennyiség', 'Unit Price': 'Egységár', 'Total': 'Összesen', 'Subtotal': 'Részösszeg', 'Final Total': 'Végösszeg', 'Valid Until': 'Érvényes', 'Notes': 'Jegyzetek' },
+  'sk': { 'Quote': 'Ponuka', 'Client': 'Klient', 'Email': 'E-mail', 'Address': 'Adresa', 'Item': 'Položka', 'Description': 'Popis', 'Quantity': 'Množstvo', 'Unit Price': 'Jednotková cena', 'Total': 'Spolu', 'Subtotal': 'Medzisúčet', 'Final Total': 'Konečný súčet', 'Valid Until': 'Platné do', 'Notes': 'Poznámky' },
+  'bg': { 'Quote': 'Оферта', 'Client': 'Клиент', 'Email': 'Имейл', 'Address': 'Адрес', 'Item': 'Артикул', 'Description': 'Описание', 'Quantity': 'Количество', 'Unit Price': 'Единична цена', 'Total': 'Общо', 'Subtotal': 'Междинна сума', 'Final Total': 'Крайна сума', 'Valid Until': 'Валиден до', 'Notes': 'Бележки' },
+  'uk': { 'Quote': 'Пропозиція', 'Client': 'Клієнт', 'Email': 'Електронна пошта', 'Address': 'Адреса', 'Item': 'Товар', 'Description': 'Опис', 'Quantity': 'Кількість', 'Unit Price': 'Ціна за одиницю', 'Total': 'Всього', 'Subtotal': 'Проміжний підсумок', 'Final Total': 'Підсумок', 'Valid Until': 'Дійсний до', 'Notes': 'Примітки' },
+  'he': { 'Quote': 'הצעת מחיר', 'Client': 'לקוח', 'Email': 'אימייל', 'Address': 'כתובת', 'Item': 'פריט', 'Description': 'תיאור', 'Quantity': 'כמות', 'Unit Price': 'מחיר יחידה', 'Total': 'סה״כ', 'Subtotal': 'סכום ביניים', 'Final Total': 'סכום סופי', 'Valid Until': 'בתוקף עד', 'Notes': 'הערות' },
+  'fa': { 'Quote': 'پیشنهاد قیمت', 'Client': 'مشتری', 'Email': 'ایمیل', 'Address': 'آدرس', 'Item': 'کالا', 'Description': 'توضیحات', 'Quantity': 'تعداد', 'Unit Price': 'قیمت واحد', 'Total': 'جمع', 'Subtotal': 'جمع فرعی', 'Final Total': 'جمع کل', 'Valid Until': 'معتبر تا', 'Notes': 'یادداشت‌ها' }
+};
+
 // Dizionario interno completo (sempre funzionante, veloce, gratuito)
 const internalDictionary: Record<string, Record<string, string>> = {
   'en': {
@@ -188,10 +214,21 @@ const translateWithInternalDictionary = (
   if (targetLang === 'it') return text;
   
   let translated = text;
+  
+  // Prima controlla le etichette universali (per tutte le lingue)
+  const universalDict = universalLabels[targetLang] || {};
+  if (universalDict[text]) {
+    return universalDict[text];
+  }
+  
+  // Poi usa il dizionario specifico per la lingua (se esiste)
   const langDict = internalDictionary[targetLang] || {};
   
+  // Combina dizionari: universale + specifico lingua
+  const combinedDict = { ...universalDict, ...langDict };
+  
   // Ordina per lunghezza decrescente per evitare sostituzioni parziali
-  const sortedEntries = Object.entries(langDict).sort((a, b) => b[0].length - a[0].length);
+  const sortedEntries = Object.entries(combinedDict).sort((a, b) => b[0].length - a[0].length);
   
   sortedEntries.forEach(([italian, foreign]) => {
     const regex = new RegExp(`\\b${italian}\\b`, 'gi');
