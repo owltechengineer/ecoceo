@@ -280,8 +280,6 @@ export default function WarehouseManagement() {
   };
 
   // Funzione per ottenere le categorie uniche
-  const categories = ['Tutti', 'Elettronica', 'Accessori', 'Software', 'Servizi'] as const;
-  
   const getUniqueCategories = () => {
     return categories.filter(cat => cat !== 'Tutti');
   };
