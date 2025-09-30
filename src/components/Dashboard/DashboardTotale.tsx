@@ -787,42 +787,68 @@ export default function DashboardTotale() {
               </div>
             </div>
             
-            <div className="space-y-4">
+            <div className="space-y-2">
               {quickTasks.slice(0, 4).map((task) => (
-                <div key={task.id} className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border border-green-100 hover:shadow-md transition-all duration-200">
-                  <div className="flex items-start">
-                    <div className="p-2 bg-green-100 rounded-lg mr-4 flex-shrink-0">
-                      <span className="text-lg">
-                        {quickTaskTypes.find(t => t.id === task.type)?.icon || '📝'}
-                      </span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-gray-900 text-base leading-tight">{task.title}</h3>
-                        <span className="text-sm font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">
-                          {new Date(task.created_at).toLocaleDateString('it-IT')}
+                <div key={task.id} className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-3 border border-green-100 hover:shadow-md transition-all duration-200">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center flex-1 min-w-0">
+                      <div className="p-1.5 bg-green-100 rounded-lg mr-3 flex-shrink-0">
+                        <span className="text-base">
+                          {quickTaskTypes.find(t => t.id === task.type)?.icon || '📝'}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-700 mb-3 leading-relaxed">{task.description}</p>
-                      <div className="flex flex-wrap gap-2">
-                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                          task.priority === 'high' ? 'bg-red-100 text-red-800' :
-                          task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-green-100 text-green-800'
-                        }`}>
-                          {task.priority === 'high' ? '🔴 Alta' :
-                           task.priority === 'medium' ? '🟡 Media' : '🟢 Bassa'}
-                        </span>
-                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                          task.status === 'completed' ? 'bg-green-100 text-green-800' :
-                          task.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
-                          'bg-gray-100 text-gray-800'
-                        }`}>
-                          {task.status === 'completed' ? '✅ Completato' :
-                           task.status === 'in_progress' ? '🔄 In corso' : '⏳ In attesa'}
-                        </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-1">
+                          <h3 className="font-semibold text-gray-900 text-sm leading-tight truncate">{task.title}</h3>
+                        </div>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                            task.priority === 'high' ? 'bg-red-100 text-red-800' :
+                            task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-green-100 text-green-800'
+                          }`}>
+                            {task.priority === 'high' ? '🔴' :
+                             task.priority === 'medium' ? '🟡' : '🟢'}
+                          </span>
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                            task.status === 'completed' ? 'bg-green-100 text-green-800' :
+                            task.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
+                            'bg-gray-100 text-gray-800'
+                          }`}>
+                            {task.status === 'completed' ? '✅' :
+                             task.status === 'in_progress' ? '🔄' : '⏳'}
+                          </span>
+                          {task.stakeholder && (
+                            <span className="text-xs text-gray-600 truncate">
+                              👤 {task.stakeholder}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
+                    {task.status !== 'completed' && (
+                      <button
+                        onClick={async () => {
+                          try {
+                            const { error } = await supabase
+                              .from('quick_tasks')
+                              .update({ status: 'completed', completed_at: new Date().toISOString() })
+                              .eq('id', task.id);
+                            
+                            if (error) throw error;
+                            loadQuickTasks();
+                            alert('Task completato!');
+                          } catch (error) {
+                            console.error('Errore completamento task:', error);
+                            alert('Errore nel completamento del task');
+                          }
+                        }}
+                        className="ml-3 p-1.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex-shrink-0"
+                        title="Completa task"
+                      >
+                        <span className="text-sm">✓</span>
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
