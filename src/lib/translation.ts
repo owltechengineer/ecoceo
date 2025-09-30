@@ -309,3 +309,10 @@ export const languageCodes = {
 } as const;
 
 export type SupportedLanguage = keyof typeof languageCodes;
+
+/**
+ * Esporta la funzione di traduzione con dizionario interno per uso diretto
+ */
+export const translateWithDictionary = (text: string, targetLang: string): string => {
+  return translateWithInternalDictionary(text, targetLang);
+};

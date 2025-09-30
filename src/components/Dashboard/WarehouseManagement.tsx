@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { smartTranslate } from '@/lib/translation';
+import { smartTranslate, translateWithDictionary } from '@/lib/translation';
 
 interface WarehouseItem {
   id: string;
@@ -595,30 +595,8 @@ export default function WarehouseManagement() {
   const [showTranslationTest, setShowTranslationTest] = useState(false);
   const [testResults, setTestResults] = useState<any[]>([]);
   
-  // Pre-traduci le descrizioni quando cambia la lingua
-  useEffect(() => {
-    const preTranslateDescriptions = async () => {
-      if (!currentQuote.language || currentQuote.language === 'it') {
-        setTranslatedDescriptions({});
-        return;
-      }
-      
-      const translations: Record<string, string> = {};
-      for (const item of quoteItems) {
-        const key = `${item.description}-${currentQuote.language}`;
-        if (!translationCache[key]) {
-          const translated = await translateProductDescription(item.description || '', currentQuote.language);
-          translations[key] = translated;
-        }
-      }
-      
-      setTranslatedDescriptions(prev => ({ ...prev, ...translations }));
-    };
-    
-    if (quoteItems.length > 0 && currentQuote.language) {
-      preTranslateDescriptions();
-    }
-  }, [currentQuote.language, quoteItems]);
+  // Le traduzioni avvengono in tempo reale tramite translateWithDictionary()
+  // Non serve più pre-traduzione con useEffect
   
   const translateProductDescription = async (description: string, targetLanguage: string): Promise<string> => {
     if (!description) return '';
@@ -1612,8 +1590,8 @@ export default function WarehouseManagement() {
                       <div key={item.id} className="bg-gray-50 rounded-lg p-3">
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
-                            <h5 className="font-medium text-gray-900">{item.name}</h5>
-                            <p className="text-xs text-gray-500 mb-1">{translateProductDescriptionFallback(item.description || '', currentQuote.language || 'it')}</p>
+                            <h5 className="font-medium text-gray-900">{translateWithDictionary(item.name || '', currentQuote.language || 'it')}</h5>
+                            <p className="text-xs text-gray-500 mb-1">{translateWithDictionary(item.description || '', currentQuote.language || 'it')}</p>
                             <p className="text-sm text-gray-600">€{item.unitPrice.toFixed(2)} x {item.quantity}</p>
                           </div>
                           <div className="flex items-center space-x-2">
@@ -1736,7 +1714,7 @@ export default function WarehouseManagement() {
                           <div className="flex items-center justify-between">
                             <div className="flex-1">
                               <h5 className="font-medium text-gray-900">{item.name}</h5>
-                              <p className="text-xs text-gray-500 mb-1">{translateProductDescriptionFallback(item.description || '', currentQuote.language || 'it')}</p>
+                              <p className="text-xs text-gray-500 mb-1">{translateWithDictionary(item.description || '', currentQuote.language || 'it')}</p>
                               <p className="text-sm text-gray-600">€{item.unitPrice.toFixed(2)} x {item.quantity}</p>
                             </div>
                             <div className="flex items-center space-x-4">
