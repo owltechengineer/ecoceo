@@ -380,10 +380,20 @@ export default function WarehouseManagement() {
     return calculateQuoteSubtotal() + calculateQuoteTax();
   };
 
-  // Funzione per tradurre automaticamente i testi e descrizioni prodotti
+  // Funzione per tradurre automaticamente i testi usando LibreTranslate
   const translateText = async (text: string, targetLanguage: string): Promise<string> => {
     try {
-      // Simulazione traduzione automatica (in produzione useresti un servizio come Google Translate API)
+      // Prima prova con LibreTranslate API
+      if (targetLanguage !== 'it') {
+        try {
+          const translated = await smartTranslate(text, targetLanguage, 'it');
+          return translated;
+        } catch (apiError) {
+          console.warn('LibreTranslate API non disponibile, uso dizionario interno');
+        }
+      }
+      
+      // Fallback al dizionario interno per etichette comuni
       const translations: Record<string, Record<string, string>> = {
         'it': {
           'Quote': 'Preventivo',
@@ -549,6 +559,7 @@ export default function WarehouseManagement() {
   // Cache per traduzioni (evita chiamate API duplicate)
   const [translationCache, setTranslationCache] = useState<Record<string, string>>({});
   const [translatedDescriptions, setTranslatedDescriptions] = useState<Record<string, string>>({});
+  const [isTranslating, setIsTranslating] = useState(false);
   
   const translateProductDescription = async (description: string, targetLanguage: string): Promise<string> => {
     if (!description) return '';
@@ -894,9 +905,10 @@ export default function WarehouseManagement() {
     `;
   };
 
-  // Funzione per generare PDF
+  // Funzione per generare PDF con traduzione
   const generatePDF = async () => {
     try {
+      setIsTranslating(true);
       const quoteData = {
         ...currentQuote,
         items: quoteItems,
@@ -942,18 +954,21 @@ export default function WarehouseManagement() {
         validUntil: '',
         notes: ''
       });
-      setShowNewQuote(false);
+      setShowQuoteEditor(false);
       
-      alert(`PDF generato per ${quoteData.clientName}!\nTotale: €${quoteData.total.toFixed(2)}`);
+      alert(`✅ PDF generato in ${currentQuote.language?.toUpperCase()}!\nCliente: ${quoteData.clientName}\nTotale: €${quoteData.total.toFixed(2)}`);
     } catch (error) {
       console.error('Errore generazione PDF:', error);
       alert('Errore nella generazione del PDF');
+    } finally {
+      setIsTranslating(false);
     }
   };
 
-  // Funzione per generare immagine del preventivo
+  // Funzione per generare immagine del preventivo con traduzione
   const generateImage = async () => {
     try {
+      setIsTranslating(true);
       const quoteData = {
         ...currentQuote,
         items: quoteItems,
@@ -1010,10 +1025,12 @@ export default function WarehouseManagement() {
       // Rimuovi elemento temporaneo
       document.body.removeChild(tempDiv);
       
-      alert(`Immagine generata per ${quoteData.clientName}!\nTotale: €${quoteData.total.toFixed(2)}`);
+      alert(`✅ Immagine generata in ${currentQuote.language?.toUpperCase()}!\nCliente: ${quoteData.clientName}\nTotale: €${quoteData.total.toFixed(2)}`);
     } catch (error) {
       console.error('Errore generazione immagine:', error);
       alert('Errore nella generazione dell\'immagine');
+    } finally {
+      setIsTranslating(false);
     }
   };
 
@@ -1441,21 +1458,55 @@ export default function WarehouseManagement() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Lingua</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Lingua Preventivo</label>
                   <select 
                     value={currentQuote.language || 'it'}
                     onChange={(e) => setCurrentQuote({...currentQuote, language: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                   >
-                    <option value="it">🇮🇹 Italiano</option>
-                    <option value="en">🇬🇧 English</option>
-                    <option value="fr">🇫🇷 Français</option>
-                    <option value="de">🇩🇪 Deutsch</option>
-                    <option value="es">🇪🇸 Español</option>
-                    <option value="pt">🇵🇹 Português</option>
-                    <option value="ru">🇷🇺 Русский</option>
-                    <option value="zh">🇨🇳 中文</option>
+                    <optgroup label="🌍 Europee">
+                      <option value="it">🇮🇹 Italiano</option>
+                      <option value="en">🇬🇧 English</option>
+                      <option value="fr">🇫🇷 Français</option>
+                      <option value="de">🇩🇪 Deutsch</option>
+                      <option value="es">🇪🇸 Español</option>
+                      <option value="pt">🇵🇹 Português</option>
+                      <option value="nl">🇳🇱 Nederlands</option>
+                      <option value="pl">🇵🇱 Polski</option>
+                      <option value="cs">🇨🇿 Čeština</option>
+                      <option value="sv">🇸🇪 Svenska</option>
+                      <option value="da">🇩🇰 Dansk</option>
+                      <option value="fi">🇫🇮 Suomi</option>
+                      <option value="el">🇬🇷 Ελληνικά</option>
+                      <option value="ro">🇷🇴 Română</option>
+                      <option value="hu">🇭🇺 Magyar</option>
+                      <option value="sk">🇸🇰 Slovenčina</option>
+                      <option value="bg">🇧🇬 Български</option>
+                      <option value="uk">🇺🇦 Українська</option>
+                    </optgroup>
+                    <optgroup label="🌏 Asiatiche">
+                      <option value="ru">🇷🇺 Русский</option>
+                      <option value="zh">🇨🇳 中文</option>
+                      <option value="ja">🇯🇵 日本語</option>
+                      <option value="ko">🇰🇷 한국어</option>
+                      <option value="hi">🇮🇳 हिन्दी</option>
+                      <option value="id">🇮🇩 Indonesia</option>
+                      <option value="th">🇹🇭 ไทย</option>
+                      <option value="vi">🇻🇳 Tiếng Việt</option>
+                    </optgroup>
+                    <optgroup label="🌎 Americane">
+                      <option value="en">🇺🇸 English (US)</option>
+                    </optgroup>
+                    <optgroup label="🌍 Altre">
+                      <option value="ar">🇦🇪 العربية</option>
+                      <option value="tr">🇹🇷 Türkçe</option>
+                      <option value="he">🇮🇱 עברית</option>
+                      <option value="fa">🇮🇷 فارسی</option>
+                    </optgroup>
                   </select>
+                  <p className="text-xs text-gray-500 mt-1">
+                    ✨ Traduzione automatica via LibreTranslate (gratuita)
+                  </p>
                 </div>
               </div>
               
@@ -1540,17 +1591,17 @@ export default function WarehouseManagement() {
               </button>
               <button 
                 onClick={generatePDF}
-                disabled={quoteItems.length === 0 || !currentQuote.clientName}
+                disabled={quoteItems.length === 0 || !currentQuote.clientName || isTranslating}
                 className="flex-1 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                📄 Genera PDF
+                {isTranslating ? '🔄 Traduzione...' : '📄 Genera PDF'}
               </button>
               <button 
                 onClick={generateImage}
-                disabled={quoteItems.length === 0 || !currentQuote.clientName}
+                disabled={quoteItems.length === 0 || !currentQuote.clientName || isTranslating}
                 className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                🖼️ Genera Immagine
+                {isTranslating ? '🔄 Traduzione...' : '🖼️ Genera Immagine'}
               </button>
             </div>
           </div>
