@@ -459,6 +459,82 @@ export default function WarehouseManagement() {
           'Notes': 'Notizen',
           'Generate PDF': 'PDF Erstellen',
           'Generate Image': 'Bild Erstellen'
+        },
+        'es': {
+          'Quote': 'Presupuesto',
+          'Client': 'Cliente',
+          'Email': 'Email',
+          'Address': 'Dirección',
+          'Items': 'Artículos',
+          'Item': 'Artículo',
+          'Description': 'Descripción',
+          'Quantity': 'Cantidad',
+          'Unit Price': 'Precio Unitario',
+          'Total': 'Total',
+          'Subtotal': 'Subtotal',
+          'Tax': 'IVA',
+          'Final Total': 'Total Final',
+          'Valid Until': 'Válido Hasta',
+          'Notes': 'Notas',
+          'Generate PDF': 'Generar PDF',
+          'Generate Image': 'Generar Imagen'
+        },
+        'pt': {
+          'Quote': 'Orçamento',
+          'Client': 'Cliente',
+          'Email': 'Email',
+          'Address': 'Endereço',
+          'Items': 'Itens',
+          'Item': 'Item',
+          'Description': 'Descrição',
+          'Quantity': 'Quantidade',
+          'Unit Price': 'Preço Unitário',
+          'Total': 'Total',
+          'Subtotal': 'Subtotal',
+          'Tax': 'IVA',
+          'Final Total': 'Total Final',
+          'Valid Until': 'Válido Até',
+          'Notes': 'Notas',
+          'Generate PDF': 'Gerar PDF',
+          'Generate Image': 'Gerar Imagem'
+        },
+        'ru': {
+          'Quote': 'Предложение',
+          'Client': 'Клиент',
+          'Email': 'Email',
+          'Address': 'Адрес',
+          'Items': 'Товары',
+          'Item': 'Товар',
+          'Description': 'Описание',
+          'Quantity': 'Количество',
+          'Unit Price': 'Цена за единицу',
+          'Total': 'Итого',
+          'Subtotal': 'Промежуточный итог',
+          'Tax': 'НДС',
+          'Final Total': 'Окончательный итог',
+          'Valid Until': 'Действителен до',
+          'Notes': 'Примечания',
+          'Generate PDF': 'Создать PDF',
+          'Generate Image': 'Создать изображение'
+        },
+        'zh': {
+          'Quote': '报价单',
+          'Client': '客户',
+          'Email': '电子邮件',
+          'Address': '地址',
+          'Items': '项目',
+          'Item': '项目',
+          'Description': '描述',
+          'Quantity': '数量',
+          'Unit Price': '单价',
+          'Total': '总计',
+          'Subtotal': '小计',
+          'Tax': '税费',
+          'Final Total': '最终总计',
+          'Valid Until': '有效期至',
+          'Notes': '备注',
+          'Generate PDF': '生成PDF',
+          'Generate Image': '生成图片'
         }
       };
 
@@ -471,70 +547,181 @@ export default function WarehouseManagement() {
 
   // Funzione per tradurre le descrizioni dei prodotti
   const translateProductDescription = (description: string, targetLanguage: string): string => {
+    if (!description) return '';
     if (targetLanguage === 'it') return description;
     
-    // Traduzioni semplificate delle parole chiave comuni
+    // Dizionario completo di traduzioni per parole chiave comuni
     const productTranslations: Record<string, Record<string, string>> = {
       'en': {
-        'con': 'with',
-        'processore': 'processor',
-        'tecnologia': 'technology',
-        'design': 'design',
-        'wireless': 'wireless',
-        'retroilluminazione': 'backlight',
-        'ergonomico': 'ergonomic',
-        'pacchetto': 'package',
-        'suite': 'suite',
-        'licenza': 'license',
-        'annuale': 'annual',
-        'consulenza': 'consulting',
-        'personalizzata': 'customized',
-        'strategia': 'strategy',
-        'digitale': 'digital',
-        'completa': 'complete'
+        'Laptop': 'Laptop', 'ultrabook': 'ultrabook', 'con': 'with', 'processore': 'processor',
+        'tecnologia': 'technology', 'Monitor': 'Monitor', 'pollici': 'inches',
+        'Tastiera': 'Keyboard', 'Mouse': 'Mouse', 'wireless': 'wireless',
+        'retroilluminazione': 'backlight', 'ergonomico': 'ergonomic', 'design': 'design',
+        'Cuffie': 'Headphones', 'cancellazione': 'cancellation', 'rumore': 'noise',
+        'Webcam': 'Webcam', 'Full': 'Full', 'HD': 'HD', 'microfono': 'microphone',
+        'integrato': 'integrated', 'Stampante': 'Printer', 'laser': 'laser',
+        'multifunzione': 'multifunction', 'stampa': 'print', 'scansione': 'scan',
+        'copia': 'copy', 'Hub': 'Hub', 'USB': 'USB', 'porte': 'ports',
+        'Cavetti': 'Cables', 'HDMI': 'HDMI', 'metri': 'meters', 'qualità': 'quality',
+        'premium': 'premium', 'Supporto': 'Stand', 'notebook': 'notebook',
+        'regolabile': 'adjustable', 'altezza': 'height', 'Zaino': 'Backpack',
+        'porta': 'laptop', 'scomparto': 'compartment', 'imbottito': 'padded',
+        'Pacchetto': 'Package', 'Office': 'Office', 'suite': 'suite', 'licenza': 'license',
+        'utente': 'user', 'Antivirus': 'Antivirus', 'Protezione': 'Protection',
+        'completa': 'complete', 'contro': 'against', 'malware': 'malware', 'phishing': 'phishing',
+        'Consulenza': 'Consulting', 'personalizzata': 'customized', 'strategia': 'strategy',
+        'digitale': 'digital', 'Social': 'Social', 'Media': 'Media', 'Management': 'Management',
+        'gestione': 'management', 'creazione': 'creation', 'contenuti': 'content',
+        'SEO': 'SEO', 'Ottimizzazione': 'Optimization', 'per': 'for', 'motori': 'engines',
+        'ricerca': 'search', 'analisi': 'analysis', 'parole': 'keywords', 'chiave': 'key',
+        'e': 'and', 'da': 'from', 'a': 'to', 'di': 'of', 'il': 'the', 'la': 'the',
+        'in': 'in', 'su': 'on', 'del': 'of the', 'della': 'of the'
       },
       'fr': {
-        'con': 'avec',
-        'processore': 'processeur',
-        'tecnologia': 'technologie',
-        'design': 'design',
-        'wireless': 'sans fil',
-        'retroilluminazione': 'rétroéclairage',
-        'ergonomico': 'ergonomique',
-        'pacchetto': 'paquet',
-        'suite': 'suite',
-        'licenza': 'licence',
-        'annuale': 'annuel',
-        'consulenza': 'conseil',
-        'personalizzata': 'personnalisé',
-        'strategia': 'stratégie',
-        'digitale': 'numérique',
-        'completa': 'complet'
+        'Laptop': 'Ordinateur portable', 'ultrabook': 'ultrabook', 'con': 'avec', 'processore': 'processeur',
+        'tecnologia': 'technologie', 'Monitor': 'Moniteur', 'pollici': 'pouces',
+        'Tastiera': 'Clavier', 'Mouse': 'Souris', 'wireless': 'sans fil',
+        'retroilluminazione': 'rétroéclairage', 'ergonomico': 'ergonomique', 'design': 'design',
+        'Cuffie': 'Casque', 'cancellazione': 'annulation', 'rumore': 'bruit',
+        'Webcam': 'Webcam', 'Full': 'Full', 'HD': 'HD', 'microfono': 'microphone',
+        'integrato': 'intégré', 'Stampante': 'Imprimante', 'laser': 'laser',
+        'multifunzione': 'multifonction', 'stampa': 'impression', 'scansione': 'numérisation',
+        'copia': 'copie', 'Hub': 'Hub', 'USB': 'USB', 'porte': 'ports',
+        'Cavetti': 'Câbles', 'HDMI': 'HDMI', 'metri': 'mètres', 'qualità': 'qualité',
+        'premium': 'premium', 'Supporto': 'Support', 'notebook': 'ordinateur portable',
+        'regolabile': 'réglable', 'altezza': 'hauteur', 'Zaino': 'Sac à dos',
+        'porta': 'ordinateur portable', 'scomparto': 'compartiment', 'imbottito': 'rembourré',
+        'Pacchetto': 'Package', 'Office': 'Office', 'suite': 'suite', 'licenza': 'licence',
+        'utente': 'utilisateur', 'Antivirus': 'Antivirus', 'Protezione': 'Protection',
+        'completa': 'complète', 'contro': 'contre', 'malware': 'malware', 'phishing': 'phishing',
+        'Consulenza': 'Conseil', 'personalizzata': 'personnalisé', 'strategia': 'stratégie',
+        'digitale': 'numérique', 'Social': 'Réseaux', 'Media': 'Sociaux', 'Management': 'Gestion',
+        'gestione': 'gestion', 'creazione': 'création', 'contenuti': 'contenu',
+        'SEO': 'SEO', 'Ottimizzazione': 'Optimisation', 'per': 'pour', 'motori': 'moteurs',
+        'ricerca': 'recherche', 'analisi': 'analyse', 'parole': 'mots', 'chiave': 'clés',
+        'e': 'et', 'da': 'de', 'a': 'à', 'di': 'de', 'il': 'le', 'la': 'la',
+        'in': 'dans', 'su': 'sur', 'del': 'du', 'della': 'de la'
       },
       'de': {
-        'con': 'mit',
-        'processore': 'Prozessor',
-        'tecnologia': 'Technologie',
-        'design': 'Design',
-        'wireless': 'drahtlos',
-        'retroilluminazione': 'Hintergrundbeleuchtung',
-        'ergonomico': 'ergonomisch',
-        'pacchetto': 'Paket',
-        'suite': 'Suite',
-        'licenza': 'Lizenz',
-        'annuale': 'jährlich',
-        'consulenza': 'Beratung',
-        'personalizzata': 'maßgeschneidert',
-        'strategia': 'Strategie',
-        'digitale': 'digital',
-        'completa': 'vollständig'
+        'Laptop': 'Laptop', 'ultrabook': 'Ultrabook', 'con': 'mit', 'processore': 'Prozessor',
+        'tecnologia': 'Technologie', 'Monitor': 'Monitor', 'pollici': 'Zoll',
+        'Tastiera': 'Tastatur', 'Mouse': 'Maus', 'wireless': 'drahtlos',
+        'retroilluminazione': 'Hintergrundbeleuchtung', 'ergonomico': 'ergonomisch', 'design': 'Design',
+        'Cuffie': 'Kopfhörer', 'cancellazione': 'Stornierung', 'rumore': 'Geräusch',
+        'Webcam': 'Webcam', 'Full': 'Full', 'HD': 'HD', 'microfono': 'Mikrofon',
+        'integrato': 'integriert', 'Stampante': 'Drucker', 'laser': 'Laser',
+        'multifunzione': 'Multifunktion', 'stampa': 'Druck', 'scansione': 'Scannen',
+        'copia': 'Kopie', 'Hub': 'Hub', 'USB': 'USB', 'porte': 'Anschlüsse',
+        'Cavetti': 'Kabel', 'HDMI': 'HDMI', 'metri': 'Meter', 'qualità': 'Qualität',
+        'premium': 'Premium', 'Supporto': 'Ständer', 'notebook': 'Notebook',
+        'regolabile': 'verstellbar', 'altezza': 'Höhe', 'Zaino': 'Rucksack',
+        'porta': 'Laptop', 'scomparto': 'Fach', 'imbottito': 'gepolstert',
+        'Pacchetto': 'Paket', 'Office': 'Office', 'suite': 'Suite', 'licenza': 'Lizenz',
+        'utente': 'Benutzer', 'Antivirus': 'Antivirus', 'Protezione': 'Schutz',
+        'completa': 'vollständig', 'contro': 'gegen', 'malware': 'Malware', 'phishing': 'Phishing',
+        'Consulenza': 'Beratung', 'personalizzata': 'maßgeschneidert', 'strategia': 'Strategie',
+        'digitale': 'digital', 'Social': 'Social', 'Media': 'Media', 'Management': 'Management',
+        'gestione': 'Verwaltung', 'creazione': 'Erstellung', 'contenuti': 'Inhalte',
+        'SEO': 'SEO', 'Ottimizzazione': 'Optimierung', 'per': 'für', 'motori': 'Suchmaschinen',
+        'ricerca': 'Suche', 'analisi': 'Analyse', 'parole': 'Schlüsselwörter', 'chiave': 'Schlüssel',
+        'e': 'und', 'da': 'von', 'a': 'zu', 'di': 'von', 'il': 'der', 'la': 'die',
+        'in': 'in', 'su': 'auf', 'del': 'des', 'della': 'der'
+      },
+      'es': {
+        'Laptop': 'Portátil', 'ultrabook': 'ultrabook', 'con': 'con', 'processore': 'procesador',
+        'tecnologia': 'tecnología', 'Monitor': 'Monitor', 'pollici': 'pulgadas',
+        'Tastiera': 'Teclado', 'Mouse': 'Ratón', 'wireless': 'inalámbrico',
+        'retroilluminazione': 'retroiluminación', 'ergonomico': 'ergonómico', 'design': 'diseño',
+        'Cuffie': 'Auriculares', 'cancellazione': 'cancelación', 'rumore': 'ruido',
+        'Webcam': 'Cámara web', 'Full': 'Full', 'HD': 'HD', 'microfono': 'micrófono',
+        'integrato': 'integrado', 'Stampante': 'Impresora', 'laser': 'láser',
+        'multifunzione': 'multifunción', 'stampa': 'impresión', 'scansione': 'escaneo',
+        'copia': 'copia', 'Hub': 'Hub', 'USB': 'USB', 'porte': 'puertos',
+        'Cavetti': 'Cables', 'HDMI': 'HDMI', 'metri': 'metros', 'qualità': 'calidad',
+        'premium': 'premium', 'Supporto': 'Soporte', 'notebook': 'portátil',
+        'regolabile': 'ajustable', 'altezza': 'altura', 'Zaino': 'Mochila',
+        'porta': 'portátil', 'scomparto': 'compartimento', 'imbottito': 'acolchado',
+        'Pacchetto': 'Paquete', 'Office': 'Office', 'suite': 'suite', 'licenza': 'licencia',
+        'utente': 'usuario', 'Antivirus': 'Antivirus', 'Protezione': 'Protección',
+        'completa': 'completa', 'contro': 'contra', 'malware': 'malware', 'phishing': 'phishing',
+        'Consulenza': 'Consultoría', 'personalizzata': 'personalizada', 'strategia': 'estrategia',
+        'digitale': 'digital', 'Social': 'Redes', 'Media': 'Sociales', 'Management': 'Gestión',
+        'gestione': 'gestión', 'creazione': 'creación', 'contenuti': 'contenido',
+        'SEO': 'SEO', 'Ottimizzazione': 'Optimización', 'per': 'para', 'motori': 'motores',
+        'ricerca': 'búsqueda', 'analisi': 'análisis', 'parole': 'palabras', 'chiave': 'clave',
+        'e': 'y', 'da': 'de', 'a': 'a', 'di': 'de', 'il': 'el', 'la': 'la',
+        'in': 'en', 'su': 'sobre', 'del': 'del', 'della': 'de la'
+      },
+      'pt': {
+        'Laptop': 'Laptop', 'ultrabook': 'ultrabook', 'con': 'com', 'processore': 'processador',
+        'tecnologia': 'tecnologia', 'Monitor': 'Monitor', 'pollici': 'polegadas',
+        'Tastiera': 'Teclado', 'Mouse': 'Mouse', 'wireless': 'sem fio',
+        'retroilluminazione': 'retroiluminação', 'ergonomico': 'ergonômico', 'design': 'design',
+        'Cuffie': 'Fones de ouvido', 'cancellazione': 'cancelamento', 'rumore': 'ruído',
+        'Webcam': 'Webcam', 'Full': 'Full', 'HD': 'HD', 'microfono': 'microfone',
+        'integrato': 'integrado', 'Stampante': 'Impressora', 'laser': 'laser',
+        'multifunzione': 'multifuncional', 'stampa': 'impressão', 'scansione': 'digitalização',
+        'copia': 'cópia', 'Hub': 'Hub', 'USB': 'USB', 'porte': 'portas',
+        'Cavetti': 'Cabos', 'HDMI': 'HDMI', 'metri': 'metros', 'qualità': 'qualidade',
+        'premium': 'premium', 'Supporto': 'Suporte', 'notebook': 'notebook',
+        'regolabile': 'ajustável', 'altezza': 'altura', 'Zaino': 'Mochila',
+        'porta': 'laptop', 'scomparto': 'compartimento', 'imbottito': 'acolchoado',
+        'Pacchetto': 'Pacote', 'Office': 'Office', 'suite': 'suite', 'licenza': 'licença',
+        'utente': 'usuário', 'Antivirus': 'Antivírus', 'Protezione': 'Proteção',
+        'completa': 'completa', 'contro': 'contra', 'malware': 'malware', 'phishing': 'phishing',
+        'Consulenza': 'Consultoria', 'personalizzata': 'personalizada', 'strategia': 'estratégia',
+        'digitale': 'digital', 'Social': 'Mídias', 'Media': 'Sociais', 'Management': 'Gestão',
+        'gestione': 'gestão', 'creazione': 'criação', 'contenuti': 'conteúdo',
+        'SEO': 'SEO', 'Ottimizzazione': 'Otimização', 'per': 'para', 'motori': 'motores',
+        'ricerca': 'pesquisa', 'analisi': 'análise', 'parole': 'palavras', 'chiave': 'chave',
+        'e': 'e', 'da': 'de', 'a': 'para', 'di': 'de', 'il': 'o', 'la': 'a',
+        'in': 'em', 'su': 'sobre', 'del': 'do', 'della': 'da'
+      },
+      'ru': {
+        'Laptop': 'Ноутбук', 'ultrabook': 'ультрабук', 'con': 'с', 'processore': 'процессор',
+        'tecnologia': 'технология', 'Monitor': 'Монитор', 'pollici': 'дюймов',
+        'Tastiera': 'Клавиатура', 'Mouse': 'Мышь', 'wireless': 'беспроводной',
+        'retroilluminazione': 'подсветка', 'ergonomico': 'эргономичный', 'design': 'дизайн',
+        'Cuffie': 'Наушники', 'cancellazione': 'шумоподавление', 'rumore': 'шум',
+        'Webcam': 'Веб-камера', 'Full': 'Full', 'HD': 'HD', 'microfono': 'микрофон',
+        'integrato': 'встроенный', 'Stampante': 'Принтер', 'laser': 'лазерный',
+        'multifunzione': 'многофункциональный', 'stampa': 'печать', 'scansione': 'сканирование',
+        'copia': 'копия', 'Hub': 'Хаб', 'USB': 'USB', 'porte': 'порты',
+        'Cavetti': 'Кабели', 'HDMI': 'HDMI', 'metri': 'метров', 'qualità': 'качество',
+        'premium': 'премиум', 'Supporto': 'Подставка', 'notebook': 'ноутбук',
+        'regolabile': 'регулируемый', 'altezza': 'высота', 'Zaino': 'Рюкзак',
+        'Pacchetto': 'Пакет', 'Office': 'Office', 'suite': 'пакет', 'licenza': 'лицензия',
+        'Consulenza': 'Консультация', 'personalizzata': 'персонализированная', 'strategia': 'стратегия',
+        'digitale': 'цифровой', 'gestione': 'управление', 'creazione': 'создание', 'contenuti': 'контент',
+        'e': 'и', 'con': 'с', 'per': 'для', 'di': 'из'
+      },
+      'zh': {
+        'Laptop': '笔记本电脑', 'ultrabook': '超极本', 'con': '与', 'processore': '处理器',
+        'tecnologia': '技术', 'Monitor': '显示器', 'pollici': '英寸',
+        'Tastiera': '键盘', 'Mouse': '鼠标', 'wireless': '无线',
+        'retroilluminazione': '背光', 'ergonomico': '人体工程学', 'design': '设计',
+        'Cuffie': '耳机', 'cancellazione': '降噪', 'rumore': '噪音',
+        'Webcam': '网络摄像头', 'Full': 'Full', 'HD': 'HD', 'microfono': '麦克风',
+        'integrato': '集成', 'Stampante': '打印机', 'laser': '激光',
+        'multifunzione': '多功能', 'stampa': '打印', 'scansione': '扫描',
+        'copia': '复印', 'Hub': '集线器', 'USB': 'USB', 'porte': '端口',
+        'Cavetti': '电缆', 'HDMI': 'HDMI', 'metri': '米', 'qualità': '质量',
+        'premium': '高级', 'Supporto': '支架', 'notebook': '笔记本',
+        'regolabile': '可调节', 'altezza': '高度', 'Zaino': '背包',
+        'Pacchetto': '套餐', 'Office': 'Office', 'suite': '套件', 'licenza': '许可证',
+        'Consulenza': '咨询', 'personalizzata': '定制', 'strategia': '策略',
+        'digitale': '数字', 'gestione': '管理', 'creazione': '创建', 'contenuti': '内容',
+        'e': '和', 'con': '与', 'per': '为', 'di': '的'
       }
     };
 
     let translated = description;
     const langDict = productTranslations[targetLanguage] || {};
     
-    Object.entries(langDict).forEach(([italian, foreign]) => {
+    // Ordina per lunghezza decrescente per evitare sostituzioni parziali
+    const sortedEntries = Object.entries(langDict).sort((a, b) => b[0].length - a[0].length);
+    
+    sortedEntries.forEach(([italian, foreign]) => {
       const regex = new RegExp(`\\b${italian}\\b`, 'gi');
       translated = translated.replace(regex, foreign);
     });
@@ -1230,10 +1417,14 @@ export default function WarehouseManagement() {
                     onChange={(e) => setCurrentQuote({...currentQuote, language: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                   >
-                    <option value="it">Italiano</option>
-                    <option value="en">English</option>
-                    <option value="fr">Français</option>
-                    <option value="de">Deutsch</option>
+                    <option value="it">🇮🇹 Italiano</option>
+                    <option value="en">🇬🇧 English</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="de">🇩🇪 Deutsch</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="pt">🇵🇹 Português</option>
+                    <option value="ru">🇷🇺 Русский</option>
+                    <option value="zh">🇨🇳 中文</option>
                   </select>
                 </div>
               </div>
