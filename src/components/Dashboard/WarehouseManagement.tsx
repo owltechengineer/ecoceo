@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { smartTranslate } from '@/lib/translation';
 
 interface WarehouseItem {
@@ -409,20 +409,23 @@ export default function WarehouseManagement() {
     return calculateQuoteSubtotal() + calculateQuoteTax();
   };
 
-  // Funzione per tradurre automaticamente i testi usando LibreTranslate
+  // Funzione per tradurre automaticamente i testi (ora usa smartTranslate direttamente)
   const translateText = async (text: string, targetLanguage: string): Promise<string> => {
     try {
-      // Prima prova con LibreTranslate API
-      if (targetLanguage !== 'it') {
-        try {
-          const translated = await smartTranslate(text, targetLanguage, 'it');
-          return translated;
-        } catch (apiError) {
-          console.warn('LibreTranslate API non disponibile, uso dizionario interno');
-        }
-      }
+      if (targetLanguage === 'it') return text;
       
-      // Fallback al dizionario interno per etichette comuni
+      // Usa smartTranslate per tradurre tutte le etichette
+      return await smartTranslate(text, targetLanguage, 'it');
+    } catch (error) {
+      console.error('Errore traduzione:', error);
+      return text;
+    }
+  };
+
+  // RIMOSSO: Vecchio dizionario limitato per etichette, ora usa smartTranslate
+  const translateTextOLD = async (text: string, targetLanguage: string): Promise<string> => {
+    try {
+      // Fallback al dizionario interno per etichette comuni (non più usato)
       const translations: Record<string, Record<string, string>> = {
         'it': {
           'Quote': 'Preventivo',
@@ -591,6 +594,31 @@ export default function WarehouseManagement() {
   const [isTranslating, setIsTranslating] = useState(false);
   const [showTranslationTest, setShowTranslationTest] = useState(false);
   const [testResults, setTestResults] = useState<any[]>([]);
+  
+  // Pre-traduci le descrizioni quando cambia la lingua
+  useEffect(() => {
+    const preTranslateDescriptions = async () => {
+      if (!currentQuote.language || currentQuote.language === 'it') {
+        setTranslatedDescriptions({});
+        return;
+      }
+      
+      const translations: Record<string, string> = {};
+      for (const item of quoteItems) {
+        const key = `${item.description}-${currentQuote.language}`;
+        if (!translationCache[key]) {
+          const translated = await translateProductDescription(item.description || '', currentQuote.language);
+          translations[key] = translated;
+        }
+      }
+      
+      setTranslatedDescriptions(prev => ({ ...prev, ...translations }));
+    };
+    
+    if (quoteItems.length > 0 && currentQuote.language) {
+      preTranslateDescriptions();
+    }
+  }, [currentQuote.language, quoteItems]);
   
   const translateProductDescription = async (description: string, targetLanguage: string): Promise<string> => {
     if (!description) return '';

@@ -59,6 +59,14 @@ const internalDictionary: Record<string, Record<string, string>> = {
     'rumore': 'Geräusch', 'microfono': 'Mikrofon', 'integrato': 'integriert',
     'Grazie': 'Danke', 'per': 'für', 'vostra': 'Ihr', 'fiducia': 'Vertrauen',
     'Per informazioni': 'Für Informationen',
+    // Etichette PDF
+    'Quote': 'Angebot', 'Client': 'Kunde', 'Email': 'E-Mail', 'Address': 'Adresse',
+    'Item': 'Artikel', 'Description': 'Beschreibung', 'Quantity': 'Menge',
+    'Unit Price': 'Stückpreis', 'Total': 'Gesamt', 'Subtotal': 'Zwischensumme',
+    'Tax': 'MwSt', 'Final Total': 'Endbetrag', 'Valid Until': 'Gültig bis',
+    'Notes': 'Anmerkungen', 'Cavo': 'Kabel', 'HDMI': 'HDMI', 'alta': 'hohe',
+    'velocità': 'Geschwindigkeit', 'metri': 'Meter', 'connettori': 'Anschlüsse',
+    'dorati': 'vergoldet', 'Premium': 'Premium', 'ad': 'mit',
     'e': 'und', 'a': 'zu', 'di': 'von', 'il': 'der', 'la': 'die', 'in': 'in'
   },
   'ru': {
