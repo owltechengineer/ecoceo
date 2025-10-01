@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import LogoutButton from '../Auth/LogoutButton';
 import HomeButton from '../Navigation/HomeButton';
-// import { client } from '@/sanity/lib/client';
+import { safeFetch } from '@/sanity/lib/client';
 
 interface NavigationItem {
   key: string;
@@ -24,7 +24,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [logo, setLogo] = useState<string | null>(null);
 
-  // Carica il logo da Sanity
+  // Carica il logo da Sanity con fallback
   useEffect(() => {
     const fetchLogo = async () => {
       try {
@@ -36,12 +36,17 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
           }
         }`;
         
-        // const result = await client.fetch(query);
-        // if (result?.logo?.asset?.url) {
-        //   setLogo(result.logo.asset.url);
-        // }
+        const result = await safeFetch(query);
+        if (result?.logo?.asset?.url) {
+          setLogo(result.logo.asset.url);
+        } else {
+          // Fallback al logo locale se Sanity non è disponibile
+          setLogo('/images/logo/logo-2.svg');
+        }
       } catch (error) {
-        console.error('Errore nel caricamento del logo:', error);
+        console.warn('Sanity non disponibile, uso logo locale:', error);
+        // Fallback al logo locale in caso di errore
+        setLogo('/images/logo/logo-2.svg');
       }
     };
 
