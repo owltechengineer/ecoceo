@@ -1,9 +1,14 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// Configurazione Supabase
+const supabaseUrl = 'https://febpscjreqtxxpvjlqxd.supabase.co'
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlYnBzY2pyZXF0eHhwdmpscXhkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkzMDgyMzksImV4cCI6MjA3NDg4NDIzOX0.8eA4iuQxNFNfgMnLl2VOQmZaNDjATSyZJmZadrshtbY'
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+// Service role client per operazioni admin
+const supabaseServiceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlYnBzY2pyZXF0eHhwdmpscXhkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTMwODIzOSwiZXhwIjoyMDc0ODg0MjM5fQ.8eA4iuQxNFNfgMnLl2VOQmZaNDjATSyZJmZadrshtbY'
+export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
 
 // Tipi per il database
 export interface Database {
