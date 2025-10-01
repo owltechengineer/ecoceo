@@ -45,17 +45,43 @@ interface Quote {
 
 // Interfaccia per impostazioni preventivo
 interface QuoteSettings {
+  // Dati Azienda Base
   companyName: string;
   companyAddress: string;
+  companyCity: string;
+  companyZip: string;
+  companyCountry: string;
   companyPhone: string;
   companyEmail: string;
+  companyWebsite: string;
   companyLogo?: string;
+  
+  // Dati Fiscali
+  vatNumber: string; // P.IVA
+  taxCode: string; // Codice Fiscale
+  
+  // Dati Bancari
+  bankName: string;
+  iban: string;
+  swift: string;
+  
+  // Dati Fatturazione Elettronica
+  pec: string; // PEC
+  sdi: string; // Codice SDI
+  
+  // Personalizzazione
   footerText: string;
+  termsAndConditions: string;
   primaryColor: string;
   secondaryColor: string;
   showLogo: boolean;
   showFooter: boolean;
+  showBankDetails: boolean;
+  showTerms: boolean;
   defaultValidityDays: number;
+  
+  // Note Legali
+  legalNote: string;
 }
 
 export default function WarehouseManagement() {
@@ -248,17 +274,43 @@ export default function WarehouseManagement() {
 
   // Stati per impostazioni
   const [quoteSettings, setQuoteSettings] = useState<QuoteSettings>({
-    companyName: 'La Tua Azienda',
-    companyAddress: 'Via Esempio 123, 00100 Roma',
+    // Dati Azienda Base
+    companyName: 'La Tua Azienda S.r.l.',
+    companyAddress: 'Via Esempio 123',
+    companyCity: 'Roma',
+    companyZip: '00100',
+    companyCountry: 'Italia',
     companyPhone: '+39 123 456 7890',
     companyEmail: 'info@azienda.com',
+    companyWebsite: 'www.azienda.com',
     companyLogo: '',
+    
+    // Dati Fiscali
+    vatNumber: 'IT12345678901',
+    taxCode: 'RSSMRA80A01H501U',
+    
+    // Dati Bancari
+    bankName: 'Banca Esempio',
+    iban: 'IT60 X054 2811 1010 0000 0123 456',
+    swift: 'BPMOIT22XXX',
+    
+    // Dati Fatturazione Elettronica
+    pec: 'azienda@pec.it',
+    sdi: 'ABCDEFG',
+    
+    // Personalizzazione
     footerText: 'Grazie per la vostra fiducia! Per informazioni: info@azienda.com | +39 123 456 7890',
+    termsAndConditions: 'Il presente preventivo è valido per {days} giorni dalla data di emissione. I prezzi si intendono IVA esclusa salvo diversa indicazione.',
     primaryColor: '#2563eb',
     secondaryColor: '#16a34a',
     showLogo: true,
     showFooter: true,
-    defaultValidityDays: 30
+    showBankDetails: true,
+    showTerms: true,
+    defaultValidityDays: 30,
+    
+    // Note Legali
+    legalNote: 'Ai sensi del D.Lgs. 196/2003, Vi informiamo che i Vostri dati sono raccolti per le finalità connesse ai rapporti commerciali tra di noi intercorrenti.'
   });
 
   const categories = ['Tutti', 'Elettronica', 'Accessori', 'Software', 'Servizi'];
@@ -898,7 +950,7 @@ export default function WarehouseManagement() {
   };
 
   // Funzione per generare HTML del preventivo tradotto
-  const generateQuoteHTML = async (quoteData: any): Promise<string> => {
+  const generateQuoteHTML = async (quoteData: any, settings: QuoteSettings = quoteSettings): Promise<string> => {
     const lang = quoteData.language || 'it';
     
     // Traduci tutte le etichette
@@ -917,7 +969,10 @@ export default function WarehouseManagement() {
       tax: await translateText('Tax', lang),
       finalTotal: await translateText('Final Total', lang),
       validUntil: await translateText('Valid Until', lang),
-      notes: await translateText('Notes', lang)
+      notes: await translateText('Notes', lang),
+      vatNumber: await translateText('VAT Number', lang),
+      iban: await translateText('IBAN', lang),
+      bankDetails: await translateText('Bank Details', lang)
     };
 
     // Pre-traduci TUTTO il contenuto degli articoli (nome + descrizione)
@@ -934,13 +989,14 @@ export default function WarehouseManagement() {
       ? await smartTranslate(quoteData.notes, lang, 'it')
       : '';
 
-    // Traduci testi statici del footer
+    // Traduci testi footer e termini dalle impostazioni
     const footerTexts = {
-      thanks: await smartTranslate('Grazie per la vostra fiducia!', lang, 'it'),
-      info: await smartTranslate('Per informazioni', lang, 'it')
+      thanks: await smartTranslate(settings.footerText, lang, 'it'),
+      terms: settings.showTerms ? await smartTranslate(settings.termsAndConditions.replace('{days}', settings.defaultValidityDays.toString()), lang, 'it') : '',
+      legal: await smartTranslate(settings.legalNote, lang, 'it')
     };
 
-    const validUntilDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('it-IT');
+    const validUntilDate = new Date(Date.now() + settings.defaultValidityDays * 24 * 60 * 60 * 1000).toLocaleDateString('it-IT');
     
     return `
       <!DOCTYPE html>
@@ -1624,7 +1680,7 @@ export default function WarehouseManagement() {
                 </h4>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Nome Azienda</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Nome Azienda / Ragione Sociale</label>
                     <input
                       type="text"
                       value={quoteSettings.companyName}
@@ -1635,13 +1691,45 @@ export default function WarehouseManagement() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Indirizzo</label>
-                    <textarea
+                    <input
+                      type="text"
                       value={quoteSettings.companyAddress}
                       onChange={(e) => setQuoteSettings({...quoteSettings, companyAddress: e.target.value})}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                      rows={2}
-                      placeholder="Via Esempio 123, 00100 Roma"
+                      placeholder="Via Esempio 123"
                     />
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">CAP</label>
+                      <input
+                        type="text"
+                        value={quoteSettings.companyZip}
+                        onChange={(e) => setQuoteSettings({...quoteSettings, companyZip: e.target.value})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        placeholder="00100"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Città</label>
+                      <input
+                        type="text"
+                        value={quoteSettings.companyCity}
+                        onChange={(e) => setQuoteSettings({...quoteSettings, companyCity: e.target.value})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        placeholder="Roma"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Paese</label>
+                      <input
+                        type="text"
+                        value={quoteSettings.companyCountry}
+                        onChange={(e) => setQuoteSettings({...quoteSettings, companyCountry: e.target.value})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        placeholder="Italia"
+                      />
+                    </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
@@ -1665,6 +1753,126 @@ export default function WarehouseManagement() {
                       />
                     </div>
                   </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Sito Web</label>
+                    <input
+                      type="text"
+                      value={quoteSettings.companyWebsite}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, companyWebsite: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      placeholder="www.azienda.com"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Logo Azienda (URL)</label>
+                    <input
+                      type="text"
+                      value={quoteSettings.companyLogo}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, companyLogo: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      placeholder="https://esempio.com/logo.png"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Inserisci l'URL del tuo logo (es: da Imgur, Cloudinary, ecc.)</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dati Fiscali */}
+              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200">
+                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                  <span className="mr-2">📋</span> Dati Fiscali
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Partita IVA</label>
+                    <input
+                      type="text"
+                      value={quoteSettings.vatNumber}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, vatNumber: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono"
+                      placeholder="IT12345678901"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Codice Fiscale</label>
+                    <input
+                      type="text"
+                      value={quoteSettings.taxCode}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, taxCode: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono"
+                      placeholder="RSSMRA80A01H501U"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">PEC (Posta Certificata)</label>
+                    <input
+                      type="email"
+                      value={quoteSettings.pec}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, pec: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      placeholder="azienda@pec.it"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Codice SDI (Fatturazione Elettronica)</label>
+                    <input
+                      type="text"
+                      value={quoteSettings.sdi}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, sdi: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono uppercase"
+                      placeholder="ABCDEFG"
+                      maxLength={7}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Codice univoco a 7 caratteri per fattura elettronica</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dati Bancari */}
+              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200">
+                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                  <span className="mr-2">🏦</span> Dati Bancari
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Nome Banca</label>
+                    <input
+                      type="text"
+                      value={quoteSettings.bankName}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, bankName: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      placeholder="Banca Esempio"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">IBAN</label>
+                    <input
+                      type="text"
+                      value={quoteSettings.iban}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, iban: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono"
+                      placeholder="IT60 X054 2811 1010 0000 0123 456"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">SWIFT/BIC (opzionale)</label>
+                    <input
+                      type="text"
+                      value={quoteSettings.swift}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, swift: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono uppercase"
+                      placeholder="BPMOIT22XXX"
+                    />
+                  </div>
+                  <label className="flex items-center space-x-2 pt-2">
+                    <input
+                      type="checkbox"
+                      checked={quoteSettings.showBankDetails}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, showBankDetails: e.target.checked})}
+                      className="w-4 h-4 text-orange-600 rounded focus:ring-orange-500"
+                    />
+                    <span className="text-sm text-gray-700">Mostra dati bancari nei preventivi</span>
+                  </label>
                 </div>
               </div>
 
@@ -1758,6 +1966,51 @@ export default function WarehouseManagement() {
                 />
                 <p className="text-xs text-gray-500 mt-2">
                   Questo testo apparirà in fondo a tutti i preventivi generati
+                </p>
+              </div>
+
+              {/* Termini e Condizioni */}
+              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200 lg:col-span-2">
+                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                  <span className="mr-2">📜</span> Termini e Condizioni
+                </h4>
+                <textarea
+                  value={quoteSettings.termsAndConditions}
+                  onChange={(e) => setQuoteSettings({...quoteSettings, termsAndConditions: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  rows={3}
+                  placeholder="Il presente preventivo è valido per {days} giorni..."
+                />
+                <div className="flex items-center space-x-4 mt-2">
+                  <p className="text-xs text-gray-500">
+                    Usa {'{days}'} per inserire automaticamente i giorni di validità
+                  </p>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={quoteSettings.showTerms}
+                      onChange={(e) => setQuoteSettings({...quoteSettings, showTerms: e.target.checked})}
+                      className="w-4 h-4 text-orange-600 rounded focus:ring-orange-500"
+                    />
+                    <span className="text-sm text-gray-700">Mostra nei preventivi</span>
+                  </label>
+                </div>
+              </div>
+
+              {/* Note Legali Privacy */}
+              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200 lg:col-span-2">
+                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                  <span className="mr-2">⚖️</span> Note Legali e Privacy
+                </h4>
+                <textarea
+                  value={quoteSettings.legalNote}
+                  onChange={(e) => setQuoteSettings({...quoteSettings, legalNote: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  rows={2}
+                  placeholder="Ai sensi del D.Lgs. 196/2003..."
+                />
+                <p className="text-xs text-gray-500 mt-2">
+                  Informativa privacy e note legali (GDPR)
                 </p>
               </div>
             </div>
