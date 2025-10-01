@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import LogoutButton from '../Auth/LogoutButton';
 import HomeButton from '../Navigation/HomeButton';
 import { client } from '@/sanity/lib/client';
+import { useSections } from '@/hooks/useSections';
 
 interface NavigationItem {
   key: string;
@@ -23,6 +24,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [logo, setLogo] = useState<string | null>(null);
+  const { sections, loading: sectionsLoading } = useSections();
 
   // Carica il logo da Sanity
   useEffect(() => {
@@ -48,96 +50,28 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
     fetchLogo();
   }, []);
 
-  const navigationItems: NavigationItem[] = [
-    {
-      key: 'dashboard',
-      name: 'Dashboard Totale',
-      icon: '📊',
-      description: 'Panoramica generale',
-      color: 'blue',
-      gradient: 'from-blue-600 to-blue-700'
-    },
-    {
-      key: 'tasks',
-      name: 'Task e Calendario',
-      icon: '📅',
-      description: 'Gestione attività',
-      color: 'green',
-      gradient: 'from-green-600 to-green-700'
-    },
-    {
-      key: 'marketing',
-      name: 'Marketing',
-      icon: '📈',
-      description: 'Gestione marketing',
-      color: 'purple',
-      gradient: 'from-purple-600 to-purple-700'
-    },
-    {
-      key: 'projects',
-      name: 'Progetti',
-      icon: '🚀',
-      description: 'Gestione progetti',
-      color: 'orange',
-      gradient: 'from-orange-600 to-orange-700'
-    },
-    {
-      key: 'warehouse',
-      name: 'Magazzino e Documenti',
-      icon: '📦',
-      description: 'Gestione inventario e preventivi',
-      color: 'amber',
-      gradient: 'from-amber-600 to-amber-700'
-    },
-    {
-      key: 'management',
-      name: 'Gestione',
-      icon: '⚙️',
-      description: 'Gestione generale',
-      color: 'gray',
-      gradient: 'from-gray-600 to-gray-700'
-    },
-    {
-      key: 'red',
-      name: 'Red',
-      icon: '🔴',
-      description: 'Sezione Red',
-      color: 'red',
-      gradient: 'from-red-600 to-red-700'
-    },
-    {
-      key: 'business-plan',
-      name: 'Business Plan',
-      icon: '💼',
-      description: 'Piano aziendale',
-      color: 'indigo',
-      gradient: 'from-indigo-600 to-indigo-700'
-    },
-    {
-      key: 'ai-management',
-      name: 'AI Management',
-      icon: '🤖',
-      description: 'Gestione AI',
-      color: 'cyan',
-      gradient: 'from-cyan-600 to-cyan-700'
-    },
-    {
-      key: 'test',
-      name: 'Test',
-      icon: '🧪',
-      description: 'Test e debug',
-      color: 'yellow',
-      gradient: 'from-yellow-600 to-yellow-700'
-    },
-    {
-      key: 'organizational',
-      name: 'Analisi Organizzativa',
-      icon: '🏢',
-      description: 'Cultura aziendale',
-      color: 'emerald',
-      gradient: 'from-emerald-600 to-emerald-700'
-    }
-  ];
+  // Sezioni dinamiche basate su .env
+  const getNavigationItems = (): NavigationItem[] => {
+    const colorMap: { [key: string]: { color: string; gradient: string } } = {
+      'Dashboard': { color: 'blue', gradient: 'from-blue-600 to-blue-700' },
+      'Task e Calendario': { color: 'green', gradient: 'from-green-600 to-green-700' },
+      'Marketing': { color: 'purple', gradient: 'from-purple-600 to-purple-700' },
+      'Progetti': { color: 'orange', gradient: 'from-orange-600 to-orange-700' },
+      'Magazzino': { color: 'amber', gradient: 'from-amber-600 to-amber-700' },
+      'Finanziario': { color: 'emerald', gradient: 'from-emerald-600 to-emerald-700' },
+      'Business Plan': { color: 'indigo', gradient: 'from-indigo-600 to-indigo-700' }
+    };
+
+    return sections.map(section => ({
+      key: section.name.toLowerCase().replace(/\s+/g, '-'),
+      name: section.name,
+      icon: section.icon,
+      description: section.description,
+      ...colorMap[section.name] || { color: 'gray', gradient: 'from-gray-600 to-gray-700' }
+    }));
+  };
+
+  const navigationItems = getNavigationItems();
 
   const handleNavigation = (item: NavigationItem) => {
     if (onSectionChange) {
@@ -213,7 +147,13 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
 
         {/* Navigation Items */}
         <div className={`${isCollapsed ? 'p-3' : 'p-4'} space-y-3`}>
-          {navigationItems.map((item, index) => (
+          {sectionsLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+              <span className="ml-2 text-sm text-gray-500">Caricamento sezioni...</span>
+            </div>
+          ) : (
+            navigationItems.map((item, index) => (
             <div key={item.key}>
               {/* Barra di divisione sotto Dashboard Totale */}
               {item.key === 'tasks' && !isCollapsed && (
@@ -268,7 +208,8 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
                 )}
               </button>
             </div>
-          ))}
+          ))
+          )}
         </div>
 
         {/* Quick Actions Semplificate */}
