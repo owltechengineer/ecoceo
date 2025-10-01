@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import LogoutButton from '../Auth/LogoutButton';
 import HomeButton from '../Navigation/HomeButton';
-import { client } from '@/sanity/lib/client';
+// import { client } from '@/sanity/lib/client';
 
 interface NavigationItem {
   key: string;
@@ -36,10 +36,10 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
           }
         }`;
         
-        const result = await client.fetch(query);
-        if (result?.logo?.asset?.url) {
-          setLogo(result.logo.asset.url);
-        }
+        // const result = await client.fetch(query);
+        // if (result?.logo?.asset?.url) {
+        //   setLogo(result.logo.asset.url);
+        // }
       } catch (error) {
         console.error('Errore nel caricamento del logo:', error);
       }
