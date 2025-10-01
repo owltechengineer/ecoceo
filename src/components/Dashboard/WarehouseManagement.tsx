@@ -1462,10 +1462,11 @@ export default function WarehouseManagement() {
                         <div className="flex items-start justify-between mb-2">
                           <h3 className="text-lg font-bold text-gray-900 leading-tight flex-1">{item.name}</h3>
                         </div>
-                        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-2">{item.description}</p>
-                        {/* Codice SKU prominente */}
-                        <div className="bg-gray-900 text-white px-3 py-1.5 rounded-lg inline-block">
-                          <span className="text-xs font-mono font-bold tracking-wider">{item.sku}</span>
+                        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-3">{item.description}</p>
+                        {/* Codice SKU prominente e ben visibile */}
+                        <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white px-4 py-2.5 rounded-lg inline-block shadow-md">
+                          <div className="text-xs text-gray-400 mb-0.5 font-semibold">SKU</div>
+                          <span className="text-sm font-mono font-bold tracking-widest">{item.sku}</span>
                         </div>
                       </div>
                       
