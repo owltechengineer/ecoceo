@@ -14,8 +14,12 @@ export default function FixMarketingTables() {
     setResult(null);
 
     try {
-      // Test tutte le tabelle marketing
-      const tables = ['marketing_campaigns', 'marketing_leads', 'marketing_budgets'];
+      // Test tutte le tabelle marketing e dashboard
+      const tables = [
+        'campaigns', 'leads', 'marketing_budgets',
+        'task_calendar_projects', 'task_calendar_tasks', 'task_calendar_appointments',
+        'recurring_activities', 'quick_tasks'
+      ];
       const results: any = {};
 
       for (const table of tables) {
@@ -38,7 +42,7 @@ export default function FixMarketingTables() {
       setResult({
         test: 'completed',
         tables: results,
-        message: 'Test tabelle marketing completato'
+        message: 'Test tabelle marketing e dashboard completato'
       });
 
     } catch (error: any) {
@@ -157,34 +161,43 @@ export default function FixMarketingTables() {
       }
 
       // Verifica che le tabelle siano state create
-      const { data: campaigns, error: campaignsError } = await supabaseSecret
-        .from('marketing_campaigns')
-        .select('count')
-        .limit(1);
+      const tables = [
+        'campaigns', 'leads', 'marketing_budgets',
+        'task_calendar_projects', 'task_calendar_tasks', 'task_calendar_appointments',
+        'recurring_activities', 'quick_tasks'
+      ];
+      
+      const verificationResults: any = {};
+      let allSuccess = true;
 
-      const { data: leads, error: leadsError } = await supabaseSecret
-        .from('marketing_leads')
-        .select('count')
-        .limit(1);
+      for (const table of tables) {
+        try {
+          const { data, error } = await supabaseSecret
+            .from(table)
+            .select('count')
+            .limit(1);
 
-      const { data: budgets, error: budgetsError } = await supabaseSecret
-        .from('marketing_budgets')
-        .select('count')
-        .limit(1);
+          if (error) {
+            verificationResults[table] = { success: false, error: error.message };
+            allSuccess = false;
+          } else {
+            verificationResults[table] = { success: true, count: data?.length || 0 };
+          }
+        } catch (err: any) {
+          verificationResults[table] = { success: false, error: err.message };
+          allSuccess = false;
+        }
+      }
 
-      if (campaignsError || leadsError || budgetsError) {
-        throw new Error('Errore nella verifica delle tabelle create');
+      if (!allSuccess) {
+        throw new Error('Errore nella verifica di alcune tabelle create');
       }
 
       setResult({
         fix: 'success',
-        message: 'Tabelle marketing create con successo!',
+        message: 'Tutte le tabelle marketing e dashboard create con successo!',
         timestamp: new Date().toISOString(),
-        tables: {
-          campaigns: campaigns?.length || 0,
-          leads: leads?.length || 0,
-          budgets: budgets?.length || 0
-        }
+        tables: verificationResults
       });
 
       setStep('complete');
@@ -203,15 +216,15 @@ export default function FixMarketingTables() {
   return (
     <div className="bg-white/30 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">📢 Fix Sezione Marketing</h2>
-        <p className="text-gray-600">Risolve il problema di caricamento dati marketing</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">📢 Fix Marketing & Dashboard</h2>
+        <p className="text-gray-600">Risolve i problemi di caricamento dati marketing e dashboard</p>
       </div>
 
       <div className="space-y-4">
         {/* Test Tabelle */}
         <div className="bg-blue-50 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-blue-900 mb-2">1. Test Tabelle Marketing</h3>
-          <p className="text-sm text-blue-700 mb-3">Verifica se le tabelle marketing esistono</p>
+          <h3 className="text-lg font-semibold text-blue-900 mb-2">1. Test Tabelle Marketing & Dashboard</h3>
+          <p className="text-sm text-blue-700 mb-3">Verifica se tutte le tabelle necessarie esistono</p>
           <button
             onClick={testMarketingTables}
             disabled={isLoading}
@@ -223,8 +236,8 @@ export default function FixMarketingTables() {
 
         {/* Fix Tabelle */}
         <div className="bg-green-50 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-green-900 mb-2">2. Crea Tabelle Marketing</h3>
-          <p className="text-sm text-green-700 mb-3">Crea tutte le tabelle marketing con dati di esempio</p>
+          <h3 className="text-lg font-semibold text-green-900 mb-2">2. Crea Tutte le Tabelle</h3>
+          <p className="text-sm text-green-700 mb-3">Crea tutte le tabelle marketing e dashboard con dati di esempio</p>
           <button
             onClick={fixMarketingTables}
             disabled={isLoading || step === 'testing'}
@@ -282,13 +295,19 @@ export default function FixMarketingTables() {
       <div className="mt-6 p-4 bg-yellow-50 rounded-lg">
         <h4 className="font-semibold text-yellow-900 mb-2">📋 Istruzioni:</h4>
         <ol className="text-sm text-yellow-800 space-y-1">
-          <li>1. Clicca "Test Tabelle" per verificare lo stato</li>
+          <li>1. Clicca "Test Tabelle" per verificare lo stato di tutte le tabelle</li>
           <li>2. Se mancano tabelle, clicca "Crea Tabelle"</li>
-          <li>3. Verifica che i dati marketing si carichino correttamente</li>
+          <li>3. Verifica che i dati marketing e dashboard si carichino correttamente</li>
         </ol>
-        <p className="text-xs text-yellow-700 mt-2">
-          ⚠️ Questo fix crea solo le tabelle marketing. Per setup completo usa DatabaseSetup.
-        </p>
+        <div className="text-xs text-yellow-700 mt-2">
+          <p><strong>📊 Tabelle create:</strong></p>
+          <ul className="list-disc list-inside mt-1 space-y-1">
+            <li>Marketing: campaigns, leads, marketing_budgets</li>
+            <li>Dashboard: task_calendar_projects, task_calendar_tasks, task_calendar_appointments</li>
+            <li>Attività: recurring_activities, quick_tasks</li>
+          </ul>
+          <p className="mt-2">⚠️ Questo fix crea tutte le tabelle necessarie. Per setup completo usa DatabaseSetup.</p>
+        </div>
       </div>
     </div>
   );
