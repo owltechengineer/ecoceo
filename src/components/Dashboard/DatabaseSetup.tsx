@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase, supabaseAdmin } from '@/lib/supabase';
+import { supabase, supabaseAdmin, supabaseSecret } from '@/lib/supabase';
 
 export default function DatabaseSetup() {
   const [isLoading, setIsLoading] = useState(false);
@@ -51,8 +51,8 @@ export default function DatabaseSetup() {
       const response = await fetch('/docs/database/COMPLETE_DATABASE_SETUP.sql');
       const sqlScript = await response.text();
 
-      // Esegui lo script usando supabaseAdmin
-      const { data, error } = await supabaseAdmin.rpc('exec_sql', {
+      // Esegui lo script usando supabaseSecret per operazioni avanzate
+      const { data, error } = await supabaseSecret.rpc('exec_sql', {
         sql: sqlScript
       });
 

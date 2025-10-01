@@ -10,6 +10,10 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 const supabaseServiceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlYnBzY2pyZXF0eHhwdmpscXhkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTMwODIzOSwiZXhwIjoyMDc0ODg0MjM5fQ.8eA4iuQxNFNfgMnLl2VOQmZaNDjATSyZJmZadrshtbY'
 export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
 
+// Secret key per operazioni avanzate
+const supabaseSecretKey = 'sb_secret_Z7l9wY0V8-3iiqBM3Kw8IQ_ejR7prq9'
+export const supabaseSecret = createClient(supabaseUrl, supabaseSecretKey)
+
 // Tipi per il database
 export interface Database {
   public: {
