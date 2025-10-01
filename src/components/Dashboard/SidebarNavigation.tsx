@@ -135,6 +135,14 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
       gradient: 'from-yellow-600 to-yellow-700'
     },
     {
+      key: 'database-diagnostic',
+      name: 'Diagnostica DB',
+      icon: '🔍',
+      description: 'Analisi database',
+      color: 'purple',
+      gradient: 'from-purple-600 to-purple-700'
+    },
+    {
       key: 'organizational',
       name: 'Analisi Organizzativa',
       icon: '🏢',

@@ -21,6 +21,7 @@ import WarehouseManagement from './WarehouseManagement';
 import QuickQuoteModal from './QuickQuoteModal';
 import QuickCreateModal from './QuickCreateModal';
 import DatabaseConnectionTest from './DatabaseConnectionTest';
+import DatabaseDiagnosticTool from './DatabaseDiagnosticTool';
 import EnvironmentSetup from './EnvironmentSetup';
 
 export default function MainDashboard() {
@@ -121,6 +122,12 @@ export default function MainDashboard() {
       title: 'Test Database',
       icon: '🔧',
       description: 'Test connessione e configurazione database'
+    },
+    'database-diagnostic': {
+      component: DatabaseDiagnosticTool,
+      title: 'Diagnostica Database',
+      icon: '🔍',
+      description: 'Analisi completa delle tabelle e generazione script di riparazione'
     },
     'environment-setup': {
       component: EnvironmentSetup,
