@@ -952,7 +952,7 @@ export interface ProjectRisk {
 export const saveProjectMain = async (project: Omit<ProjectMain, 'id' | 'created_at' | 'updated_at'>): Promise<ProjectMain> => {
   try {
     const { data, error } = await supabase
-      .from('projects_main')
+      .from('projects')
       .insert([project])
       .select()
       .single();
@@ -972,7 +972,7 @@ export const saveProjectMain = async (project: Omit<ProjectMain, 'id' | 'created
 export const loadProjectsMain = async (userId: string = 'default-user'): Promise<ProjectMain[]> => {
   try {
     const { data, error } = await supabase
-      .from('projects_main')
+      .from('projects')
       .select('*')
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
@@ -992,7 +992,7 @@ export const loadProjectsMain = async (userId: string = 'default-user'): Promise
 export const updateProjectMain = async (id: string, updates: Partial<ProjectMain>): Promise<ProjectMain> => {
   try {
     const { data, error } = await supabase
-      .from('projects_main')
+      .from('projects')
       .update(updates)
       .eq('id', id)
       .select()
@@ -1013,7 +1013,7 @@ export const updateProjectMain = async (id: string, updates: Partial<ProjectMain
 export const deleteProjectMain = async (id: string): Promise<void> => {
   try {
     const { error } = await supabase
-      .from('projects_main')
+      .from('projects')
       .delete()
       .eq('id', id);
 

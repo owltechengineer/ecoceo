@@ -372,89 +372,99 @@ CREATE TABLE IF NOT EXISTS marketing_quick_quotes (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 3. PROGETTI (6 tabelle)
+-- 3. PROGETTI (1 tabella unificata)
 -- =====================================================
 
--- Progetti Principali
-CREATE TABLE IF NOT EXISTS projects_main (
+-- Progetti Unificati - Tutti i campi in una sola tabella
+CREATE TABLE IF NOT EXISTS projects (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id TEXT DEFAULT 'default-user' NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    status VARCHAR(50) DEFAULT 'active' CHECK (status IN ('active', 'completed', 'paused', 'cancelled')),
+    
+    -- 1. Titolo del progetto
+    title VARCHAR(255) NOT NULL,
+    
+    -- 2. Obiettivo principale
+    main_objective TEXT NOT NULL,
+    
+    -- 3. Problema che risolve
+    problem_solved TEXT NOT NULL,
+    
+    -- 4. Descrizione dell'idea / soluzione proposta
+    solution_description TEXT NOT NULL,
+    
+    -- 5. Target di riferimento / Clienti
+    target_audience TEXT,
+    target_customers TEXT,
+    
+    -- 6. Analisi di mercato / concorrenza
+    market_analysis TEXT,
+    competition_analysis TEXT,
+    
+    -- 7. Modello di business
+    business_model TEXT,
+    
+    -- 8. Tecnologie utilizzate
+    technologies_used TEXT,
+    
+    -- 9. Struttura del team / ruoli
+    team_structure TEXT,
+    team_roles TEXT,
+    
+    -- 10. Processi operativi
+    operational_processes TEXT,
+    
+    -- 11. Piano di sviluppo / fasi del progetto
+    development_plan TEXT,
+    project_phases TEXT,
+    
+    -- 12. Budget e risorse necessarie
+    budget_required DECIMAL(15,2) DEFAULT 0,
+    resources_needed TEXT,
+    
+    -- 13. Fonti di finanziamento
+    funding_sources TEXT,
+    
+    -- 14. Strategia di vendita / marketing
+    sales_strategy TEXT,
+    marketing_strategy TEXT,
+    
+    -- 15. Canali di distribuzione
+    distribution_channels TEXT,
+    
+    -- 16. Previsioni economiche (ROI, break-even)
+    roi_forecast DECIMAL(8,2) DEFAULT 0,
+    break_even_analysis TEXT,
+    economic_forecasts TEXT,
+    
+    -- 17. Analisi dei rischi
+    risk_analysis TEXT,
+    
+    -- 18. Aspetti legali e normativi
+    legal_aspects TEXT,
+    regulatory_compliance TEXT,
+    
+    -- 19. Metriche di successo / KPI
+    success_metrics TEXT,
+    kpis TEXT,
+    
+    -- 20. Timeline e roadmap
+    timeline TEXT,
+    roadmap TEXT,
+    
+    -- Campi di gestione
+    status VARCHAR(50) DEFAULT 'draft' CHECK (status IN ('draft', 'planning', 'active', 'completed', 'paused', 'cancelled')),
     priority VARCHAR(20) DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high', 'urgent')),
+    progress INTEGER DEFAULT 0 CHECK (progress >= 0 AND progress <= 100),
+    
+    -- Date
     start_date TIMESTAMP WITH TIME ZONE,
     end_date TIMESTAMP WITH TIME ZONE,
-    budget DECIMAL(15,2) DEFAULT 0,
-    project_manager VARCHAR(255),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Obiettivi Progetto
-CREATE TABLE IF NOT EXISTS project_objectives (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    project_id UUID REFERENCES projects_main(id) ON DELETE CASCADE,
-    objective VARCHAR(255) NOT NULL,
-    description TEXT,
-    priority VARCHAR(20) DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high', 'urgent')),
-    due_date TIMESTAMP WITH TIME ZONE,
-    status VARCHAR(50) DEFAULT 'pending' CHECK (status IN ('pending', 'in_progress', 'completed', 'cancelled')),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Budget Progetto
-CREATE TABLE IF NOT EXISTS project_budget (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    project_id UUID REFERENCES projects_main(id) ON DELETE CASCADE,
-    category VARCHAR(100) NOT NULL,
-    amount DECIMAL(15,2) NOT NULL,
-    spent DECIMAL(15,2) DEFAULT 0,
-    description TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Team Progetto
-CREATE TABLE IF NOT EXISTS project_team (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    project_id UUID REFERENCES projects_main(id) ON DELETE CASCADE,
-    member_name VARCHAR(255) NOT NULL,
-    role VARCHAR(100) NOT NULL,
-    email VARCHAR(255),
-    phone VARCHAR(50),
-    start_date TIMESTAMP WITH TIME ZONE,
-    end_date TIMESTAMP WITH TIME ZONE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Milestone Progetto
-CREATE TABLE IF NOT EXISTS project_milestones (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    project_id UUID REFERENCES projects_main(id) ON DELETE CASCADE,
-    milestone_name VARCHAR(255) NOT NULL,
-    description TEXT,
-    due_date TIMESTAMP WITH TIME ZONE,
-    status VARCHAR(50) DEFAULT 'pending' CHECK (status IN ('pending', 'in_progress', 'completed', 'cancelled')),
-    completion_percentage INTEGER DEFAULT 0 CHECK (completion_percentage >= 0 AND completion_percentage <= 100),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Rischi Progetto
-CREATE TABLE IF NOT EXISTS project_risks (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    project_id UUID REFERENCES projects_main(id) ON DELETE CASCADE,
-    risk_name VARCHAR(255) NOT NULL,
-    description TEXT,
-    probability VARCHAR(20) DEFAULT 'medium' CHECK (probability IN ('low', 'medium', 'high')),
-    impact VARCHAR(20) DEFAULT 'medium' CHECK (impact IN ('low', 'medium', 'high')),
-    mitigation_plan TEXT,
-    status VARCHAR(50) DEFAULT 'active' CHECK (status IN ('active', 'mitigated', 'resolved')),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    
+    -- Note aggiuntive
+    notes TEXT,
+    tags TEXT[] DEFAULT '{}'
 );
 
 -- 4. MAGAZZINO E DOCUMENTI (6 tabelle - DA CREARE)
@@ -694,12 +704,11 @@ CREATE INDEX IF NOT EXISTS idx_newsletter_campaigns_user_id ON marketing_newslet
 CREATE INDEX IF NOT EXISTS idx_quick_quotes_user_id ON marketing_quick_quotes(user_id);
 
 -- Indici per Progetti
-CREATE INDEX IF NOT EXISTS idx_projects_main_user_id ON projects_main(user_id);
-CREATE INDEX IF NOT EXISTS idx_project_objectives_project_id ON project_objectives(project_id);
-CREATE INDEX IF NOT EXISTS idx_project_budget_project_id ON project_budget(project_id);
-CREATE INDEX IF NOT EXISTS idx_project_team_project_id ON project_team(project_id);
-CREATE INDEX IF NOT EXISTS idx_project_milestones_project_id ON project_milestones(project_id);
-CREATE INDEX IF NOT EXISTS idx_project_risks_project_id ON project_risks(project_id);
+CREATE INDEX IF NOT EXISTS idx_projects_user_id ON projects(user_id);
+CREATE INDEX IF NOT EXISTS idx_projects_status ON projects(status);
+CREATE INDEX IF NOT EXISTS idx_projects_priority ON projects(priority);
+CREATE INDEX IF NOT EXISTS idx_projects_start_date ON projects(start_date);
+CREATE INDEX IF NOT EXISTS idx_projects_end_date ON projects(end_date);
 
 -- Indici per Magazzino
 CREATE INDEX IF NOT EXISTS idx_warehouse_items_user_id ON warehouse_items(user_id);
@@ -752,12 +761,7 @@ ALTER TABLE marketing_newsletter_campaigns ENABLE ROW LEVEL SECURITY;
 ALTER TABLE marketing_quick_quotes ENABLE ROW LEVEL SECURITY;
 
 -- Progetti
-ALTER TABLE projects_main ENABLE ROW LEVEL SECURITY;
-ALTER TABLE project_objectives ENABLE ROW LEVEL SECURITY;
-ALTER TABLE project_budget ENABLE ROW LEVEL SECURITY;
-ALTER TABLE project_team ENABLE ROW LEVEL SECURITY;
-ALTER TABLE project_milestones ENABLE ROW LEVEL SECURITY;
-ALTER TABLE project_risks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
 
 -- Magazzino
 ALTER TABLE warehouse_items ENABLE ROW LEVEL SECURITY;
@@ -809,12 +813,7 @@ CREATE POLICY "Allow all operations for now" ON marketing_newsletter_campaigns F
 CREATE POLICY "Allow all operations for now" ON marketing_quick_quotes FOR ALL USING (true);
 
 -- Progetti
-CREATE POLICY "Allow all operations for now" ON projects_main FOR ALL USING (true);
-CREATE POLICY "Allow all operations for now" ON project_objectives FOR ALL USING (true);
-CREATE POLICY "Allow all operations for now" ON project_budget FOR ALL USING (true);
-CREATE POLICY "Allow all operations for now" ON project_team FOR ALL USING (true);
-CREATE POLICY "Allow all operations for now" ON project_milestones FOR ALL USING (true);
-CREATE POLICY "Allow all operations for now" ON project_risks FOR ALL USING (true);
+CREATE POLICY "Allow all operations for now" ON projects FOR ALL USING (true);
 
 -- Magazzino
 CREATE POLICY "Allow all operations for now" ON warehouse_items FOR ALL USING (true);
@@ -850,8 +849,8 @@ AND table_name IN (
     'marketing_budgets', 'marketing_seo_projects', 'marketing_seo_tasks', 'marketing_crm_campaigns', 'marketing_crm_contacts',
     'marketing_ad_campaigns', 'marketing_ad_groups', 'marketing_content_calendar', 'marketing_social_accounts', 'marketing_reports',
     'marketing_newsletter_templates', 'marketing_newsletter_campaigns', 'marketing_quick_quotes',
-    -- Progetti (6)
-    'projects_main', 'project_objectives', 'project_budget', 'project_team', 'project_milestones', 'project_risks',
+    -- Progetti (1)
+    'projects',
     -- Magazzino (6)
     'warehouse_items', 'warehouse_categories', 'warehouse_locations', 'quotes', 'quote_items', 'warehouse_transactions',
     -- Gestione (9)
