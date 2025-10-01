@@ -6,54 +6,8 @@ import { supabaseSecret } from '@/lib/supabase';
 export default function FixMarketingTables() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
-  const [step, setStep] = useState<'idle' | 'testing' | 'fixing' | 'complete'>('idle');
+  const [step, setStep] = useState<'idle' | 'fixing' | 'complete'>('idle');
 
-  const testMarketingTables = async () => {
-    setIsLoading(true);
-    setStep('testing');
-    setResult(null);
-
-    try {
-      // Test tutte le tabelle marketing e dashboard
-      const tables = [
-        'campaigns', 'leads', 'marketing_budgets',
-        'task_calendar_projects', 'task_calendar_tasks', 'task_calendar_appointments',
-        'recurring_activities', 'quick_tasks'
-      ];
-      const results: any = {};
-
-      for (const table of tables) {
-        try {
-          const { data, error } = await supabaseSecret
-            .from(table)
-            .select('count')
-            .limit(1);
-
-          if (error) {
-            results[table] = { status: 'missing', error: error.message };
-          } else {
-            results[table] = { status: 'exists', count: data?.length || 0 };
-          }
-        } catch (err: any) {
-          results[table] = { status: 'error', error: err.message };
-        }
-      }
-
-      setResult({
-        test: 'completed',
-        tables: results,
-        message: 'Test tabelle marketing e dashboard completato'
-      });
-
-    } catch (error: any) {
-      setResult({
-        test: 'error',
-        message: `Errore test: ${error.message}`
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const fixMarketingTables = async () => {
     setIsLoading(true);
@@ -221,26 +175,13 @@ export default function FixMarketingTables() {
       </div>
 
       <div className="space-y-4">
-        {/* Test Tabelle */}
-        <div className="bg-blue-50 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-blue-900 mb-2">1. Test Tabelle Marketing & Dashboard</h3>
-          <p className="text-sm text-blue-700 mb-3">Verifica se tutte le tabelle necessarie esistono</p>
-          <button
-            onClick={testMarketingTables}
-            disabled={isLoading}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
-          >
-            {isLoading && step === 'testing' ? '🔄 Testando...' : '🔍 Test Tabelle'}
-          </button>
-        </div>
-
         {/* Fix Tabelle */}
         <div className="bg-green-50 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-green-900 mb-2">2. Crea Tutte le Tabelle</h3>
+          <h3 className="text-lg font-semibold text-green-900 mb-2">Crea Tutte le Tabelle</h3>
           <p className="text-sm text-green-700 mb-3">Crea tutte le tabelle marketing e dashboard con dati di esempio</p>
           <button
             onClick={fixMarketingTables}
-            disabled={isLoading || step === 'testing'}
+            disabled={isLoading}
             className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
           >
             {isLoading && step === 'fixing' ? '🔄 Creando...' : '🚀 Crea Tabelle'}
@@ -253,23 +194,6 @@ export default function FixMarketingTables() {
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
           <h4 className="font-semibold text-gray-900 mb-2">📊 Risultati:</h4>
           <div className="space-y-2">
-            {result.test && (
-              <div className="p-2 rounded bg-blue-100 text-blue-800">
-                <strong>Test:</strong> {result.message}
-                {result.tables && (
-                  <div className="mt-2 text-sm">
-                    {Object.entries(result.tables).map(([table, status]: [string, any]) => (
-                      <div key={table} className="flex justify-between">
-                        <span>{table}:</span>
-                        <span className={status.status === 'exists' ? 'text-green-600' : 'text-red-600'}>
-                          {status.status === 'exists' ? '✅ Esiste' : '❌ Mancante'}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
             {result.fix && (
               <div className={`p-2 rounded ${
                 result.fix === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
@@ -277,9 +201,14 @@ export default function FixMarketingTables() {
                 <strong>Fix:</strong> {result.message}
                 {result.tables && (
                   <div className="mt-2 text-sm">
-                    <div>Campagne: {result.tables.campaigns}</div>
-                    <div>Lead: {result.tables.leads}</div>
-                    <div>Budget: {result.tables.budgets}</div>
+                    {Object.entries(result.tables).map(([table, status]: [string, any]) => (
+                      <div key={table} className="flex justify-between">
+                        <span>{table}:</span>
+                        <span className={status.success ? 'text-green-600' : 'text-red-600'}>
+                          {status.success ? '✅ Creato' : '❌ Errore'}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
@@ -295,9 +224,8 @@ export default function FixMarketingTables() {
       <div className="mt-6 p-4 bg-yellow-50 rounded-lg">
         <h4 className="font-semibold text-yellow-900 mb-2">📋 Istruzioni:</h4>
         <ol className="text-sm text-yellow-800 space-y-1">
-          <li>1. Clicca "Test Tabelle" per verificare lo stato di tutte le tabelle</li>
-          <li>2. Se mancano tabelle, clicca "Crea Tabelle"</li>
-          <li>3. Verifica che i dati marketing e dashboard si carichino correttamente</li>
+          <li>1. Clicca "Crea Tabelle" per creare tutte le tabelle necessarie</li>
+          <li>2. Verifica che i dati marketing e dashboard si carichino correttamente</li>
         </ol>
         <div className="text-xs text-yellow-700 mt-2">
           <p><strong>📊 Tabelle create:</strong></p>
