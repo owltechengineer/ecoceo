@@ -952,7 +952,7 @@ export interface ProjectRisk {
 export const saveProjectMain = async (project: Omit<ProjectMain, 'id' | 'created_at' | 'updated_at'>): Promise<ProjectMain> => {
   try {
     const { data, error } = await supabase
-      .from('projects_projects')
+      .from('projects_main')
       .insert([project])
       .select()
       .single();
@@ -972,7 +972,7 @@ export const saveProjectMain = async (project: Omit<ProjectMain, 'id' | 'created
 export const loadProjectsMain = async (userId: string = 'default-user'): Promise<ProjectMain[]> => {
   try {
     const { data, error } = await supabase
-      .from('projects_projects')
+      .from('projects_main')
       .select('*')
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
@@ -992,7 +992,7 @@ export const loadProjectsMain = async (userId: string = 'default-user'): Promise
 export const updateProjectMain = async (id: string, updates: Partial<ProjectMain>): Promise<ProjectMain> => {
   try {
     const { data, error } = await supabase
-      .from('projects_projects')
+      .from('projects_main')
       .update(updates)
       .eq('id', id)
       .select()
@@ -1013,7 +1013,7 @@ export const updateProjectMain = async (id: string, updates: Partial<ProjectMain
 export const deleteProjectMain = async (id: string): Promise<void> => {
   try {
     const { error } = await supabase
-      .from('projects_projects')
+      .from('projects_main')
       .delete()
       .eq('id', id);
 
@@ -1031,7 +1031,7 @@ export const deleteProjectMain = async (id: string): Promise<void> => {
 export const saveProjectObjective = async (objective: Omit<ProjectObjective, 'id' | 'created_at' | 'updated_at'>): Promise<ProjectObjective> => {
   try {
     const { data, error } = await supabase
-      .from('projects_objectives')
+      .from('project_objectives')
       .insert([objective])
       .select()
       .single();
@@ -1051,7 +1051,7 @@ export const saveProjectObjective = async (objective: Omit<ProjectObjective, 'id
 export const loadProjectObjectives = async (projectId: string): Promise<ProjectObjective[]> => {
   try {
     const { data, error } = await supabase
-      .from('projects_objectives')
+      .from('project_objectives')
       .select('*')
       .eq('project_id', projectId)
       .order('target_date', { ascending: true });
@@ -1072,7 +1072,7 @@ export const loadProjectObjectives = async (projectId: string): Promise<ProjectO
 export const saveProjectBudget = async (budget: Omit<ProjectBudget, 'id' | 'created_at' | 'updated_at'>): Promise<ProjectBudget> => {
   try {
     const { data, error } = await supabase
-      .from('projects_budget')
+      .from('project_budget')
       .insert([budget])
       .select()
       .single();
@@ -1092,7 +1092,7 @@ export const saveProjectBudget = async (budget: Omit<ProjectBudget, 'id' | 'crea
 export const loadProjectBudget = async (projectId: string): Promise<ProjectBudget[]> => {
   try {
     const { data, error } = await supabase
-      .from('projects_budget')
+      .from('project_budget')
       .select('*')
       .eq('project_id', projectId)
       .order('planned_date', { ascending: true });
@@ -1113,7 +1113,7 @@ export const loadProjectBudget = async (projectId: string): Promise<ProjectBudge
 export const saveProjectTeam = async (team: Omit<ProjectTeam, 'id' | 'created_at' | 'updated_at'>): Promise<ProjectTeam> => {
   try {
     const { data, error } = await supabase
-      .from('projects_team')
+      .from('project_team')
       .insert([team])
       .select()
       .single();
@@ -1133,7 +1133,7 @@ export const saveProjectTeam = async (team: Omit<ProjectTeam, 'id' | 'created_at
 export const loadProjectTeam = async (projectId: string): Promise<ProjectTeam[]> => {
   try {
     const { data, error } = await supabase
-      .from('projects_team')
+      .from('project_team')
       .select('*')
       .eq('project_id', projectId)
       .order('start_date', { ascending: true });
@@ -1154,7 +1154,7 @@ export const loadProjectTeam = async (projectId: string): Promise<ProjectTeam[]>
 export const saveProjectMilestone = async (milestone: Omit<ProjectMilestone, 'id' | 'created_at' | 'updated_at'>): Promise<ProjectMilestone> => {
   try {
     const { data, error } = await supabase
-      .from('projects_milestones')
+      .from('project_milestones')
       .insert([milestone])
       .select()
       .single();
@@ -1174,7 +1174,7 @@ export const saveProjectMilestone = async (milestone: Omit<ProjectMilestone, 'id
 export const loadProjectMilestones = async (projectId: string): Promise<ProjectMilestone[]> => {
   try {
     const { data, error } = await supabase
-      .from('projects_milestones')
+      .from('project_milestones')
       .select('*')
       .eq('project_id', projectId)
       .order('planned_date', { ascending: true });
@@ -1195,7 +1195,7 @@ export const loadProjectMilestones = async (projectId: string): Promise<ProjectM
 export const saveProjectRisk = async (risk: Omit<ProjectRisk, 'id' | 'created_at' | 'updated_at'>): Promise<ProjectRisk> => {
   try {
     const { data, error } = await supabase
-      .from('projects_risks')
+      .from('project_risks')
       .insert([risk])
       .select()
       .single();
@@ -1215,7 +1215,7 @@ export const saveProjectRisk = async (risk: Omit<ProjectRisk, 'id' | 'created_at
 export const loadProjectRisks = async (projectId: string): Promise<ProjectRisk[]> => {
   try {
     const { data, error } = await supabase
-      .from('projects_risks')
+      .from('project_risks')
       .select('*')
       .eq('project_id', projectId)
       .order('risk_level', { ascending: false });

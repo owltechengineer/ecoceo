@@ -413,8 +413,8 @@ export default function ProjectsTest() {
       <h2 className="text-xl font-bold text-gray-900 mb-4">🧪 Test Database Projects</h2>
       <p className="text-gray-600 mb-4">
         Esegui i test per verificare la connessione e le operazioni CRUD (Create, Read, Update, Delete)
-        per tutte le tabelle dei progetti: projects_projects, projects_objectives, projects_budget, 
-        projects_team, projects_milestones, projects_risks.
+        per tutte le tabelle dei progetti: projects_main, project_objectives, project_budget, 
+        project_team, project_milestones, project_risks.
       </p>
       <button
         onClick={runAllTests}

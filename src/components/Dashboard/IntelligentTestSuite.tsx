@@ -291,7 +291,7 @@ export default function IntelligentTestSuite() {
           description: 'Controlla esistenza tabelle core',
           category: 'database',
           fn: async () => {
-            const tables = ['campaigns', 'leads', 'projects_projects', 'task_calendar_tasks', 'financial_budgets'];
+            const tables = ['campaigns', 'leads', 'projects_main', 'task_calendar_tasks', 'financial_budgets'];
             const results = {};
             
             for (const table of tables) {
