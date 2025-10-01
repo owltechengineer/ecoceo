@@ -1,22 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-// Only initialize Stripe if the secret key is available
-const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-07-30.basil',
-}) : null;
+});
 
 export async function POST(request: NextRequest) {
-  // Check if Stripe is properly configured
-  if (!stripe) {
-    console.warn('Stripe non configurato, checkout session non disponibile');
-    return NextResponse.json(
-      { error: 'Stripe not configured' },
-      { status: 400 }
-    );
-  }
-
   try {
+    // Debug: Check if Stripe key is available
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('STRIPE_SECRET_KEY is not defined');
+      return NextResponse.json(
+        { error: 'Stripe configuration error' },
+        { status: 500 }
+      );
+    }
 
     const { items, customerEmail, orderNumber } = await request.json();
     console.log('Received checkout request:', { items: items?.length, customerEmail, orderNumber });

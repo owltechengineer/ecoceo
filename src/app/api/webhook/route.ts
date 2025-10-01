@@ -1,20 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-// Only initialize Stripe if the secret key is available
-const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-07-30.basil',
-}) : null;
+});
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(request: NextRequest) {
-  // Check if Stripe is properly configured
-  if (!stripe) {
-    console.warn('Stripe non configurato, webhook ignorato');
-    return NextResponse.json({ error: 'Stripe not configured' }, { status: 400 });
-  }
-
   const body = await request.text();
   const signature = request.headers.get('stripe-signature');
 

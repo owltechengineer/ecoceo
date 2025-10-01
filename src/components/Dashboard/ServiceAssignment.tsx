@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { safeFetch } from '@/sanity/lib/client';
+import { client } from '@/sanity/lib/client';
 import { useDashboard } from '@/contexts/DashboardContext';
 import { InfoButton } from './InfoModal';
 import { useInfoModal } from '@/contexts/InfoModalContext';
@@ -43,12 +43,12 @@ export default function ServiceAssignment() {
       
       // Carica servizi e progetti da Sanity
       const [services, projects] = await Promise.all([
-        safeFetch(`*[_type == "service" && isActive == true] | order(name asc) {
+        client.fetch(`*[_type == "service" && isActive == true] | order(name asc) {
           _id,
           name,
           slug
         }`),
-        safeFetch(`*[_type == "project" && isActive == true] | order(title asc) {
+        client.fetch(`*[_type == "project" && isActive == true] | order(title asc) {
           _id,
           title,
           slug,
@@ -59,12 +59,10 @@ export default function ServiceAssignment() {
         }`)
       ]);
 
-      setSanityServices(services || []);
-      setSanityProjects(projects || []);
+      setSanityServices(services);
+      setSanityProjects(projects);
     } catch (error) {
-      console.warn('Sanity non disponibile, uso dati locali:', error);
-      setSanityServices([]);
-      setSanityProjects([]);
+      console.error('Errore nel caricamento dei dati di Sanity:', error);
     } finally {
       setIsLoading(false);
     }

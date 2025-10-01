@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { smartTranslate, translateWithDictionary } from '@/lib/translation';
-import { quotesService } from '@/lib/supabase';
 
 interface WarehouseItem {
   id: string;
@@ -43,49 +42,8 @@ interface Quote {
   notes: string;
 }
 
-// Interfaccia per impostazioni preventivo
-interface QuoteSettings {
-  // Dati Azienda Base
-  companyName: string;
-  companyAddress: string;
-  companyCity: string;
-  companyZip: string;
-  companyCountry: string;
-  companyPhone: string;
-  companyEmail: string;
-  companyWebsite: string;
-  companyLogo?: string;
-  
-  // Dati Fiscali
-  vatNumber: string; // P.IVA
-  taxCode: string; // Codice Fiscale
-  
-  // Dati Bancari
-  bankName: string;
-  iban: string;
-  swift: string;
-  
-  // Dati Fatturazione Elettronica
-  pec: string; // PEC
-  sdi: string; // Codice SDI
-  
-  // Personalizzazione
-  footerText: string;
-  termsAndConditions: string;
-  primaryColor: string;
-  secondaryColor: string;
-  showLogo: boolean;
-  showFooter: boolean;
-  showBankDetails: boolean;
-  showTerms: boolean;
-  defaultValidityDays: number;
-  
-  // Note Legali
-  legalNote: string;
-}
-
 export default function WarehouseManagement() {
-  const [activeTab, setActiveTab] = useState<'warehouse' | 'quotes' | 'settings'>('warehouse');
+  const [activeTab, setActiveTab] = useState<'warehouse' | 'quotes'>('warehouse');
   const [showNewItem, setShowNewItem] = useState(false);
   const [showQuoteEditor, setShowQuoteEditor] = useState(false);
   const [editingQuote, setEditingQuote] = useState<Quote | null>(null);
@@ -267,109 +225,10 @@ export default function WarehouseManagement() {
     }
   ]);
 
-  // Stati per i preventivi
+  // Mock data per i preventivi
   const [quotes, setQuotes] = useState<Quote[]>([]);
-  const [isLoadingQuotes, setIsLoadingQuotes] = useState(false);
-  const [isSavingQuote, setIsSavingQuote] = useState(false);
-
-  // Stati per impostazioni
-  const [quoteSettings, setQuoteSettings] = useState<QuoteSettings>({
-    // Dati Azienda Base
-    companyName: 'La Tua Azienda S.r.l.',
-    companyAddress: 'Via Esempio 123',
-    companyCity: 'Roma',
-    companyZip: '00100',
-    companyCountry: 'Italia',
-    companyPhone: '+39 123 456 7890',
-    companyEmail: 'info@azienda.com',
-    companyWebsite: 'www.azienda.com',
-    companyLogo: '',
-    
-    // Dati Fiscali
-    vatNumber: 'IT12345678901',
-    taxCode: 'RSSMRA80A01H501U',
-    
-    // Dati Bancari
-    bankName: 'Banca Esempio',
-    iban: 'IT60 X054 2811 1010 0000 0123 456',
-    swift: 'BPMOIT22XXX',
-    
-    // Dati Fatturazione Elettronica
-    pec: 'azienda@pec.it',
-    sdi: 'ABCDEFG',
-    
-    // Personalizzazione
-    footerText: 'Grazie per la vostra fiducia! Per informazioni: info@azienda.com | +39 123 456 7890',
-    termsAndConditions: 'Il presente preventivo è valido per {days} giorni dalla data di emissione. I prezzi si intendono IVA esclusa salvo diversa indicazione.',
-    primaryColor: '#2563eb',
-    secondaryColor: '#16a34a',
-    showLogo: true,
-    showFooter: true,
-    showBankDetails: true,
-    showTerms: true,
-    defaultValidityDays: 30,
-    
-    // Note Legali
-    legalNote: 'Ai sensi del D.Lgs. 196/2003, Vi informiamo che i Vostri dati sono raccolti per le finalità connesse ai rapporti commerciali tra di noi intercorrenti.'
-  });
 
   const categories = ['Tutti', 'Elettronica', 'Accessori', 'Software', 'Servizi'];
-
-  // Carica preventivi all'avvio
-  useEffect(() => {
-    loadQuotes();
-    
-    // Carica impostazioni da localStorage
-    const savedSettings = localStorage.getItem('quoteSettings');
-    if (savedSettings) {
-      try {
-        const parsed = JSON.parse(savedSettings);
-        setQuoteSettings(parsed);
-        console.log('✅ Impostazioni preventivo caricate');
-      } catch (error) {
-        console.error('Errore caricamento impostazioni:', error);
-      }
-    }
-  }, []);
-
-  // Funzione per caricare i preventivi
-  const loadQuotes = async () => {
-    try {
-      setIsLoadingQuotes(true);
-      const data = await quotesService.loadQuotes();
-      
-      // Converti i dati dal database al formato dell'interfaccia Quote
-      const formattedQuotes: Quote[] = data.map((q: any) => ({
-        id: q.id,
-        clientName: q.client_name,
-        clientEmail: q.client_email || '',
-        clientAddress: q.client_address || '',
-        language: q.language || 'it',
-        items: q.quote_items?.map((item: any) => ({
-          id: item.id,
-          itemId: item.item_id || '',
-          name: item.name,
-          description: item.description || '',
-          quantity: item.quantity,
-          unitPrice: item.unit_price,
-          total: item.total
-        })) || [],
-        subtotal: q.subtotal,
-        tax: q.tax,
-        total: q.total,
-        validUntil: q.valid_until || '',
-        notes: q.notes || ''
-      }));
-      
-      setQuotes(formattedQuotes);
-      console.log(`✅ Caricati ${formattedQuotes.length} preventivi`);
-    } catch (error) {
-      console.error('Errore caricamento preventivi:', error);
-      alert('Errore nel caricamento dei preventivi');
-    } finally {
-      setIsLoadingQuotes(false);
-    }
-  };
 
   const getStockStatus = (item: WarehouseItem) => {
     if (item.quantity <= item.minStock) return 'low';
@@ -950,7 +809,7 @@ export default function WarehouseManagement() {
   };
 
   // Funzione per generare HTML del preventivo tradotto
-  const generateQuoteHTML = async (quoteData: any, settings: QuoteSettings = quoteSettings): Promise<string> => {
+  const generateQuoteHTML = async (quoteData: any): Promise<string> => {
     const lang = quoteData.language || 'it';
     
     // Traduci tutte le etichette
@@ -969,10 +828,7 @@ export default function WarehouseManagement() {
       tax: await translateText('Tax', lang),
       finalTotal: await translateText('Final Total', lang),
       validUntil: await translateText('Valid Until', lang),
-      notes: await translateText('Notes', lang),
-      vatNumber: await translateText('VAT Number', lang),
-      iban: await translateText('IBAN', lang),
-      bankDetails: await translateText('Bank Details', lang)
+      notes: await translateText('Notes', lang)
     };
 
     // Pre-traduci TUTTO il contenuto degli articoli (nome + descrizione)
@@ -989,14 +845,13 @@ export default function WarehouseManagement() {
       ? await smartTranslate(quoteData.notes, lang, 'it')
       : '';
 
-    // Traduci testi footer e termini dalle impostazioni
+    // Traduci testi statici del footer
     const footerTexts = {
-      thanks: await smartTranslate(settings.footerText, lang, 'it'),
-      terms: settings.showTerms ? await smartTranslate(settings.termsAndConditions.replace('{days}', settings.defaultValidityDays.toString()), lang, 'it') : '',
-      legal: await smartTranslate(settings.legalNote, lang, 'it')
+      thanks: await smartTranslate('Grazie per la vostra fiducia!', lang, 'it'),
+      info: await smartTranslate('Per informazioni', lang, 'it')
     };
 
-    const validUntilDate = new Date(Date.now() + settings.defaultValidityDays * 24 * 60 * 60 * 1000).toLocaleDateString('it-IT');
+    const validUntilDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('it-IT');
     
     return `
       <!DOCTYPE html>
@@ -1132,58 +987,30 @@ export default function WarehouseManagement() {
         };
       }
       
-      // Salva il preventivo su Supabase
-      try {
-        setIsSavingQuote(true);
-        const savedQuote = await quotesService.saveQuote({
-          clientName: quoteData.clientName!,
-          clientEmail: quoteData.clientEmail,
-          clientAddress: quoteData.clientAddress,
-          language: quoteData.language!,
-          subtotal: quoteData.subtotal!,
-          tax: quoteData.tax!,
-          total: quoteData.total!,
-          validUntil: quoteData.validUntil,
-          notes: quoteData.notes,
-          status: 'sent',
-          items: quoteItems.map(item => ({
-            itemId: item.itemId,
-            name: item.name,
-            description: item.description,
-            quantity: item.quantity,
-            unitPrice: item.unitPrice,
-            total: item.total
-          }))
-        });
-
-        console.log('✅ Preventivo salvato:', savedQuote);
-
-        // Ricarica i preventivi
-        await loadQuotes();
-
-        // Reset form
-        setQuoteItems([]);
-        setCurrentQuote({
-          clientName: '',
-          clientEmail: '',
-          clientAddress: '',
-          language: 'it',
-          items: [],
-          subtotal: 0,
-          tax: 0,
-          total: 0,
-          validUntil: '',
-          notes: ''
-        });
-        setShowQuoteEditor(false);
-        
-        alert(`✅ PDF generato e preventivo salvato!\n📄 Numero: ${savedQuote.quote_number}\n👤 Cliente: ${quoteData.clientName}\n💰 Totale: €${quoteData.total.toFixed(2)}\n🌍 Lingua: ${currentQuote.language?.toUpperCase()}`);
-      } catch (saveError) {
-        console.error('⚠️ Errore salvataggio preventivo:', saveError);
-        alert('⚠️ PDF generato ma errore nel salvataggio del preventivo');
-      } finally {
-        setIsSavingQuote(false);
-      }
+      // Salva il preventivo
+      const newQuote: Quote = {
+        id: `quote-${Date.now()}`,
+        ...quoteData,
+        validUntil: quoteData.validUntil
+      };
+      
+      setQuotes([...quotes, newQuote]);
+      setQuoteItems([]);
+      setCurrentQuote({
+        clientName: '',
+        clientEmail: '',
+        clientAddress: '',
+        language: 'it',
+        items: [],
+        subtotal: 0,
+        tax: 0,
+        total: 0,
+        validUntil: '',
+        notes: ''
+      });
+      setShowQuoteEditor(false);
+      
+      alert(`✅ PDF generato in ${currentQuote.language?.toUpperCase()}!\nCliente: ${quoteData.clientName}\nTotale: €${quoteData.total.toFixed(2)}`);
     } catch (error) {
       console.error('Errore generazione PDF:', error);
       alert('Errore nella generazione del PDF');
@@ -1322,16 +1149,6 @@ export default function WarehouseManagement() {
           >
             📄 Preventivi
           </button>
-          <button
-            onClick={() => setActiveTab('settings')}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-              activeTab === 'settings'
-                ? 'bg-orange-500 text-white'
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            ⚙️ Impostazioni
-          </button>
         </div>
 
         {/* Magazzino Tab */}
@@ -1462,11 +1279,10 @@ export default function WarehouseManagement() {
                         <div className="flex items-start justify-between mb-2">
                           <h3 className="text-lg font-bold text-gray-900 leading-tight flex-1">{item.name}</h3>
                         </div>
-                        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-3">{item.description}</p>
-                        {/* Codice SKU prominente e ben visibile */}
-                        <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white px-4 py-2.5 rounded-lg inline-block shadow-md">
-                          <div className="text-xs text-gray-400 mb-0.5 font-semibold">SKU</div>
-                          <span className="text-sm font-mono font-bold tracking-widest">{item.sku}</span>
+                        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-2">{item.description}</p>
+                        {/* Codice SKU prominente */}
+                        <div className="bg-gray-900 text-white px-3 py-1.5 rounded-lg inline-block">
+                          <span className="text-xs font-mono font-bold tracking-wider">{item.sku}</span>
                         </div>
                       </div>
                       
@@ -1514,15 +1330,10 @@ export default function WarehouseManagement() {
         {/* Preventivi Tab */}
         {activeTab === 'quotes' && (
           <div className="space-y-6">
-            {isLoadingQuotes ? (
-              <div className="text-center py-12">
-                <div className="animate-spin text-6xl mb-4">⏳</div>
-                <p className="text-gray-600">Caricamento preventivi...</p>
-              </div>
-            ) : quotes.length === 0 ? (
+            {quotes.length === 0 ? (
               <div className="text-center py-12">
                 <span className="text-6xl mb-4 block">📄</span>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Nessun preventivo salvato</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Nessun preventivo creato</h3>
                 <p className="text-gray-600 mb-6">Crea il tuo primo preventivo selezionando articoli dal magazzino</p>
                 <button
                   onClick={() => openQuoteEditor('new')}
@@ -1532,609 +1343,34 @@ export default function WarehouseManagement() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="space-y-4">
                 {quotes.map((quote) => (
-                  <div key={quote.id} className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border-2 border-gray-200 hover:border-orange-300 transition-all duration-200">
-                    {/* Header */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <h3 className="text-lg font-bold text-gray-900">
-                            {quote.clientName}
-                          </h3>
-                          <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
-                            quote.language === 'it' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'
-                          }`}>
-                            {quote.language?.toUpperCase() || 'IT'}
-                          </span>
-                        </div>
-                        {quote.clientEmail && (
-                          <p className="text-sm text-gray-600">📧 {quote.clientEmail}</p>
-                        )}
-                        <p className="text-xs text-gray-500 mt-1">
-                          📅 {quote.validUntil ? new Date(quote.validUntil).toLocaleDateString('it-IT') : 'N/D'}
-                        </p>
+                  <div key={quote.id} className="bg-white rounded-lg p-6 shadow-lg border border-gray-200">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900">Preventivo #{quote.id}</h3>
+                        <p className="text-gray-600">Cliente: {quote.clientName}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-green-600">€{quote.total.toFixed(2)}</p>
-                        <p className="text-xs text-gray-500">{quote.items?.length || 0} articoli</p>
+                        <p className="text-2xl font-bold text-gray-900">€{quote.total.toFixed(2)}</p>
+                        <p className="text-sm text-gray-500">Totale</p>
                       </div>
                     </div>
-
-                    {/* Articoli Preview */}
-                    <div className="mb-4 bg-gray-50 rounded-lg p-3 max-h-32 overflow-y-auto">
-                      {quote.items && quote.items.length > 0 ? (
-                        <div className="space-y-1">
-                          {quote.items.slice(0, 3).map((item, index) => (
-                            <div key={index} className="flex items-center justify-between text-xs">
-                              <span className="text-gray-700 truncate flex-1">{item.name}</span>
-                              <span className="text-gray-500 ml-2">x{item.quantity}</span>
-                            </div>
-                          ))}
-                          {quote.items.length > 3 && (
-                            <p className="text-xs text-gray-500 italic text-center pt-1">
-                              ...e altri {quote.items.length - 3} articoli
-                            </p>
-                          )}
-                        </div>
-                      ) : (
-                        <p className="text-xs text-gray-500 text-center">Nessun articolo</p>
-                      )}
-                    </div>
-
-                    {/* Azioni */}
-                    <div className="grid grid-cols-3 gap-2">
-                      <button 
-                        onClick={() => {
-                          // TODO: Visualizza dettagli preventivo
-                          alert('Visualizza dettagli in arrivo!');
-                        }}
-                        className="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-xs font-medium hover:bg-blue-200 transition-colors"
-                      >
-                        👁️ Vedi
+                    <div className="flex space-x-3">
+                      <button className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors">
+                        👁️ Visualizza
                       </button>
-                      <button 
-                        onClick={async () => {
-                          try {
-                            // Prepara dati per PDF
-                            const quoteData = {
-                              clientName: quote.clientName,
-                              clientEmail: quote.clientEmail,
-                              clientAddress: quote.clientAddress,
-                              language: quote.language,
-                              items: quote.items || [],
-                              subtotal: quote.subtotal,
-                              tax: quote.tax,
-                              total: quote.total,
-                              validUntil: quote.validUntil,
-                              notes: quote.notes
-                            };
-
-                            // Genera HTML tradotto
-                            const htmlContent = await generateQuoteHTML(quoteData);
-                            
-                            // Crea blob HTML
-                            const blob = new Blob([htmlContent], { type: 'text/html' });
-                            const url = URL.createObjectURL(blob);
-                            
-                            // Apri in nuova finestra per stampa/PDF
-                            const printWindow = window.open(url, '_blank');
-                            if (printWindow) {
-                              printWindow.onload = () => {
-                                printWindow.print();
-                              };
-                            }
-                            
-                            alert(`✅ PDF rigenerato!\n👤 Cliente: ${quote.clientName}\n💰 Totale: €${quote.total.toFixed(2)}\n🌍 Lingua: ${quote.language?.toUpperCase()}`);
-                          } catch (error) {
-                            console.error('Errore generazione PDF:', error);
-                            alert('❌ Errore nella generazione del PDF');
-                          }
-                        }}
-                        className="px-3 py-2 bg-green-100 text-green-700 rounded-lg text-xs font-medium hover:bg-green-200 transition-colors"
-                      >
-                        📄 Inoltra
+                      <button className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors">
+                        📄 PDF
                       </button>
-                      <button 
-                        onClick={async () => {
-                          if (confirm(`Eliminare il preventivo per ${quote.clientName}?`)) {
-                            try {
-                              await quotesService.deleteQuote(quote.id);
-                              await loadQuotes();
-                              alert('✅ Preventivo eliminato!');
-                            } catch (error) {
-                              console.error('Errore eliminazione:', error);
-                              alert('❌ Errore nell\'eliminazione del preventivo');
-                            }
-                          }
-                        }}
-                        className="px-3 py-2 bg-red-100 text-red-700 rounded-lg text-xs font-medium hover:bg-red-200 transition-colors"
-                      >
-                        🗑️ Elimina
+                      <button className="bg-gray-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors">
+                        ✏️ Modifica
                       </button>
                     </div>
                   </div>
                 ))}
               </div>
             )}
-          </div>
-        )}
-
-        {/* Impostazioni Tab */}
-        {activeTab === 'settings' && (
-          <div className="space-y-6">
-            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-lg p-6 mb-6">
-              <div className="flex items-center space-x-3 mb-2">
-                <span className="text-3xl">⚙️</span>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900">Impostazioni Preventivo</h3>
-                  <p className="text-sm text-gray-600">Personalizza l'aspetto e i contenuti dei tuoi preventivi</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Informazioni Azienda */}
-              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200">
-                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                  <span className="mr-2">🏢</span> Informazioni Azienda
-                </h4>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Nome Azienda / Ragione Sociale</label>
-                    <input
-                      type="text"
-                      value={quoteSettings.companyName}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, companyName: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                      placeholder="La Tua Azienda S.r.l."
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Indirizzo</label>
-                    <input
-                      type="text"
-                      value={quoteSettings.companyAddress}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, companyAddress: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                      placeholder="Via Esempio 123"
-                    />
-                  </div>
-                  <div className="grid grid-cols-3 gap-3">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">CAP</label>
-                      <input
-                        type="text"
-                        value={quoteSettings.companyZip}
-                        onChange={(e) => setQuoteSettings({...quoteSettings, companyZip: e.target.value})}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                        placeholder="00100"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Città</label>
-                      <input
-                        type="text"
-                        value={quoteSettings.companyCity}
-                        onChange={(e) => setQuoteSettings({...quoteSettings, companyCity: e.target.value})}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                        placeholder="Roma"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Paese</label>
-                      <input
-                        type="text"
-                        value={quoteSettings.companyCountry}
-                        onChange={(e) => setQuoteSettings({...quoteSettings, companyCountry: e.target.value})}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                        placeholder="Italia"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Telefono</label>
-                      <input
-                        type="text"
-                        value={quoteSettings.companyPhone}
-                        onChange={(e) => setQuoteSettings({...quoteSettings, companyPhone: e.target.value})}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                        placeholder="+39 123 456 7890"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                      <input
-                        type="email"
-                        value={quoteSettings.companyEmail}
-                        onChange={(e) => setQuoteSettings({...quoteSettings, companyEmail: e.target.value})}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                        placeholder="info@azienda.com"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Sito Web</label>
-                    <input
-                      type="text"
-                      value={quoteSettings.companyWebsite}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, companyWebsite: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                      placeholder="www.azienda.com"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Logo Azienda (URL)</label>
-                    <input
-                      type="text"
-                      value={quoteSettings.companyLogo}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, companyLogo: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                      placeholder="https://esempio.com/logo.png"
-                    />
-                    <p className="text-xs text-gray-500 mt-1">Inserisci l'URL del tuo logo (es: da Imgur, Cloudinary, ecc.)</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Dati Fiscali */}
-              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200">
-                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                  <span className="mr-2">📋</span> Dati Fiscali
-                </h4>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Partita IVA</label>
-                    <input
-                      type="text"
-                      value={quoteSettings.vatNumber}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, vatNumber: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono"
-                      placeholder="IT12345678901"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Codice Fiscale</label>
-                    <input
-                      type="text"
-                      value={quoteSettings.taxCode}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, taxCode: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono"
-                      placeholder="RSSMRA80A01H501U"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">PEC (Posta Certificata)</label>
-                    <input
-                      type="email"
-                      value={quoteSettings.pec}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, pec: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                      placeholder="azienda@pec.it"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Codice SDI (Fatturazione Elettronica)</label>
-                    <input
-                      type="text"
-                      value={quoteSettings.sdi}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, sdi: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono uppercase"
-                      placeholder="ABCDEFG"
-                      maxLength={7}
-                    />
-                    <p className="text-xs text-gray-500 mt-1">Codice univoco a 7 caratteri per fattura elettronica</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Dati Bancari */}
-              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200">
-                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                  <span className="mr-2">🏦</span> Dati Bancari
-                </h4>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Nome Banca</label>
-                    <input
-                      type="text"
-                      value={quoteSettings.bankName}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, bankName: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                      placeholder="Banca Esempio"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">IBAN</label>
-                    <input
-                      type="text"
-                      value={quoteSettings.iban}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, iban: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono"
-                      placeholder="IT60 X054 2811 1010 0000 0123 456"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">SWIFT/BIC (opzionale)</label>
-                    <input
-                      type="text"
-                      value={quoteSettings.swift}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, swift: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono uppercase"
-                      placeholder="BPMOIT22XXX"
-                    />
-                  </div>
-                  <label className="flex items-center space-x-2 pt-2">
-                    <input
-                      type="checkbox"
-                      checked={quoteSettings.showBankDetails}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, showBankDetails: e.target.checked})}
-                      className="w-4 h-4 text-orange-600 rounded focus:ring-orange-500"
-                    />
-                    <span className="text-sm text-gray-700">Mostra dati bancari nei preventivi</span>
-                  </label>
-                </div>
-              </div>
-
-              {/* Personalizzazione */}
-              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200">
-                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                  <span className="mr-2">🎨</span> Personalizzazione
-                </h4>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Colore Primario</label>
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="color"
-                          value={quoteSettings.primaryColor}
-                          onChange={(e) => setQuoteSettings({...quoteSettings, primaryColor: e.target.value})}
-                          className="w-12 h-10 rounded border border-gray-300"
-                        />
-                        <input
-                          type="text"
-                          value={quoteSettings.primaryColor}
-                          onChange={(e) => setQuoteSettings({...quoteSettings, primaryColor: e.target.value})}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm font-mono"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Colore Secondario</label>
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="color"
-                          value={quoteSettings.secondaryColor}
-                          onChange={(e) => setQuoteSettings({...quoteSettings, secondaryColor: e.target.value})}
-                          className="w-12 h-10 rounded border border-gray-300"
-                        />
-                        <input
-                          type="text"
-                          value={quoteSettings.secondaryColor}
-                          onChange={(e) => setQuoteSettings({...quoteSettings, secondaryColor: e.target.value})}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm font-mono"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Validità Preventivo (giorni)</label>
-                    <input
-                      type="number"
-                      value={quoteSettings.defaultValidityDays}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, defaultValidityDays: parseInt(e.target.value) || 30})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                      min="1"
-                      max="365"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={quoteSettings.showLogo}
-                        onChange={(e) => setQuoteSettings({...quoteSettings, showLogo: e.target.checked})}
-                        className="w-4 h-4 text-orange-600 rounded focus:ring-orange-500"
-                      />
-                      <span className="text-sm text-gray-700">Mostra Logo</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={quoteSettings.showFooter}
-                        onChange={(e) => setQuoteSettings({...quoteSettings, showFooter: e.target.checked})}
-                        className="w-4 h-4 text-orange-600 rounded focus:ring-orange-500"
-                      />
-                      <span className="text-sm text-gray-700">Mostra Footer</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              {/* Testo Footer */}
-              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200 lg:col-span-2">
-                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                  <span className="mr-2">📝</span> Testo Footer
-                </h4>
-                <textarea
-                  value={quoteSettings.footerText}
-                  onChange={(e) => setQuoteSettings({...quoteSettings, footerText: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  rows={3}
-                  placeholder="Grazie per la vostra fiducia! Per informazioni: info@azienda.com | +39 123 456 7890"
-                />
-                <p className="text-xs text-gray-500 mt-2">
-                  Questo testo apparirà in fondo a tutti i preventivi generati
-                </p>
-              </div>
-
-              {/* Termini e Condizioni */}
-              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200 lg:col-span-2">
-                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                  <span className="mr-2">📜</span> Termini e Condizioni
-                </h4>
-                <textarea
-                  value={quoteSettings.termsAndConditions}
-                  onChange={(e) => setQuoteSettings({...quoteSettings, termsAndConditions: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  rows={3}
-                  placeholder="Il presente preventivo è valido per {days} giorni..."
-                />
-                <div className="flex items-center space-x-4 mt-2">
-                  <p className="text-xs text-gray-500">
-                    Usa {'{days}'} per inserire automaticamente i giorni di validità
-                  </p>
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={quoteSettings.showTerms}
-                      onChange={(e) => setQuoteSettings({...quoteSettings, showTerms: e.target.checked})}
-                      className="w-4 h-4 text-orange-600 rounded focus:ring-orange-500"
-                    />
-                    <span className="text-sm text-gray-700">Mostra nei preventivi</span>
-                  </label>
-                </div>
-              </div>
-
-              {/* Note Legali Privacy */}
-              <div className="bg-white/50 backdrop-blur rounded-xl p-6 shadow-lg border border-gray-200 lg:col-span-2">
-                <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                  <span className="mr-2">⚖️</span> Note Legali e Privacy
-                </h4>
-                <textarea
-                  value={quoteSettings.legalNote}
-                  onChange={(e) => setQuoteSettings({...quoteSettings, legalNote: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  rows={2}
-                  placeholder="Ai sensi del D.Lgs. 196/2003..."
-                />
-                <p className="text-xs text-gray-500 mt-2">
-                  Informativa privacy e note legali (GDPR)
-                </p>
-              </div>
-            </div>
-
-            {/* Anteprima */}
-            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 shadow-lg border border-blue-200">
-              <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                <span className="mr-2">👁️</span> Anteprima Preventivo
-              </h4>
-              <div className="bg-white rounded-lg p-6 shadow-inner border-2 border-dashed border-gray-300">
-                {/* Header Anteprima */}
-                <div className="mb-6" style={{ borderBottomColor: quoteSettings.primaryColor, borderBottomWidth: '3px' }}>
-                  <h2 className="text-2xl font-bold mb-2" style={{ color: quoteSettings.primaryColor }}>
-                    {quoteSettings.companyName}
-                  </h2>
-                  <p className="text-sm text-gray-600 mb-3">{quoteSettings.companyAddress}</p>
-                  <div className="flex items-center space-x-4 text-xs text-gray-500 pb-3">
-                    <span>📞 {quoteSettings.companyPhone}</span>
-                    <span>📧 {quoteSettings.companyEmail}</span>
-                  </div>
-                </div>
-
-                {/* Corpo Anteprima */}
-                <div className="py-4">
-                  <h3 className="text-xl font-bold mb-2" style={{ color: quoteSettings.secondaryColor }}>
-                    PREVENTIVO
-                  </h3>
-                  <div className="grid grid-cols-2 gap-4 text-sm mb-4">
-                    <div>
-                      <p className="text-gray-600">Cliente: <strong>Cliente Esempio</strong></p>
-                      <p className="text-gray-600">Email: esempio@cliente.com</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-gray-600">Data: {new Date().toLocaleDateString('it-IT')}</p>
-                      <p className="text-gray-600">Valido fino: {new Date(Date.now() + quoteSettings.defaultValidityDays * 24 * 60 * 60 * 1000).toLocaleDateString('it-IT')}</p>
-                    </div>
-                  </div>
-                  
-                  {/* Tabella Esempio */}
-                  <div className="border border-gray-200 rounded-lg overflow-hidden mb-4">
-                    <table className="w-full text-sm">
-                      <thead style={{ backgroundColor: quoteSettings.primaryColor, color: 'white' }}>
-                        <tr>
-                          <th className="px-3 py-2 text-left">Articolo</th>
-                          <th className="px-3 py-2 text-center">Qtà</th>
-                          <th className="px-3 py-2 text-right">Prezzo</th>
-                          <th className="px-3 py-2 text-right">Totale</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className="border-b">
-                          <td className="px-3 py-2">Laptop Dell XPS 13</td>
-                          <td className="px-3 py-2 text-center">1</td>
-                          <td className="px-3 py-2 text-right">€1,299.00</td>
-                          <td className="px-3 py-2 text-right font-semibold">€1,299.00</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  {/* Totali */}
-                  <div className="flex justify-end">
-                    <div className="w-64 space-y-1 text-sm">
-                      <div className="flex justify-between">
-                        <span>Subtotale:</span>
-                        <span className="font-semibold">€1,299.00</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>IVA (22%):</span>
-                        <span className="font-semibold">€285.78</span>
-                      </div>
-                      <div className="flex justify-between border-t-2 pt-1" style={{ borderTopColor: quoteSettings.secondaryColor }}>
-                        <span className="font-bold">Totale:</span>
-                        <span className="font-bold text-lg" style={{ color: quoteSettings.secondaryColor }}>€1,584.78</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Footer Anteprima */}
-                {quoteSettings.showFooter && (
-                  <div className="mt-6 pt-4 border-t-2 border-gray-200 text-center">
-                    <p className="text-xs text-gray-600 italic">{quoteSettings.footerText}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Salva Impostazioni */}
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => {
-                  // Reset to default
-                  setQuoteSettings({
-                    companyName: 'La Tua Azienda',
-                    companyAddress: 'Via Esempio 123, 00100 Roma',
-                    companyPhone: '+39 123 456 7890',
-                    companyEmail: 'info@azienda.com',
-                    companyLogo: '',
-                    footerText: 'Grazie per la vostra fiducia! Per informazioni: info@azienda.com | +39 123 456 7890',
-                    primaryColor: '#2563eb',
-                    secondaryColor: '#16a34a',
-                    showLogo: true,
-                    showFooter: true,
-                    defaultValidityDays: 30
-                  });
-                  alert('✅ Impostazioni ripristinate ai valori predefiniti');
-                }}
-                className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
-              >
-                🔄 Ripristina Default
-              </button>
-              <button
-                onClick={() => {
-                  // TODO: Salvare in localStorage o Supabase
-                  localStorage.setItem('quoteSettings', JSON.stringify(quoteSettings));
-                  alert('✅ Impostazioni salvate con successo!');
-                }}
-                className="px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 shadow-lg font-medium"
-              >
-                💾 Salva Impostazioni
-              </button>
-            </div>
           </div>
         )}
       </div>
@@ -2481,7 +1717,7 @@ export default function WarehouseManagement() {
             
             <div className="flex space-x-3 pt-6">
               <button
-                onClick={() => setShowQuoteEditor(false)}
+                onClick={() => setShowNewQuote(false)}
                 className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
               >
                 Annulla
@@ -2495,9 +1731,16 @@ export default function WarehouseManagement() {
               <button 
                 onClick={generatePDF}
                 disabled={quoteItems.length === 0 || !currentQuote.clientName || isTranslating}
-                className="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-semibold shadow-lg"
+                className="flex-1 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isTranslating ? '🔄 Traduzione in corso...' : '📄 Genera Preventivo PDF'}
+                {isTranslating ? '🔄 Traduzione...' : '📄 Genera PDF'}
+              </button>
+              <button 
+                onClick={generateImage}
+                disabled={quoteItems.length === 0 || !currentQuote.clientName || isTranslating}
+                className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isTranslating ? '🔄 Traduzione...' : '🖼️ Genera Immagine'}
               </button>
             </div>
           </div>
@@ -2622,9 +1865,15 @@ export default function WarehouseManagement() {
                   <div className="flex space-x-3 pt-4 border-t">
                     <button
                       onClick={generatePDF}
-                      className="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200 font-semibold shadow-lg"
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-90 transition-all duration-200"
                     >
-                      📄 Genera Preventivo PDF
+                      📄 Genera PDF
+                    </button>
+                    <button
+                      onClick={generateImage}
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:opacity-90 transition-all duration-200"
+                    >
+                      🖼️ Genera Immagine
                     </button>
                   </div>
                 )}
