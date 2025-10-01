@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS task_calendar_projects (
   end_date DATE,
   budget DECIMAL(10, 2) DEFAULT 0,
   progress INTEGER DEFAULT 0,
+  user_id VARCHAR(255) DEFAULT 'default-user',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -61,6 +62,7 @@ CREATE TABLE IF NOT EXISTS task_calendar_tasks (
   due_date DATE,
   assigned_to VARCHAR(255),
   project_id UUID REFERENCES task_calendar_projects(id) ON DELETE CASCADE,
+  user_id VARCHAR(255) DEFAULT 'default-user',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -70,6 +72,7 @@ CREATE TABLE IF NOT EXISTS task_calendar_appointments (
   description TEXT,
   start_time TIMESTAMP WITH TIME ZONE NOT NULL,
   end_time TIMESTAMP WITH TIME ZONE,
+  user_id VARCHAR(255) DEFAULT 'default-user',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -81,6 +84,7 @@ CREATE TABLE IF NOT EXISTS recurring_activities (
   start_date DATE NOT NULL,
   time TIME,
   is_active BOOLEAN DEFAULT true,
+  user_id VARCHAR(255) DEFAULT 'default-user',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -93,6 +97,7 @@ CREATE TABLE IF NOT EXISTS quick_tasks (
   priority VARCHAR(20) DEFAULT 'medium',
   status VARCHAR(50) DEFAULT 'pending',
   completed_at TIMESTAMP WITH TIME ZONE,
+  user_id VARCHAR(255) DEFAULT 'default-user',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
