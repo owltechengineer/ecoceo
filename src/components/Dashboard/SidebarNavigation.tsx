@@ -50,7 +50,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
     fetchLogo();
   }, []);
 
-  // Sezioni dinamiche basate su .env
+  // Sezioni dinamiche basate su .env con fallback statico
   const getNavigationItems = (): NavigationItem[] => {
     const colorMap: { [key: string]: { color: string; gradient: string } } = {
       'Dashboard': { color: 'blue', gradient: 'from-blue-600 to-blue-700' },
@@ -61,6 +61,27 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
       'Finanziario': { color: 'emerald', gradient: 'from-emerald-600 to-emerald-700' },
       'Business Plan': { color: 'indigo', gradient: 'from-indigo-600 to-indigo-700' }
     };
+
+    // Se non ci sono sezioni dinamiche, usa quelle statiche
+    if (sections.length === 0) {
+      const staticSections = [
+        { name: 'Dashboard', icon: '📊', description: 'Panoramica generale' },
+        { name: 'Task e Calendario', icon: '📅', description: 'Gestione attività' },
+        { name: 'Marketing', icon: '📈', description: 'Gestione marketing' },
+        { name: 'Progetti', icon: '🚀', description: 'Gestione progetti' },
+        { name: 'Magazzino', icon: '📦', description: 'Gestione inventario' },
+        { name: 'Finanziario', icon: '💰', description: 'Gestione finanziaria' },
+        { name: 'Business Plan', icon: '📋', description: 'Piano aziendale' }
+      ];
+
+      return staticSections.map(section => ({
+        key: section.name.toLowerCase().replace(/\s+/g, '-'),
+        name: section.name,
+        icon: section.icon,
+        description: section.description,
+        ...colorMap[section.name] || { color: 'gray', gradient: 'from-gray-600 to-gray-700' }
+      }));
+    }
 
     return sections.map(section => ({
       key: section.name.toLowerCase().replace(/\s+/g, '-'),
@@ -104,7 +125,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
       )}
 
       {/* Sidebar */}
-      <div className={`transition-all duration-300 ${
+    <div className={`transition-all duration-300 ${
         isCollapsed ? 'w-24' : 'w-72'
       } p-4 ${
         isMobileMenuOpen ? 'fixed inset-y-0 left-0 z-50 lg:relative lg:inset-auto' : 'hidden lg:block'
@@ -179,34 +200,34 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
                 </div>
               )}
               
-              <button
-                onClick={() => handleNavigation(item)}
+            <button
+              onClick={() => handleNavigation(item)}
                 className={`w-full flex items-center ${
                   isCollapsed ? 'p-3 justify-center' : 'p-3'
                 } rounded-lg transition-all duration-200 group ${
-                  activeSection === item.key
+                activeSection === item.key
                     ? 'bg-blue-500/20 text-blue-700 border border-blue-200/50'
                     : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-800'
-                }`}
-                title={isCollapsed ? item.name : undefined}
-              >
+              }`}
+              title={isCollapsed ? item.name : undefined}
+            >
                 <div className={`${
                   isCollapsed ? 'p-2' : 'p-2'
                 } rounded-md transition-all duration-200 ${
-                  activeSection === item.key
+                activeSection === item.key
                     ? 'bg-blue-500/30'
                     : 'bg-gray-100/50 group-hover:bg-gray-200/50'
-                }`}>
+              }`}>
                   <span className={`${isCollapsed ? 'text-lg' : 'text-lg'}`}>{item.icon}</span>
-                </div>
-                
-                {!isCollapsed && (
+              </div>
+              
+              {!isCollapsed && (
                   <div className="ml-3 text-left">
                     <div className="font-medium text-sm">{item.name}</div>
                     <div className="text-xs text-gray-500">{item.description}</div>
-                  </div>
-                )}
-              </button>
+                </div>
+              )}
+            </button>
             </div>
           ))
           )}
