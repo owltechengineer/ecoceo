@@ -1,102 +1,106 @@
 -- =====================================================
--- COMPLETE DATABASE SETUP
--- Esegue tutti i file SQL per setup completo database
+-- COMPLETE DATABASE SETUP - FILE PRINCIPALE
+-- =====================================================
+-- Questo file punta al nuovo setup completo
 -- =====================================================
 
--- Questo file esegue tutti i file SQL necessari per il setup completo del database
--- Esegui questo file per creare tutte le tabelle e funzioni necessarie
+-- IMPORTANTE: Usa il nuovo file completo
+-- \i docs/database/COMPLETE_DATABASE_SETUP.sql
 
--- ===== ORDINE DI ESECUZIONE =====
--- 1. 01_FINANCIAL_TABLES.sql - Tabelle e funzioni finanziarie
--- 2. 02_MARKETING_TABLES.sql - Tabelle marketing
--- 3. 03_PROJECTS_TABLES.sql - Tabelle progetti
--- 4. 04_TASKS_CALENDAR_TABLES.sql - Tabelle task e calendario
--- 5. 05_BUSINESS_PLAN_TABLES.sql - Tabelle business plan
--- 6. 06_DASHBOARD_TABLES.sql - Tabelle dashboard
+-- =====================================================
+-- NUOVO SETUP COMPLETO
+-- =====================================================
+-- Il file COMPLETE_DATABASE_SETUP.sql contiene:
+-- - Eliminazione di tutte le tabelle esistenti
+-- - Creazione di tutte le tabelle necessarie
+-- - Trigger per updated_at
+-- - RLS e policy
+-- - Dati di esempio
+-- =====================================================
 
--- ===== ISTRUZIONI =====
--- 1. Esegui questo file in Supabase SQL Editor
--- 2. Verifica che non ci siano errori
--- 3. Controlla che tutte le tabelle siano create
--- 4. Testa le funzionalità principali
+-- ISTRUZIONI:
+-- 1. Esegui: \i docs/database/COMPLETE_DATABASE_SETUP.sql
+-- 2. Oppure usa il componente DatabaseSetup.tsx
+-- 3. Oppure copia e incolla il contenuto del file
 
--- ===== NOTE =====
--- - Tutte le tabelle hanno RLS abilitato
--- - Policy temporanee per accesso completo
--- - Trigger per updated_at su tutte le tabelle
--- - Indici per performance ottimizzate
--- - Funzioni per operazioni complesse
+-- =====================================================
+-- TABELLE INCLUSE NEL NUOVO SETUP:
+-- =====================================================
 
--- ===== VERIFICA POST-INSTALLAZIONE =====
--- Controlla che queste tabelle esistano:
+-- DASHBOARD
+-- - dashboard_data (principale)
+
+-- FINANZIARIO  
 -- - financial_departments
--- - campaigns
--- - projects_projects
--- - task_calendar_tasks
+-- - financial_revenues
+-- - financial_fixed_costs
+-- - financial_variable_costs
+-- - financial_budgets
+
+-- BUSINESS PLAN
 -- - business_plan
--- - dashboard_data
+-- - business_plan_executive_summary
+-- - business_plan_company_overview
+-- - business_plan_market_analysis
+-- - business_plan_operations
+-- - business_plan_management
+-- - business_plan_marketing_strategy
+-- - business_plan_business_model
+-- - business_plan_financial_projections
+-- - business_plan_swot_analysis
+-- - business_plan_competitor_analysis
+-- - business_plan_risk_analysis
+-- - business_plan_funding
+-- - business_plan_appendix
 
--- ===== FIX ERRORI COMUNI =====
--- Se hai errori PGRST202: Funzione non trovata
--- Se hai errori 42P01: Tabella non esiste
--- Se hai errori 42P13: Tipo ritorno funzione
--- Esegui questo file completo
+-- MARKETING
+-- - marketing_campaigns
+-- - marketing_leads
+-- - marketing_budgets
 
--- ===== SUPPORTO =====
--- Per problemi consulta:
--- - docs/database/README.md
--- - docs/troubleshooting/README.md
--- - Log di Supabase per dettagli errori
+-- PROGETTI E TASK
+-- - projects
+-- - tasks
+-- - task_calendar_appointments
+-- - quick_tasks
 
--- ===== ESECUZIONE =====
--- IMPORTANTE: Esegui i file SQL in questo ordine:
+-- =====================================================
+-- CARATTERISTICHE:
+-- =====================================================
+-- ✅ Elimina tutte le tabelle esistenti
+-- ✅ Elimina tutte le funzioni obsolete
+-- ✅ Crea tutte le tabelle necessarie
+-- ✅ Trigger automatici per updated_at
+-- ✅ RLS (Row Level Security) abilitato
+-- ✅ Policy permissive per sviluppo
+-- ✅ Dati di esempio per test
+-- ✅ Foreign key relationships
+-- ✅ Indici per performance
 
--- 1. FINANCIAL TABLES
-\i 01_FINANCIAL_TABLES.sql
+-- =====================================================
+-- COME USARE:
+-- =====================================================
 
--- 2. MARKETING TABLES  
-\i 02_MARKETING_TABLES.sql
+-- OPZIONE 1: File SQL
+-- \i docs/database/COMPLETE_DATABASE_SETUP.sql
 
--- 3. PROJECTS TABLES
-\i 03_PROJECTS_TABLES.sql
+-- OPZIONE 2: Componente React
+-- Aggiungi <DatabaseSetup /> alla dashboard
 
--- 4. TASKS & CALENDAR TABLES
-\i 04_TASKS_CALENDAR_TABLES.sql
+-- OPZIONE 3: Comando veloce
+-- \i docs/database/DROP_ALL_QUICK.sql
+-- \i docs/database/COMPLETE_DATABASE_SETUP.sql
 
--- 5. BUSINESS PLAN TABLES
-\i 05_BUSINESS_PLAN_TABLES.sql
-
--- 6. DASHBOARD TABLES
-\i 06_DASHBOARD_TABLES.sql
-
--- ===== VERIFICA FINALE =====
--- Controlla che tutte le tabelle siano create
-SELECT table_name 
+-- =====================================================
+-- VERIFICA DOPO SETUP:
+-- =====================================================
+SELECT 
+    COUNT(*) as total_tables,
+    'Tabelle create' as status
 FROM information_schema.tables 
 WHERE table_schema = 'public' 
-AND table_name IN (
-    'financial_departments',
-    'campaigns', 
-    'projects_projects',
-    'task_calendar_tasks',
-    'business_plan',
-    'dashboard_data'
-)
-ORDER BY table_name;
+AND table_type = 'BASE TABLE';
 
--- Controlla che le funzioni principali esistano
-SELECT routine_name 
-FROM information_schema.routines 
-WHERE routine_schema = 'public' 
-AND routine_name IN (
-    'get_cost_distribution',
-    'distribute_cost',
-    'generate_recurring_costs',
-    'generate_recurring_activities',
-    'generate_week_from_template'
-)
-ORDER BY routine_name;
-
--- ===== COMPLETATO =====
--- Setup database completato!
--- Ora puoi usare la dashboard senza errori
+-- =====================================================
+-- SETUP COMPLETO IN UN SOLO FILE!
+-- =====================================================
