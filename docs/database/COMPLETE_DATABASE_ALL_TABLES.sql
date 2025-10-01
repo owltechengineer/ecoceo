@@ -467,6 +467,64 @@ CREATE TABLE IF NOT EXISTS projects (
     tags TEXT[] DEFAULT '{}'
 );
 
+-- Inserisci dati di esempio per progetti
+INSERT INTO projects (
+    user_id, title, main_objective, problem_solved, solution_description,
+    target_audience, market_analysis, business_model, technologies_used,
+    team_structure, operational_processes, development_plan, budget_required,
+    funding_sources, sales_strategy, distribution_channels, roi_forecast,
+    risk_analysis, legal_aspects, success_metrics, timeline, status, priority
+) VALUES (
+    'default-user',
+    'App Mobile per Gestione Inventario',
+    'Creare un\'applicazione mobile per la gestione intelligente dell\'inventario aziendale',
+    'Le aziende hanno difficoltà nel tracciare l\'inventario in tempo reale, causando sprechi e inefficienze',
+    'Sviluppo di un\'app mobile con scanner QR, AI per previsioni e integrazione con sistemi esistenti',
+    'PMI e grandi aziende con gestione inventario complessa',
+    'Mercato in crescita del 15% annuo, concorrenza moderata con focus su nicchie specifiche',
+    'SaaS con abbonamento mensile + commissioni su transazioni',
+    'React Native, Node.js, PostgreSQL, AWS, TensorFlow per AI',
+    'Team di 8 persone: 3 dev, 1 designer, 1 PM, 1 AI specialist, 1 sales, 1 marketing',
+    'Sviluppo agile con sprint di 2 settimane, testing continuo, deployment automatico',
+    'Fase 1: MVP (3 mesi), Fase 2: AI features (2 mesi), Fase 3: Scale (3 mesi)',
+    150000.00,
+    'Seed funding 200k, revenue-based financing 100k',
+    'Direct sales B2B, partnership con consulenti, freemium model',
+    'App stores, website, partner channels, enterprise sales',
+    25.5,
+    'Rischi tecnici: complessità AI. Rischi business: adozione lenta. Mitigazione: pilot program',
+    'GDPR compliance, certificazioni sicurezza, contratti enterprise',
+    'MAU, retention rate 80%, NPS >50, revenue growth 20% mese',
+    'Q1: MVP, Q2: AI beta, Q3: Launch, Q4: Scale',
+    'planning',
+    'high'
+),
+(
+    'default-user',
+    'Piattaforma E-learning B2B',
+    'Sviluppare una piattaforma di e-learning specializzata per formazione aziendale',
+    'Mancanza di soluzioni e-learning specifiche per esigenze aziendali complesse',
+    'Piattaforma SaaS con contenuti personalizzabili, analytics avanzate e integrazione HR',
+    'Aziende 50-5000 dipendenti, settore formazione',
+    'Mercato e-learning B2B in crescita 20% annuo, competitor principali: Cornerstone, Docebo',
+    'Freemium + tier enterprise, revenue sharing con content creators',
+    'Vue.js, Laravel, MySQL, Redis, AWS, WebRTC per video',
+    'Team di 12: 4 dev, 2 designer, 1 UX, 1 content specialist, 2 sales, 1 marketing, 1 support',
+    'Scrum con release mensili, customer feedback loop, A/B testing',
+    'Fase 1: Core platform (4 mesi), Fase 2: Advanced features (3 mesi), Fase 3: Enterprise (3 mesi)',
+    300000.00,
+    'Series A 500k, grants 50k, revenue reinvestment',
+    'Inbound marketing, content marketing, partnership HR software',
+    'Direct sales, partner channel, self-service, enterprise',
+    18.2,
+    'Rischi: competizione forte, complessità tecnica video. Mitigazione: focus su nicchia',
+    'Privacy compliance, accessibility standards, enterprise security',
+    'User engagement, course completion rate 85%, customer LTV, churn <5%',
+    'Q1: MVP, Q2: Beta customers, Q3: Public launch, Q4: Enterprise features',
+    'active',
+    'medium'
+);
+
 -- 4. MAGAZZINO E DOCUMENTI (6 tabelle - DA CREARE)
 -- =====================================================
 
@@ -849,7 +907,7 @@ AND table_name IN (
     'marketing_budgets', 'marketing_seo_projects', 'marketing_seo_tasks', 'marketing_crm_campaigns', 'marketing_crm_contacts',
     'marketing_ad_campaigns', 'marketing_ad_groups', 'marketing_content_calendar', 'marketing_social_accounts', 'marketing_reports',
     'marketing_newsletter_templates', 'marketing_newsletter_campaigns', 'marketing_quick_quotes',
-    -- Progetti (1)
+    -- Progetti (1 tabella unificata)
     'projects',
     -- Magazzino (6)
     'warehouse_items', 'warehouse_categories', 'warehouse_locations', 'quotes', 'quote_items', 'warehouse_transactions',
