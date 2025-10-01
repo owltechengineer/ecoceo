@@ -7,6 +7,22 @@
 -- =====================================================
 
 -- =====================================================
+-- PART 0: DASHBOARD_DATA TABLE (Base)
+-- =====================================================
+CREATE TABLE IF NOT EXISTS dashboard_data (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  data_type VARCHAR(100) NOT NULL,
+  data JSONB NOT NULL DEFAULT '{}',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(user_id, data_type)
+);
+
+CREATE INDEX IF NOT EXISTS idx_dashboard_data_user ON dashboard_data(user_id);
+CREATE INDEX IF NOT EXISTS idx_dashboard_data_type ON dashboard_data(data_type);
+
+-- =====================================================
 -- PART 1: CATEGORIE MAGAZZINO
 -- =====================================================
 CREATE TABLE IF NOT EXISTS warehouse_categories (
@@ -229,6 +245,7 @@ END $$;
 -- =====================================================
 -- RLS POLICIES
 -- =====================================================
+ALTER TABLE dashboard_data ENABLE ROW LEVEL SECURITY;
 ALTER TABLE warehouse_categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE warehouse_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE warehouse_movements ENABLE ROW LEVEL SECURITY;
@@ -238,6 +255,10 @@ ALTER TABLE suppliers ENABLE ROW LEVEL SECURITY;
 DO $$
 BEGIN
   -- Allow all per testing
+  DROP POLICY IF EXISTS "Allow all on dashboard_data" ON dashboard_data;
+  CREATE POLICY "Allow all on dashboard_data"
+    ON dashboard_data FOR ALL USING (true) WITH CHECK (true);
+    
   DROP POLICY IF EXISTS "Allow all on warehouse_categories" ON warehouse_categories;
   CREATE POLICY "Allow all on warehouse_categories"
     ON warehouse_categories FOR ALL USING (true) WITH CHECK (true);
