@@ -30,10 +30,16 @@ cp env-setup.txt .env.local
 
 ### 2. Update Variables
 Edit `.env.local` with your actual values:
-- Replace `your_sanity_project_id` with your Sanity project ID
+- Replace `your_sanity_project_id` with your Sanity project ID (use format: `dashboard-aziendale`)
 - Update Supabase URL and keys if needed
+- **IMPORTANT:** Sanity project ID must contain only lowercase letters, numbers, and dashes
 
-### 3. Restart Development Server
+### 3. Create Backup
+```bash
+cp .env.local .env.local.backup
+```
+
+### 4. Restart Development Server
 ```bash
 npm run dev
 ```
@@ -48,6 +54,9 @@ npm run dev
 
 ### ❌ Error: Sanity client initialization failed
 **Solution:** Verify `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET`
+
+### ❌ Error: `projectId` can only contain only a-z, 0-9 and dashes
+**Solution:** Update `NEXT_PUBLIC_SANITY_PROJECT_ID` to use only lowercase letters, numbers, and dashes (e.g., `dashboard-aziendale`)
 
 ## 📁 File Structure
 
