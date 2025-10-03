@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react';
 import ThreeJSAnimation from './ThreeJSAnimation';
 import AdvancedMathVisualization from './AdvancedMathVisualization';
 import RoboticsApplications from './RoboticsApplications';
+import ProductionLineSimulation from './ProductionLineSimulation';
 
 export default function MathRoboticsDemo() {
-  const [currentView, setCurrentView] = useState<'basic' | 'advanced' | 'robotics'>('advanced');
+  const [currentView, setCurrentView] = useState<'basic' | 'advanced' | 'robotics' | 'production'>('advanced');
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -59,6 +60,16 @@ export default function MathRoboticsDemo() {
             >
               🤖 Robotica
             </button>
+            <button
+              onClick={() => setCurrentView('production')}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                currentView === 'production'
+                  ? 'bg-orange-600 text-white shadow-md'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              🏭 Produzione
+            </button>
           </div>
         </div>
       </div>
@@ -81,11 +92,18 @@ export default function MathRoboticsDemo() {
                   Funzioni 2D/3D, superfici matematiche e visualizzazioni complesse
                 </p>
               </div>
-            ) : (
+            ) : currentView === 'robotics' ? (
               <div>
                 <h3 className="text-lg font-bold mb-1">🤖 Applicazioni Robotiche</h3>
                 <p className="text-sm text-gray-300">
                   Cinematica, path planning e algoritmi di controllo
+                </p>
+              </div>
+            ) : (
+              <div>
+                <h3 className="text-lg font-bold mb-1">🏭 Simulazione Catena di Produzione</h3>
+                <p className="text-sm text-gray-300">
+                  Robot industriali, catene di montaggio e controllo produzione
                 </p>
               </div>
             )}
@@ -99,8 +117,10 @@ export default function MathRoboticsDemo() {
           <ThreeJSAnimation />
         ) : currentView === 'advanced' ? (
           <AdvancedMathVisualization />
-        ) : (
+        ) : currentView === 'robotics' ? (
           <RoboticsApplications />
+        ) : (
+          <ProductionLineSimulation />
         )}
       </div>
 
