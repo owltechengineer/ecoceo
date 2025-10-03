@@ -131,11 +131,11 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
     },
     {
       key: 'threejs',
-      name: 'Three.js Animation',
-      icon: '🎨',
-      description: 'Animazioni 3D interattive',
-      color: 'pink',
-      gradient: 'from-pink-600 to-pink-700'
+      name: 'Matematica & Robotica',
+      icon: '🤖',
+      description: 'Funzioni matematiche e robotica',
+      color: 'purple',
+      gradient: 'from-purple-600 to-purple-700'
     },
     {
       key: 'organizational',

@@ -1,5 +1,5 @@
-import ThreeJSAnimation from '@/components/ThreeJS/ThreeJSAnimation';
+import MathRoboticsDemo from '@/components/ThreeJS/MathRoboticsDemo';
 
 export default function ThreeJSPage() {
-  return <ThreeJSAnimation />;
+  return <MathRoboticsDemo />;
 }

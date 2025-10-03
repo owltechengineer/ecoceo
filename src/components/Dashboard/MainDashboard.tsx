@@ -26,7 +26,7 @@ import DatabaseConnectionTest from './DatabaseConnectionTest';
 import EnvironmentSetup from './EnvironmentSetup';
 import DashboardDataTest from './DashboardDataTest';
 import DashboardDataFixer from './DashboardDataFixer';
-import ThreeJSAnimation from '../ThreeJS/ThreeJSAnimation';
+import MathRoboticsDemo from '../ThreeJS/MathRoboticsDemo';
 
 export default function MainDashboard() {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -170,10 +170,10 @@ export default function MainDashboard() {
       description: 'Test sistema preventivi'
     },
     threejs: {
-      component: ThreeJSAnimation,
-      title: 'Three.js Animation',
-      icon: '🎨',
-      description: 'Animazioni 3D interattive'
+      component: MathRoboticsDemo,
+      title: 'Matematica & Robotica',
+      icon: '🤖',
+      description: 'Funzioni matematiche e applicazioni robotiche'
     }
   };
 
