@@ -1,0 +1,260 @@
+import { defineField, defineType } from 'sanity'
+
+export default defineType({
+  name: 'service',
+  title: 'Service',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'title',
+      title: 'Nome del Servizio',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Service Slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'description',
+      title: 'Descrizione',
+      type: 'text',
+      description: 'Descrizione del servizio',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'fullDescription',
+      title: 'Full Description',
+      type: 'text',
+      description: 'Detailed description for the service page',
+    }),
+    defineField({
+      name: 'icon',
+      title: 'Service Icon',
+      type: 'string',
+      description: 'Emoji or icon identifier for the service',
+    }),
+    defineField({
+      name: 'image',
+      title: 'Service Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      description: 'Image for the service card and page',
+    }),
+    defineField({
+      name: 'features',
+      title: 'Service Features',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description: 'List of key features for this service',
+    }),
+    defineField({
+      name: 'url',
+      title: 'Service URL',
+      type: 'url',
+      description: 'Link to the service page or external URL',
+    }),
+    defineField({
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      description: 'Order in which this service appears (lower numbers first)',
+      initialValue: 0,
+    }),
+    defineField({
+      name: 'isActive',
+      title: 'Is Active',
+      type: 'boolean',
+      description: 'Set to true to display this service',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'showInNavbar',
+      title: 'Show in Navbar',
+      type: 'boolean',
+      description: 'Include this service in the navbar dropdown',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'showInHomepage',
+      title: 'Show in Homepage',
+      type: 'boolean',
+      description: 'Include this service in the homepage services section',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'metaTitle',
+      title: 'Meta Title',
+      type: 'string',
+      description: 'SEO title for the service page',
+    }),
+    defineField({
+      name: 'metaDescription',
+      title: 'Meta Description',
+      type: 'text',
+      description: 'SEO description for the service page',
+    }),
+    // ===== DASHBOARD FIELDS =====
+    defineField({
+      name: 'price',
+      title: 'Prezzo per Ora (€)',
+      type: 'number',
+      description: 'Prezzo orario del servizio per la dashboard',
+      initialValue: 0,
+    }),
+    defineField({
+      name: 'cost',
+      title: 'Costo per Ora (€)',
+      type: 'number',
+      description: 'Costo orario del servizio per la dashboard',
+      initialValue: 0,
+    }),
+    defineField({
+      name: 'hoursSold',
+      title: 'Ore Vendute',
+      type: 'number',
+      description: 'Numero di ore vendute per questo servizio',
+      initialValue: 0,
+    }),
+    defineField({
+      name: 'revenue',
+      title: 'Ricavi Totali (€)',
+      type: 'number',
+      description: 'Ricavi totali generati da questo servizio',
+      initialValue: 0,
+    }),
+    defineField({
+      name: 'margin',
+      title: 'Margine (%)',
+      type: 'number',
+      description: 'Margine percentuale del servizio',
+      initialValue: 0,
+    }),
+    defineField({
+      name: 'status',
+      title: 'Stato del Servizio',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Attivo', value: 'active' },
+          { title: 'Inattivo', value: 'inactive' },
+          { title: 'Manutenzione', value: 'maintenance' },
+          { title: 'Deprecato', value: 'deprecated' },
+        ],
+      },
+      initialValue: 'active',
+    }),
+    defineField({
+      name: 'category',
+      title: 'Categoria',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Sviluppo', value: 'development' },
+          { title: 'Design', value: 'design' },
+          { title: 'Marketing', value: 'marketing' },
+          { title: 'Consulenza', value: 'consulting' },
+          { title: 'Supporto', value: 'support' },
+        ],
+      },
+    }),
+    defineField({
+      name: 'priceType',
+      title: 'Tipo di Prezzo',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Ora', value: 'hour' },
+          { title: 'Giorno', value: 'day' },
+          { title: 'Progetto', value: 'project' },
+          { title: 'Mese', value: 'month' },
+        ],
+      },
+      initialValue: 'hour',
+    }),
+    defineField({
+      name: 'duration',
+      title: 'Durata',
+      type: 'string',
+      description: 'Durata tipica del servizio (es. "2-4 settimane")',
+    }),
+    defineField({
+      name: 'deliverables',
+      title: 'Consegnabili',
+      type: 'string',
+      description: 'Cosa viene consegnato al cliente',
+    }),
+    defineField({
+      name: 'availability',
+      title: 'Disponibilità',
+      type: 'string',
+      description: 'Disponibilità del servizio (es. "Lun-Ven 9-18")',
+    }),
+    defineField({
+      name: 'plannedRevenue',
+      title: 'Ricavi Pianificati (€)',
+      type: 'number',
+      description: 'Ricavi pianificati per questo servizio',
+      initialValue: 0,
+    }),
+    defineField({
+      name: 'actualRevenue',
+      title: 'Ricavi Effettivi (€)',
+      type: 'number',
+      description: 'Ricavi effettivi generati da questo servizio',
+      initialValue: 0,
+    }),
+    defineField({
+      name: 'technologies',
+      title: 'Tecnologie',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description: 'Tecnologie utilizzate per questo servizio',
+    }),
+    defineField({
+      name: 'requirements',
+      title: 'Requisiti',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description: 'Requisiti per utilizzare questo servizio',
+    }),
+    defineField({
+      name: 'notes',
+      title: 'Note',
+      type: 'text',
+      rows: 4,
+      description: 'Note aggiuntive sul servizio',
+    }),
+    defineField({
+      name: 'isPublic',
+      title: 'Pubblico',
+      type: 'boolean',
+      initialValue: true,
+      description: 'Se il servizio è visibile pubblicamente',
+    }),
+  ],
+  preview: {
+    select: {
+      title: 'title',
+      status: 'status',
+      category: 'category',
+      media: 'image',
+    },
+    prepare(selection) {
+      const { title, status, category, media } = selection
+      return {
+        title: title,
+        subtitle: `${status}${category ? ` - ${category}` : ''}`,
+        media: media,
+      }
+    },
+  },
+})
