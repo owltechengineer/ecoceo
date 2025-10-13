@@ -113,8 +113,68 @@ body[data-sanity-studio] .prose * {
   color: #ffffff !important;
 }
 
-/* Assicurati che tutti i testi siano bianchi */
-body[data-sanity-studio] * {
+/* FORZA TUTTI I TESTI A ESSERE BIANCHI - REGOLE ULTRA SPECIFICHE */
+body[data-sanity-studio] *,
+html[data-sanity-studio] *,
+div[data-sanity-studio] *,
+span[data-sanity-studio] *,
+p[data-sanity-studio] *,
+h1[data-sanity-studio] *,
+h2[data-sanity-studio] *,
+h3[data-sanity-studio] *,
+h4[data-sanity-studio] *,
+h5[data-sanity-studio] *,
+h6[data-sanity-studio] *,
+label[data-sanity-studio] *,
+li[data-sanity-studio] *,
+td[data-sanity-studio] *,
+th[data-sanity-studio] *,
+a[data-sanity-studio] *,
+button[data-sanity-studio] *,
+input[data-sanity-studio] *,
+textarea[data-sanity-studio] *,
+select[data-sanity-studio] *,
+[data-sanity-studio] * {
+  color: #ffffff !important;
+}
+
+/* REGOLE AGGIUNTIVE PER FORZARE TUTTO IL TESTO BIANCO */
+body[data-sanity-studio] .text-black,
+body[data-sanity-studio] .text-gray-900,
+body[data-sanity-studio] .text-gray-800,
+body[data-sanity-studio] .text-gray-700,
+body[data-sanity-studio] .text-gray-600,
+body[data-sanity-studio] .text-gray-500,
+body[data-sanity-studio] .text-gray-400,
+body[data-sanity-studio] .text-gray-300,
+body[data-sanity-studio] .text-gray-200,
+body[data-sanity-studio] .text-gray-100,
+body[data-sanity-studio] .dashboard-text-dark,
+body[data-sanity-studio] .dashboard-text-very-dark,
+body[data-sanity-studio] .dashboard-text-dark-gray,
+body[data-sanity-studio] .prose,
+body[data-sanity-studio] .prose *,
+body[data-sanity-studio] .dashboard-page,
+body[data-sanity-studio] .dashboard-page *,
+body[data-sanity-studio] .content,
+body[data-sanity-studio] .content *,
+body[data-sanity-studio] .editor,
+body[data-sanity-studio] .editor *,
+body[data-sanity-studio] .field,
+body[data-sanity-studio] .field *,
+body[data-sanity-studio] .input,
+body[data-sanity-studio] .input *,
+body[data-sanity-studio] .form,
+body[data-sanity-studio] .form * {
+  color: #ffffff !important;
+}
+
+/* Override per tutti i possibili attributi data-ui */
+body[data-sanity-studio] [data-ui] {
+  color: #ffffff !important;
+}
+
+body[data-sanity-studio] [data-ui] * {
   color: #ffffff !important;
 }
 
@@ -143,4 +203,24 @@ body[data-sanity-studio] ::-webkit-scrollbar-thumb {
 
 body[data-sanity-studio] ::-webkit-scrollbar-thumb:hover {
   background: #777777;
+}
+
+/* REGOLA UNIVERSALE - FORZA TUTTO IL TESTO BIANCO */
+[data-sanity-studio] * {
+  color: #ffffff !important;
+}
+
+/* Override finale per qualsiasi classe o elemento */
+[data-sanity-studio] *:not(a):not([data-ui="Button"]) {
+  color: #ffffff !important;
+}
+
+/* Assicurati che anche i testi in shadow DOM siano bianchi */
+[data-sanity-studio] ::slotted(*) {
+  color: #ffffff !important;
+}
+
+/* Override per elementi inline e qualsiasi altro selettore */
+[data-sanity-studio] *[style*="color"] {
+  color: #ffffff !important;
 }
