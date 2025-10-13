@@ -5,14 +5,16 @@
   color-scheme: dark !important;
 }
 
-/* Background scuro */
-body[data-sanity-studio] {
+/* Background scuro e override completo per Sanity Studio */
+body[data-sanity-studio],
+html[data-sanity-studio] {
   background-color: #101010 !important;
   color: #ffffff !important;
 }
 
-/* Forza TUTTO il testo a essere bianco */
+/* Override completo per TUTTI gli elementi in Sanity Studio */
 body[data-sanity-studio] *,
+html[data-sanity-studio] *,
 body[data-sanity-studio] div,
 body[data-sanity-studio] span,
 body[data-sanity-studio] p,
@@ -25,7 +27,25 @@ body[data-sanity-studio] h6,
 body[data-sanity-studio] label,
 body[data-sanity-studio] li,
 body[data-sanity-studio] td,
-body[data-sanity-studio] th {
+body[data-sanity-studio] th,
+body[data-sanity-studio] a,
+body[data-sanity-studio] button,
+body[data-sanity-studio] input,
+body[data-sanity-studio] textarea,
+body[data-sanity-studio] select {
+  color: #ffffff !important;
+}
+
+/* Override specifico per le classi che forzano il nero */
+body[data-sanity-studio] .dashboard-text-dark,
+body[data-sanity-studio] .dashboard-text-very-dark,
+body[data-sanity-studio] .dashboard-text-dark-gray,
+body[data-sanity-studio] .text-gray-600,
+body[data-sanity-studio] .text-gray-500,
+body[data-sanity-studio] .text-gray-400,
+body[data-sanity-studio] .text-gray-300,
+body[data-sanity-studio] .text-gray-200,
+body[data-sanity-studio] .text-gray-100 {
   color: #ffffff !important;
 }
 
@@ -99,5 +119,52 @@ select {
   background-color: #2a2a2a !important;
   color: #ffffff !important;
   border: 1px solid #404040 !important;
+}
+
+/* Override completo per Sanity Studio - regole più specifiche */
+body[data-sanity-studio] {
+  background-color: #101010 !important;
+  color: #ffffff !important;
+}
+
+/* Forza tutti i testi a essere bianchi in Sanity Studio */
+body[data-sanity-studio] * {
+  color: #ffffff !important;
+}
+
+/* Override per elementi specifici che potrebbero essere neri */
+body[data-sanity-studio] .prose,
+body[data-sanity-studio] .prose *,
+body[data-sanity-studio] .prose h1,
+body[data-sanity-studio] .prose h2,
+body[data-sanity-studio] .prose h3,
+body[data-sanity-studio] .prose h4,
+body[data-sanity-studio] .prose h5,
+body[data-sanity-studio] .prose h6,
+body[data-sanity-studio] .prose p,
+body[data-sanity-studio] .prose span,
+body[data-sanity-studio] .prose div,
+body[data-sanity-studio] .prose code {
+  color: #ffffff !important;
+}
+
+/* Override per le regole globali del body */
+body[data-sanity-studio] body,
+body[data-sanity-studio] p,
+body[data-sanity-studio] span,
+body[data-sanity-studio] div,
+body[data-sanity-studio] h1,
+body[data-sanity-studio] h2,
+body[data-sanity-studio] h3,
+body[data-sanity-studio] h4,
+body[data-sanity-studio] h5,
+body[data-sanity-studio] h6 {
+  color: #ffffff !important;
+}
+
+/* Override per le classi di testo scuro */
+body[data-sanity-studio] .dashboard-page,
+body[data-sanity-studio] .dashboard-page * {
+  color: #ffffff !important;
 }
 
