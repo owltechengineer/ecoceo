@@ -10,7 +10,27 @@ import service from './service'
 import project from './project'
 import product from './product'
 import siteSettings from './siteSettings'
+import clientVideo from './clientArea/video'
+import clientDocument from './clientArea/document'
+import clientKnowledge from './clientArea/knowledge'
+import clientPromotion from './clientArea/promotion'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [post, blockContent, feature, testimonial, hero, about, contact, service, project, product, siteSettings],
+  types: [
+    post, 
+    blockContent, 
+    feature, 
+    testimonial, 
+    hero, 
+    about, 
+    contact, 
+    service, 
+    project, 
+    product, 
+    siteSettings,
+    clientVideo,
+    clientDocument,
+    clientKnowledge,
+    clientPromotion
+  ],
 }

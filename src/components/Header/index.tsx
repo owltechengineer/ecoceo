@@ -340,7 +340,7 @@ const Header = ({ siteSettings }: HeaderProps) => {
                       </svg>
                     </Link>
                     <Link
-                      href="/client-area"
+                      href="/area-clienti"
                       className="group px-3 md:px-4 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-xs decoration-transparent md:text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 text-white bg-gradient-to-r from-orange-500 to-red-500 hover:from-red-500 hover:to-orange-500 h-8 md:h-9 w-full shadow-lg"
                     >
                       Area Clienti
@@ -366,7 +366,7 @@ const Header = ({ siteSettings }: HeaderProps) => {
               <div className="flex items-center justify-end pr-16 lg:pr-0 gap-4">
                 <MiniCart />
                 <Link
-                  href="/client-area"
+                  href="/area-clienti"
                   className="group px-3 md:px-4 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-xs decoration-transparent md:text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 text-white bg-gradient-to-r from-orange-500 to-red-500 hover:from-red-500 hover:to-orange-500 h-8 md:h-9 w-auto shadow-lg"
                 >
                   Area Clienti
