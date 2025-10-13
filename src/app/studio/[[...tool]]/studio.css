@@ -1,226 +1,130 @@
-/* Sanity Studio - Tema Scuro con Testo Bianco */
+/* SANITY STUDIO - FORZA TUTTO IL TESTO BIANCO SU SFONDO SCURO */
 
-/* Import del CSS globale di Sanity Studio */
+/* Import del CSS predefinito di Sanity */
 @import 'sanity/css/defaults.css';
 
-/* Forza il tema scuro */
-[data-ui="RootTheme"] {
-  color-scheme: dark !important;
-  --sanity-color-base-bg: #1a1a1a !important;
-  --sanity-color-base-fg: #ffffff !important;
+/* REGOLE UNIVERSALI - APPLICATE A TUTTO IL DOM */
+* {
+  color: #ffffff !important;
 }
 
-/* Background principale */
-body[data-sanity-studio],
-html[data-sanity-studio] {
+/* Background scuro per tutto */
+html, body {
   background-color: #1a1a1a !important;
   color: #ffffff !important;
 }
 
-/* Container principale di Sanity */
-[data-ui="Root"] {
-  background-color: #1a1a1a !important;
+/* Forza tutti gli elementi a testo bianco */
+div, span, p, h1, h2, h3, h4, h5, h6, 
+label, li, td, th, a, button, input, 
+textarea, select, strong, em, b, i, 
+small, mark, del, ins, sub, sup {
   color: #ffffff !important;
 }
 
-/* Sidebar */
-[data-ui="Card"][data-scheme="dark"],
-[data-ui="Sidebar"] {
-  background-color: #2a2a2a !important;
+/* Override per tutti i possibili selettori Sanity */
+[data-ui] {
   color: #ffffff !important;
 }
 
-/* Testo generale */
+[data-ui] * {
+  color: #ffffff !important;
+}
+
+/* Override per tutti i componenti Sanity */
 [data-ui="Text"],
 [data-ui="Heading"],
 [data-ui="Label"],
 [data-ui="TextInput"],
-[data-ui="TextArea"] {
+[data-ui="TextArea"],
+[data-ui="Button"],
+[data-ui="Card"],
+[data-ui="Box"],
+[data-ui="MenuItem"],
+[data-ui="Root"],
+[data-ui="RootTheme"] {
   color: #ffffff !important;
 }
 
-/* Input fields */
+[data-ui="Text"] *,
+[data-ui="Heading"] *,
+[data-ui="Label"] *,
+[data-ui="TextInput"] *,
+[data-ui="TextArea"] *,
+[data-ui="Button"] *,
+[data-ui="Card"] *,
+[data-ui="Box"] *,
+[data-ui="MenuItem"] *,
+[data-ui="Root"] *,
+[data-ui="RootTheme"] * {
+  color: #ffffff !important;
+}
+
+/* Background scuro per tutti i componenti */
+[data-ui="Card"],
+[data-ui="Box"],
+[data-ui="Root"],
+[data-ui="RootTheme"] {
+  background-color: #1a1a1a !important;
+}
+
+/* Input fields con sfondo scuro */
 [data-ui="TextInput"],
 [data-ui="TextArea"],
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="url"],
-textarea,
-select {
-  background-color: #333333 !important;
+input, textarea, select {
+  background-color: #2a2a2a !important;
   color: #ffffff !important;
   border: 1px solid #555555 !important;
-}
-
-/* Placeholder */
-[data-ui="TextInput"]::placeholder,
-[data-ui="TextArea"]::placeholder,
-input::placeholder,
-textarea::placeholder {
-  color: #aaaaaa !important;
 }
 
 /* Pulsanti */
 [data-ui="Button"] {
   background-color: #2563eb !important;
   color: #ffffff !important;
-  border: 1px solid #2563eb !important;
 }
 
-[data-ui="Button"]:hover {
-  background-color: #1d4ed8 !important;
-}
-
-[data-ui="Button"][data-mode="ghost"] {
-  background-color: transparent !important;
-  color: #ffffff !important;
-  border: 1px solid #555555 !important;
-}
-
-[data-ui="Button"][data-mode="ghost"]:hover {
-  background-color: #333333 !important;
-}
-
-/* Link */
+/* Link in azzurro */
 a {
   color: #60a5fa !important;
 }
 
-a:hover {
-  color: #93c5fd !important;
-}
-
-/* Menu items */
-[data-ui="MenuItem"] {
+/* Override per classi Tailwind che forzano il nero */
+.text-black,
+.text-gray-900,
+.text-gray-800,
+.text-gray-700,
+.text-gray-600,
+.text-gray-500,
+.text-gray-400,
+.text-gray-300,
+.text-gray-200,
+.text-gray-100,
+.dashboard-text-dark,
+.dashboard-text-very-dark,
+.dashboard-text-dark-gray {
   color: #ffffff !important;
 }
 
-[data-ui="MenuItem"]:hover {
-  background-color: #333333 !important;
-}
-
-/* Cards */
-[data-ui="Card"] {
-  background-color: #2a2a2a !important;
-  color: #ffffff !important;
-  border: 1px solid #444444 !important;
-}
-
-/* Override per elementi specifici che potrebbero essere problematici */
-body[data-sanity-studio] .prose,
-body[data-sanity-studio] .prose * {
+/* Override per elementi con stili inline */
+*[style*="color: black"],
+*[style*="color:#000"],
+*[style*="color:#000000"],
+*[style*="color:rgb(0,0,0)"],
+*[style*="color:rgba(0,0,0"] {
   color: #ffffff !important;
 }
 
-/* FORZA TUTTI I TESTI A ESSERE BIANCHI - REGOLE ULTRA SPECIFICHE */
-body[data-sanity-studio] *,
-html[data-sanity-studio] *,
-div[data-sanity-studio] *,
-span[data-sanity-studio] *,
-p[data-sanity-studio] *,
-h1[data-sanity-studio] *,
-h2[data-sanity-studio] *,
-h3[data-sanity-studio] *,
-h4[data-sanity-studio] *,
-h5[data-sanity-studio] *,
-h6[data-sanity-studio] *,
-label[data-sanity-studio] *,
-li[data-sanity-studio] *,
-td[data-sanity-studio] *,
-th[data-sanity-studio] *,
-a[data-sanity-studio] *,
-button[data-sanity-studio] *,
-input[data-sanity-studio] *,
-textarea[data-sanity-studio] *,
-select[data-sanity-studio] *,
-[data-sanity-studio] * {
+/* Shadow DOM */
+::slotted(*) {
   color: #ffffff !important;
 }
 
-/* REGOLE AGGIUNTIVE PER FORZARE TUTTO IL TESTO BIANCO */
-body[data-sanity-studio] .text-black,
-body[data-sanity-studio] .text-gray-900,
-body[data-sanity-studio] .text-gray-800,
-body[data-sanity-studio] .text-gray-700,
-body[data-sanity-studio] .text-gray-600,
-body[data-sanity-studio] .text-gray-500,
-body[data-sanity-studio] .text-gray-400,
-body[data-sanity-studio] .text-gray-300,
-body[data-sanity-studio] .text-gray-200,
-body[data-sanity-studio] .text-gray-100,
-body[data-sanity-studio] .dashboard-text-dark,
-body[data-sanity-studio] .dashboard-text-very-dark,
-body[data-sanity-studio] .dashboard-text-dark-gray,
-body[data-sanity-studio] .prose,
-body[data-sanity-studio] .prose *,
-body[data-sanity-studio] .dashboard-page,
-body[data-sanity-studio] .dashboard-page *,
-body[data-sanity-studio] .content,
-body[data-sanity-studio] .content *,
-body[data-sanity-studio] .editor,
-body[data-sanity-studio] .editor *,
-body[data-sanity-studio] .field,
-body[data-sanity-studio] .field *,
-body[data-sanity-studio] .input,
-body[data-sanity-studio] .input *,
-body[data-sanity-studio] .form,
-body[data-sanity-studio] .form * {
+/* Override finale universale */
+* {
   color: #ffffff !important;
 }
 
-/* Override per tutti i possibili attributi data-ui */
-body[data-sanity-studio] [data-ui] {
-  color: #ffffff !important;
-}
-
-body[data-sanity-studio] [data-ui] * {
-  color: #ffffff !important;
-}
-
-/* Eccezioni per elementi che devono rimanere colorati */
-body[data-sanity-studio] a {
+/* Eccezione solo per link */
+a {
   color: #60a5fa !important;
-}
-
-body[data-sanity-studio] [data-ui="Button"] {
-  color: #ffffff !important;
-}
-
-/* Scrollbar personalizzata */
-body[data-sanity-studio] ::-webkit-scrollbar {
-  width: 8px;
-}
-
-body[data-sanity-studio] ::-webkit-scrollbar-track {
-  background: #2a2a2a;
-}
-
-body[data-sanity-studio] ::-webkit-scrollbar-thumb {
-  background: #555555;
-  border-radius: 4px;
-}
-
-body[data-sanity-studio] ::-webkit-scrollbar-thumb:hover {
-  background: #777777;
-}
-
-/* REGOLA UNIVERSALE - FORZA TUTTO IL TESTO BIANCO */
-[data-sanity-studio] * {
-  color: #ffffff !important;
-}
-
-/* Override finale per qualsiasi classe o elemento */
-[data-sanity-studio] *:not(a):not([data-ui="Button"]) {
-  color: #ffffff !important;
-}
-
-/* Assicurati che anche i testi in shadow DOM siano bianchi */
-[data-sanity-studio] ::slotted(*) {
-  color: #ffffff !important;
-}
-
-/* Override per elementi inline e qualsiasi altro selettore */
-[data-sanity-studio] *[style*="color"] {
-  color: #ffffff !important;
 }

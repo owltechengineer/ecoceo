@@ -6,6 +6,7 @@ import { Providers } from "./providers";
 import { CartProvider } from "@/contexts/CartContext";
 import { AnalyticsProvider } from "@/contexts/AnalyticsContext";
 import "../styles/index.css";
+import "../styles/sanity-global.css";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { client } from '@/sanity/lib/client';
@@ -88,15 +89,17 @@ export default function RootLayout({
         className={`${inter.className}`}
         style={{
           fontFamily: siteSettings?.typography?.bodyFont || 'Inter',
-          backgroundImage: `
+          backgroundColor: isStudioPage ? '#1a1a1a' : undefined,
+          color: isStudioPage ? '#ffffff' : undefined,
+          backgroundImage: isStudioPage ? 'none' : `
             radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0),
             linear-gradient(135deg, #f97316 0%, #dc2626 15%, #991b1b 30%, #1f2937 55%, #4b5563 80%, #d1d5db 100%)
           `,
-          backgroundSize: '20px 20px, 200% 200%',
-          backgroundPosition: '0 0, 0% 0%',
-          backgroundAttachment: 'fixed',
+          backgroundSize: isStudioPage ? 'auto' : '20px 20px, 200% 200%',
+          backgroundPosition: isStudioPage ? 'auto' : '0 0, 0% 0%',
+          backgroundAttachment: isStudioPage ? 'auto' : 'fixed',
           minHeight: '100vh',
-          animation: 'gradientMove 25s ease-in-out infinite'
+          animation: isStudioPage ? 'none' : 'gradientMove 25s ease-in-out infinite'
         }}
       >
         <Providers>

@@ -617,6 +617,13 @@ body {
   }
 }
 
+/* SANITY STUDIO OVERRIDE GLOBALE */
+body[data-sanity-studio] *,
+html[data-sanity-studio] *,
+div[data-sanity-studio] * {
+  color: #ffffff !important;
+}
+
 /* Undefined component styling */
 .undefined-component {
   position: relative;

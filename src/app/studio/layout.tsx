@@ -6,7 +6,11 @@ export default function StudioLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div data-sanity-studio>
+    <div style={{ 
+      backgroundColor: '#1a1a1a', 
+      color: '#ffffff',
+      minHeight: '100vh'
+    }}>
       {children}
     </div>
   );
