@@ -1,108 +1,94 @@
-/* Stili personalizzati per Sanity Studio - Tema Scuro con testo bianco */
+/* Sanity Studio - Tema Scuro con Testo Bianco */
 
-/* Forza il tema scuro per tutto lo studio */
+/* Import del CSS globale di Sanity Studio */
+@import 'sanity/css/defaults.css';
+
+/* Forza il tema scuro */
 [data-ui="RootTheme"] {
   color-scheme: dark !important;
+  --sanity-color-base-bg: #1a1a1a !important;
+  --sanity-color-base-fg: #ffffff !important;
 }
 
-/* Background scuro e override completo per Sanity Studio */
+/* Background principale */
 body[data-sanity-studio],
 html[data-sanity-studio] {
-  background-color: #101010 !important;
-  color: #ffffff !important;
-}
-
-/* Override completo per TUTTI gli elementi in Sanity Studio */
-body[data-sanity-studio] *,
-html[data-sanity-studio] *,
-body[data-sanity-studio] div,
-body[data-sanity-studio] span,
-body[data-sanity-studio] p,
-body[data-sanity-studio] h1,
-body[data-sanity-studio] h2,
-body[data-sanity-studio] h3,
-body[data-sanity-studio] h4,
-body[data-sanity-studio] h5,
-body[data-sanity-studio] h6,
-body[data-sanity-studio] label,
-body[data-sanity-studio] li,
-body[data-sanity-studio] td,
-body[data-sanity-studio] th,
-body[data-sanity-studio] a,
-body[data-sanity-studio] button,
-body[data-sanity-studio] input,
-body[data-sanity-studio] textarea,
-body[data-sanity-studio] select {
-  color: #ffffff !important;
-}
-
-/* Override specifico per le classi che forzano il nero */
-body[data-sanity-studio] .dashboard-text-dark,
-body[data-sanity-studio] .dashboard-text-very-dark,
-body[data-sanity-studio] .dashboard-text-dark-gray,
-body[data-sanity-studio] .text-gray-600,
-body[data-sanity-studio] .text-gray-500,
-body[data-sanity-studio] .text-gray-400,
-body[data-sanity-studio] .text-gray-300,
-body[data-sanity-studio] .text-gray-200,
-body[data-sanity-studio] .text-gray-100 {
-  color: #ffffff !important;
-}
-
-/* Cards e Box con sfondo scuro */
-[data-ui="Card"],
-[data-ui="Box"] {
   background-color: #1a1a1a !important;
   color: #ffffff !important;
 }
 
-/* Testo sempre bianco e leggibile */
-[data-ui="Text"],
-[data-ui="Heading"],
-[data-ui="Label"] {
+/* Container principale di Sanity */
+[data-ui="Root"] {
+  background-color: #1a1a1a !important;
   color: #ffffff !important;
 }
 
-/* Link ben visibili in azzurro chiaro */
-[data-ui="Text"] a,
-a[data-ui="TextLink"] {
-  color: #60a5fa !important;
+/* Sidebar */
+[data-ui="Card"][data-scheme="dark"],
+[data-ui="Sidebar"] {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
 }
 
-/* Pulsanti con buon contrasto */
+/* Testo generale */
+[data-ui="Text"],
+[data-ui="Heading"],
+[data-ui="Label"],
+[data-ui="TextInput"],
+[data-ui="TextArea"] {
+  color: #ffffff !important;
+}
+
+/* Input fields */
+[data-ui="TextInput"],
+[data-ui="TextArea"],
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+textarea,
+select {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+  border: 1px solid #555555 !important;
+}
+
+/* Placeholder */
+[data-ui="TextInput"]::placeholder,
+[data-ui="TextArea"]::placeholder,
+input::placeholder,
+textarea::placeholder {
+  color: #aaaaaa !important;
+}
+
+/* Pulsanti */
 [data-ui="Button"] {
   background-color: #2563eb !important;
   color: #ffffff !important;
+  border: 1px solid #2563eb !important;
+}
+
+[data-ui="Button"]:hover {
+  background-color: #1d4ed8 !important;
 }
 
 [data-ui="Button"][data-mode="ghost"] {
   background-color: transparent !important;
   color: #ffffff !important;
+  border: 1px solid #555555 !important;
 }
 
 [data-ui="Button"][data-mode="ghost"]:hover {
-  background-color: #2a2a2a !important;
+  background-color: #333333 !important;
 }
 
-/* Input fields leggibili con sfondo scuro */
-[data-ui="TextInput"],
-[data-ui="TextArea"],
-input,
-textarea {
-  background-color: #2a2a2a !important;
-  color: #ffffff !important;
-  border: 1px solid #404040 !important;
+/* Link */
+a {
+  color: #60a5fa !important;
 }
 
-/* Placeholder text */
-[data-ui="TextInput"]::placeholder,
-[data-ui="TextArea"]::placeholder {
-  color: #9ca3af !important;
-}
-
-/* Sidebar scura */
-[data-ui="Card"][data-scheme="dark"] {
-  background-color: #1a1a1a !important;
+a:hover {
+  color: #93c5fd !important;
 }
 
 /* Menu items */
@@ -111,60 +97,50 @@ textarea {
 }
 
 [data-ui="MenuItem"]:hover {
-  background-color: #2a2a2a !important;
+  background-color: #333333 !important;
 }
 
-/* Select dropdown */
-select {
+/* Cards */
+[data-ui="Card"] {
   background-color: #2a2a2a !important;
   color: #ffffff !important;
-  border: 1px solid #404040 !important;
+  border: 1px solid #444444 !important;
 }
 
-/* Override completo per Sanity Studio - regole più specifiche */
-body[data-sanity-studio] {
-  background-color: #101010 !important;
+/* Override per elementi specifici che potrebbero essere problematici */
+body[data-sanity-studio] .prose,
+body[data-sanity-studio] .prose * {
   color: #ffffff !important;
 }
 
-/* Forza tutti i testi a essere bianchi in Sanity Studio */
+/* Assicurati che tutti i testi siano bianchi */
 body[data-sanity-studio] * {
   color: #ffffff !important;
 }
 
-/* Override per elementi specifici che potrebbero essere neri */
-body[data-sanity-studio] .prose,
-body[data-sanity-studio] .prose *,
-body[data-sanity-studio] .prose h1,
-body[data-sanity-studio] .prose h2,
-body[data-sanity-studio] .prose h3,
-body[data-sanity-studio] .prose h4,
-body[data-sanity-studio] .prose h5,
-body[data-sanity-studio] .prose h6,
-body[data-sanity-studio] .prose p,
-body[data-sanity-studio] .prose span,
-body[data-sanity-studio] .prose div,
-body[data-sanity-studio] .prose code {
+/* Eccezioni per elementi che devono rimanere colorati */
+body[data-sanity-studio] a {
+  color: #60a5fa !important;
+}
+
+body[data-sanity-studio] [data-ui="Button"] {
   color: #ffffff !important;
 }
 
-/* Override per le regole globali del body */
-body[data-sanity-studio] body,
-body[data-sanity-studio] p,
-body[data-sanity-studio] span,
-body[data-sanity-studio] div,
-body[data-sanity-studio] h1,
-body[data-sanity-studio] h2,
-body[data-sanity-studio] h3,
-body[data-sanity-studio] h4,
-body[data-sanity-studio] h5,
-body[data-sanity-studio] h6 {
-  color: #ffffff !important;
+/* Scrollbar personalizzata */
+body[data-sanity-studio] ::-webkit-scrollbar {
+  width: 8px;
 }
 
-/* Override per le classi di testo scuro */
-body[data-sanity-studio] .dashboard-page,
-body[data-sanity-studio] .dashboard-page * {
-  color: #ffffff !important;
+body[data-sanity-studio] ::-webkit-scrollbar-track {
+  background: #2a2a2a;
 }
 
+body[data-sanity-studio] ::-webkit-scrollbar-thumb {
+  background: #555555;
+  border-radius: 4px;
+}
+
+body[data-sanity-studio] ::-webkit-scrollbar-thumb:hover {
+  background: #777777;
+}

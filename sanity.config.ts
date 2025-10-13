@@ -27,4 +27,16 @@ export default defineConfig({
   ],
   title: 'Content Studio',
   subtitle: 'Gestisci i contenuti del tuo sito',
+  studio: {
+    components: {
+      // Forza il tema scuro
+      layout: (props) => props.renderDefault({
+        ...props,
+        layoutProps: {
+          ...props.layoutProps,
+          theme: 'dark'
+        }
+      })
+    }
+  }
 })
