@@ -27,7 +27,6 @@ const ProjectsPage = () => {
               </p>
             </div>
             <Projects 
-              projects={[]}
               title="Portfolio dei Nostri Lavori"
               subtitle="Dai un'occhiata ai progetti che abbiamo realizzato per i nostri clienti"
             />

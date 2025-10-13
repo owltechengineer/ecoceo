@@ -1,0 +1,103 @@
+/* Stili personalizzati per Sanity Studio - Tema Scuro con testo bianco */
+
+/* Forza il tema scuro per tutto lo studio */
+[data-ui="RootTheme"] {
+  color-scheme: dark !important;
+}
+
+/* Background scuro */
+body[data-sanity-studio] {
+  background-color: #101010 !important;
+  color: #ffffff !important;
+}
+
+/* Forza TUTTO il testo a essere bianco */
+body[data-sanity-studio] *,
+body[data-sanity-studio] div,
+body[data-sanity-studio] span,
+body[data-sanity-studio] p,
+body[data-sanity-studio] h1,
+body[data-sanity-studio] h2,
+body[data-sanity-studio] h3,
+body[data-sanity-studio] h4,
+body[data-sanity-studio] h5,
+body[data-sanity-studio] h6,
+body[data-sanity-studio] label,
+body[data-sanity-studio] li,
+body[data-sanity-studio] td,
+body[data-sanity-studio] th {
+  color: #ffffff !important;
+}
+
+/* Cards e Box con sfondo scuro */
+[data-ui="Card"],
+[data-ui="Box"] {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+/* Testo sempre bianco e leggibile */
+[data-ui="Text"],
+[data-ui="Heading"],
+[data-ui="Label"] {
+  color: #ffffff !important;
+}
+
+/* Link ben visibili in azzurro chiaro */
+[data-ui="Text"] a,
+a[data-ui="TextLink"] {
+  color: #60a5fa !important;
+}
+
+/* Pulsanti con buon contrasto */
+[data-ui="Button"] {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+[data-ui="Button"][data-mode="ghost"] {
+  background-color: transparent !important;
+  color: #ffffff !important;
+}
+
+[data-ui="Button"][data-mode="ghost"]:hover {
+  background-color: #2a2a2a !important;
+}
+
+/* Input fields leggibili con sfondo scuro */
+[data-ui="TextInput"],
+[data-ui="TextArea"],
+input,
+textarea {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+  border: 1px solid #404040 !important;
+}
+
+/* Placeholder text */
+[data-ui="TextInput"]::placeholder,
+[data-ui="TextArea"]::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Sidebar scura */
+[data-ui="Card"][data-scheme="dark"] {
+  background-color: #1a1a1a !important;
+}
+
+/* Menu items */
+[data-ui="MenuItem"] {
+  color: #ffffff !important;
+}
+
+[data-ui="MenuItem"]:hover {
+  background-color: #2a2a2a !important;
+}
+
+/* Select dropdown */
+select {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+  border: 1px solid #404040 !important;
+}
+

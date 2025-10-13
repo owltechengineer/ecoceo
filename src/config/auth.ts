@@ -1,7 +1,7 @@
 // Configurazione autenticazione
 export const AUTH_CONFIG = {
-  // Password predefinita (in produzione dovrebbe essere in una variabile d'ambiente)
-  DEFAULT_PASSWORD: 'Dashboard2024!',
+  // Password dalla variabile d'ambiente
+  DEFAULT_PASSWORD: process.env.NEXT_PUBLIC_DASHBOARD_PASSWORD || 'Dashboard2024!',
   
   // Durata sessione (in millisecondi)
   SESSION_DURATION: 24 * 60 * 60 * 1000, // 24 ore
