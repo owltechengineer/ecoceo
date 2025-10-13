@@ -2,8 +2,7 @@
    SANITY STUDIO - TEMA SCURO PULITO
    ======================================== */
 
-/* Import del CSS predefinito di Sanity */
-@import 'sanity/css/defaults.css';
+/* Import del CSS predefinito di Sanity - Rimosso per evitare warning build */
 
 /* ========================================
    VARIABILI CSS PER CONSISTENZA
