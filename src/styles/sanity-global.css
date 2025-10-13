@@ -1,95 +1,70 @@
-/* SANITY STUDIO GLOBAL OVERRIDE - CARICATO IN TUTTO IL PROGETTO */
+/* ========================================
+   SANITY STUDIO - OVERRIDE GLOBALE PULITO
+   ======================================== */
 
-/* Forza il tema scuro per Sanity Studio */
-[data-ui="RootTheme"] {
-  color-scheme: dark !important;
-  --sanity-color-base-bg: #1a1a1a !important;
-  --sanity-color-base-fg: #ffffff !important;
+/* ========================================
+   VARIABILI CSS GLOBALI
+   ======================================== */
+:root {
+  --sanity-studio-bg: #1a1a1a;
+  --sanity-studio-text: #ffffff;
+  --sanity-studio-accent: #60a5fa;
 }
 
-/* Override universale per Sanity Studio */
+/* ========================================
+   OVERRIDE SPECIFICI PER SANITY STUDIO
+   ======================================== */
+
+/* Solo quando Sanity Studio è presente */
 body[data-sanity-studio] *,
 html[data-sanity-studio] *,
-div[data-sanity-studio] *,
-span[data-sanity-studio] *,
-p[data-sanity-studio] *,
-h1[data-sanity-studio] *,
-h2[data-sanity-studio] *,
-h3[data-sanity-studio] *,
-h4[data-sanity-studio] *,
-h5[data-sanity-studio] *,
-h6[data-sanity-studio] *,
-label[data-sanity-studio] *,
-li[data-sanity-studio] *,
-td[data-sanity-studio] *,
-th[data-sanity-studio] *,
-a[data-sanity-studio] *,
-button[data-sanity-studio] *,
-input[data-sanity-studio] *,
-textarea[data-sanity-studio] *,
-select[data-sanity-studio] * {
-  color: #ffffff !important;
+div[data-sanity-studio] * {
+  color: var(--sanity-studio-text) !important;
 }
 
-/* Background scuro per Sanity Studio */
+/* Background per Sanity Studio */
 body[data-sanity-studio],
 html[data-sanity-studio] {
-  background-color: #1a1a1a !important;
-  color: #ffffff !important;
+  background-color: var(--sanity-studio-bg) !important;
+  color: var(--sanity-studio-text) !important;
 }
 
-/* Override per tutti i componenti Sanity */
+/* Override per componenti Sanity specifici */
 [data-ui] {
-  color: #ffffff !important;
+  color: var(--sanity-studio-text) !important;
 }
 
 [data-ui] * {
-  color: #ffffff !important;
+  color: var(--sanity-studio-text) !important;
 }
 
-/* Override per elementi specifici */
-[data-ui="Text"],
-[data-ui="Heading"],
-[data-ui="Label"],
+/* Input fields in Sanity Studio */
 [data-ui="TextInput"],
-[data-ui="TextArea"],
-[data-ui="Button"],
-[data-ui="Card"],
-[data-ui="Box"],
-[data-ui="MenuItem"],
-[data-ui="Root"],
-[data-ui="RootTheme"] {
-  color: #ffffff !important;
-}
-
-/* Input fields */
-[data-ui="TextInput"],
-[data-ui="TextArea"],
-input, textarea, select {
+[data-ui="TextArea"] {
   background-color: #2a2a2a !important;
-  color: #ffffff !important;
+  color: var(--sanity-studio-text) !important;
   border: 1px solid #555555 !important;
 }
 
-/* Pulsanti */
+/* Pulsanti in Sanity Studio */
 [data-ui="Button"] {
   background-color: #2563eb !important;
-  color: #ffffff !important;
+  color: var(--sanity-studio-text) !important;
 }
 
-/* Link */
+/* Link in Sanity Studio */
 a {
-  color: #60a5fa !important;
+  color: var(--sanity-studio-accent) !important;
 }
 
-/* Cards */
+/* Cards in Sanity Studio */
 [data-ui="Card"],
 [data-ui="Box"] {
   background-color: #1a1a1a !important;
-  color: #ffffff !important;
+  color: var(--sanity-studio-text) !important;
 }
 
-/* Override per classi che forzano il nero */
+/* Override per classi che forzano colori scuri */
 .text-black,
 .text-gray-900,
 .text-gray-800,
@@ -103,7 +78,7 @@ a {
 .dashboard-text-dark,
 .dashboard-text-very-dark,
 .dashboard-text-dark-gray {
-  color: #ffffff !important;
+  color: var(--sanity-studio-text) !important;
 }
 
 /* Override per stili inline */
@@ -112,15 +87,20 @@ a {
 *[style*="color:#000000"],
 *[style*="color:rgb(0,0,0)"],
 *[style*="color:rgba(0,0,0"] {
-  color: #ffffff !important;
+  color: var(--sanity-studio-text) !important;
 }
 
-/* Regola universale finale */
-* {
-  color: #ffffff !important;
+/* Shadow DOM */
+::slotted(*) {
+  color: var(--sanity-studio-text) !important;
+}
+
+/* Regola universale finale solo per Sanity Studio */
+body[data-sanity-studio] * {
+  color: var(--sanity-studio-text) !important;
 }
 
 /* Eccezione per link */
 a {
-  color: #60a5fa !important;
+  color: var(--sanity-studio-accent) !important;
 }

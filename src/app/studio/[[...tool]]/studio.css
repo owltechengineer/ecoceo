@@ -1,108 +1,388 @@
-/* SANITY STUDIO - FORZA TUTTO IL TESTO BIANCO SU SFONDO SCURO */
+/* ========================================
+   SANITY STUDIO - TEMA SCURO PULITO
+   ======================================== */
 
 /* Import del CSS predefinito di Sanity */
 @import 'sanity/css/defaults.css';
 
-/* REGOLE UNIVERSALI - APPLICATE A TUTTO IL DOM */
-* {
-  color: #ffffff !important;
+/* ========================================
+   VARIABILI CSS PER CONSISTENZA
+   ======================================== */
+:root {
+  --sanity-bg-primary: #1a1a1a;
+  --sanity-bg-secondary: #2a2a2a;
+  --sanity-bg-tertiary: #333333;
+  --sanity-text-primary: #ffffff;
+  --sanity-text-secondary: #e5e5e5;
+  --sanity-text-muted: #9ca3af;
+  --sanity-accent: #60a5fa;
+  --sanity-accent-hover: #93c5fd;
+  --sanity-border: #555555;
+  --sanity-button-bg: #2563eb;
+  --sanity-button-hover: #1d4ed8;
 }
 
-/* Background scuro per tutto */
+/* ========================================
+   RESET E BASE
+   ======================================== */
+
+/* Forza il tema scuro per tutto Sanity Studio */
+[data-ui="RootTheme"] {
+  color-scheme: dark !important;
+  --sanity-color-base-bg: var(--sanity-bg-primary) !important;
+  --sanity-color-base-fg: var(--sanity-text-primary) !important;
+}
+
+/* Background principale */
 html, body {
-  background-color: #1a1a1a !important;
-  color: #ffffff !important;
+  background-color: var(--sanity-bg-primary) !important;
+  color: var(--sanity-text-primary) !important;
 }
 
-/* Forza tutti gli elementi a testo bianco */
-div, span, p, h1, h2, h3, h4, h5, h6, 
-label, li, td, th, a, button, input, 
-textarea, select, strong, em, b, i, 
+/* Container principale di Sanity Studio */
+.sanity-studio-container {
+  background-color: var(--sanity-bg-primary) !important;
+  color: var(--sanity-text-primary) !important;
+}
+
+.sanity-studio-container * {
+  color: var(--sanity-text-primary) !important;
+}
+
+/* ========================================
+   TIPOGRAFIA - TUTTO IL TESTO BIANCO
+   ======================================== */
+
+/* Elementi di testo principali */
+h1, h2, h3, h4, h5, h6,
+p, span, div, label, li,
+td, th, strong, em, b, i,
 small, mark, del, ins, sub, sup {
-  color: #ffffff !important;
+  color: var(--sanity-text-primary) !important;
 }
 
-/* Override per tutti i possibili selettori Sanity */
-[data-ui] {
-  color: #ffffff !important;
-}
-
-[data-ui] * {
-  color: #ffffff !important;
-}
-
-/* Override per tutti i componenti Sanity */
-[data-ui="Text"],
-[data-ui="Heading"],
-[data-ui="Label"],
-[data-ui="TextInput"],
-[data-ui="TextArea"],
-[data-ui="Button"],
-[data-ui="Card"],
-[data-ui="Box"],
-[data-ui="MenuItem"],
-[data-ui="Root"],
-[data-ui="RootTheme"] {
-  color: #ffffff !important;
-}
-
-[data-ui="Text"] *,
-[data-ui="Heading"] *,
-[data-ui="Label"] *,
-[data-ui="TextInput"] *,
-[data-ui="TextArea"] *,
-[data-ui="Button"] *,
-[data-ui="Card"] *,
-[data-ui="Box"] *,
-[data-ui="MenuItem"] *,
-[data-ui="Root"] *,
-[data-ui="RootTheme"] * {
-  color: #ffffff !important;
-}
-
-/* Background scuro per tutti i componenti */
-[data-ui="Card"],
-[data-ui="Box"],
-[data-ui="Root"],
-[data-ui="RootTheme"] {
-  background-color: #1a1a1a !important;
-}
-
-/* Input fields con sfondo scuro */
-[data-ui="TextInput"],
-[data-ui="TextArea"],
-input, textarea, select {
-  background-color: #2a2a2a !important;
-  color: #ffffff !important;
-  border: 1px solid #555555 !important;
-}
-
-/* Pulsanti */
-[data-ui="Button"] {
-  background-color: #2563eb !important;
-  color: #ffffff !important;
-}
-
-/* Link in azzurro */
-a {
-  color: #60a5fa !important;
-}
-
-/* Override per classi Tailwind che forzano il nero */
+/* Override per classi Tailwind che forzano colori scuri */
 .text-black,
-.text-gray-900,
-.text-gray-800,
-.text-gray-700,
-.text-gray-600,
-.text-gray-500,
-.text-gray-400,
-.text-gray-300,
-.text-gray-200,
-.text-gray-100,
+.text-gray-900, .text-gray-800, .text-gray-700,
+.text-gray-600, .text-gray-500, .text-gray-400,
+.text-gray-300, .text-gray-200, .text-gray-100,
 .dashboard-text-dark,
 .dashboard-text-very-dark,
 .dashboard-text-dark-gray {
-  color: #ffffff !important;
+  color: var(--sanity-text-primary) !important;
+}
+
+/* ========================================
+   COMPONENTI SANITY UI
+   ======================================== */
+
+/* Container principale */
+[data-ui="Root"] {
+  background-color: var(--sanity-bg-primary) !important;
+  color: var(--sanity-text-primary) !important;
+}
+
+/* Testo e headings */
+[data-ui="Text"],
+[data-ui="Heading"],
+[data-ui="Label"] {
+  color: var(--sanity-text-primary) !important;
+}
+
+/* Cards e contenitori */
+[data-ui="Card"],
+[data-ui="Box"] {
+  background-color: var(--sanity-bg-secondary) !important;
+  color: var(--sanity-text-primary) !important;
+  border: 1px solid var(--sanity-border) !important;
+}
+
+/* ========================================
+   FORM E INPUT - TUTTI I CAMPI DI TESTO
+   ======================================== */
+
+/* Input fields - Stile migliorato per tutti i campi */
+[data-ui="TextInput"],
+[data-ui="TextArea"],
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="color"],
+textarea,
+select,
+[contenteditable="true"] {
+  background-color: var(--sanity-bg-tertiary) !important;
+  color: var(--sanity-text-primary) !important;
+  border: 2px solid var(--sanity-border) !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Hover states per input */
+[data-ui="TextInput"]:hover,
+[data-ui="TextArea"]:hover,
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--sanity-text-muted) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Focus states - Evidenziazione chiara */
+[data-ui="TextInput"]:focus,
+[data-ui="TextArea"]:focus,
+input:focus,
+textarea:focus,
+select:focus,
+[contenteditable="true"]:focus {
+  outline: none !important;
+  border-color: var(--sanity-accent) !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2) !important;
+  background-color: #2d2d2d !important;
+}
+
+/* Placeholder text - Più visibile */
+[data-ui="TextInput"]::placeholder,
+[data-ui="TextArea"]::placeholder,
+input::placeholder,
+textarea::placeholder {
+  color: var(--sanity-text-muted) !important;
+  opacity: 0.8 !important;
+  font-style: italic !important;
+}
+
+/* Textarea specifico - Più grande e funzionale */
+textarea {
+  min-height: 80px !important;
+  resize: vertical !important;
+  font-family: inherit !important;
+}
+
+/* Select dropdown - Stile migliorato */
+select {
+  cursor: pointer !important;
+  appearance: none !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+  background-size: 16px !important;
+  padding-right: 40px !important;
+}
+
+/* Input di tipo number - Frecce personalizzate */
+input[type="number"] {
+  -moz-appearance: textfield !important;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+/* Contenuto editabile - Esclusi i titoli */
+[contenteditable="true"]:not([data-testid*="title"]):not([data-testid*="heading"]):not([data-testid*="header"]) {
+  background-color: var(--sanity-bg-tertiary) !important;
+  color: var(--sanity-text-primary) !important;
+  border: 2px solid var(--sanity-border) !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  min-height: 40px !important;
+  transition: all 0.2s ease !important;
+}
+
+[contenteditable="true"]:not([data-testid*="title"]):not([data-testid*="heading"]):not([data-testid*="header"]):focus {
+  outline: none !important;
+  border-color: var(--sanity-accent) !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2) !important;
+  background-color: #2d2d2d !important;
+}
+
+/* Campi Sanity Studio specifici - Esclusi i titoli */
+[data-ui="TextInput"]:not([data-testid*="title"]):not([data-testid*="heading"]),
+[data-ui="TextArea"]:not([data-testid*="title"]):not([data-testid*="heading"]),
+.field input:not([data-testid*="title"]):not([data-testid*="heading"]),
+.field textarea:not([data-testid*="title"]):not([data-testid*="heading"]),
+.schema-field input:not([data-testid*="title"]):not([data-testid*="heading"]),
+.schema-field textarea:not([data-testid*="title"]):not([data-testid*="heading"]) {
+  background-color: var(--sanity-bg-tertiary) !important;
+  color: var(--sanity-text-primary) !important;
+  border: 2px solid var(--sanity-border) !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Focus per campi Sanity specifici */
+[data-ui="TextInput"]:not([data-testid*="title"]):not([data-testid*="heading"]):focus,
+[data-ui="TextArea"]:not([data-testid*="title"]):not([data-testid*="heading"]):focus,
+.field input:not([data-testid*="title"]):not([data-testid*="heading"]):focus,
+.field textarea:not([data-testid*="title"]):not([data-testid*="heading"]):focus {
+  outline: none !important;
+  border-color: var(--sanity-accent) !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2) !important;
+  background-color: #2d2d2d !important;
+}
+
+/* Override per tutti i campi di input che non sono titoli */
+input:not([data-testid*="title"]):not([data-testid*="heading"]):not([data-testid*="header"]):not([type="hidden"]),
+textarea:not([data-testid*="title"]):not([data-testid*="heading"]):not([data-testid*="header"]),
+select:not([data-testid*="title"]):not([data-testid*="heading"]):not([data-testid*="header"]) {
+  background-color: var(--sanity-bg-tertiary) !important;
+  color: var(--sanity-text-primary) !important;
+  border: 2px solid var(--sanity-border) !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Focus per tutti i campi non-titoli */
+input:not([data-testid*="title"]):not([data-testid*="heading"]):not([data-testid*="header"]):not([type="hidden"]):focus,
+textarea:not([data-testid*="title"]):not([data-testid*="heading"]):not([data-testid*="header"]):focus,
+select:not([data-testid*="title"]):not([data-testid*="heading"]):not([data-testid*="header"]):focus {
+  outline: none !important;
+  border-color: var(--sanity-accent) !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2) !important;
+  background-color: #2d2d2d !important;
+}
+
+/* ========================================
+   BOTTONI E INTERAZIONI
+   ======================================== */
+
+/* Pulsanti principali */
+[data-ui="Button"] {
+  background-color: var(--sanity-button-bg) !important;
+  color: var(--sanity-text-primary) !important;
+  border: 1px solid var(--sanity-button-bg) !important;
+  border-radius: 4px !important;
+  transition: all 0.2s ease !important;
+}
+
+[data-ui="Button"]:hover {
+  background-color: var(--sanity-button-hover) !important;
+  border-color: var(--sanity-button-hover) !important;
+}
+
+/* Pulsanti ghost/secondary */
+[data-ui="Button"][data-mode="ghost"] {
+  background-color: transparent !important;
+  color: var(--sanity-text-primary) !important;
+  border: 1px solid var(--sanity-border) !important;
+}
+
+[data-ui="Button"][data-mode="ghost"]:hover {
+  background-color: var(--sanity-bg-tertiary) !important;
+}
+
+/* ========================================
+   NAVIGAZIONE E MENU
+   ======================================== */
+
+/* Menu items */
+[data-ui="MenuItem"] {
+  color: var(--sanity-text-primary) !important;
+  transition: background-color 0.2s ease !important;
+}
+
+[data-ui="MenuItem"]:hover {
+  background-color: var(--sanity-bg-tertiary) !important;
+}
+
+[data-ui="MenuItem"][data-selected="true"] {
+  background-color: var(--sanity-bg-tertiary) !important;
+  color: var(--sanity-text-primary) !important;
+}
+
+/* Sidebar */
+[data-ui="Sidebar"] {
+  background-color: var(--sanity-bg-secondary) !important;
+  border-right: 1px solid var(--sanity-border) !important;
+}
+
+/* ========================================
+   LINK E NAVIGAZIONE
+   ======================================== */
+
+/* Link */
+a {
+  color: var(--sanity-accent) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease !important;
+}
+
+a:hover {
+  color: var(--sanity-accent-hover) !important;
+}
+
+/* Link interni Sanity */
+[data-ui="TextLink"] {
+  color: var(--sanity-accent) !important;
+}
+
+[data-ui="TextLink"]:hover {
+  color: var(--sanity-accent-hover) !important;
+}
+
+/* ========================================
+   SCROLLBAR PERSONALIZZATA
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sanity-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sanity-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sanity-text-muted);
+}
+
+/* ========================================
+   OVERRIDE FINALI E SICUREZZA
+   ======================================== */
+
+/* Regola universale per catturare qualsiasi elemento sfuggito */
+* {
+  color: var(--sanity-text-primary) !important;
+}
+
+/* Eccezioni per elementi che devono rimanere colorati */
+a,
+[data-ui="Button"],
+[data-ui="TextLink"] {
+  color: var(--sanity-accent) !important;
+}
+
+[data-ui="Button"] {
+  color: var(--sanity-text-primary) !important;
 }
 
 /* Override per elementi con stili inline */
@@ -111,20 +391,30 @@ a {
 *[style*="color:#000000"],
 *[style*="color:rgb(0,0,0)"],
 *[style*="color:rgba(0,0,0"] {
-  color: #ffffff !important;
+  color: var(--sanity-text-primary) !important;
 }
 
 /* Shadow DOM */
 ::slotted(*) {
-  color: #ffffff !important;
+  color: var(--sanity-text-primary) !important;
 }
 
-/* Override finale universale */
-* {
-  color: #ffffff !important;
+/* ========================================
+   RESPONSIVE E ACCESSIBILITÀ
+   ======================================== */
+
+/* Migliore contrasto per accessibilità */
+@media (prefers-contrast: high) {
+  :root {
+    --sanity-border: #777777;
+    --sanity-text-muted: #cccccc;
+  }
 }
 
-/* Eccezione solo per link */
-a {
-  color: #60a5fa !important;
+/* Riduzione movimento per utenti sensibili */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }

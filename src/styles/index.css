@@ -617,10 +617,15 @@ body {
   }
 }
 
-/* SANITY STUDIO OVERRIDE GLOBALE */
+/* SANITY STUDIO OVERRIDE GLOBALE - Backup per sicurezza */
 body[data-sanity-studio] *,
 html[data-sanity-studio] *,
 div[data-sanity-studio] * {
+  color: #ffffff !important;
+}
+
+/* Override per Sanity Studio container */
+.sanity-studio-container * {
   color: #ffffff !important;
 }
 
