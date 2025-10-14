@@ -151,16 +151,14 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
   return (
     <>
       {/* Mobile Menu Button */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-3 bg-gray-800/90 backdrop-blur-md rounded-xl shadow-xl border border-gray-600/50 hover:bg-gray-700 transition-all duration-200"
-        >
-          <span className="text-white text-xl">
-            {isMobileMenuOpen ? '✕' : '☰'}
-          </span>
-        </button>
-      </div>
+      <button
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-200"
+      >
+        <span className="text-white text-xl">
+          {isMobileMenuOpen ? '✕' : '☰'}
+        </span>
+      </button>
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
@@ -171,15 +169,15 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
       )}
 
       {/* Menu Sidebar */}
-      <div className={`transition-all duration-300 ${
+      <aside className={`transition-all duration-300 ${
         isMobileMenuOpen 
           ? 'fixed inset-y-0 left-0 z-50 lg:relative lg:inset-auto transform translate-x-0' 
           : 'hidden lg:block transform -translate-x-full lg:translate-x-0'
       } w-64 lg:w-72`}>
-        <div className="bg-gray-900/95 backdrop-blur-md rounded-r-2xl lg:rounded-xl shadow-2xl border border-gray-700/50 overflow-hidden h-screen flex flex-col">
+        <nav className="bg-white/10 backdrop-blur-md rounded-r-2xl lg:rounded-xl border border-white/20 overflow-hidden h-screen flex flex-col">
           
           {/* Header */}
-          <div className="bg-blue-500/20 backdrop-blur-sm p-2 sm:p-3 border-b border-gray-600/30">
+          <header className="p-4 lg:p-6 border-b border-white/20">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <div className="h-10 w-10 bg-white/20 rounded-lg flex items-center justify-center mr-3">
@@ -187,82 +185,77 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
                 </div>
                 <div>
                   <h1 className="text-white font-bold text-lg">Area Clienti</h1>
-                  <p className="text-gray-300 text-xs">Contenuti esclusivi</p>
+                  <p className="text-white/70 text-xs">Contenuti esclusivi</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="lg:hidden p-2 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 transition-all duration-200"
+                className="lg:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-200"
               >
                 <span className="text-white text-sm">✕</span>
               </button>
             </div>
-          </div>
+          </header>
 
           {/* Collapse Button */}
-          <div className="p-2 sm:p-3 border-b border-gray-600/30">
+          <div className="p-4 border-b border-white/20">
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className={`${
-                isCollapsed ? 'p-2' : 'p-1.5'
-              } rounded-lg bg-gray-700/50 hover:bg-gray-600/50 transition-all duration-200`}
+              className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-200"
               title={isCollapsed ? 'Espandi menu' : 'Comprimi menu'}
             >
-              <span className={`text-white ${
-                isCollapsed ? 'text-base' : 'text-sm'
-              }`}>
+              <span className="text-white text-sm">
                 {isCollapsed ? '▶️' : '◀️'}
               </span>
             </button>
           </div>
 
           {/* Navigation Items */}
-          <div className="flex-1 overflow-y-auto p-2 sm:p-3">
-            <div className="space-y-1">
+          <div className="flex-1 overflow-y-auto p-4">
+            <ul className="space-y-2">
               {menuItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleTabChange(item.id)}
-                  className={`w-full flex items-center ${
-                    isCollapsed ? 'p-2 justify-center' : 'p-2'
-                  } rounded-lg transition-all duration-200 group ${
-                    activeTab === item.id
-                      ? 'bg-blue-500/20 text-blue-300 border border-blue-400/50'
-                      : 'text-gray-300 hover:bg-gray-700/50 hover:text-white'
-                  }`}
-                  title={isCollapsed ? item.name : undefined}
-                >
-                  <div className={`${
-                    isCollapsed ? 'p-1.5' : 'p-1.5'
-                  } rounded-md transition-all duration-200 ${
-                    activeTab === item.id
-                      ? 'bg-blue-500/30'
-                      : 'bg-gray-700/50 group-hover:bg-gray-600/50'
-                  }`}>
-                    <span className={`${isCollapsed ? 'text-base' : 'text-base'}`}>{item.icon}</span>
-                  </div>
-                  
-                  {!isCollapsed && (
-                    <div className="ml-3 text-left">
-                      <div className="font-medium text-xs text-white">{item.name}</div>
-                      <div className="text-xs text-gray-400">{item.description}</div>
-                      {item.count > 0 && (
-                        <div className="text-xs text-blue-400 mt-1">
-                          {item.count} elementi
-                        </div>
-                      )}
+                <li key={item.id}>
+                  <button
+                    onClick={() => handleTabChange(item.id)}
+                    className={`w-full flex items-center ${
+                      isCollapsed ? 'p-3 justify-center' : 'p-3'
+                    } rounded-lg transition-all duration-200 group ${
+                      activeTab === item.id
+                        ? 'bg-blue-500/20 text-blue-300 border border-blue-400/50'
+                        : 'text-white/80 hover:bg-white/10 hover:text-white'
+                    }`}
+                    title={isCollapsed ? item.name : undefined}
+                  >
+                    <div className={`p-2 rounded-md transition-all duration-200 ${
+                      activeTab === item.id
+                        ? 'bg-blue-500/30'
+                        : 'bg-white/10 group-hover:bg-white/20'
+                    }`}>
+                      <span className="text-lg">{item.icon}</span>
                     </div>
-                  )}
-                </button>
+                    
+                    {!isCollapsed && (
+                      <div className="ml-3 text-left flex-1 min-w-0">
+                        <div className="font-medium text-sm text-white truncate">{item.name}</div>
+                        <div className="text-xs text-white/60 truncate">{item.description}</div>
+                        {item.count > 0 && (
+                          <div className="text-xs text-blue-400 mt-1">
+                            {item.count} elementi
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </button>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
           {/* Footer Actions */}
-          <div className="p-2 sm:p-3 border-t border-gray-600/50 space-y-1">
+          <footer className="p-4 border-t border-white/20 space-y-2">
             <Link
               href="/"
-              className="w-full flex items-center justify-center p-2 text-blue-400 hover:bg-blue-500/20 rounded-lg transition-all duration-200 text-sm"
+              className="w-full flex items-center justify-center p-3 text-blue-400 hover:bg-blue-500/20 rounded-lg transition-all duration-200 text-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <span className="mr-2">🏠</span>
@@ -270,15 +263,15 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
             </Link>
             <button
               onClick={logout}
-              className="w-full flex items-center justify-center p-2 text-gray-300 hover:bg-gray-700/50 hover:text-white rounded-lg transition-all duration-200 text-sm"
+              className="w-full flex items-center justify-center p-3 text-white/80 hover:bg-white/10 hover:text-white rounded-lg transition-all duration-200 text-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <span className="mr-2">🚪</span>
               {!isCollapsed && 'Esci'}
             </button>
-          </div>
-        </div>
-      </div>
+          </footer>
+        </nav>
+      </aside>
     </>
   );
 };

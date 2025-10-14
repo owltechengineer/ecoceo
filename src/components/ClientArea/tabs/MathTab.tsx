@@ -21,7 +21,7 @@ const MathTab: React.FC = () => {
   }
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full min-h-[calc(100vh-200px)]">
       <MathRoboticsDemo />
     </div>
   );
