@@ -1,19 +1,51 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import { SUPABASE_CONFIG, SUPABASE_CLIENT_OPTIONS } from './supabase-config'
 
-// Configurazione Supabase
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://febpscjreqtxxpvjlqxd.supabase.co'
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'sb_publishable_l6xuRDnwya9ZoT_A56e5-w_KxOq3JKO'
+// Singleton pattern per evitare multiple istanze
+let supabaseInstance: SupabaseClient | null = null
+let supabaseAdminInstance: SupabaseClient | null = null
+let supabaseSecretInstance: SupabaseClient | null = null
 
-// Use Anon Key (Publishable Key) for main client
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Funzione per creare il client principale (singleton)
+export const getSupabaseClient = (): SupabaseClient => {
+  if (!supabaseInstance) {
+    supabaseInstance = createClient(
+      SUPABASE_CONFIG.url, 
+      SUPABASE_CONFIG.anonKey, 
+      SUPABASE_CLIENT_OPTIONS.main
+    )
+  }
+  return supabaseInstance
+}
 
-// Service role client per operazioni admin
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlYnBzY2pyZXF0eHhwdmpscXhkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTMwODIzOSwiZXhwIjoyMDc0ODg0MjM5fQ.8eA4iuQxNFNfgMnLl2VOQmZaNDjATSyZJmZadrshtbY'
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
+// Funzione per creare il client admin (singleton)
+export const getSupabaseAdminClient = (): SupabaseClient => {
+  if (!supabaseAdminInstance) {
+    supabaseAdminInstance = createClient(
+      SUPABASE_CONFIG.url, 
+      SUPABASE_CONFIG.serviceKey, 
+      SUPABASE_CLIENT_OPTIONS.admin
+    )
+  }
+  return supabaseAdminInstance
+}
 
-// Secret key per operazioni avanzate
-const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY || 'sb_secret_Z7l9wY0V8-3iiqBM3Kw8IQ_ejR7prq9'
-export const supabaseSecret = createClient(supabaseUrl, supabaseSecretKey)
+// Funzione per creare il client secret (singleton)
+export const getSupabaseSecretClient = (): SupabaseClient => {
+  if (!supabaseSecretInstance) {
+    supabaseSecretInstance = createClient(
+      SUPABASE_CONFIG.url, 
+      SUPABASE_CONFIG.secretKey, 
+      SUPABASE_CLIENT_OPTIONS.secret
+    )
+  }
+  return supabaseSecretInstance
+}
+
+// Export delle istanze per compatibilità (deprecato - usare le funzioni getter)
+export const supabase = getSupabaseClient()
+export const supabaseAdmin = getSupabaseAdminClient()
+export const supabaseSecret = getSupabaseSecretClient()
 
 // Tipi per il database
 export interface Database {

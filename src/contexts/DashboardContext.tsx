@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useReducer, ReactNode, useEffect, useState } from 'react';
 import { supabaseHelpers, Campaign, Lead } from '@/lib/supabase';
+import { useSupabase } from '@/hooks/useSupabase';
 
 // Tipi per i dati della dashboard
 export interface Project {

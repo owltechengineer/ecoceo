@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useClientDate } from '../../hooks/useClientDate';
-import { supabase } from '@/lib/supabase';
+import { useSupabase } from '@/hooks/useSupabase';
 import QuickProjectsCard from './QuickProjectsCard';
 
 interface DashboardStats {
@@ -54,6 +54,7 @@ interface TodayPayments {
 }
 
 export default function DashboardTotale() {
+  const supabase = useSupabase();
   const [stats, setStats] = useState<DashboardStats>({
     // Marketing
     totalCampaigns: 0,
