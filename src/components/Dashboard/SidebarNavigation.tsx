@@ -161,9 +161,9 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-3 bg-white/90 backdrop-blur-md rounded-xl shadow-xl border border-white/50 hover:bg-white transition-all duration-200"
+          className="p-3 bg-gray-800/90 backdrop-blur-md rounded-xl shadow-xl border border-gray-600/50 hover:bg-gray-700 transition-all duration-200"
         >
-          <span className="text-gray-700 text-xl">
+          <span className="text-white text-xl">
             {isMobileMenuOpen ? '✕' : '☰'}
           </span>
         </button>
@@ -186,9 +186,9 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
           : 'hidden lg:block transform -translate-x-full lg:translate-x-0'
       }`}>
         {/* Navigation con Effetto Vetro - Mobile Optimized */}
-        <div className="bg-white/95 backdrop-blur-md rounded-r-2xl lg:rounded-xl shadow-2xl border border-white/50 overflow-hidden h-screen flex flex-col">
+        <div className="bg-gray-900/95 backdrop-blur-md rounded-r-2xl lg:rounded-xl shadow-2xl border border-gray-700/50 overflow-hidden h-screen flex flex-col">
         {/* Header con Effetto Vetro */}
-        <div className="bg-blue-500/20 backdrop-blur-sm p-2 sm:p-3 border-b border-white/30">
+        <div className="bg-blue-500/20 backdrop-blur-sm p-2 sm:p-3 border-b border-gray-600/30">
           <div className="flex items-center justify-between">
             {!isCollapsed && (
               <div className="flex items-center">
@@ -209,10 +209,10 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
               onClick={() => setIsCollapsed(!isCollapsed)}
               className={`${
                 isCollapsed ? 'p-2' : 'p-1.5'
-              } rounded-lg bg-gray-100/50 hover:bg-gray-200/50 transition-all duration-200`}
+              } rounded-lg bg-gray-700/50 hover:bg-gray-600/50 transition-all duration-200`}
               title={isCollapsed ? 'Espandi menu' : 'Comprimi menu'}
             >
-              <span className={`text-gray-600 ${
+              <span className={`text-white ${
                 isCollapsed ? 'text-base' : 'text-sm'
               }`}>
                 {isCollapsed ? '▶️' : '◀️'}
@@ -229,9 +229,9 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
               {/* Barra di divisione sotto Dashboard Totale */}
               {item.key === 'tasks' && !isCollapsed && (
                 <div className="my-4 mx-2">
-                  <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+                  <div className="h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
                   <div className="text-center mt-2">
-                    <span className="text-xs text-gray-500 bg-white/30 backdrop-blur/30 backdrop-blur px-2 py-1 rounded-full border border-gray-200">
+                    <span className="text-xs text-gray-300 bg-gray-700/30 backdrop-blur/30 backdrop-blur px-2 py-1 rounded-full border border-gray-600">
                       Gestione Operativa
                     </span>
                   </div>
@@ -241,9 +241,9 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
               {/* Barra di divisione sopra Red */}
               {item.key === 'red' && !isCollapsed && (
                 <div className="my-4 mx-2">
-                  <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+                  <div className="h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
                   <div className="text-center mt-2">
-                    <span className="text-xs text-gray-500 bg-white/30 backdrop-blur/30 backdrop-blur px-2 py-1 rounded-full border border-gray-200">
+                    <span className="text-xs text-gray-300 bg-gray-700/30 backdrop-blur/30 backdrop-blur px-2 py-1 rounded-full border border-gray-600">
                       Identità Aziendale
                     </span>
                   </div>
@@ -256,8 +256,8 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
                   isCollapsed ? 'p-2 justify-center' : 'p-2'
                 } rounded-lg transition-all duration-200 group ${
                   activeSection === item.key
-                    ? 'bg-blue-500/20 text-blue-700 border border-blue-200/50'
-                    : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-800'
+                    ? 'bg-blue-500/20 text-blue-300 border border-blue-400/50'
+                    : 'text-gray-300 hover:bg-gray-700/50 hover:text-white'
                 }`}
                 title={isCollapsed ? item.name : undefined}
               >
@@ -266,15 +266,15 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
                 } rounded-md transition-all duration-200 ${
                   activeSection === item.key
                     ? 'bg-blue-500/30'
-                    : 'bg-gray-100/50 group-hover:bg-gray-200/50'
+                    : 'bg-gray-700/50 group-hover:bg-gray-600/50'
                 }`}>
                   <span className={`${isCollapsed ? 'text-base' : 'text-base'}`}>{item.icon}</span>
                 </div>
                 
                 {!isCollapsed && (
                   <div className="ml-3 text-left">
-                    <div className="font-medium text-xs">{item.name}</div>
-                    <div className="text-xs text-gray-500">{item.description}</div>
+                    <div className="font-medium text-xs text-white">{item.name}</div>
+                    <div className="text-xs text-gray-400">{item.description}</div>
                   </div>
                 )}
               </button>
@@ -285,18 +285,18 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
 
         {/* Quick Actions Semplificate */}
         {!isCollapsed && (
-          <div className="px-4 pb-4 border-t border-gray-200/50 mt-4">
-            <h3 className="text-xs font-medium text-gray-600 mb-3 mt-4">Azioni Rapide</h3>
+          <div className="px-4 pb-4 border-t border-gray-600/50 mt-4">
+            <h3 className="text-xs font-medium text-gray-300 mb-3 mt-4">Azioni Rapide</h3>
             <div className="space-y-1">
-              <button className="w-full flex items-center p-2 text-xs text-gray-500 hover:bg-gray-100/50 rounded-lg transition-all duration-200">
+              <button className="w-full flex items-center p-2 text-xs text-gray-400 hover:bg-gray-700/50 hover:text-white rounded-lg transition-all duration-200">
                 <span className="mr-2 text-sm">🔄</span>
                 Aggiorna
               </button>
-              <button className="w-full flex items-center p-2 text-xs text-gray-500 hover:bg-gray-100/50 rounded-lg transition-all duration-200">
+              <button className="w-full flex items-center p-2 text-xs text-gray-400 hover:bg-gray-700/50 hover:text-white rounded-lg transition-all duration-200">
                 <span className="mr-2 text-sm">📊</span>
                 Report
               </button>
-              <button className="w-full flex items-center p-2 text-xs text-gray-500 hover:bg-gray-100/50 rounded-lg transition-all duration-200">
+              <button className="w-full flex items-center p-2 text-xs text-gray-400 hover:bg-gray-700/50 hover:text-white rounded-lg transition-all duration-200">
                 <span className="mr-2 text-sm">⚙️</span>
                 Impostazioni
               </button>
@@ -306,10 +306,10 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
 
         {/* Current Section Info Semplificata */}
         {!isCollapsed && (
-          <div className="p-4 border-t border-gray-200/50">
-            <div className="bg-blue-500/10 rounded-lg p-3 border border-blue-200/30">
-              <div className="text-xs text-blue-600 mb-1 font-medium">Sezione Attiva</div>
-              <div className="font-medium text-sm text-gray-800">
+          <div className="p-4 border-t border-gray-600/50">
+            <div className="bg-blue-500/10 rounded-lg p-3 border border-blue-400/30">
+              <div className="text-xs text-blue-300 mb-1 font-medium">Sezione Attiva</div>
+              <div className="font-medium text-sm text-white">
                 {navigationItems.find(item => item.key === activeSection)?.name || 'Dashboard Totale'}
               </div>
             </div>
@@ -317,12 +317,12 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
         )}
 
         {/* Navigation Buttons Semplificati */}
-        <div className="p-2 sm:p-3 border-t border-gray-200/50 space-y-1">
+        <div className="p-2 sm:p-3 border-t border-gray-600/50 space-y-1">
           <div onClick={() => setIsMobileMenuOpen(false)}>
-            <HomeButton className="w-full justify-center text-blue-600 hover:bg-blue-100/50 rounded-lg p-2 transition-all duration-200 text-sm" />
+            <HomeButton className="w-full justify-center text-blue-400 hover:bg-blue-500/20 rounded-lg p-2 transition-all duration-200 text-sm" />
           </div>
           <div onClick={() => setIsMobileMenuOpen(false)}>
-            <LogoutButton className="w-full justify-center rounded-lg p-2 transition-all duration-200 text-sm" />
+            <LogoutButton className="w-full justify-center text-gray-300 hover:bg-gray-700/50 hover:text-white rounded-lg p-2 transition-all duration-200 text-sm" />
           </div>
         </div>
       </div>
