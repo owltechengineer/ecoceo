@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useClientAreaAuth } from '@/contexts/ClientAreaAuthContext';
+import styles from './LoginForm.module.css';
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -56,16 +57,21 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
               name="password"
               type="password"
               required
-              className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 bg-white placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+              className={`appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 bg-white placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm ${styles.passwordInput}`}
               style={{
-                color: '#1f2937 !important',
+                color: '#000000 !important',
                 backgroundColor: '#ffffff !important',
-                borderColor: '#d1d5db !important'
+                borderColor: '#d1d5db !important',
+                WebkitTextFillColor: '#000000 !important',
+                WebkitTextStrokeColor: '#000000 !important',
+                textShadow: 'none !important',
+                filter: 'none !important'
               }}
               placeholder="Inserisci la password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
+              autoComplete="current-password"
             />
           </div>
 
