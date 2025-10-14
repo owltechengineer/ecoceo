@@ -77,7 +77,7 @@ const MathTab: React.FC = () => {
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
               selectedCategory === category
                 ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50'
             }`}
           >
             {category === 'all' ? 'Tutti' : category}
@@ -88,12 +88,12 @@ const MathTab: React.FC = () => {
       {/* Math Tools Grid */}
       {filteredTools.length === 0 ? (
         <div className="text-center py-12">
-          <div className="text-6xl mb-4">🔢</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          <div className="text-6xl mb-4">🤖</div>
+          <h3 className="text-xl font-semibold text-white mb-2">
             Nessuno strumento matematico disponibile
           </h3>
-          <p className="text-gray-600">
-            Gli strumenti matematici saranno disponibili a breve.
+          <p className="text-gray-300">
+            Gli strumenti matematici e di robotica saranno disponibili a breve.
           </p>
         </div>
       ) : (
@@ -101,10 +101,10 @@ const MathTab: React.FC = () => {
           {filteredTools.map((tool) => (
             <div
               key={tool._id}
-              className="bg-white rounded-lg shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow duration-200"
+              className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl border border-gray-600/50 p-6 hover:shadow-2xl transition-shadow duration-200"
             >
               <div className="flex items-center mb-4">
-                <div className="p-3 bg-blue-100 rounded-lg mr-4">
+                <div className="p-3 bg-blue-600/20 rounded-lg mr-4">
                   <span className="text-2xl">
                     {tool.toolType === 'calculator' && '🧮'}
                     {tool.toolType === 'formula' && '📐'}
@@ -113,18 +113,18 @@ const MathTab: React.FC = () => {
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">{tool.title}</h3>
-                  <p className="text-sm text-gray-500 capitalize">{tool.toolType}</p>
+                  <h3 className="text-lg font-semibold text-white">{tool.title}</h3>
+                  <p className="text-sm text-gray-400 capitalize">{tool.toolType}</p>
                 </div>
               </div>
               
-              <p className="text-gray-600 mb-4">{tool.description}</p>
+              <p className="text-gray-300 mb-4">{tool.description}</p>
               
               <div className="flex flex-wrap gap-2 mb-4">
                 {tool.categories.map((category) => (
                   <span
                     key={category}
-                    className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
+                    className="px-2 py-1 bg-gray-700/50 text-gray-300 text-xs rounded-full"
                   >
                     {category}
                   </span>
@@ -140,33 +140,33 @@ const MathTab: React.FC = () => {
       )}
 
       {/* Coming Soon Section */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
+      <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-xl p-6 border border-purple-500/30">
         <div className="flex items-center mb-4">
-          <div className="p-3 bg-blue-100 rounded-lg mr-4">
+          <div className="p-3 bg-purple-600/20 rounded-lg mr-4">
             <span className="text-2xl">🚀</span>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Strumenti in Arrivo</h3>
-            <p className="text-gray-600">Nuovi strumenti matematici saranno aggiunti presto</p>
+            <h3 className="text-lg font-semibold text-white">Strumenti in Arrivo</h3>
+            <p className="text-gray-300">Nuovi strumenti matematici e di robotica saranno aggiunti presto</p>
           </div>
         </div>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="text-center p-4 bg-white rounded-lg border border-gray-200">
+          <div className="text-center p-4 bg-gray-800/50 rounded-lg border border-gray-600/50">
             <div className="text-2xl mb-2">📊</div>
-            <p className="text-sm font-medium text-gray-700">Grafici</p>
+            <p className="text-sm font-medium text-gray-300">Grafici</p>
           </div>
-          <div className="text-center p-4 bg-white rounded-lg border border-gray-200">
+          <div className="text-center p-4 bg-gray-800/50 rounded-lg border border-gray-600/50">
             <div className="text-2xl mb-2">🧮</div>
-            <p className="text-sm font-medium text-gray-700">Calcolatori</p>
+            <p className="text-sm font-medium text-gray-300">Calcolatori</p>
           </div>
-          <div className="text-center p-4 bg-white rounded-lg border border-gray-200">
-            <div className="text-2xl mb-2">📐</div>
-            <p className="text-sm font-medium text-gray-700">Formule</p>
+          <div className="text-center p-4 bg-gray-800/50 rounded-lg border border-gray-600/50">
+            <div className="text-2xl mb-2">🤖</div>
+            <p className="text-sm font-medium text-gray-300">Robotica</p>
           </div>
-          <div className="text-center p-4 bg-white rounded-lg border border-gray-200">
+          <div className="text-center p-4 bg-gray-800/50 rounded-lg border border-gray-600/50">
             <div className="text-2xl mb-2">🔄</div>
-            <p className="text-sm font-medium text-gray-700">Convertitori</p>
+            <p className="text-sm font-medium text-gray-300">Convertitori</p>
           </div>
         </div>
       </div>

@@ -82,9 +82,9 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
           },
           {
             id: 'math',
-            name: 'Matematica',
-            icon: '🔢',
-            description: 'Strumenti matematici',
+            name: 'Matematica & Robotica',
+            icon: '🤖',
+            description: 'Funzioni matematiche e robotica',
             count: statsData.totalMath || 0
           }
         ];
@@ -131,9 +131,9 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
           },
           {
             id: 'math',
-            name: 'Matematica',
-            icon: '🔢',
-            description: 'Strumenti matematici',
+            name: 'Matematica & Robotica',
+            icon: '🤖',
+            description: 'Funzioni matematiche e robotica',
             count: 0
           }
         ]);

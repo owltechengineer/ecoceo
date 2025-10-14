@@ -80,23 +80,23 @@ const ClientAreaContent: React.FC = () => {
       <div className="flex-1 lg:ml-0 bg-gray-100">
 
         {/* Content Header */}
-        <div className="bg-white shadow-sm border-b border-blue-200">
+        <div className="bg-gray-800/50 backdrop-blur-sm border-b border-gray-600/30">
           <div className="px-4 sm:px-6 lg:px-8 py-4">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-white">
               {activeTab === 'overview' && '📊 Panoramica'}
               {activeTab === 'documents' && '📄 Documenti'}
               {activeTab === 'knowledge' && '🧠 Conoscenza'}
               {activeTab === 'promotions' && '🎯 Promozioni'}
               {activeTab === 'videos' && '🎥 Video'}
-              {activeTab === 'math' && '🔢 Matematica'}
+              {activeTab === 'math' && '🤖 Matematica & Robotica'}
             </h2>
-            <p className="text-gray-600 text-sm mt-1">
+            <p className="text-gray-300 text-sm mt-1">
               {activeTab === 'overview' && 'Statistiche e riepilogo dei contenuti disponibili'}
               {activeTab === 'documents' && 'Documenti e risorse per i nostri clienti'}
               {activeTab === 'knowledge' && 'Base di conoscenza e guide'}
               {activeTab === 'promotions' && 'Offerte speciali e promozioni'}
               {activeTab === 'videos' && 'Tutorial e guide video'}
-              {activeTab === 'math' && 'Strumenti matematici e calcolatori'}
+              {activeTab === 'math' && 'Funzioni matematiche e robotica'}
             </p>
           </div>
         </div>
@@ -121,8 +121,8 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
   return (
     <div className="space-y-8">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg shadow-lg p-6 border border-blue-200">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-gray-600/50">
           <div className="flex items-center">
             <div className="p-2 bg-blue-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,13 +130,13 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">🎥 Video</p>
-              <p className="text-2xl font-bold text-gray-900">{stats?.totalVideos || 0}</p>
+              <p className="text-sm font-medium text-gray-300">🎥 Video</p>
+              <p className="text-2xl font-bold text-white">{stats?.totalVideos || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 border border-blue-200">
+        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-gray-600/50">
           <div className="flex items-center">
             <div className="p-2 bg-green-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,13 +144,13 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">📄 Documenti</p>
-              <p className="text-2xl font-bold text-gray-900">{stats?.totalDocuments || 0}</p>
+              <p className="text-sm font-medium text-gray-300">📄 Documenti</p>
+              <p className="text-2xl font-bold text-white">{stats?.totalDocuments || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 border border-blue-200">
+        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-gray-600/50">
           <div className="flex items-center">
             <div className="p-2 bg-purple-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -158,13 +158,13 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">📚 Nozioni</p>
-              <p className="text-2xl font-bold text-gray-900">{stats?.totalKnowledge || 0}</p>
+              <p className="text-sm font-medium text-gray-300">📚 Nozioni</p>
+              <p className="text-2xl font-bold text-white">{stats?.totalKnowledge || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 border border-blue-200">
+        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-gray-600/50">
           <div className="flex items-center">
             <div className="p-2 bg-orange-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,50 +172,50 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">🎁 Promozioni</p>
-              <p className="text-2xl font-bold text-gray-900">{stats?.activePromotions || 0}</p>
+              <p className="text-sm font-medium text-gray-300">🎁 Promozioni</p>
+              <p className="text-2xl font-bold text-white">{stats?.activePromotions || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 border border-blue-200">
+        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-gray-600/50">
           <div className="flex items-center">
-            <div className="p-2 bg-indigo-600 rounded-lg">
+            <div className="p-2 bg-purple-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">🔢 Matematica</p>
-              <p className="text-2xl font-bold text-gray-900">{stats?.totalMath || 0}</p>
+              <p className="text-sm font-medium text-gray-300">🤖 Matematica & Robotica</p>
+              <p className="text-2xl font-bold text-white">{stats?.totalMath || 0}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Welcome Message */}
-      <div className="bg-white rounded-lg shadow-lg p-8 border border-blue-200">
+      <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl p-8 border border-gray-600/50">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold text-white mb-4">
             🎉 Benvenuto nell'Area Clienti
           </h2>
-          <p className="text-lg text-gray-600 mb-6">
-            Qui troverai tutti i contenuti esclusivi, documenti, video tutorial e promozioni speciali riservate ai nostri clienti.
+          <p className="text-lg text-gray-300 mb-6">
+            Qui troverai tutti i contenuti esclusivi, documenti, video tutorial e strumenti matematici riservati ai nostri clienti.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <div className="flex items-center gap-2 text-blue-600">
+            <div className="flex items-center gap-2 text-blue-400">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
               </svg>
               Contenuti sempre aggiornati
             </div>
-            <div className="flex items-center gap-2 text-blue-600">
+            <div className="flex items-center gap-2 text-blue-400">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
               </svg>
               Accesso sicuro e riservato
             </div>
-            <div className="flex items-center gap-2 text-blue-600">
+            <div className="flex items-center gap-2 text-blue-400">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 100 19.5 9.75 9.75 0 000-19.5z"/>
               </svg>
