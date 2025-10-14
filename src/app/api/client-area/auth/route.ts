@@ -11,13 +11,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Ottieni la password dalle variabili d'ambiente
+    // Ottieni la password corretta dalle variabili d'ambiente
     const correctPassword = process.env.AREA_CLIENTI_PASSWORD;
 
     if (!correctPassword) {
       console.error('AREA_CLIENTI_PASSWORD non configurata nelle variabili d\'ambiente');
       return NextResponse.json(
-        { success: false, error: 'Configurazione non valida' },
+        { success: false, error: 'Configurazione server non valida' },
         { status: 500 }
       );
     }

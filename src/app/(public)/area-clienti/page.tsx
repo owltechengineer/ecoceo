@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { ClientAreaAuthProvider, useClientAreaAuth } from '@/contexts/ClientAreaAuthContext';
 import LoginForm from '@/components/ClientArea/LoginForm';
 import ClientAreaContent from '@/components/ClientArea/ClientAreaContent';
-import '@/styles/client-area.css';
 
 const ClientAreaPage = () => {
   return (
