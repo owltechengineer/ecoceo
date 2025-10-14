@@ -30,7 +30,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="client-area min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="mx-auto h-16 w-16 bg-blue-600 rounded-full flex items-center justify-center">
@@ -57,6 +57,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
               type="password"
               required
               className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 bg-white placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+              style={{
+                color: '#111827 !important',
+                backgroundColor: '#ffffff !important',
+                borderColor: '#d1d5db !important'
+              }}
               placeholder="Inserisci la password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

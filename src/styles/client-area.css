@@ -1,0 +1,53 @@
+/* Stili specifici per Area Clienti */
+
+/* Forza la visibilità dei campi di input nell'area clienti */
+.client-area input[type="password"],
+.client-area input[type="text"],
+.client-area input[type="email"],
+.client-area textarea {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+  border-color: #d1d5db !important;
+}
+
+.client-area input[type="password"]:focus,
+.client-area input[type="text"]:focus,
+.client-area input[type="email"]:focus,
+.client-area textarea:focus {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Placeholder text */
+.client-area input::placeholder,
+.client-area textarea::placeholder {
+  color: #6b7280 !important;
+}
+
+/* Disabled state */
+.client-area input:disabled,
+.client-area textarea:disabled {
+  color: #9ca3af !important;
+  background-color: #f9fafb !important;
+  border-color: #e5e7eb !important;
+}
+
+/* Assicura che il testo digitato sia sempre visibile */
+.client-area input[type="password"] {
+  -webkit-text-security: disc !important;
+  text-security: disc !important;
+}
+
+/* Override per eventuali CSS globali che potrebbero interferire */
+.client-area * {
+  box-sizing: border-box;
+}
+
+.client-area input,
+.client-area textarea {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
