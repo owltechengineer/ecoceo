@@ -72,33 +72,31 @@ const ClientAreaContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex">
+    <div className="min-h-screen flex">
       {/* Menu Sidebar */}
       <ClientAreaMenu activeTab={activeTab} onTabChange={setActiveTab} />
       
       {/* Main Content */}
-      <div className="flex-1 lg:ml-0 bg-gray-100">
+      <div className="flex-1 lg:ml-0">
 
         {/* Content Header */}
-        <div className="bg-gray-800/50 backdrop-blur-sm border-b border-gray-600/30">
-          <div className="px-4 sm:px-6 lg:px-8 py-4">
-            <h2 className="text-xl font-semibold text-white">
-              {activeTab === 'overview' && '📊 Panoramica'}
-              {activeTab === 'documents' && '📄 Documenti'}
-              {activeTab === 'knowledge' && '🧠 Conoscenza'}
-              {activeTab === 'promotions' && '🎯 Promozioni'}
-              {activeTab === 'videos' && '🎥 Video'}
-              {activeTab === 'math' && '🤖 Matematica & Robotica'}
-            </h2>
-            <p className="text-gray-300 text-sm mt-1">
-              {activeTab === 'overview' && 'Statistiche e riepilogo dei contenuti disponibili'}
-              {activeTab === 'documents' && 'Documenti e risorse per i nostri clienti'}
-              {activeTab === 'knowledge' && 'Base di conoscenza e guide'}
-              {activeTab === 'promotions' && 'Offerte speciali e promozioni'}
-              {activeTab === 'videos' && 'Tutorial e guide video'}
-              {activeTab === 'math' && 'Funzioni matematiche e robotica'}
-            </p>
-          </div>
+        <div className="px-4 sm:px-6 lg:px-8 py-4">
+          <h2 className="text-xl font-semibold text-white">
+            {activeTab === 'overview' && '📊 Panoramica'}
+            {activeTab === 'documents' && '📄 Documenti'}
+            {activeTab === 'knowledge' && '🧠 Conoscenza'}
+            {activeTab === 'promotions' && '🎯 Promozioni'}
+            {activeTab === 'videos' && '🎥 Video'}
+            {activeTab === 'math' && '🤖 Matematica & Robotica'}
+          </h2>
+          <p className="text-gray-300 text-sm mt-1">
+            {activeTab === 'overview' && 'Statistiche e riepilogo dei contenuti disponibili'}
+            {activeTab === 'documents' && 'Documenti e risorse per i nostri clienti'}
+            {activeTab === 'knowledge' && 'Base di conoscenza e guide'}
+            {activeTab === 'promotions' && 'Offerte speciali e promozioni'}
+            {activeTab === 'videos' && 'Tutorial e guide video'}
+            {activeTab === 'math' && 'Funzioni matematiche e robotica'}
+          </p>
         </div>
 
         {/* Main Content */}
@@ -122,7 +120,7 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
     <div className="space-y-8">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-gray-600/50">
+        <div className="p-6">
           <div className="flex items-center">
             <div className="p-2 bg-blue-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,13 +128,13 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-300">🎥 Video</p>
+              <p className="text-sm font-medium text-white">🎥 Video</p>
               <p className="text-2xl font-bold text-white">{stats?.totalVideos || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-gray-600/50">
+        <div className="p-6">
           <div className="flex items-center">
             <div className="p-2 bg-green-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,13 +142,13 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-300">📄 Documenti</p>
+              <p className="text-sm font-medium text-white">📄 Documenti</p>
               <p className="text-2xl font-bold text-white">{stats?.totalDocuments || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-gray-600/50">
+        <div className="p-6">
           <div className="flex items-center">
             <div className="p-2 bg-purple-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -158,13 +156,13 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-300">📚 Nozioni</p>
+              <p className="text-sm font-medium text-white">📚 Nozioni</p>
               <p className="text-2xl font-bold text-white">{stats?.totalKnowledge || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-gray-600/50">
+        <div className="p-6">
           <div className="flex items-center">
             <div className="p-2 bg-orange-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,13 +170,13 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-300">🎁 Promozioni</p>
+              <p className="text-sm font-medium text-white">🎁 Promozioni</p>
               <p className="text-2xl font-bold text-white">{stats?.activePromotions || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-gray-600/50">
+        <div className="p-6">
           <div className="flex items-center">
             <div className="p-2 bg-purple-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -186,7 +184,7 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-300">🤖 Matematica & Robotica</p>
+              <p className="text-sm font-medium text-white">🤖 Matematica & Robotica</p>
               <p className="text-2xl font-bold text-white">{stats?.totalMath || 0}</p>
             </div>
           </div>
@@ -194,12 +192,12 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
       </div>
 
       {/* Welcome Message */}
-      <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl p-8 border border-gray-600/50">
+      <div className="p-8">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
             🎉 Benvenuto nell'Area Clienti
           </h2>
-          <p className="text-lg text-gray-300 mb-6">
+          <p className="text-lg text-white mb-6">
             Qui troverai tutti i contenuti esclusivi, documenti, video tutorial e strumenti matematici riservati ai nostri clienti.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
