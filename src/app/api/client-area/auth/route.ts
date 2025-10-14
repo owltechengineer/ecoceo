@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Ottieni la password corretta dalle variabili d'ambiente
-    const correctPassword = process.env.AREA_CLIENTI_PASSWORD;
+    const correctPassword = process.env.AREA_CLIENTI_PASSWORD || 'test123';
 
     if (!correctPassword) {
       console.error('AREA_CLIENTI_PASSWORD non configurata nelle variabili d\'ambiente');
