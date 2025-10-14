@@ -172,45 +172,105 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
   ];
 
   return (
-    <div className="space-y-8 lg:space-y-12">
-      {/* Stats Grid */}
-      <section>
-        <h2 className="text-xl lg:text-2xl font-semibold text-white mb-6">Statistiche Contenuti</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 lg:gap-6">
-          {statsData.map((stat, index) => (
-            <div key={index} className="flex items-center p-4 lg:p-6 rounded-lg hover:bg-white/5 transition-colors">
-              <div className={`p-3 ${stat.color} rounded-lg mr-4`}>
-                <span className="text-2xl">{stat.icon}</span>
+    <div className="space-y-12 lg:space-y-16">
+      {/* Hero Welcome Section */}
+      <section className="text-center py-12 lg:py-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-8">
+            <h2 className="text-4xl lg:text-6xl font-bold text-white mb-6">
+              🎉 Benvenuto nell'Area Clienti
+            </h2>
+            <p className="text-xl lg:text-2xl text-white/90 mb-8 leading-relaxed">
+              Il tuo spazio esclusivo per accedere a contenuti premium, strumenti avanzati e risorse riservate
+            </p>
+          </div>
+          
+          {/* Quick Stats */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8 mb-12">
+            {statsData.slice(0, 4).map((stat, index) => (
+              <div key={index} className="text-center p-4 lg:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div className={`inline-flex p-3 ${stat.color} rounded-xl mb-3`}>
+                  <span className="text-2xl lg:text-3xl">{stat.icon}</span>
+                </div>
+                <p className="text-3xl lg:text-4xl font-bold text-white mb-1">{stat.value}</p>
+                <p className="text-sm lg:text-base text-white/80">{stat.label}</p>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-white truncate">{stat.label}</p>
-                <p className="text-2xl lg:text-3xl font-bold text-white">{stat.value}</p>
-                <p className="text-xs text-white/60 truncate">{stat.description}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Welcome Section */}
-      <section className="text-center py-8 lg:py-12">
-        <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-          🎉 Benvenuto nell'Area Clienti
-        </h2>
-        <p className="text-lg lg:text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-          Qui troverai tutti i contenuti esclusivi, documenti, video tutorial e strumenti matematici riservati ai nostri clienti.
-        </p>
-        
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 max-w-2xl mx-auto">
-          {features.map((feature, index) => (
-            <div key={index} className="flex items-center justify-center gap-2 p-4 rounded-lg hover:bg-white/5 transition-colors">
-              <span className="text-2xl">{feature.icon}</span>
-              <span className={`text-sm lg:text-base font-medium ${feature.color}`}>
-                {feature.text}
-              </span>
+      {/* Detailed Stats Section */}
+      <section>
+        <div className="max-w-6xl mx-auto">
+          <h3 className="text-2xl lg:text-3xl font-bold text-white mb-8 text-center">
+            📊 Panoramica Contenuti
+          </h3>
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+            {statsData.map((stat, index) => (
+              <div key={index} className="group p-6 lg:p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="flex items-start gap-4">
+                  <div className={`p-4 ${stat.color} rounded-xl group-hover:scale-110 transition-transform duration-300`}>
+                    <span className="text-3xl">{stat.icon}</span>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg lg:text-xl font-semibold text-white mb-2">{stat.label}</h4>
+                    <p className="text-3xl lg:text-4xl font-bold text-white mb-2">{stat.value}</p>
+                    <p className="text-sm lg:text-base text-white/70">{stat.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-12 lg:py-16">
+        <div className="max-w-4xl mx-auto text-center">
+          <h3 className="text-2xl lg:text-3xl font-bold text-white mb-8">
+            ✨ Cosa troverai qui
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {features.map((feature, index) => (
+              <div key={index} className="group p-6 lg:p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="text-4xl lg:text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                  {feature.icon}
+                </div>
+                <h4 className={`text-lg lg:text-xl font-semibold ${feature.color} mb-2`}>
+                  {feature.text}
+                </h4>
+                <p className="text-white/70 text-sm lg:text-base">
+                  {index === 0 && "Contenuti sempre aggiornati e all'avanguardia"}
+                  {index === 1 && "Accesso sicuro e riservato ai nostri clienti"}
+                  {index === 2 && "Supporto dedicato e assistenza personalizzata"}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="text-center py-12 lg:py-16">
+        <div className="max-w-2xl mx-auto">
+          <h3 className="text-2xl lg:text-3xl font-bold text-white mb-6">
+            🚀 Inizia a Esplorare
+          </h3>
+          <p className="text-lg lg:text-xl text-white/90 mb-8">
+            Naviga tra le sezioni per scoprire tutti i contenuti disponibili
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <div className="px-6 py-3 bg-blue-600/20 border border-blue-400/30 rounded-xl text-blue-300 font-medium">
+              📄 Documenti
             </div>
-          ))}
+            <div className="px-6 py-3 bg-green-600/20 border border-green-400/30 rounded-xl text-green-300 font-medium">
+              🧠 Conoscenza
+            </div>
+            <div className="px-6 py-3 bg-purple-600/20 border border-purple-400/30 rounded-xl text-purple-300 font-medium">
+              🤖 Matematica & Robotica
+            </div>
+          </div>
         </div>
       </section>
     </div>
