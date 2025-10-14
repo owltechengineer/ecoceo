@@ -29,6 +29,7 @@ import VideoTab from './tabs/VideoTab';
 import DocumentsTab from './tabs/DocumentsTab';
 import KnowledgeTab from './tabs/KnowledgeTab';
 import PromotionsTab from './tabs/PromotionsTab';
+import MathTab from './tabs/MathTab';
 import ClientAreaMenu from './ClientAreaMenu';
 
 const ClientAreaContent: React.FC = () => {
@@ -63,18 +64,20 @@ const ClientAreaContent: React.FC = () => {
         return <KnowledgeTab />;
       case 'promotions':
         return <PromotionsTab />;
+      case 'math':
+        return <MathTab />;
       default:
         return <OverviewTab stats={stats} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex">
+    <div className="min-h-screen bg-gray-900 flex">
       {/* Menu Sidebar */}
       <ClientAreaMenu activeTab={activeTab} onTabChange={setActiveTab} />
       
       {/* Main Content */}
-      <div className="flex-1 lg:ml-0">
+      <div className="flex-1 lg:ml-0 bg-gray-100">
 
         {/* Content Header */}
         <div className="bg-white shadow-sm border-b border-blue-200">
@@ -85,6 +88,7 @@ const ClientAreaContent: React.FC = () => {
               {activeTab === 'knowledge' && '🧠 Conoscenza'}
               {activeTab === 'promotions' && '🎯 Promozioni'}
               {activeTab === 'videos' && '🎥 Video'}
+              {activeTab === 'math' && '🔢 Matematica'}
             </h2>
             <p className="text-gray-600 text-sm mt-1">
               {activeTab === 'overview' && 'Statistiche e riepilogo dei contenuti disponibili'}
@@ -92,6 +96,7 @@ const ClientAreaContent: React.FC = () => {
               {activeTab === 'knowledge' && 'Base di conoscenza e guide'}
               {activeTab === 'promotions' && 'Offerte speciali e promozioni'}
               {activeTab === 'videos' && 'Tutorial e guide video'}
+              {activeTab === 'math' && 'Strumenti matematici e calcolatori'}
             </p>
           </div>
         </div>
@@ -169,6 +174,20 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">🎁 Promozioni</p>
               <p className="text-2xl font-bold text-gray-900">{stats?.activePromotions || 0}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-lg p-6 border border-blue-200">
+          <div className="flex items-center">
+            <div className="p-2 bg-indigo-600 rounded-lg">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600">🔢 Matematica</p>
+              <p className="text-2xl font-bold text-gray-900">{stats?.totalMath || 0}</p>
             </div>
           </div>
         </div>
