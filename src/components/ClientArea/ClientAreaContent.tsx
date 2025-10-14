@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useClientAreaAuth } from '@/contexts/ClientAreaAuthContext';
+import AnimatedBackground from './AnimatedBackground';
+import ClientAreaMenu from './ClientAreaMenu';
 import { safeFetch } from '@/sanity/lib/client';
 import { 
   clientVideosQuery, 
@@ -120,64 +122,37 @@ const ClientAreaContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-blue-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">🏠 Area Clienti</h1>
-              <p className="text-gray-600">Contenuti esclusivi e risorse per i nostri clienti</p>
-            </div>
-            <button
-              onClick={logout}
-              className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-              </svg>
-              Esci
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation Tabs */}
-      <div className="bg-white border-b border-blue-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex space-x-8 overflow-x-auto">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap transition-colors duration-200 ${
-                  activeTab === tab.id
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-300'
-                }`}
-              >
-                {tab.icon}
-                {tab.label}
-                {tab.count > 0 && (
-                  <span className="bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
-                    {tab.count}
-                  </span>
-                )}
-              </button>
-            ))}
-          </nav>
-        </div>
-      </div>
+    <div className="min-h-screen relative">
+      {/* Animated Background */}
+      <AnimatedBackground />
+      
+      {/* Client Area Menu */}
+      <ClientAreaMenu activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {loading ? (
-          <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="lg:ml-64 p-4 lg:p-8">
+        <div className="max-w-6xl mx-auto">
+          {/* Content Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-white mb-2">
+              {tabs.find(tab => tab.id === activeTab)?.icon} {tabs.find(tab => tab.id === activeTab)?.label}
+            </h1>
+            <p className="text-white/70">
+              {tabs.find(tab => tab.id === activeTab)?.description}
+            </p>
           </div>
-        ) : (
-          renderTabContent()
-        )}
+
+          {/* Tab Content */}
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 lg:p-8">
+            {loading ? (
+              <div className="flex justify-center items-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+              </div>
+            ) : (
+              renderTabContent()
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -189,7 +164,7 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
     <div className="space-y-8">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg shadow-lg p-6 border border-blue-200">
+        <div className="bg-white/20 backdrop-blur-md rounded-lg shadow-lg p-6 border border-white/30">
           <div className="flex items-center">
             <div className="p-2 bg-blue-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -197,13 +172,13 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">🎥 Video</p>
-              <p className="text-2xl font-bold text-gray-900">{stats?.totalVideos || 0}</p>
+              <p className="text-sm font-medium text-white/80">🎥 Video</p>
+              <p className="text-2xl font-bold text-white">{stats?.totalVideos || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 border border-blue-200">
+        <div className="bg-white/20 backdrop-blur-md rounded-lg shadow-lg p-6 border border-white/30">
           <div className="flex items-center">
             <div className="p-2 bg-green-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -211,13 +186,13 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">📄 Documenti</p>
-              <p className="text-2xl font-bold text-gray-900">{stats?.totalDocuments || 0}</p>
+              <p className="text-sm font-medium text-white/80">📄 Documenti</p>
+              <p className="text-2xl font-bold text-white">{stats?.totalDocuments || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 border border-blue-200">
+        <div className="bg-white/20 backdrop-blur-md rounded-lg shadow-lg p-6 border border-white/30">
           <div className="flex items-center">
             <div className="p-2 bg-purple-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -225,13 +200,13 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">📚 Nozioni</p>
-              <p className="text-2xl font-bold text-gray-900">{stats?.totalKnowledge || 0}</p>
+              <p className="text-sm font-medium text-white/80">📚 Nozioni</p>
+              <p className="text-2xl font-bold text-white">{stats?.totalKnowledge || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 border border-blue-200">
+        <div className="bg-white/20 backdrop-blur-md rounded-lg shadow-lg p-6 border border-white/30">
           <div className="flex items-center">
             <div className="p-2 bg-orange-600 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -239,8 +214,8 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">🎁 Promozioni</p>
-              <p className="text-2xl font-bold text-gray-900">{stats?.activePromotions || 0}</p>
+              <p className="text-sm font-medium text-white/80">🎁 Promozioni</p>
+              <p className="text-2xl font-bold text-white">{stats?.activePromotions || 0}</p>
             </div>
           </div>
         </div>

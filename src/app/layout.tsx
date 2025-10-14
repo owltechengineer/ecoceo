@@ -28,6 +28,7 @@ export default function RootLayout({
   const pathname = usePathname();
   const isStudioPage = pathname?.startsWith('/studio');
   const isDashboardPage = pathname?.startsWith('/dashboard');
+  const isClientAreaPage = pathname?.startsWith('/area-clienti');
   const [siteSettings, setSiteSettings] = useState(null);
 
 
@@ -43,10 +44,10 @@ export default function RootLayout({
       }
     };
 
-    if (!isStudioPage && !isDashboardPage) {
+    if (!isStudioPage && !isDashboardPage && !isClientAreaPage) {
       fetchSiteSettings();
     }
-  }, [isStudioPage, isDashboardPage]);
+  }, [isStudioPage, isDashboardPage, isClientAreaPage]);
 
   return (
     <html suppressHydrationWarning lang="en">
@@ -105,10 +106,10 @@ export default function RootLayout({
         <Providers>
           <CartProvider>
             <AnalyticsProvider>
-              {!isStudioPage && !isDashboardPage && <Header siteSettings={siteSettings} />}
+              {!isStudioPage && !isDashboardPage && !isClientAreaPage && <Header siteSettings={siteSettings} />}
               {children}
-              {!isStudioPage && !isDashboardPage && <Footer />}
-              {!isStudioPage && !isDashboardPage && <ScrollToTop />}
+              {!isStudioPage && !isDashboardPage && !isClientAreaPage && <Footer />}
+              {!isStudioPage && !isDashboardPage && !isClientAreaPage && <ScrollToTop />}
             </AnalyticsProvider>
           </CartProvider>
         </Providers>
