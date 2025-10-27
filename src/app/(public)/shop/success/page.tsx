@@ -141,7 +141,7 @@ const OrderSuccessContent = () => {
               </div>
 
               {/* Contact Info */}
-              <div className="mt-12 p-6 bg-blue-500/20 rounded-lg">
+              <div className="mt-12 p-6 bg-white/30rounded-lg">
                 <h3 className="font-semibold text-black mb-2">
                   Hai domande?
                 </h3>

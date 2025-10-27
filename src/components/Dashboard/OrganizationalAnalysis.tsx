@@ -195,7 +195,7 @@ export default function OrganizationalAnalysis() {
       case 'high': return 'bg-red-500';
       case 'medium': return 'bg-yellow-500';
       case 'low': return 'bg-green-500';
-      default: return 'bg-blue-500/200';
+      default: return 'bg-white/300';
     }
   };
 
@@ -333,7 +333,7 @@ export default function OrganizationalAnalysis() {
               {/* Example */}
               <div className="mb-4">
                 <h4 className="text-sm font-semibold text-gray-700 mb-2">💡 Esempio</h4>
-                <div className="bg-blue-500/20 rounded-lg p-3">
+                <div className="bg-white/30rounded-lg p-3">
                   <p className="text-sm text-gray-700 italic">"{section.example}"</p>
                 </div>
               </div>
@@ -359,7 +359,7 @@ export default function OrganizationalAnalysis() {
                       </button>
                       <button
                         onClick={() => setEditingSection(null)}
-                        className="bg-blue-500/200 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-600"
+                        className="bg-white/300 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-600"
                       >
                         ❌ Annulla
                       </button>
@@ -372,7 +372,7 @@ export default function OrganizationalAnalysis() {
                         <p className="text-sm text-gray-700">{section.currentState}</p>
                       </div>
                     ) : (
-                      <div className="bg-blue-500/20 rounded-lg p-3 text-center">
+                      <div className="bg-white/30rounded-lg p-3 text-center">
                         <p className="text-sm text-gray-500">Nessuna valutazione inserita</p>
                       </div>
                     )}
@@ -430,7 +430,7 @@ export default function OrganizationalAnalysis() {
               return priorityOrder[b.priority] - priorityOrder[a.priority];
             })
             .map((section) => (
-              <div key={section.id} className="flex items-center justify-between p-4 bg-blue-500/20 rounded-lg border border-gray-200">
+              <div key={section.id} className="flex items-center justify-between p-4 bg-white/30rounded-lg border border-gray-200">
                 <div className="flex items-center space-x-3">
                   <div className="text-2xl">{section.icon}</div>
                   <div>

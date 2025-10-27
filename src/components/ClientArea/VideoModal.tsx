@@ -26,7 +26,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ video, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden border border-blue-200">
+        <div className="bg-white/20rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden border border-blue-200">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
               <h3 className="text-lg font-semibold text-gray-900">{video.title}</h3>

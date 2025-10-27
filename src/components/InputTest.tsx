@@ -257,7 +257,7 @@ export default function InputTest() {
         </div>
 
         {/* Results */}
-        <div className="bg-blue-500/20 border border-gray-200 rounded-lg p-4">
+        <div className="bg-white/30border border-gray-200 rounded-lg p-4">
           <h4 className="text-sm font-medium text-gray-900 mb-2">📊 Risultati Test:</h4>
           <div className="space-y-1 max-h-60 overflow-y-auto">
             {testResults.length === 0 ? (

@@ -115,7 +115,7 @@ export default function ProjectCard({ project, services, onEdit, onDelete }: Pro
 
           <div className="bg-white/30 backdrop-blur/30 backdrop-blur/30 backdrop-blur-sm rounded-lg p-4 shadow-sm border border-white/40">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-500/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-white/30backdrop-blur-sm rounded-lg flex items-center justify-center">
                 <span className="text-blue-600 text-lg">📅</span>
               </div>
               <div>

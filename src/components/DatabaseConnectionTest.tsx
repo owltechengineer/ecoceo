@@ -123,7 +123,7 @@ export default function DatabaseConnectionTest() {
       {testResults.connection !== null && (
         <div className="space-y-4">
           {/* Test Connessione */}
-          <div className="flex items-center justify-between p-3 bg-blue-500/20 rounded-md">
+          <div className="flex items-center justify-between p-3 bg-white/30rounded-md">
             <span className="font-medium text-gray-900">Connessione Supabase</span>
             <div className="flex items-center space-x-2">
               {getStatusIcon(testResults.connection)}
@@ -156,7 +156,7 @@ export default function DatabaseConnectionTest() {
               <h4 className="font-medium text-gray-900 mb-2">Stato Tabelle</h4>
               <div className="space-y-2">
                 {Object.entries(testResults.tables).map(([table, status]) => (
-                  <div key={table} className="flex items-center justify-between p-2 bg-blue-500/20 rounded">
+                  <div key={table} className="flex items-center justify-between p-2 bg-white/30rounded">
                     <span className="text-sm font-mono text-gray-700">{table}</span>
                     <div className="flex items-center space-x-2">
                       {getStatusIcon(status)}

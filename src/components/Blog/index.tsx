@@ -228,7 +228,7 @@ const Blog = () => {
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 text-sm font-medium text-gray-500 bg-white/30 backdrop-blur/30 backdrop-blurborder border-gray-300 rounded-lg hover:bg-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-sm font-medium text-gray-500 bg-white/30 backdrop-blur/30 backdrop-blurborder border-gray-300 rounded-lg hover:bg-white/30disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Precedente
             </button>
@@ -240,7 +240,7 @@ const Blog = () => {
                 className={`px-4 py-2 text-sm font-medium rounded-lg ${
                   currentPage === page
                     ? 'bg-primary text-white'
-                    : 'text-gray-500 bg-white/30 backdrop-blur/30 backdrop-blurborder border-gray-300 hover:bg-blue-500/20'
+                    : 'text-gray-500 bg-white/30 backdrop-blur/30 backdrop-blurborder border-gray-300 hover:bg-white/30'
                 }`}
               >
                 {page}
@@ -250,7 +250,7 @@ const Blog = () => {
             <button
               onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 text-sm font-medium text-gray-500 bg-white/30 backdrop-blur/30 backdrop-blurborder border-gray-300 rounded-lg hover:bg-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-sm font-medium text-gray-500 bg-white/30 backdrop-blur/30 backdrop-blurborder border-gray-300 rounded-lg hover:bg-white/30disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Successiva
             </button>

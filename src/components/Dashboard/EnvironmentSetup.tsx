@@ -61,7 +61,7 @@ NEXT_PUBLIC_APP_NAME=Dashboard Aziendale`;
             </ul>
           </div>
 
-          <div className="bg-blue-500/20 border border-gray-200 rounded-lg p-4">
+          <div className="bg-white/30border border-gray-200 rounded-lg p-4">
             <h4 className="font-semibold text-gray-900 mb-2">🔑 Come ottenere le chiavi Supabase:</h4>
             <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
               <li>Vai su <a href="https://supabase.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">supabase.com</a></li>

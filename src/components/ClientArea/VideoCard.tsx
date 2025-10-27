@@ -31,7 +31,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onPlay }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-blue-200">
+    <div className="bg-white/20rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-blue-200">
       {/* Thumbnail */}
       <div className="relative aspect-video bg-gray-100">
         {video.thumbnail ? (
@@ -54,7 +54,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onPlay }) => {
           onClick={handlePlay}
           className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-50 transition-all duration-300 group"
         >
-          <div className="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+          <div className="w-16 h-16 bg-white/20bg-opacity-90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
             <svg className="w-6 h-6 text-blue-600 ml-1" fill="currentColor" viewBox="0 0 20 20">
               <path d="M8 5v10l8-5-8-5z"/>
             </svg>

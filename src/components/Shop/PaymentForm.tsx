@@ -85,7 +85,7 @@ const PaymentForm = ({
         </div>
       )}
 
-      <div className="bg-blue-500/20 rounded-lg p-4">
+      <div className="bg-white/30rounded-lg p-4">
         <div className="flex justify-between items-center mb-2">
           <span className="text-gray-600">Subtotale:</span>
           <span className="font-medium">€{state.total.toFixed(2)}</span>

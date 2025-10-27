@@ -150,7 +150,7 @@ export default function ServicesWithCards() {
             className={`px-4 py-2 rounded-lg border transition-colors ${
               showPrivate 
                 ? 'bg-gray-100 border-gray-300 text-gray-700' 
-                : 'bg-white/30 backdrop-blur/30 backdrop-blurborder-gray-300 text-gray-600 hover:bg-blue-500/20'
+                : 'bg-white/30 backdrop-blur/30 backdrop-blurborder-gray-300 text-gray-600 hover:bg-white/30'
             }`}
           >
             {showPrivate ? '🔒 Solo Pubblici' : '🔓 Tutti'}

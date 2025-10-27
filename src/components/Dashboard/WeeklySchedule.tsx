@@ -230,11 +230,11 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
       {selectedTemplate ? (
         <div className="bg-white/30 backdrop-blur/30 backdrop-blur rounded-lg shadow-sm overflow-hidden">
           <div className="grid grid-cols-8 border-b border-gray-200">
-            <div className="p-4 bg-blue-500/20 border-r border-gray-200">
+            <div className="p-4 bg-white/30border-r border-gray-200">
               <div className="text-sm font-medium text-gray-500">Ora</div>
             </div>
             {daysOfWeek.map((day, index) => (
-              <div key={index} className="p-4 bg-blue-500/20 border-r border-gray-200 last:border-r-0">
+              <div key={index} className="p-4 bg-white/30border-r border-gray-200 last:border-r-0">
                 <div className="text-sm font-medium text-gray-900">{day}</div>
                 <div className="text-xs text-gray-500">
                   {new Date(currentWeek.getTime() + (index - currentWeek.getDay()) * 24 * 60 * 60 * 1000).getDate()}
@@ -247,7 +247,7 @@ export default function WeeklySchedule({ onDataChange }: WeeklyScheduleProps) {
             {/* Time slots */}
             {timeSlots.map((time, timeIndex) => (
               <div key={time} className="grid grid-cols-8 border-b border-gray-100">
-                <div className="p-2 bg-blue-500/20 border-r border-gray-200 text-xs text-gray-500">
+                <div className="p-2 bg-white/30border-r border-gray-200 text-xs text-gray-500">
                   {time}
                 </div>
                 {daysOfWeek.map((_, dayIndex) => (

@@ -34,8 +34,8 @@ export const SUPABASE_CLIENT_OPTIONS = {
   }
 } as const;
 
-// Warning per sviluppatori
-if (typeof window !== 'undefined') {
+// Warning per sviluppatori (solo in sviluppo)
+if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   console.warn(
     '🚨 IMPORTANTE: Per evitare multiple istanze di GoTrueClient, usa sempre i hook useSupabase() invece di importare direttamente i client Supabase.'
   );

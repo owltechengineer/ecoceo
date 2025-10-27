@@ -268,7 +268,7 @@ export default function DashboardTotal() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📈 Attività Recenti</h3>
           <div className="space-y-4">
             {recentActivities.map((activity) => (
-              <div key={activity.id} className="flex items-center space-x-4 p-3 hover:bg-blue-500/20 rounded-lg transition-colors">
+              <div key={activity.id} className="flex items-center space-x-4 p-3 hover:bg-white/30rounded-lg transition-colors">
                 <div className={`w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center`}>
                   <span className={`text-lg ${activity.color}`}>{activity.icon}</span>
                 </div>
@@ -322,7 +322,7 @@ export default function DashboardTotal() {
               const count = tasks.filter(task => task.status === status).length;
               const percentage = tasks.length > 0 ? (count / tasks.length) * 100 : 0;
               const colors = {
-                'pending': 'bg-blue-500/200',
+                'pending': 'bg-white/300',
                 'in-progress': 'bg-blue-500',
                 'on-hold': 'bg-yellow-500',
                 'completed': 'bg-green-500',

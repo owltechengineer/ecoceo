@@ -211,7 +211,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         
         {/* Info Griglia - Mobile Compatto, Desktop Espanso */}
         <div className="hidden sm:grid grid-cols-2 gap-2 sm:gap-3 mb-3 sm:mb-4">
-          <div className="bg-blue-500/20 rounded-lg p-2 sm:p-3 text-center">
+          <div className="bg-white/30rounded-lg p-2 sm:p-3 text-center">
             <p className="text-xs text-gray-500 mb-1">Quantità</p>
             <p className="text-lg sm:text-xl font-bold text-gray-900">{item.quantity}</p>
             <p className="text-xs text-gray-500">{item.unit}</p>
@@ -1737,7 +1737,7 @@ export default function WarehouseManagement() {
                       <button className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors">
                         📄 PDF
                       </button>
-                      <button className="bg-blue-500/200 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors">
+                      <button className="bg-white/300 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors">
                         ✏️ Modifica
                       </button>
                     </div>
@@ -2083,7 +2083,7 @@ export default function WarehouseManagement() {
                 ) : (
                   <div className="space-y-3">
                     {quoteItems.map((item) => (
-                      <div key={item.id} className="bg-blue-500/20 rounded-lg p-3">
+                      <div key={item.id} className="bg-white/30rounded-lg p-3">
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
                             <h5 className="font-medium text-gray-900">
@@ -2204,7 +2204,7 @@ export default function WarehouseManagement() {
               {/* Contenuto Anteprima */}
               <div className="space-y-6">
                 {/* Riepilogo Articoli */}
-                <div className="bg-blue-500/20 rounded-lg p-4">
+                <div className="bg-white/30rounded-lg p-4">
                   <h4 className="text-lg font-semibold text-gray-900 mb-4">Articoli Selezionati</h4>
                   {quoteItems.length === 0 ? (
                     <div className="text-center py-8 text-gray-500">
@@ -2396,7 +2396,7 @@ export default function WarehouseManagement() {
               </div>
 
               {/* Statistiche */}
-              <div className="mt-6 bg-blue-500/20 rounded-lg p-4">
+              <div className="mt-6 bg-white/30rounded-lg p-4">
                 <h4 className="font-semibold text-gray-900 mb-3">📈 Statistiche Test:</h4>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center">

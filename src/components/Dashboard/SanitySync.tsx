@@ -98,7 +98,7 @@ export default function SanitySync() {
         </div>
       )}
 
-      <div className="mt-4 p-4 bg-blue-500/20 rounded-lg">
+      <div className="mt-4 p-4 bg-white/30rounded-lg">
         <h4 className="font-medium text-gray-900 mb-2">📋 Cosa viene sincronizzato:</h4>
         <ul className="text-sm text-gray-600 space-y-1">
           <li>• <strong>Servizi</strong>: Nome, prezzo, costi, ore vendute, ricavi, margini</li>

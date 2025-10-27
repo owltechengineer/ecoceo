@@ -153,7 +153,7 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-200"
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white/20 backdrop-blur-md rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-200"
       >
         <span className="text-white text-xl">
           {isMobileMenuOpen ? '✕' : '☰'}
@@ -174,7 +174,7 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
           ? 'fixed inset-y-0 left-0 z-50 lg:relative lg:inset-auto transform translate-x-0' 
           : 'hidden lg:block transform -translate-x-full lg:translate-x-0'
       } w-64 lg:w-72`}>
-        <nav className="bg-white/10 backdrop-blur-md rounded-r-2xl lg:rounded-xl border border-white/20 overflow-hidden h-screen flex flex-col">
+        <nav className="bg-white/20 backdrop-blur-md rounded-r-2xl lg:rounded-xl border border-white/20 overflow-hidden h-screen flex flex-col">
           
           {/* Header */}
           <header className="p-4 lg:p-6 border-b border-white/20">
@@ -190,7 +190,7 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
               </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="lg:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-200"
+                className="lg:hidden p-2 rounded-lg bg-white/20 hover:bg-white/20 transition-all duration-200"
               >
                 <span className="text-white text-sm">✕</span>
               </button>
@@ -201,7 +201,7 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
           <div className="p-4 border-b border-white/20">
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-200"
+              className="p-2 rounded-lg bg-white/20 hover:bg-white/20 transition-all duration-200"
               title={isCollapsed ? 'Espandi menu' : 'Comprimi menu'}
             >
               <span className="text-white text-sm">
@@ -221,15 +221,15 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
                       isCollapsed ? 'p-3 justify-center' : 'p-3'
                     } rounded-lg transition-all duration-200 group ${
                       activeTab === item.id
-                        ? 'bg-blue-500/20 text-blue-300 border border-blue-400/50'
-                        : 'text-white/80 hover:bg-white/10 hover:text-white'
+                        ? 'bg-white/30text-blue-300 border border-blue-400/50'
+                        : 'text-white/80 hover:bg-white/20 hover:text-white'
                     }`}
                     title={isCollapsed ? item.name : undefined}
                   >
                     <div className={`p-2 rounded-md transition-all duration-200 ${
                       activeTab === item.id
                         ? 'bg-blue-500/30'
-                        : 'bg-white/10 group-hover:bg-white/20'
+                        : 'bg-white/20 group-hover:bg-white/20'
                     }`}>
                       <span className="text-lg">{item.icon}</span>
                     </div>
@@ -255,7 +255,7 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
           <footer className="p-4 border-t border-white/20 space-y-2">
             <Link
               href="/"
-              className="w-full flex items-center justify-center p-3 text-blue-400 hover:bg-blue-500/20 rounded-lg transition-all duration-200 text-sm"
+              className="w-full flex items-center justify-center p-3 text-blue-400 hover:bg-white/30rounded-lg transition-all duration-200 text-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <span className="mr-2">🏠</span>
@@ -263,7 +263,7 @@ const ClientAreaMenu: React.FC<ClientAreaMenuProps> = ({ activeTab = 'overview',
             </Link>
             <button
               onClick={logout}
-              className="w-full flex items-center justify-center p-3 text-white/80 hover:bg-white/10 hover:text-white rounded-lg transition-all duration-200 text-sm"
+              className="w-full flex items-center justify-center p-3 text-white/80 hover:bg-white/20 hover:text-white rounded-lg transition-all duration-200 text-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <span className="mr-2">🚪</span>

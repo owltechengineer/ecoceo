@@ -76,8 +76,8 @@ export default function DashboardOverview() {
       case 'urgent': return 'text-red-600 bg-red-50 border-red-200';
       case 'high': return 'text-orange-600 bg-orange-50 border-orange-200';
       case 'medium': return 'text-blue-600 bg-blue-50 border-blue-200';
-      case 'low': return 'text-gray-600 bg-blue-500/20 border-gray-200';
-      default: return 'text-gray-600 bg-blue-500/20 border-gray-200';
+      case 'low': return 'text-gray-600 bg-white/30border-gray-200';
+      default: return 'text-gray-600 bg-white/30border-gray-200';
     }
   };
 
@@ -87,7 +87,7 @@ export default function DashboardOverview() {
       case 'completed': return 'text-blue-600 bg-blue-50';
       case 'on-hold': return 'text-yellow-600 bg-yellow-50';
       case 'cancelled': return 'text-red-600 bg-red-50';
-      default: return 'text-gray-600 bg-blue-500/20';
+      default: return 'text-gray-600 bg-white/30';
     }
   };
 
@@ -203,7 +203,7 @@ export default function DashboardOverview() {
                   </h4>
                   <div className="space-y-2">
                     {tasks.map((task) => (
-                      <div key={task.id} className="flex items-center justify-between p-3 bg-blue-500/20 rounded-lg">
+                      <div key={task.id} className="flex items-center justify-between p-3 bg-white/30rounded-lg">
                         <div className="flex items-center space-x-3">
                           <div className={`w-2 h-2 rounded-full ${getPriorityColor(task.priority).split(' ')[0]}`}></div>
                           <div>
@@ -286,7 +286,7 @@ export default function DashboardOverview() {
           <h3 className="text-lg font-semibold text-gray-900 mb-6">🌐 Statistiche Sito</h3>
           
           <div className="space-y-4">
-            <div className="flex justify-between items-center p-3 bg-blue-500/20 rounded-lg">
+            <div className="flex justify-between items-center p-3 bg-white/30rounded-lg">
               <div>
                 <p className="font-medium text-gray-900">Visite</p>
                 <p className="text-sm text-gray-500">{selectedPeriod === 'today' ? 'Oggi' : selectedPeriod === 'week' ? 'Questa settimana' : 'Questo mese'}</p>
@@ -294,7 +294,7 @@ export default function DashboardOverview() {
                              <p className="text-2xl font-bold text-blue-600">{aggregatedStats.totalVisits.toLocaleString()}</p>
             </div>
             
-            <div className="flex justify-between items-center p-3 bg-blue-500/20 rounded-lg">
+            <div className="flex justify-between items-center p-3 bg-white/30rounded-lg">
               <div>
                 <p className="font-medium text-gray-900">Visualizzazioni Pagine</p>
                 <p className="text-sm text-gray-500">Totale</p>
@@ -302,7 +302,7 @@ export default function DashboardOverview() {
                              <p className="text-2xl font-bold text-green-600">{aggregatedStats.totalPageViews.toLocaleString()}</p>
             </div>
             
-            <div className="flex justify-between items-center p-3 bg-blue-500/20 rounded-lg">
+            <div className="flex justify-between items-center p-3 bg-white/30rounded-lg">
               <div>
                 <p className="font-medium text-gray-900">Bounce Rate</p>
                 <p className="text-sm text-gray-500">Percentuale</p>
@@ -316,7 +316,7 @@ export default function DashboardOverview() {
           <h3 className="text-lg font-semibold text-gray-900 mb-6">📊 Performance Rapida</h3>
           
           <div className="space-y-4">
-            <div className="flex justify-between items-center p-3 bg-blue-500/20 rounded-lg">
+            <div className="flex justify-between items-center p-3 bg-white/30rounded-lg">
               <div>
                 <p className="font-medium text-gray-900">Lead Totali</p>
                 <p className="text-sm text-gray-500">Generati</p>
@@ -324,7 +324,7 @@ export default function DashboardOverview() {
               <p className="text-2xl font-bold text-purple-600">{totalLeads}</p>
             </div>
             
-            <div className="flex justify-between items-center p-3 bg-blue-500/20 rounded-lg">
+            <div className="flex justify-between items-center p-3 bg-white/30rounded-lg">
               <div>
                 <p className="font-medium text-gray-900">Tasso Conversione</p>
                 <p className="text-sm text-gray-500">Lead → Clienti</p>
@@ -332,7 +332,7 @@ export default function DashboardOverview() {
               <p className="text-2xl font-bold text-green-600">{conversionRate.toFixed(1)}%</p>
             </div>
             
-            <div className="flex justify-between items-center p-3 bg-blue-500/20 rounded-lg">
+            <div className="flex justify-between items-center p-3 bg-white/30rounded-lg">
               <div>
                 <p className="font-medium text-gray-900">Progetti Completati</p>
                 <p className="text-sm text-gray-500">Su {totalProjects} totali</p>

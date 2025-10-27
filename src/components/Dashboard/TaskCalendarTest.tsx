@@ -213,7 +213,7 @@ export default function TaskCalendarTest() {
                       <summary className="text-sm text-gray-500 cursor-pointer hover:text-gray-700">
                         📋 Dettagli Dati
                       </summary>
-                      <pre className="mt-2 p-3 bg-blue-500/20 rounded text-xs overflow-x-auto">
+                      <pre className="mt-2 p-3 bg-white/30rounded text-xs overflow-x-auto">
                         {JSON.stringify(result.data, null, 2)}
                       </pre>
                     </details>
@@ -223,7 +223,7 @@ export default function TaskCalendarTest() {
             </div>
           ))}
           
-          <div className="mt-6 p-4 bg-blue-500/20 rounded-lg">
+          <div className="mt-6 p-4 bg-white/30rounded-lg">
             <h5 className="font-medium text-gray-900 mb-2">📈 Riepilogo</h5>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>

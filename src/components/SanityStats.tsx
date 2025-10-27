@@ -112,17 +112,17 @@ export default function SanityStats() {
       </div>
 
       <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-4 bg-blue-500/20 rounded-lg">
+        <div className="p-4 bg-white/30rounded-lg">
           <div className="text-sm text-gray-600 mb-1">Budget Totale</div>
           <div className="text-xl font-bold text-gray-900">€{stats.totalBudget.toLocaleString()}</div>
         </div>
         
-        <div className="p-4 bg-blue-500/20 rounded-lg">
+        <div className="p-4 bg-white/30rounded-lg">
           <div className="text-sm text-gray-600 mb-1">Ricavi Totali</div>
           <div className="text-xl font-bold text-green-600">€{stats.totalRevenue.toLocaleString()}</div>
         </div>
         
-        <div className="p-4 bg-blue-500/20 rounded-lg">
+        <div className="p-4 bg-white/30rounded-lg">
           <div className="text-sm text-gray-600 mb-1">Profitto</div>
           <div className={`text-xl font-bold ${totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             €{totalProfit.toLocaleString()}

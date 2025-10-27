@@ -289,7 +289,7 @@ ORDER BY table_name;`;
         </div>
         
         {showInstructions && (
-          <div className="bg-blue-500/20 p-4 rounded-lg">
+          <div className="bg-white/30p-4 rounded-lg">
             <h4 className="font-semibold mb-3">📋 Istruzioni Setup:</h4>
             <ol className="list-decimal list-inside space-y-2 text-sm">
               <li>Vai su <a href="https://supabase.com" target="_blank" className="text-blue-600 hover:underline">supabase.com</a></li>

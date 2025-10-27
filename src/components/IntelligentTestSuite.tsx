@@ -544,7 +544,7 @@ export default function IntelligentTestSuite() {
                       </div>
                       
                       {result && (
-                        <div className="mt-3 p-3 bg-blue-500/20 rounded">
+                        <div className="mt-3 p-3 bg-white/30rounded">
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-gray-700">{result.message}</span>
                             {result.duration && (

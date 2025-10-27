@@ -297,7 +297,7 @@ export default function BusinessPlanDiagnostic() {
         </div>
 
         {diagnosis && (
-          <div className="bg-blue-500/20 border border-gray-200 rounded-lg p-4">
+          <div className="bg-white/30border border-gray-200 rounded-lg p-4">
             <pre className="whitespace-pre-wrap text-sm font-mono text-gray-800 max-h-96 overflow-y-auto">
               {diagnosis}
             </pre>

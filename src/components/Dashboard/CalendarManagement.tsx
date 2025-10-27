@@ -328,7 +328,7 @@ export default function CalendarManagement() {
                   key={index}
                   className={`min-h-[100px] p-2 border border-gray-200 ${
                     isToday ? 'bg-blue-50 border-blue-300' : ''
-                  } ${!isCurrentMonth ? 'bg-blue-500/20 text-gray-400' : ''}`}
+                  } ${!isCurrentMonth ? 'bg-white/30text-gray-400' : ''}`}
                 >
                   <div className={`text-sm font-medium mb-1 ${
                     isToday ? 'text-blue-600' : ''
@@ -388,7 +388,7 @@ export default function CalendarManagement() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📅 Appuntamenti di Oggi</h3>
           <div className="space-y-3">
             {todayAppointments.map((appointment) => (
-              <div key={appointment.id} className="flex items-center justify-between p-4 bg-blue-500/20 rounded-lg">
+              <div key={appointment.id} className="flex items-center justify-between p-4 bg-white/30rounded-lg">
                 <div className="flex items-center space-x-4">
                   <div className={`w-3 h-3 rounded-full ${getTypeColor(appointment.type).replace('bg-', 'bg-').replace(' text-', '')}`}></div>
                   <div>
@@ -422,7 +422,7 @@ export default function CalendarManagement() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">⏰ Prossimi Appuntamenti</h3>
           <div className="space-y-3">
             {upcomingAppointments.map((appointment) => (
-              <div key={appointment.id} className="flex items-center justify-between p-4 bg-blue-500/20 rounded-lg">
+              <div key={appointment.id} className="flex items-center justify-between p-4 bg-white/30rounded-lg">
                 <div className="flex items-center space-x-4">
                   <div className={`w-3 h-3 rounded-full ${getTypeColor(appointment.type).replace('bg-', 'bg-').replace(' text-', '')}`}></div>
                   <div>

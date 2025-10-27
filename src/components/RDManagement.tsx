@@ -242,7 +242,7 @@ export default function RDManagement() {
         
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-blue-500/20">
+            <thead className="bg-white/30">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Progetto
@@ -277,7 +277,7 @@ export default function RDManagement() {
               {rdProjects.map((project) => {
                 const roi = project.cost > 0 ? (project.expectedReturn - project.cost) / project.cost : 0;
                 return (
-                  <tr key={project.id} className="hover:bg-blue-500/20">
+                  <tr key={project.id} className="hover:bg-white/30">
                     <td className="px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">{project.name}</div>
                       <div className="text-sm text-gray-500">{project.description}</div>

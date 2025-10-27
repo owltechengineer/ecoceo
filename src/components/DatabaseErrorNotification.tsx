@@ -55,7 +55,7 @@ export default function DatabaseErrorNotification({ error, onDismiss }: Database
         title: 'Errore Database',
         message: 'Si è verificato un errore imprevisto.',
         action: 'Controlla la console per dettagli',
-        color: 'bg-blue-500/20 border-gray-200 text-gray-800'
+        color: 'bg-white/30border-gray-200 text-gray-800'
       };
     }
   };

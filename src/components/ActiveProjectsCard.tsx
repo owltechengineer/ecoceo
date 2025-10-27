@@ -239,7 +239,7 @@ export default function ActiveProjectsCard() {
       </div>
 
       {/* Budget */}
-      <div className="bg-blue-500/20 rounded-lg p-4 mb-6">
+      <div className="bg-white/30rounded-lg p-4 mb-6">
         <h4 className="font-medium text-gray-900 mb-3">Budget Progetti</h4>
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -271,7 +271,7 @@ export default function ActiveProjectsCard() {
           <h4 className="font-medium text-gray-900 mb-3">Progetti in Corso</h4>
           <div className="space-y-4">
             {activeProjects.slice(0, 3).map((item) => (
-              <div key={item.project.id} className="border rounded-lg p-4 hover:bg-blue-500/20 transition-colors">
+              <div key={item.project.id} className="border rounded-lg p-4 hover:bg-white/30transition-colors">
                 {/* Header Progetto */}
                 <div className="flex items-center justify-between mb-3">
                   <h5 className="font-medium text-gray-900 truncate">{item.project.name}</h5>
@@ -347,7 +347,7 @@ export default function ActiveProjectsCard() {
 
                 {/* Prossimo milestone */}
                 {item.nextMilestone && (
-                  <div className="mt-3 text-xs text-gray-500 bg-blue-500/20 rounded p-2">
+                  <div className="mt-3 text-xs text-gray-500 bg-white/30rounded p-2">
                     📅 <strong>Prossimo:</strong> {item.nextMilestone.title} - {new Date(item.nextMilestone.planned_date).toLocaleDateString('it-IT')}
                   </div>
                 )}
@@ -381,7 +381,7 @@ export default function ActiveProjectsCard() {
 
       {/* Riepilogo Dettagliato delle Tabelle */}
       {activeProjects.length > 0 && (
-        <div className="mt-6 bg-blue-500/20 rounded-lg p-4">
+        <div className="mt-6 bg-white/30rounded-lg p-4">
           <h4 className="font-medium text-gray-900 mb-3">📊 Riepilogo Dettagliato</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Obiettivi */}

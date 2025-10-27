@@ -30,7 +30,7 @@ import DocumentsTab from './tabs/DocumentsTab';
 import KnowledgeTab from './tabs/KnowledgeTab';
 import PromotionsTab from './tabs/PromotionsTab';
 import MathTab from './tabs/MathTab';
-import ClientAreaMenu from './ClientAreaMenu';
+import ClientAreaSidebarNavigation from './ClientAreaSidebarNavigation';
 
 const ClientAreaContent: React.FC = () => {
   const { logout } = useClientAreaAuth();
@@ -74,7 +74,7 @@ const ClientAreaContent: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Menu Sidebar */}
-      <ClientAreaMenu activeTab={activeTab} onTabChange={setActiveTab} />
+      <ClientAreaSidebarNavigation activeSection={activeTab} onSectionChange={setActiveTab} />
       
       {/* Main Content Area */}
       <main className="flex-1 lg:ml-0">
@@ -188,7 +188,7 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
           {/* Quick Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8 mb-12">
             {statsData.slice(0, 4).map((stat, index) => (
-              <div key={index} className="text-center p-4 lg:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300">
+              <div key={index} className="text-center p-4 lg:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/20 transition-all duration-300">
                 <div className={`inline-flex p-3 ${stat.color} rounded-xl mb-3`}>
                   <span className="text-2xl lg:text-3xl">{stat.icon}</span>
                 </div>
@@ -208,7 +208,7 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
             {statsData.map((stat, index) => (
-              <div key={index} className="group p-6 lg:p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
+              <div key={index} className="group p-6 lg:p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/20 hover:border-white/20 transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className={`p-4 ${stat.color} rounded-xl group-hover:scale-110 transition-transform duration-300`}>
                     <span className="text-3xl">{stat.icon}</span>
@@ -233,7 +233,7 @@ const OverviewTab: React.FC<{ stats: ClientAreaStats | null }> = ({ stats }) => 
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="group p-6 lg:p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
+              <div key={index} className="group p-6 lg:p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/20 hover:border-white/20 transition-all duration-300">
                 <div className="text-4xl lg:text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
                   {feature.icon}
                 </div>

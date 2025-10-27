@@ -49,7 +49,7 @@ const KnowledgeCard: React.FC<KnowledgeCardProps> = ({ knowledge, onReadMore }) 
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-blue-200">
+    <div className="bg-white/20rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-blue-200">
       {/* Featured Image */}
       {knowledge.featuredImage && (
         <div className="aspect-video bg-gray-200">

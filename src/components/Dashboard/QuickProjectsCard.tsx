@@ -136,7 +136,7 @@ export default function QuickProjectsCard() {
       </div>
 
       {/* Budget rapido */}
-      <div className="bg-blue-500/20 rounded-lg p-3 mb-4">
+      <div className="bg-white/30rounded-lg p-3 mb-4">
         <div className="flex justify-between items-center">
           <span className="text-sm text-gray-600">Budget</span>
           <span className="font-semibold text-gray-900">{formatCurrency(stats.totalBudget)}</span>
@@ -161,7 +161,7 @@ export default function QuickProjectsCard() {
           <h4 className="font-medium text-gray-900 mb-2 text-sm">Progetti in Corso</h4>
           <div className="space-y-2">
             {activeProjects.map((item) => (
-              <div key={item.project.id} className="border rounded-lg p-2 hover:bg-blue-500/20 transition-colors">
+              <div key={item.project.id} className="border rounded-lg p-2 hover:bg-white/30transition-colors">
                 <div className="flex items-center justify-between mb-1">
                   <h5 className="font-medium text-gray-900 text-sm truncate">{item.project.name}</h5>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(item.project.status)}`}>

@@ -191,7 +191,7 @@ export default function FixMarketingTables() {
 
       {/* Risultati */}
       {result && (
-        <div className="mt-6 p-4 bg-blue-500/20 rounded-lg">
+        <div className="mt-6 p-4 bg-white/30rounded-lg">
           <h4 className="font-semibold text-gray-900 mb-2">📊 Risultati:</h4>
           <div className="space-y-2">
             {result.fix && (

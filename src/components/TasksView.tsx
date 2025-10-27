@@ -311,7 +311,7 @@ export default function TasksView() {
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-blue-500/20">
+              <thead className="bg-white/30">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Task
@@ -341,7 +341,7 @@ export default function TasksView() {
               </thead>
               <tbody className="bg-white/30 backdrop-blur/30 backdrop-blur divide-y divide-gray-200">
                 {filteredTasks.map((task) => (
-                  <tr key={task.id} className="hover:bg-blue-500/20">
+                  <tr key={task.id} className="hover:bg-white/30">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">

@@ -35,7 +35,7 @@ export default class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="min-h-screen flex items-center justify-center bg-blue-500/20">
+        <div className="min-h-screen flex items-center justify-center bg-white/30">
           <div className="max-w-md w-full bg-white/30 backdrop-blur/30 backdrop-blurshadow-lg rounded-lg p-6">
             <div className="flex items-center mb-4">
               <div className="flex-shrink-0">

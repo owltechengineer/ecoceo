@@ -12,8 +12,8 @@ export default function ContactRequests() {
       case 'contacted': return 'text-yellow-600 bg-yellow-50';
       case 'qualified': return 'text-blue-600 bg-blue-50';
       case 'converted': return 'text-green-600 bg-green-50';
-      case 'lost': return 'text-gray-600 bg-blue-500/20';
-      default: return 'text-gray-600 bg-blue-500/20';
+      case 'lost': return 'text-gray-600 bg-white/30';
+      default: return 'text-gray-600 bg-white/30';
     }
   };
 

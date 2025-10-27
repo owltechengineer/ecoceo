@@ -153,7 +153,7 @@ export default function SupabaseTest() {
         </div>
 
         {/* Instructions */}
-        <div className="bg-blue-500/20 border border-gray-200 rounded-lg p-4">
+        <div className="bg-white/30border border-gray-200 rounded-lg p-4">
           <h4 className="text-sm font-medium text-gray-900 mb-2">📋 Istruzioni:</h4>
           <ol className="text-sm text-gray-700 space-y-1 list-decimal list-inside">
             <li>Crea il file <code>.env.local</code> con le credenziali Supabase</li>

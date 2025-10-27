@@ -6,6 +6,7 @@ import { clientVideosQuery } from '@/sanity/lib/clientAreaQueries';
 import { ClientVideo } from '@/types/clientArea';
 import VideoCard from '../VideoCard';
 import VideoModal from '../VideoModal';
+import ContentSectionLayout from '../ContentSectionLayout';
 
 const VideoTab: React.FC = () => {
   const [videos, setVideos] = useState<ClientVideo[]>([]);
@@ -45,84 +46,89 @@ const VideoTab: React.FC = () => {
     setSelectedVideo(video);
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+  const stats = [
+    {
+      label: 'Video disponibili',
+      value: videos.length,
+      icon: (
+        <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+        </svg>
+      ),
+      color: 'bg-blue-100'
+    },
+    {
+      label: 'Categorie',
+      value: categories.length,
+      icon: (
+        <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+        </svg>
+      ),
+      color: 'bg-green-100'
+    },
+    {
+      label: 'Durata totale',
+      value: videos.length > 0 ? `${Math.round(videos.reduce((sum, video) => sum + (video.duration || 0), 0) / 60)} min` : '0 min',
+      icon: (
+        <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      ),
+      color: 'bg-purple-100'
+    }
+  ];
+
+  const filters = (
+    <div className="flex flex-col sm:flex-row gap-4">
+      {/* Search */}
+      <div className="flex-1">
+        <input
+          type="text"
+          placeholder="Cerca video..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-white/60"
+        />
       </div>
-    );
-  }
+
+      {/* Category Filter */}
+      <select
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+        className="px-4 py-2 bg-white/20 border border-white/30 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+      >
+        <option value="all">Tutte le categorie</option>
+        {categories.map(category => (
+          <option key={category} value={category} className="bg-gray-800">
+            {category}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-white rounded-lg shadow-lg p-6 border border-blue-200">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">🎥 Video Tutorial e Guide</h2>
-        <p className="text-gray-300">
-          Esplora la nostra collezione di video tutorial, presentazioni e guide per massimizzare l'utilizzo dei nostri servizi.
-        </p>
-      </div>
-
-      {/* Filters */}
-      <div className="bg-white rounded-lg shadow-lg p-6 border border-blue-200">
-        <div className="flex flex-col sm:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1">
-            <input
-              type="text"
-              placeholder="Cerca video..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          {/* Category Filter */}
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 bg-white text-gray-900 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            <option value="all">Tutte le categorie</option>
-            {categories.map(category => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Results Count */}
-      <div className="text-gray-300">
-        {filteredVideos.length} video trovati
-      </div>
-
-      {/* Videos Grid */}
-      {filteredVideos.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredVideos.map((video) => (
-            <VideoCard
-              key={video._id}
-              video={video}
-              onPlay={handleVideoPlay}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="bg-gray-800 rounded-lg shadow-lg p-12 text-center border border-gray-700">
-          <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-          </svg>
-          <h3 className="text-lg font-medium text-white mb-2">Nessun video trovato</h3>
-          <p className="text-gray-300">
-            {searchTerm || filter !== 'all' 
-              ? 'Prova a modificare i filtri di ricerca'
-              : 'Non ci sono video disponibili al momento'
-            }
-          </p>
-        </div>
-      )}
+    <>
+      <ContentSectionLayout
+        icon="🎥"
+        title="Video"
+        description="Tutorial e guide"
+        loading={loading}
+        stats={stats}
+        filters={filters}
+        resultsCount={filteredVideos.length}
+        resultsLabel="video trovati"
+        emptyMessage={searchTerm || filter !== 'all' ? 'Prova a modificare i filtri di ricerca' : 'Non ci sono video disponibili al momento'}
+      >
+        {filteredVideos.map((video) => (
+          <VideoCard
+            key={video._id}
+            video={video}
+            onPlay={handleVideoPlay}
+          />
+        ))}
+      </ContentSectionLayout>
 
       {/* Video Modal */}
       {selectedVideo && (
@@ -131,7 +137,7 @@ const VideoTab: React.FC = () => {
           onClose={() => setSelectedVideo(null)}
         />
       )}
-    </div>
+    </>
   );
 };
 

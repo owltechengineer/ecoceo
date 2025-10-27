@@ -345,7 +345,7 @@ SELECT 'Setup completato! Tabelle Business Plan create con colonne corrette' as 
                   </div>
                 )}
 
-                <div className="bg-blue-500/20 border border-gray-200 rounded p-3">
+                <div className="bg-white/30border border-gray-200 rounded p-3">
                   <h5 className="font-semibold text-gray-900 mb-2">📋 Colonne Trovate:</h5>
                   {diagnostic.tables?.map((table: any) => (
                     <div key={table.table} className="mb-2">

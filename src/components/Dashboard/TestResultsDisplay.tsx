@@ -32,7 +32,7 @@ export default function TestResultsDisplay({
           {isLoading ? loadingText : buttonText}
         </button>
         
-        <div className="bg-blue-500/20 border-2 border-gray-300 rounded-lg p-4">
+        <div className="bg-white/30border-2 border-gray-300 rounded-lg p-4">
           <h4 className="font-bold mb-3 text-gray-900 text-lg">📊 Risultati Test:</h4>
           <div className="bg-black text-green-400 p-4 rounded border-2 border-green-500 font-mono text-sm max-h-96 overflow-y-auto">
             <pre className="whitespace-pre-wrap">{results || 'Nessun test eseguito'}</pre>

@@ -81,7 +81,7 @@ const SingleProduct = ({ product, index }: ProductCardProps) => {
                   </span>
                 )}
                 {!isInStock && (
-                  <span className="bg-blue-500/200 text-white px-2 py-1 rounded-full text-xs font-medium">
+                  <span className="bg-white/300 text-white px-2 py-1 rounded-full text-xs font-medium">
                     Esaurito
                   </span>
                 )}

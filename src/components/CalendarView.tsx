@@ -385,7 +385,7 @@ export default function CalendarView() {
           <div className="flex items-center space-x-4">
             <button
               onClick={() => navigateMonth('prev')}
-              className="p-2 rounded-lg border border-gray-300 hover:bg-blue-500/20"
+              className="p-2 rounded-lg border border-gray-300 hover:bg-white/30"
             >
               ←
             </button>
@@ -397,7 +397,7 @@ export default function CalendarView() {
             </button>
             <button
               onClick={() => navigateMonth('next')}
-              className="p-2 rounded-lg border border-gray-300 hover:bg-blue-500/20"
+              className="p-2 rounded-lg border border-gray-300 hover:bg-white/30"
             >
               →
             </button>
@@ -446,7 +446,7 @@ export default function CalendarView() {
             {/* Days of week header */}
             <div className="grid grid-cols-7 border-b border-gray-200">
               {daysOfWeek.map(day => (
-                <div key={day} className="p-4 text-center font-medium text-gray-500 bg-blue-500/20">
+                <div key={day} className="p-4 text-center font-medium text-gray-500 bg-white/30">
                   {day}
                 </div>
               ))}
@@ -458,7 +458,7 @@ export default function CalendarView() {
                 <div
                   key={index}
                   className={`min-h-[120px] border-r border-b border-gray-200 p-2 ${
-                    !day.isCurrentMonth ? 'bg-blue-500/20' : 'bg-white/30 backdrop-blur/30 backdrop-blur'
+                    !day.isCurrentMonth ? 'bg-white/30' : 'bg-white/30 backdrop-blur/30 backdrop-blur'
                   } ${day.isToday ? 'bg-blue-50' : ''}`}
                 >
                   <div className={`text-sm font-medium mb-1 ${
@@ -576,7 +576,7 @@ export default function CalendarView() {
           <div className="p-6">
             <div className="bg-white/30 backdrop-blur/30 backdrop-blur rounded-lg shadow-sm">
               {/* Day header */}
-              <div className="p-4 border-b border-gray-200 bg-blue-500/20">
+              <div className="p-4 border-b border-gray-200 bg-white/30">
                 <h3 className="text-lg font-semibold text-gray-900">
                   {currentDate.toLocaleDateString('it-IT', { 
                     weekday: 'long', 

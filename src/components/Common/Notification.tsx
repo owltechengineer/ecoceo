@@ -42,7 +42,7 @@ export default function Notification({ type, message, onClose, duration = 5000 }
       case 'info':
         return 'bg-blue-50 border-blue-200 text-blue-800';
       default:
-        return 'bg-blue-500/20 border-gray-200 text-gray-800';
+        return 'bg-white/30border-gray-200 text-gray-800';
     }
   };
 

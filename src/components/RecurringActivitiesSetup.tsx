@@ -175,7 +175,7 @@ AND ra.name = 'Lettura';`;
           </div>
 
           {/* Script SQL */}
-          <div className="bg-blue-500/20 rounded-lg p-4 border border-gray-200">
+          <div className="bg-white/30rounded-lg p-4 border border-gray-200">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold text-gray-900">💾 Script SQL Completo</h3>
               <button

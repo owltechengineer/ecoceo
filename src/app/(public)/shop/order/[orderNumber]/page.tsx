@@ -240,7 +240,7 @@ const OrderPage = async ({ params }: OrderPageProps) => {
                     </div>
 
                     {/* Contact Support */}
-                    <div className="mt-6 p-4 bg-blue-500/20 rounded-lg">
+                    <div className="mt-6 p-4 bg-white/30rounded-lg">
                       <h3 className="font-semibold text-black mb-2">
                         Hai domande?
                       </h3>

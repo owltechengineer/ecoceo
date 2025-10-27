@@ -161,7 +161,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-3 bg-white/90 backdrop-blur-md rounded-xl shadow-xl border border-white/50 hover:bg-white transition-all duration-200"
+          className="p-3 bg-white/90 backdrop-blur-md rounded-xl shadow-xl border border-white/50 hover:bg-white/20transition-all duration-200"
         >
           <span className="text-gray-700 text-xl">
             {isMobileMenuOpen ? '✕' : '☰'}
@@ -188,7 +188,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
         {/* Navigation con Effetto Vetro - Mobile Optimized */}
         <div className="bg-white/95 backdrop-blur-md rounded-r-2xl lg:rounded-xl shadow-2xl border border-white/50 overflow-hidden h-screen flex flex-col">
         {/* Header con Effetto Vetro */}
-        <div className="bg-blue-500/20 backdrop-blur-sm p-2 sm:p-3 border-b border-white/30">
+        <div className="bg-white/30backdrop-blur-sm p-2 sm:p-3 border-b border-white/30">
           <div className="flex items-center justify-between">
             {!isCollapsed && (
               <div className="flex items-center">
@@ -199,7 +199,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
                     className="h-10 w-auto max-w-[160px] object-contain"
                   />
                 ) : (
-                  <div className="h-10 w-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                  <div className="h-10 w-10 bg-white/30rounded-lg flex items-center justify-center">
                     <span className="text-blue-600 font-bold text-lg">L</span>
                   </div>
                 )}
@@ -256,7 +256,7 @@ export default function SidebarNavigation({ activeSection = 'dashboard', onSecti
                   isCollapsed ? 'p-2 justify-center' : 'p-2'
                 } rounded-lg transition-all duration-200 group ${
                   activeSection === item.key
-                    ? 'bg-blue-500/20 text-blue-700 border border-blue-200/50'
+                    ? 'bg-white/30text-blue-700 border border-blue-200/50'
                     : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-800'
                 }`}
                 title={isCollapsed ? item.name : undefined}

@@ -449,7 +449,7 @@ export default function MarketingView() {
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`py-3 px-4 rounded-lg font-medium text-sm transition-all duration-200 ${
                   activeTab === tab.id
-                    ? 'bg-blue-500/20 text-blue-700 border border-blue-200/50'
+                    ? 'bg-white/30text-blue-700 border border-blue-200/50'
                     : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-800'
                 }`}
               >
@@ -779,7 +779,7 @@ export default function MarketingView() {
       {showNewCampaign && (
         <div className="fixed inset-0 z-[9999] overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen p-4">
-            <div className="fixed inset-0 bg-blue-500/200 bg-opacity-75" onClick={() => setShowNewCampaign(false)}></div>
+            <div className="fixed inset-0 bg-white/300 bg-opacity-75" onClick={() => setShowNewCampaign(false)}></div>
 
             <div className="relative bg-white/30 backdrop-blur/30 backdrop-blur rounded-lg p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-xl">
               <div>
@@ -892,7 +892,7 @@ export default function MarketingView() {
       {showNewLead && (
         <div className="fixed inset-0 z-[9999] overflow-y-auto" style={{ zIndex: 9999 }}>
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
-            <div className="fixed inset-0 bg-blue-500/200 bg-opacity-75 transition-opacity" onClick={() => {
+            <div className="fixed inset-0 bg-white/300 bg-opacity-75 transition-opacity" onClick={() => {
               console.log('🚫 Chiusura modal nuovo lead');
               setShowNewLead(false);
             }}></div>
@@ -1035,7 +1035,7 @@ export default function MarketingView() {
       {editingCampaign && (
         <div className="fixed inset-0 z-[9999] overflow-y-auto">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 bg-blue-500/200 bg-opacity-75 transition-opacity" onClick={() => setEditingCampaign(null)}></div>
+            <div className="fixed inset-0 bg-white/300 bg-opacity-75 transition-opacity" onClick={() => setEditingCampaign(null)}></div>
 
             <div className="inline-block align-bottom bg-white/30 backdrop-blur/30 backdrop-blur rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
               <div>
@@ -1130,7 +1130,7 @@ export default function MarketingView() {
       {editingLead && (
         <div className="fixed inset-0 z-[9999] overflow-y-auto" style={{ zIndex: 9999 }}>
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
-            <div className="fixed inset-0 bg-blue-500/200 bg-opacity-75 transition-opacity" onClick={() => setEditingLead(null)}></div>
+            <div className="fixed inset-0 bg-white/300 bg-opacity-75 transition-opacity" onClick={() => setEditingLead(null)}></div>
 
             <div className="inline-block bg-white/30 backdrop-blur/30 backdrop-blur rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all max-w-lg w-full p-6 relative z-10">
               <div>

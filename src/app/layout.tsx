@@ -11,6 +11,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { client } from '@/sanity/lib/client';
 import { siteSettingsQuery } from '@/sanity/lib/queries';
+import { disableReactDevTools, useReactDevToolsErrorHandler } from '@/utils/devtools';
+import { SupabaseProvider } from '@/contexts/SupabaseProvider';
 
 
 // Lazy load components
@@ -33,6 +35,12 @@ export default function RootLayout({
 
 
   useEffect(() => {
+    // Gestisce errori di React DevTools
+    useReactDevToolsErrorHandler();
+    
+    // Disabilita React DevTools in produzione
+    disableReactDevTools();
+
     const fetchSiteSettings = async () => {
       try {
         const settings = await client.fetch(siteSettingsQuery);
@@ -104,14 +112,16 @@ export default function RootLayout({
         }}
       >
         <Providers>
-          <CartProvider>
-            <AnalyticsProvider>
-              {!isStudioPage && !isDashboardPage && !isClientAreaPage && <Header siteSettings={siteSettings} />}
-              {children}
-              {!isStudioPage && !isDashboardPage && !isClientAreaPage && <Footer />}
-              {!isStudioPage && !isDashboardPage && !isClientAreaPage && <ScrollToTop />}
-            </AnalyticsProvider>
-          </CartProvider>
+          <SupabaseProvider>
+            <CartProvider>
+              <AnalyticsProvider>
+                {!isStudioPage && !isDashboardPage && !isClientAreaPage && <Header siteSettings={siteSettings} />}
+                {children}
+                {!isStudioPage && !isDashboardPage && !isClientAreaPage && <Footer />}
+                {!isStudioPage && !isDashboardPage && !isClientAreaPage && <ScrollToTop />}
+              </AnalyticsProvider>
+            </CartProvider>
+          </SupabaseProvider>
         </Providers>
       </body>
     </html>

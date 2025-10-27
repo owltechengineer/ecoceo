@@ -43,6 +43,11 @@ export const getSupabaseSecretClient = (): SupabaseClient => {
 }
 
 // Export delle istanze per compatibilità (deprecato - usare le funzioni getter)
+// RIMOSSO: export const supabase = getSupabaseClient()
+// RIMOSSO: export const supabaseAdmin = getSupabaseAdminClient()  
+// RIMOSSO: export const supabaseSecret = getSupabaseSecretClient()
+
+// Usa sempre le funzioni getter per evitare multiple istanze
 export const supabase = getSupabaseClient()
 export const supabaseAdmin = getSupabaseAdminClient()
 export const supabaseSecret = getSupabaseSecretClient()

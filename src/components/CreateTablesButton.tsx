@@ -171,7 +171,7 @@ export default function CreateTablesButton() {
 
       {result && (
         <div className="space-y-4">
-          <div className="p-4 bg-blue-500/20 rounded-lg border">
+          <div className="p-4 bg-white/30rounded-lg border">
             <h4 className="font-semibold text-gray-800 mb-2">Timestamp: {result.timestamp}</h4>
             {result.error && (
               <div className="p-3 bg-red-100 border border-red-200 rounded text-red-800">

@@ -159,7 +159,7 @@ export default function QuickCreateModal({ isOpen, onClose, type }: QuickCreateM
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-blue-500/20 transition-colors"
+              className="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-white/30transition-colors"
             >
               Annulla
             </button>

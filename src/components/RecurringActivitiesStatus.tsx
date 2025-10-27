@@ -146,7 +146,7 @@ export default function RecurringActivitiesStatus() {
         <div className="space-y-4">
           {/* Status Items */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex items-center justify-between p-3 bg-blue-500/20 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-white/30rounded-lg">
               <div className="flex items-center">
                 <span className="text-lg mr-3">{getStatusIcon(status.tablesExist)}</span>
                 <div>
@@ -159,7 +159,7 @@ export default function RecurringActivitiesStatus() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-blue-500/20 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-white/30rounded-lg">
               <div className="flex items-center">
                 <span className="text-lg mr-3">{getStatusIcon(status.functionsExist)}</span>
                 <div>
@@ -172,7 +172,7 @@ export default function RecurringActivitiesStatus() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-blue-500/20 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-white/30rounded-lg">
               <div className="flex items-center">
                 <span className="text-lg mr-3">{getStatusIcon(status.dataLoaded)}</span>
                 <div>
@@ -185,7 +185,7 @@ export default function RecurringActivitiesStatus() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-blue-500/20 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-white/30rounded-lg">
               <div className="flex items-center">
                 <span className="text-lg mr-3">📊</span>
                 <div>

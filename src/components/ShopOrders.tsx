@@ -13,7 +13,7 @@ export default function ShopOrders() {
       case 'shipped': return 'text-purple-600 bg-purple-50';
       case 'completed': return 'text-green-600 bg-green-50';
       case 'cancelled': return 'text-red-600 bg-red-50';
-      default: return 'text-gray-600 bg-blue-500/20';
+      default: return 'text-gray-600 bg-white/30';
     }
   };
 
@@ -71,7 +71,7 @@ export default function ShopOrders() {
       <div className="space-y-3">
         <h4 className="text-sm font-medium text-gray-700 mb-3">Ordini Recenti</h4>
         {shopOrders.slice(0, 4).map((order) => (
-          <div key={order.id} className="flex items-center justify-between p-3 bg-blue-500/20 rounded-lg">
+          <div key={order.id} className="flex items-center justify-between p-3 bg-white/30rounded-lg">
             <div className="flex items-center space-x-3">
               <div className="flex flex-col">
                 <p className="font-medium text-gray-900">{order.id}</p>

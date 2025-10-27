@@ -448,7 +448,7 @@ export default function UnifiedTaskCalendar() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 Tutti i Task ({filteredTasks.length})</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-blue-500/20">
+              <thead className="bg-white/30">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Task</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stato</th>
@@ -511,7 +511,7 @@ export default function UnifiedTaskCalendar() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📅 Tutti gli Appuntamenti ({filteredAppointments.length})</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-blue-500/20">
+              <thead className="bg-white/30">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Appuntamento</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tipo</th>

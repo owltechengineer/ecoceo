@@ -450,7 +450,7 @@ export default function BusinessPlanUnifiedTest() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Salvataggio */}
-                  <div className="p-3 rounded-lg bg-blue-500/20">
+                  <div className="p-3 rounded-lg bg-white/30">
                     <h5 className="font-medium text-gray-900 mb-2">💾 Salvataggio</h5>
                     {result.saveSuccess ? (
                       <p className="text-green-600 text-sm">{result.saveMessage}</p>
@@ -460,7 +460,7 @@ export default function BusinessPlanUnifiedTest() {
                   </div>
                   
                   {/* Caricamento */}
-                  <div className="p-3 rounded-lg bg-blue-500/20">
+                  <div className="p-3 rounded-lg bg-white/30">
                     <h5 className="font-medium text-gray-900 mb-2">📥 Caricamento</h5>
                     {result.loadSuccess ? (
                       <p className="text-green-600 text-sm">{result.loadMessage}</p>
@@ -483,7 +483,7 @@ export default function BusinessPlanUnifiedTest() {
           })}
           
           {/* Riepilogo */}
-          <div className="mt-6 p-4 bg-blue-500/20 border border-gray-200 rounded-lg">
+          <div className="mt-6 p-4 bg-white/30border border-gray-200 rounded-lg">
             <h4 className="font-medium text-gray-900 mb-3">📈 Riepilogo Test</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div>

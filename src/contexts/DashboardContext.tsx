@@ -15,7 +15,7 @@ export interface Project {
   actualCost: number;
   expectedRevenue: number;
   actualRevenue: number; // Aggiunto
-  status: 'active' | 'completed' | 'on-hold' | 'cancelled';
+  status: 'active' | 'completed' | 'on-hold' | 'cancelled' | 'planning';
   progress: number;
   roi: number;
   margin: number;
@@ -24,6 +24,13 @@ export interface Project {
   plannedCost: number; // Costo pianificato
   plannedRevenue: number; // Ricavo pianificato
   plannedProgress: number; // Progresso pianificato
+  // Nuovi campi per gestione dettagliata
+  objectives?: any[];
+  teamMembers?: any[];
+  milestones?: any[];
+  risks?: any[];
+  description?: string;
+  tags?: string[];
 }
 
 export interface Service {

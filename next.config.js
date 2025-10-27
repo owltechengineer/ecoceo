@@ -1,58 +1,54 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Ottimizzazioni per il build
-  experimental: {
-    optimizePackageImports: ['@sanity/image-url', 'next-sanity'],
-  },
-  
-  // Compressione e ottimizzazioni
-  compress: true,
-  
-  // Disabilita temporaneamente alcune regole ESLint per il build
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  
-  // Disabilita TypeScript checking durante il build per velocizzare il deploy
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  
-  // Ottimizzazioni per le immagini
+  reactStrictMode: true,
+  // swcMinify rimosso (deprecato in Next.js 15)
+  // Configurazione immagini per Sanity CDN
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "cdn.sanity.io",
-        port: "",
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        port: '',
+        pathname: '/images/**',
       },
     ],
-    formats: ['image/webp', 'image/avif'],
-    minimumCacheTTL: 60,
   },
-  
-  // Ottimizzazioni per il bundle
+  // Disabilita React DevTools in produzione per evitare errori
   webpack: (config, { dev, isServer }) => {
-    // Ottimizzazioni solo per il build di produzione
     if (!dev && !isServer) {
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
-          },
-          sanity: {
-            test: /[\\/]node_modules[\\/]@sanity[\\/]/,
-            name: 'sanity',
-            chunks: 'all',
-          },
-        },
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        'react-dom/client': 'react-dom/client',
       };
     }
-    
     return config;
+  },
+  // Configurazione per evitare errori di compatibilità
+  experimental: {
+    // esmExternals rimosso (non raccomandato)
+    optimizePackageImports: ['@supabase/supabase-js'],
+  },
+  // Headers per migliorare la compatibilità
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+        ],
+      },
+    ];
   },
 };
 

@@ -77,7 +77,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document, onDownload }) => 
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-blue-200">
+    <div className="bg-white/20rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-blue-200">
       {/* Preview Image or File Icon */}
       <div className="aspect-video bg-gray-100 flex items-center justify-center">
         {document.previewImage ? (

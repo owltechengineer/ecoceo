@@ -400,7 +400,7 @@ export default function UnifiedTests() {
           </div>
 
           {/* Results */}
-          <div className="bg-blue-500/20 border border-gray-200 rounded-lg p-4">
+          <div className="bg-white/30border border-gray-200 rounded-lg p-4">
             <h4 className="text-sm font-medium text-gray-900 mb-2">📊 Risultati Test Connessione:</h4>
             <div className="space-y-1 max-h-40 overflow-y-auto">
               {testResults.length === 0 ? (
@@ -474,7 +474,7 @@ export default function UnifiedTests() {
           </div>
 
           {/* Results */}
-          <div className="bg-blue-500/20 border border-gray-200 rounded-lg p-4">
+          <div className="bg-white/30border border-gray-200 rounded-lg p-4">
             <h4 className="text-sm font-medium text-gray-900 mb-2">📊 Risultati Test Input:</h4>
             <div className="space-y-1 max-h-40 overflow-y-auto">
               {inputTestResults.length === 0 ? (
@@ -616,7 +616,7 @@ export default function UnifiedTests() {
           </div>
 
           {/* Results */}
-          <div className="bg-blue-500/20 border border-gray-200 rounded-lg p-4">
+          <div className="bg-white/30border border-gray-200 rounded-lg p-4">
             <h4 className="text-sm font-medium text-gray-900 mb-2">📊 Risultati Test Visibilità:</h4>
             <div className="space-y-1 max-h-40 overflow-y-auto">
               {visibilityTestResults.length === 0 ? (
@@ -638,7 +638,7 @@ export default function UnifiedTests() {
           </div>
 
           {/* Current State */}
-          <div className="bg-blue-500/20 border border-gray-200 rounded-lg p-4">
+          <div className="bg-white/30border border-gray-200 rounded-lg p-4">
             <h4 className="text-sm font-medium text-gray-900 mb-2">📊 Stato Attuale:</h4>
             <pre className="text-xs text-gray-700 overflow-auto">
               {JSON.stringify({

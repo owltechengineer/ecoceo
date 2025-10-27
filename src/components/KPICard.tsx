@@ -16,7 +16,7 @@ export default function KPICard({ title, value, change, status, icon }: KPICardP
       case 'red':
         return 'text-red-600 bg-red-50 border-red-200';
       default:
-        return 'text-gray-600 bg-blue-500/20 border-gray-200';
+        return 'text-gray-600 bg-white/30border-gray-200';
     }
   };
 

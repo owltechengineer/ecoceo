@@ -136,7 +136,7 @@ INSERT INTO leads (name, email, source, campaign, status, value, date, roi, plan
             </div>
           </div>
 
-          <div className="p-4 bg-blue-500/20 rounded-lg border">
+          <div className="p-4 bg-white/30rounded-lg border">
             <h4 className="font-semibold text-gray-800 mb-2">✅ Risultati Attesi</h4>
             <ul className="text-gray-700 text-sm space-y-1">
               <li>• Tabelle <code className="bg-gray-200 px-1 rounded">campaigns</code> e <code className="bg-gray-200 px-1 rounded">leads</code> create</li>

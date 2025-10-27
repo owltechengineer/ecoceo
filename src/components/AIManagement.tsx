@@ -245,7 +245,7 @@ console.log(result);
         <div className="bg-white/30 backdrop-blur/30 backdrop-blurrounded-lg shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📝 Contenuto Generato</h3>
           <div className="prose max-w-none">
-            <pre className="whitespace-pre-wrap text-gray-700 bg-blue-500/20 p-4 rounded-lg border">
+            <pre className="whitespace-pre-wrap text-gray-700 bg-white/30p-4 rounded-lg border">
               {generatedContent}
             </pre>
           </div>

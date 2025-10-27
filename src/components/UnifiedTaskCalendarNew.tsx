@@ -249,7 +249,7 @@ export default function UnifiedTaskCalendarNew() {
             ) : (
               <div className="space-y-3">
                 {tasks.slice(0, 5).map((task) => (
-                  <div key={task.id} className="flex items-center justify-between p-3 bg-blue-500/20 rounded-lg">
+                  <div key={task.id} className="flex items-center justify-between p-3 bg-white/30rounded-lg">
                     <div>
                       <h3 className="font-medium text-gray-900">{task.title}</h3>
                       <p className="text-sm text-gray-500">
@@ -300,7 +300,7 @@ export default function UnifiedTaskCalendarNew() {
                   })
                   .slice(0, 5)
                   .map((appointment) => (
-                    <div key={appointment.id} className="flex items-center justify-between p-3 bg-blue-500/20 rounded-lg">
+                    <div key={appointment.id} className="flex items-center justify-between p-3 bg-white/30rounded-lg">
                       <div>
                         <h3 className="font-medium text-gray-900">{appointment.title}</h3>
                         <p className="text-sm text-gray-500">

@@ -470,7 +470,7 @@ export default function ProjectsView() {
                           </button>
                           <button
                             onClick={cancelEditing}
-                            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-blue-500/20 rounded-lg transition-colors"
+                            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-white/30rounded-lg transition-colors"
                             title="Annulla"
                           >
                             ❌
@@ -830,7 +830,7 @@ export default function ProjectsView() {
 
                   {/* Statistiche Complete dalle Tabelle */}
                   {projectStats[selectedProject.id] && (
-                    <div className="bg-blue-500/20 rounded-lg p-4">
+                    <div className="bg-white/30rounded-lg p-4">
                       <h4 className="text-lg font-medium text-gray-900 mb-4">📊 Statistiche Complete</h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {/* Obiettivi */}

@@ -159,7 +159,7 @@ export default function QuickFixDashboard() {
 
       {/* Risultati */}
       {result && (
-        <div className="mt-6 p-4 bg-blue-500/20 rounded-lg">
+        <div className="mt-6 p-4 bg-white/30rounded-lg">
           <h4 className="font-semibold text-gray-900 mb-2">📊 Risultato:</h4>
           <div className={`p-3 rounded ${
             result.status === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'

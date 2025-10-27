@@ -236,7 +236,7 @@ export default function TaskCalendario() {
                     className={`p-4 rounded-lg border transition-all duration-200 hover:shadow-md ${
                       isOverdue(task.due_date)
                         ? 'bg-red-50 border-red-200'
-                        : 'bg-blue-500/20 border-gray-200'
+                        : 'bg-white/30border-gray-200'
                     }`}
                   >
                     <div className="flex items-start justify-between">

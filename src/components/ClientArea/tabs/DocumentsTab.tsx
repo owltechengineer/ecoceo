@@ -5,6 +5,7 @@ import { safeFetch } from '@/sanity/lib/client';
 import { clientDocumentsQuery } from '@/sanity/lib/clientAreaQueries';
 import { ClientDocument } from '@/types/clientArea';
 import DocumentCard from '../DocumentCard';
+import ContentSectionLayout from '../ContentSectionLayout';
 
 const DocumentsTab: React.FC = () => {
   const [documents, setDocuments] = useState<ClientDocument[]>([]);
@@ -69,102 +70,100 @@ const DocumentsTab: React.FC = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+  const stats = [
+    {
+      label: 'Documenti disponibili',
+      value: documents.length,
+      icon: (
+        <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+      ),
+      color: 'bg-green-100'
+    },
+    {
+      label: 'Categorie',
+      value: categories.length,
+      icon: (
+        <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+        </svg>
+      ),
+      color: 'bg-blue-100'
+    },
+    {
+      label: 'Totale download',
+      value: documents.reduce((sum, doc) => sum + doc.downloadCount, 0),
+      icon: (
+        <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+      ),
+      color: 'bg-purple-100'
+    }
+  ];
+
+  const filters = (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Search */}
+      <div className="lg:col-span-2">
+        <input
+          type="text"
+          placeholder="Cerca documenti..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-white/60"
+        />
       </div>
-    );
-  }
+
+      {/* Category Filter */}
+      <select
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+        className="px-4 py-2 bg-white/20 border border-white/30 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+      >
+        <option value="all">Tutte le categorie</option>
+        {categories.map(category => (
+          <option key={category} value={category} className="bg-gray-800">
+            {category}
+          </option>
+        ))}
+      </select>
+
+      {/* Sort */}
+      <select
+        value={sortBy}
+        onChange={(e) => setSortBy(e.target.value)}
+        className="px-4 py-2 bg-white/20 border border-white/30 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+      >
+        <option value="order" className="bg-gray-800">Ordine predefinito</option>
+        <option value="title" className="bg-gray-800">Nome A-Z</option>
+        <option value="date" className="bg-gray-800">Più recenti</option>
+        <option value="downloads" className="bg-gray-800">Più scaricati</option>
+      </select>
+    </div>
+  );
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Documenti e Risorse</h2>
-        <p className="text-gray-600">
-          Scarica manuali, contratti, moduli e tutte le risorse documentali necessarie per i nostri servizi.
-        </p>
-      </div>
-
-      {/* Filters */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Search */}
-          <div className="lg:col-span-2">
-            <input
-              type="text"
-              placeholder="Cerca documenti..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          {/* Category Filter */}
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            <option value="all">Tutte le categorie</option>
-            {categories.map(category => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-
-          {/* Sort */}
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            <option value="order">Ordine predefinito</option>
-            <option value="title">Nome A-Z</option>
-            <option value="date">Più recenti</option>
-            <option value="downloads">Più scaricati</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Results Count */}
-      <div className="flex justify-between items-center">
-        <div className="text-gray-600">
-          {filteredAndSortedDocuments.length} documenti trovati
-        </div>
-        <div className="text-sm text-gray-500">
-          Totale download: {documents.reduce((sum, doc) => sum + doc.downloadCount, 0)}
-        </div>
-      </div>
-
-      {/* Documents Grid */}
-      {filteredAndSortedDocuments.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredAndSortedDocuments.map((document) => (
-            <DocumentCard
-              key={document._id}
-              document={document}
-              onDownload={handleDownload}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="bg-white rounded-lg shadow p-12 text-center">
-          <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-          </svg>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">Nessun documento trovato</h3>
-          <p className="text-gray-600">
-            {searchTerm || filter !== 'all' 
-              ? 'Prova a modificare i filtri di ricerca'
-              : 'Non ci sono documenti disponibili al momento'
-            }
-          </p>
-        </div>
-      )}
-    </div>
+    <ContentSectionLayout
+      icon="📄"
+      title="Documenti"
+      description="Documenti e risorse"
+      loading={loading}
+      stats={stats}
+      filters={filters}
+      resultsCount={filteredAndSortedDocuments.length}
+      resultsLabel="documenti trovati"
+      emptyMessage={searchTerm || filter !== 'all' ? 'Prova a modificare i filtri di ricerca' : 'Non ci sono documenti disponibili al momento'}
+    >
+      {filteredAndSortedDocuments.map((document) => (
+        <DocumentCard
+          key={document._id}
+          document={document}
+          onDownload={handleDownload}
+        />
+      ))}
+    </ContentSectionLayout>
   );
 };
 

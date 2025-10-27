@@ -145,14 +145,14 @@ export default function QuickActions({
       blue: 'hover:bg-blue-50 hover:text-blue-600',
       green: 'hover:bg-green-50 hover:text-green-600',
       purple: 'hover:bg-purple-50 hover:text-purple-600',
-      gray: 'hover:bg-blue-500/20 hover:text-gray-600',
+      gray: 'hover:bg-white/30hover:text-gray-600',
       orange: 'hover:bg-orange-50 hover:text-orange-600',
       red: 'hover:bg-red-50 hover:text-red-600',
       teal: 'hover:bg-teal-50 hover:text-teal-600',
       indigo: 'hover:bg-indigo-50 hover:text-indigo-600',
       yellow: 'hover:bg-yellow-50 hover:text-yellow-600'
     };
-    return colors[color as keyof typeof colors] || 'hover:bg-blue-500/20 hover:text-gray-600';
+    return colors[color as keyof typeof colors] || 'hover:bg-white/30hover:text-gray-600';
   };
 
   const filteredActions = quickActions.filter(action => action.category === activeCategory);
@@ -201,7 +201,7 @@ export default function QuickActions({
                 className={`flex-1 px-3 py-2 text-xs font-medium transition-colors ${
                   activeCategory === category
                     ? 'text-blue-600 bg-blue-50 border-b-2 border-blue-600'
-                    : 'text-gray-500 hover:text-gray-700 hover:bg-blue-500/20'
+                    : 'text-gray-500 hover:text-gray-700 hover:bg-white/30'
                 }`}
               >
                 <span className="mr-1">{getCategoryIcon(category)}</span>

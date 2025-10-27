@@ -338,7 +338,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
       const dayActivities = weeklyActivities.filter(a => a.day_of_week === dayIndex);
       
       return (
-        <div key={day} className="bg-blue-500/20 rounded-lg p-4 border border-gray-200">
+        <div key={day} className="bg-white/30rounded-lg p-4 border border-gray-200">
           <h3 className="font-semibold text-gray-900 mb-3">{day}</h3>
           <div className="space-y-2">
             {dayActivities.length > 0 ? (
@@ -397,7 +397,7 @@ export default function RecurringActivities({ onDataChange }: RecurringActivitie
             const dayActivities = monthlyActivities.filter(a => a.day_of_month === day);
             
             return (
-              <div key={day} className="bg-blue-500/20 rounded-lg p-2 border border-gray-200">
+              <div key={day} className="bg-white/30rounded-lg p-2 border border-gray-200">
                 <h4 className="font-semibold text-gray-900 mb-2 text-center">{day}°</h4>
                 <div className="space-y-1">
                   {dayActivities.length > 0 ? (

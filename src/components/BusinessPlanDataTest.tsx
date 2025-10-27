@@ -123,7 +123,7 @@ export default function BusinessPlanDataTest() {
         
         <div className="text-sm text-gray-600">
           <p><strong>Dati di Test:</strong></p>
-          <pre className="bg-blue-500/20 p-2 rounded text-xs text-gray-900">{JSON.stringify(testData, null, 2)}</pre>
+          <pre className="bg-white/30p-2 rounded text-xs text-gray-900">{JSON.stringify(testData, null, 2)}</pre>
         </div>
       </div>
     </div>

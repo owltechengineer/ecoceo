@@ -327,7 +327,7 @@ export default function TaskManagement() {
                 {statusTasks.map((task) => (
                   <div
                     key={task.id}
-                    className="bg-blue-500/20 rounded-lg p-4 border-l-4 border-gray-300 hover:shadow-md transition-shadow"
+                    className="bg-white/30rounded-lg p-4 border-l-4 border-gray-300 hover:shadow-md transition-shadow"
                   >
                     <div className="flex items-start justify-between mb-2">
                       <h4 className="font-medium text-gray-900 text-sm">{task.title}</h4>
@@ -391,7 +391,7 @@ export default function TaskManagement() {
         <div className="bg-white/30 backdrop-blur/30 backdrop-blur rounded-xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-blue-500/20">
+              <thead className="bg-white/30">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Task</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Assegnato</th>
@@ -404,7 +404,7 @@ export default function TaskManagement() {
               </thead>
               <tbody className="bg-white/30 backdrop-blur/30 backdrop-blur divide-y divide-gray-200">
                 {filteredTasks.map((task) => (
-                  <tr key={task.id} className="hover:bg-blue-500/20">
+                  <tr key={task.id} className="hover:bg-white/30">
                     <td className="px-6 py-4">
                       <div>
                         <div className="text-sm font-medium text-gray-900">{task.title}</div>

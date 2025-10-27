@@ -351,20 +351,20 @@ export default function MarketingChartsViewer() {
             {/* Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Bar Chart */}
-              <div className="bg-blue-500/20 rounded-lg p-6">
+              <div className="bg-white/30rounded-lg p-6">
                 <h4 className="text-lg font-semibold text-gray-800 mb-4">Grafico a Barre</h4>
                 <SimpleBarChart data={chartData} />
               </div>
 
               {/* Pie Chart */}
-              <div className="bg-blue-500/20 rounded-lg p-6">
+              <div className="bg-white/30rounded-lg p-6">
                 <h4 className="text-lg font-semibold text-gray-800 mb-4">Grafico a Torta</h4>
                 <SimplePieChart data={chartData} />
               </div>
             </div>
 
             {/* Data Table */}
-            <div className="bg-blue-500/20 rounded-lg p-6">
+            <div className="bg-white/30rounded-lg p-6">
               <h4 className="text-lg font-semibold text-gray-800 mb-4">Dati Dettagliati</h4>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">

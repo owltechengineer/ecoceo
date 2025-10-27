@@ -195,10 +195,10 @@ export default function MainDashboard() {
         <div className="flex-1 flex flex-col p-1 sm:p-2 lg:p-3 h-screen overflow-hidden">
           {/* Top Bar con Effetto Vetro - Mobile Optimized */}
           <div className="bg-white/30 backdrop-blur/30 backdrop-blur/20 backdrop-blur-md rounded-xl shadow-lg border border-white/30 mb-2 sm:mb-4">
-            <div className="bg-blue-500/20 backdrop-blur-sm rounded-t-xl px-2 sm:px-4 py-2 sm:py-3">
+            <div className="bg-white/30backdrop-blur-sm rounded-t-xl px-2 sm:px-4 py-2 sm:py-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2 sm:space-x-4">
-                  <div className="p-1.5 bg-blue-500/20 rounded-lg">
+                  <div className="p-1.5 bg-white/30rounded-lg">
                     <span className="text-base sm:text-lg">{currentSection?.icon || '📊'}</span>
                   </div>
                   <div className="min-w-0 flex-1">

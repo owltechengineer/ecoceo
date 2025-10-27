@@ -169,7 +169,7 @@ export default function MarketingTablesViewer() {
         {!isLoading && !error && (
           <>
             {/* Table Info */}
-            <div className="mb-4 p-4 bg-blue-500/20 rounded-lg">
+            <div className="mb-4 p-4 bg-white/30rounded-lg">
               <h3 className="font-semibold text-gray-800 mb-1">
                 {currentTable?.icon} {currentTable?.name}
               </h3>
@@ -188,7 +188,7 @@ export default function MarketingTablesViewer() {
             ) : (
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-blue-500/20">
+                  <thead className="bg-white/30">
                     <tr>
                       {Object.keys(currentData[0] || {}).map((key) => (
                         <th
@@ -202,7 +202,7 @@ export default function MarketingTablesViewer() {
                   </thead>
                   <tbody className="bg-white/30 backdrop-blur/30 backdrop-blurdivide-y divide-gray-200">
                     {currentData.map((row, index) => (
-                      <tr key={index} className="hover:bg-blue-500/20">
+                      <tr key={index} className="hover:bg-white/30">
                         {Object.entries(row).map(([key, value]) => (
                           <td key={key} className="px-4 py-3 text-sm text-gray-900">
                             {key === 'status' ? (
@@ -235,7 +235,7 @@ export default function MarketingTablesViewer() {
       </div>
 
       {/* Footer */}
-      <div className="px-6 py-4 bg-blue-500/20 border-t border-gray-200">
+      <div className="px-6 py-4 bg-white/30border-t border-gray-200">
         <div className="flex items-center justify-between text-sm text-gray-500">
           <div>
             Mostrando {currentData.length} record da {currentTable?.name}

@@ -129,7 +129,7 @@ const StripeCheckout = ({ customerEmail, onSuccess, onError }: StripeCheckoutPro
       </div>
 
       {/* Order Summary */}
-      <div className="bg-blue-500/20 rounded-lg p-6 mb-8">
+      <div className="bg-white/30rounded-lg p-6 mb-8">
         <h4 className="font-semibold text-gray-900 mb-4">Riepilogo Ordine</h4>
         <div className="space-y-3">
           {state.items.map((item) => (

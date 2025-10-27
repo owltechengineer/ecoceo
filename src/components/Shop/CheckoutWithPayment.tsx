@@ -119,7 +119,7 @@ const CheckoutWithPayment = ({ customer, shippingAddress, onBack }: CheckoutWith
       />
 
       {/* Order Review */}
-      <div className="bg-blue-500/20 rounded-lg p-6">
+      <div className="bg-white/30rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Riepilogo Ordine
         </h3>
@@ -187,7 +187,7 @@ const CheckoutWithPayment = ({ customer, shippingAddress, onBack }: CheckoutWith
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Bonifico Bancario
           </h3>
-          <div className="bg-blue-500/20 rounded-lg p-4 mb-4">
+          <div className="bg-white/30rounded-lg p-4 mb-4">
             <h4 className="font-medium text-gray-900 mb-2">Dettagli Bancari:</h4>
             <div className="space-y-2 text-sm">
               <p><strong>IBAN:</strong> IT60 X054 2811 1010 0000 0123 456</p>

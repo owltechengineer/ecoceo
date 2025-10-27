@@ -114,7 +114,7 @@ export default function DashboardNavigation({ activeSection = 'dashboard', onSec
             className={`group relative overflow-hidden rounded-xl p-6 text-left transition-all duration-300 hover:scale-105 hover:shadow-xl ${
               activeSection === item.key
                 ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg`
-                : 'bg-blue-500/20 hover:bg-gray-100 border border-gray-200'
+                : 'bg-white/30hover:bg-gray-100 border border-gray-200'
             }`}
           >
             <div className="flex items-start space-x-4">
@@ -149,7 +149,7 @@ export default function DashboardNavigation({ activeSection = 'dashboard', onSec
       </div>
 
       {/* Current Section Info */}
-      <div className="mt-6 p-4 bg-blue-500/20 rounded-lg border border-gray-200">
+      <div className="mt-6 p-4 bg-white/30rounded-lg border border-gray-200">
         <div className="flex items-center">
           <div className="p-2 bg-blue-100 rounded-lg mr-3">
             <span className="text-blue-600 text-lg">ℹ️</span>

@@ -744,7 +744,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`py-3 px-3 rounded-lg font-medium text-sm transition-all duration-200 ${
                     activeTab === tab.id
-                      ? 'bg-blue-500/20 text-blue-700 border border-blue-200/50'
+                      ? 'bg-white/30text-blue-700 border border-blue-200/50'
                       : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-800'
                   }`}
                 >
@@ -980,7 +980,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
               <h3 className="text-lg font-semibold text-gray-900">Costi Fissi</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {fixedCosts.map((cost) => (
-                  <div key={cost.id} className="bg-blue-500/20 rounded-lg p-4 border border-gray-200">
+                  <div key={cost.id} className="bg-white/30rounded-lg p-4 border border-gray-200">
                     <div className="flex items-center justify-between mb-2">
                       <h4 className="font-semibold text-gray-900">{cost.name}</h4>
                       <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(cost.is_active ? 'active' : 'cancelled')}`}>
@@ -1032,7 +1032,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
               <h3 className="text-lg font-semibold text-gray-900">Costi Variabili</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {variableCosts.map((cost) => (
-                  <div key={cost.id} className="bg-blue-500/20 rounded-lg p-4 border border-gray-200">
+                  <div key={cost.id} className="bg-white/30rounded-lg p-4 border border-gray-200">
                     <div className="flex items-center justify-between mb-2">
                       <h4 className="font-semibold text-gray-900">{cost.name}</h4>
                       <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(cost.is_paid ? 'paid' : 'pending')}`}>
@@ -1091,7 +1091,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
               <h3 className="text-lg font-semibold text-gray-900">Budget</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {budgets.map((budget) => (
-                  <div key={budget.id} className="bg-blue-500/20 rounded-lg p-4 border border-gray-200">
+                  <div key={budget.id} className="bg-white/30rounded-lg p-4 border border-gray-200">
                     <div className="flex items-center justify-between mb-2">
                       <h4 className="font-semibold text-gray-900">{budget.name}</h4>
                       <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(budget.is_active ? 'active' : 'cancelled')}`}>
@@ -1138,7 +1138,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
               <h3 className="text-lg font-semibold text-gray-900">Entrate</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {revenues.map((revenue) => (
-                  <div key={revenue.id} className="bg-blue-500/20 rounded-lg p-4 border border-gray-200">
+                  <div key={revenue.id} className="bg-white/30rounded-lg p-4 border border-gray-200">
                     <div className="flex items-center justify-between mb-2">
                       <h4 className="font-semibold text-gray-900">{revenue.name}</h4>
                       <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(revenue.is_received ? 'received' : 'pending')}`}>
@@ -1229,7 +1229,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                     </div>
                     <div className="space-y-1 max-h-32 overflow-y-auto">
                       {[...categories.fixedCosts, ...(customCategories.fixedCosts || [])].map((cat, index) => (
-                        <div key={index} className="flex items-center justify-between bg-blue-500/20 px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
+                        <div key={index} className="flex items-center justify-between bg-white/30px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
                           <span>{cat}</span>
                           {customCategories.fixedCosts?.includes(cat) && (
                           <button 
@@ -1273,7 +1273,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                     </div>
                     <div className="space-y-1 max-h-32 overflow-y-auto">
                       {[...categories.variableCosts, ...(customCategories.variableCosts || [])].map((cat, index) => (
-                        <div key={index} className="flex items-center justify-between bg-blue-500/20 px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
+                        <div key={index} className="flex items-center justify-between bg-white/30px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
                           <span>{cat}</span>
                           {customCategories.variableCosts?.includes(cat) && (
                             <button
@@ -1317,7 +1317,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                     </div>
                     <div className="space-y-1 max-h-32 overflow-y-auto">
                       {[...categories.revenues, ...(customCategories.revenues || [])].map((cat, index) => (
-                        <div key={index} className="flex items-center justify-between bg-blue-500/20 px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
+                        <div key={index} className="flex items-center justify-between bg-white/30px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
                           <span>{cat}</span>
                           {customCategories.revenues?.includes(cat) && (
                             <button
@@ -1364,7 +1364,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                     </div>
                     <div className="space-y-1 max-h-40 overflow-y-auto">
                       {clients.map((client, index) => (
-                        <div key={index} className="flex items-center justify-between bg-blue-500/20 px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
+                        <div key={index} className="flex items-center justify-between bg-white/30px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
                           <span>{client}</span>
                           <button
                             onClick={() => removeClient(client)}
@@ -1406,7 +1406,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                     </div>
                     <div className="space-y-1 max-h-40 overflow-y-auto">
                       {vendors.map((vendor, index) => (
-                        <div key={index} className="flex items-center justify-between bg-blue-500/20 px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
+                        <div key={index} className="flex items-center justify-between bg-white/30px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
                           <span>{vendor}</span>
                           <button
                             onClick={() => removeVendor(vendor)}
@@ -1451,7 +1451,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
                     </div>
                     <div className="space-y-1 max-h-40 overflow-y-auto">
                       {paymentMethods.map((method, index) => (
-                        <div key={index} className="flex items-center justify-between bg-blue-500/20 px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
+                        <div key={index} className="flex items-center justify-between bg-white/30px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
                           <span>{method}</span>
                           <button
                             onClick={() => removePaymentMethod(method)}
@@ -1493,7 +1493,7 @@ export default function FinancialManagement({ onDataChange }: FinancialManagemen
           </div>
                     <div className="space-y-1 max-h-40 overflow-y-auto">
                       {currencies.map((currency, index) => (
-                        <div key={index} className="flex items-center justify-between bg-blue-500/20 px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
+                        <div key={index} className="flex items-center justify-between bg-white/30px-4 py-3 rounded-lg text-sm font-medium text-gray-800 border border-gray-200 shadow-sm">
                           <span>{currency}</span>
                           <div className="flex items-center space-x-2">
                             {currency === defaultCurrency && (

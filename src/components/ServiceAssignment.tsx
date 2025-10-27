@@ -145,7 +145,7 @@ export default function ServiceAssignment() {
       </div>
 
       {/* Form di assegnazione */}
-      <div className="mb-6 p-4 bg-blue-500/20 rounded-lg">
+      <div className="mb-6 p-4 bg-white/30rounded-lg">
         <h4 className="font-medium text-gray-900 mb-3">Assegna Servizio a Progetto</h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
@@ -199,7 +199,7 @@ export default function ServiceAssignment() {
       {/* Tabella progetti con servizi assegnati */}
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-blue-500/20">
+          <thead className="bg-white/30">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Progetto
@@ -214,7 +214,7 @@ export default function ServiceAssignment() {
           </thead>
           <tbody className="bg-white/30 backdrop-blur/30 backdrop-blurdivide-y divide-gray-200">
             {sanityProjects.map((project) => (
-              <tr key={project._id} className="hover:bg-blue-500/20">
+              <tr key={project._id} className="hover:bg-white/30">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">{project.title}</div>
                   <div className="text-sm text-gray-500">{project.slug.current}</div>

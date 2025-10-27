@@ -302,7 +302,7 @@ export default function SectionTests({ sectionName, sectionIcon, tables, testFun
       </div>
 
       {/* Footer */}
-      <div className="px-6 py-4 bg-blue-500/20 border-t border-gray-200">
+      <div className="px-6 py-4 bg-white/30border-t border-gray-200">
         <div className="flex items-center justify-between text-sm text-gray-500">
           <div>
             {results.length > 0 && (
