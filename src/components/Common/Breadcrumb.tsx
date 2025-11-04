@@ -13,29 +13,29 @@ const Breadcrumb = ({ pageName, description }: BreadcrumbProps) => {
       <section className="relative z-10 overflow-hidden pt-28 lg:pt-32">
         <div className="container">
           <div className="-mx-4 flex flex-wrap items-center">
-            <div className="w-full px-4 md:w-8/12 lg:w-7/12">
-              <div className="mb-8 max-w-[570px] md:mb-0 lg:mb-12">
-                <h1 className="mb-5 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+            <div className="w-full px-4">
+              <div className="mb-8 max-w-4xl mx-auto text-center">
+                <h1 className="mb-6 text-4xl font-extrabold text-white sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl bg-gradient-to-r from-white via-white to-white/90 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
                   {pageName}
                 </h1>
-                <p className="text-base font-medium leading-relaxed text-body-color">
-                  {description}
-                </p>
+                {description && (
+                  <p className="text-white/95 text-lg font-medium leading-relaxed sm:text-xl lg:text-2xl max-w-3xl mx-auto drop-shadow-lg">
+                    {description}
+                  </p>
+                )}
               </div>
-            </div>
-            <div className="w-full px-4 md:w-4/12 lg:w-5/12">
-              <div className="text-center md:text-right">
-                <ul className="flex items-center md:justify-end">
+              <div className="text-center">
+                <ul className="inline-flex items-center">
                   <li className="flex items-center">
                     <Link
                       href="/"
-                      className="pr-1 text-base font-medium text-body-color hover:text-primary"
+                      className="pr-1 text-base font-medium text-white/80 hover:text-primary transition-colors"
                     >
                       Home
                     </Link>
-                    <span className="mr-3 block h-2 w-2 rotate-45 border-r-2 border-t-2 border-body-color"></span>
+                    <span className="mr-3 block h-2 w-2 rotate-45 border-r-2 border-t-2 border-white/60"></span>
                   </li>
-                  <li className="text-base font-medium text-primary">
+                  <li className="text-base font-medium text-white">
                     {pageName}
                   </li>
                 </ul>

@@ -1,6 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faArrowRight, faUsers } from '@fortawesome/free-solid-svg-icons';
 import SectionTitle from "../Common/SectionTitle";
 import { safeFetch } from '@/sanity/lib/client';
 import { aboutQuery } from '@/sanity/lib/queries';
@@ -9,13 +12,9 @@ import { useSanityUIComponents } from '@/hooks/useSanityUIComponents';
 import SanityStyledComponent from '@/components/Common/SanityStyledComponent';
 import { useState, useEffect } from 'react';
 
-const checkIcon = (
-  <svg width="16" height="13" viewBox="0 0 16 13" className="fill-current">
-    <path d="M5.8535 12.6631C5.65824 12.8584 5.34166 12.8584 5.1464 12.6631L0.678505 8.1952C0.483242 7.99994 0.483242 7.68336 0.678505 7.4881L2.32921 5.83739C2.52467 5.64193 2.84166 5.64216 3.03684 5.83791L5.14622 7.95354C5.34147 8.14936 5.65859 8.14952 5.85403 7.95388L13.3797 0.420561C13.575 0.22513 13.8917 0.225051 14.087 0.420383L15.7381 2.07143C15.9333 2.26669 15.9333 2.58327 15.7381 2.77854L5.8535 12.6631Z" />
-  </svg>
-);
+const checkIcon = <FontAwesomeIcon icon={faCheck} className="w-4 h-3 fill-current" />;
 
-const AboutSectionOne = () => {
+const AboutSectionOne = ({ homepage = false }) => {
   const [about, setAbout] = useState(null);
   const [loading, setLoading] = useState(true);
   const { getComponent } = useSanityUIComponents();
@@ -72,6 +71,111 @@ const AboutSectionOne = () => {
       <div className="text-center py-12">
         <p>Caricamento sezione About...</p>
       </div>
+    );
+  }
+
+  // Versione homepage: card moderne
+  if (homepage && about) {
+    return (
+      <>
+        {/* Main About Card */}
+        <div className="mb-12">
+          <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-2xl duration-500 hover:shadow-primary/20 hover:scale-[1.01] transition-all border border-white/20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+              {/* Image Section */}
+              <div className="relative h-64 lg:h-auto overflow-hidden">
+                {about.image ? (
+                  <Image
+                    src={getImageUrl(about.image)}
+                    alt={getTextValue(about.title)}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-transparent flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="text-6xl mb-4">🚀</div>
+                      <h3 className="text-xl font-semibold text-white">La Nostra Azienda</h3>
+                    </div>
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent"></div>
+              </div>
+
+              {/* Content Section */}
+              <div className="p-8 lg:p-12 flex flex-col justify-center">
+                <h3 className="text-3xl font-bold text-white mb-4">
+                  {getTextValue(about.title)}
+                </h3>
+                <p className="text-white/90 text-base leading-relaxed mb-6 line-clamp-4">
+                  {getTextValue(about.description)}
+                </p>
+                
+                {/* Stats Grid */}
+                {about.stats && about.stats.length > 0 && (
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    {about.stats.slice(0, 4).map((stat, index) => (
+                      <div key={index} className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                        <div className="text-3xl font-bold text-primary mb-1">{getTextValue(stat.number)}</div>
+                        <div className="text-sm text-white/80">{getTextValue(stat.label)}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <Link
+                  href="/about"
+                  className="inline-flex items-center text-white font-semibold text-sm group-hover:gap-3 transition-all duration-300 mt-auto"
+                >
+                  <span>Scopri di più su di noi</span>
+                  <FontAwesomeIcon
+                    icon={faArrowRight}
+                    className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform"
+                  />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Features Cards */}
+        {about.features && about.features.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {about.features.slice(0, 3).map((feature, index) => (
+              <div
+                key={index}
+                className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-2xl duration-500 hover:shadow-primary/20 hover:scale-[1.02] transition-all h-full flex flex-col border border-white/20 p-6"
+              >
+                <div className="mb-4">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 backdrop-blur-sm text-3xl shadow-lg mb-4">
+                    {feature.icon || "✨"}
+                  </div>
+                  <h4 className="text-xl font-bold text-white mb-2">
+                    {getTextValue(feature.title)}
+                  </h4>
+                  {feature.description && (
+                    <p className="text-white/80 text-sm leading-relaxed">
+                      {getTextValue(feature.description)}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* CTA Button */}
+        <div className="text-center">
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-primary via-primary/90 to-primary text-white py-4 px-8 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-105 transform"
+          >
+            <FontAwesomeIcon icon={faUsers} className="w-6 h-6" />
+            <span>Scopri Chi Siamo</span>
+            <FontAwesomeIcon icon={faArrowRight} className="w-6 h-6" />
+          </Link>
+        </div>
+      </>
     );
   }
 

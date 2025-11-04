@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faFileAlt, faArrowRight, faInfoCircle, faFolder } from '@fortawesome/free-solid-svg-icons';
 import { safeFetch } from '@/sanity/lib/client';
 import { homepageServicesQuery } from '@/sanity/lib/queries';
 import { getImageUrl, getTextValue } from '@/sanity/lib/image';
@@ -39,7 +41,8 @@ const Services = () => {
   if (loading) {
     return (
       <div className="text-center py-12">
-        <p>Caricamento servizi...</p>
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+        <p className="text-white/80 text-lg">Caricamento servizi...</p>
       </div>
     );
   }
@@ -47,11 +50,11 @@ const Services = () => {
   if (!services || services.length === 0) {
     return (
       <div className="text-center py-12">
-        <h3 className="text-xl font-semibold mb-4">Sezione Servizi</h3>
-        <p className="text-gray-600 mb-6">Crea i tuoi servizi in Sanity Studio per iniziare.</p>
+        <h3 className="text-xl font-semibold mb-4 text-white">Sezione Servizi</h3>
+        <p className="text-white/80 mb-6">Crea i tuoi servizi in Sanity Studio per iniziare.</p>
         <button 
           onClick={() => window.location.href = '/studio'}
-          className="inline-block bg-primary text-white px-6 py-3 rounded hover:bg-primary/80 transition"
+          className="inline-block bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/80 transition shadow-lg"
         >
           Vai a Sanity Studio
         </button>
@@ -60,7 +63,7 @@ const Services = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
       {services.map((service, index) => (
         <SanityStyledComponent
           key={service._id || index}
@@ -69,72 +72,110 @@ const Services = () => {
           className="w-full"
         >
           <div className="wow fadeInUp" data-wow-delay={`${index * 100}ms`}>
-            <div className="group relative overflow-hidden rounded-sm bg-white/30 backdrop-blur/30 backdrop-blurshadow-one duration-300 hover:shadow-two dark:bg-dark dark:hover:shadow-gray-dark">
-              <div className="p-8">
-                <div className="mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-md bg-primary bg-opacity-10 text-4xl">
-                  {service.icon || "💼"}
-                </div>
+            <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-2xl duration-500 hover:shadow-primary/20 hover:scale-[1.02] transition-all h-full flex flex-col border border-white/20">
+              {/* Service Image Header */}
+              <div className="relative h-56 overflow-hidden">
+                {service.image ? (
+                  <Image
+                    src={getImageUrl(service.image)}
+                    alt={getTextValue(service.name)}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    priority={index < 3}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-transparent flex items-center justify-center">
+                  </div>
+                )}
                 
+                {/* Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                
+                {/* Badge in alto a destra */}
+                {service.featured && (
+                  <div className="absolute top-4 right-4 z-10">
+                    <span className="bg-primary text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm">
+                      ⭐ In Evidenza
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Content */}
+              <div className="p-8 flex-grow flex flex-col">
+                {/* Service Title */}
                 <SanityStyledComponent
                   component={serviceTitleComponent}
                   componentName="ServiceTitle"
                   as="h3"
-                  className="mb-4 text-xl font-bold text-dark dark:text-white"
+                  className="text-2xl font-bold text-white mb-4 leading-tight"
                 >
                   {getTextValue(service.name)}
                 </SanityStyledComponent>
                 
+                {/* Description */}
                 <SanityStyledComponent
                   component={serviceDescriptionComponent}
                   componentName="ServiceDescription"
                   as="p"
-                  className="mb-6 text-base text-body-color dark:text-body-color-dark"
+                  className="mb-6 text-base text-white/90 leading-relaxed flex-grow line-clamp-3"
                 >
                   {getTextValue(service.shortDescription)}
                 </SanityStyledComponent>
 
+                {/* Features */}
                 {service.features && service.features.length > 0 && (
                   <div className="mb-6">
-                    <ul className="space-y-2">
+                    <ul className="space-y-2.5">
                       {service.features.slice(0, 3).map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center text-sm text-body-color dark:text-body-color-dark">
-                          <svg
-                            className="mr-2 h-4 w-4 text-primary"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          {getTextValue(feature)}
+                        <li key={featureIndex} className="flex items-center text-sm text-white/90">
+                          <FontAwesomeIcon icon={faCheck} className="mr-3 h-5 w-5 text-black flex-shrink-0" />
+                          <span className="line-clamp-1">{getTextValue(feature)}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
                 )}
 
-                <Link
-                  href={service.url || `/services/${service.slug?.current}`}
-                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors duration-200"
-                >
-                  Scopri di più
-                  <svg
-                    className="ml-1 h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                {/* CTA Buttons */}
+                <div className="mt-auto pt-6 border-t border-white/20 space-y-3">
+                  {/* Primary CTA - Richiesta Preventivo */}
+                  <Link
+                    href={`/contact?service=${service.slug?.current || service._id}&type=preventivo`}
+                    data-track="cta"
+                    data-cta-type="preventivo"
+                    className="group/btn w-full bg-gradient-to-r from-primary via-primary/90 to-primary text-white py-4 px-6 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 flex items-center justify-center gap-3 hover:scale-105 transform"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </Link>
+                    <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5 group-hover/btn:scale-110 transition-transform" />
+                    <span>Richiedi Preventivo</span>
+                    <FontAwesomeIcon icon={faArrowRight} className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                  </Link>
+
+                  {/* Secondary CTAs */}
+                  <div className="grid grid-cols-2 gap-3">
+                    {/* Approfondisci */}
+                    <Link
+                      href={service.url || `/services/${service.slug?.current}`}
+                      data-track="cta"
+                      data-cta-type="approfondisci"
+                      className="group/btn bg-white/20 backdrop-blur-sm text-white py-3 px-4 rounded-lg font-semibold shadow-lg hover:bg-white/30 transition-all duration-300 flex items-center justify-center gap-2 text-sm border border-white/30 hover:border-white/50"
+                    >
+                      <FontAwesomeIcon icon={faInfoCircle} className="w-4 h-4 text-black" />
+                      <span>Approfondisci</span>
+                    </Link>
+
+                    {/* Progetti */}
+                    <Link
+                      href={`/projects${service.slug?.current ? `?service=${service.slug.current}` : ''}`}
+                      data-track="cta"
+                      data-cta-type="progetti"
+                      className="group/btn bg-white/20 backdrop-blur-sm text-white py-3 px-4 rounded-lg font-semibold shadow-lg hover:bg-white/30 transition-all duration-300 flex items-center justify-center gap-2 text-sm border border-white/30 hover:border-white/50"
+                    >
+                      <FontAwesomeIcon icon={faFolder} className="w-4 h-4 text-black" />
+                      <span>Progetti</span>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

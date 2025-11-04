@@ -1,26 +1,21 @@
 "use client";
 
-import { getImageUrl, getTextValue } from '@/sanity/lib/image';
-import { useSanityUIComponents } from '@/hooks/useSanityUIComponents';
-import SanityStyledComponent from '@/components/Common/SanityStyledComponent';
 import Link from 'next/link';
-import { ProductCardProps } from '@/types/product';
 import { useCart } from '@/contexts/CartContext';
 import { useState } from 'react';
+import { StripeProductWithPrice } from '@/types/stripeProduct';
 
-const SingleProduct = ({ product, index }: ProductCardProps) => {
-  const { getComponent } = useSanityUIComponents();
+interface SingleProductProps {
+  product: StripeProductWithPrice;
+  index: number;
+}
+
+const SingleProduct = ({ product, index }: SingleProductProps) => {
   const { addItem, getItemQuantity } = useCart();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
 
-  // Get UI components for Product section
-  const productCardComponent = getComponent('ProductCard');
-  const productTitleComponent = getComponent('ProductTitle');
-  const productDescriptionComponent = getComponent('ProductDescription');
-  const productPriceComponent = getComponent('ProductPrice');
-
-  const currentQuantity = getItemQuantity(product._id);
-  const isInStock = product.stock > 0;
+  const currentQuantity = getItemQuantity(product.id);
+  const isInStock = product.stock ? product.stock > 0 : true; // Default to true if stock not specified
 
   const handleAddToCart = async () => {
     if (!isInStock) return;
@@ -35,31 +30,28 @@ const SingleProduct = ({ product, index }: ProductCardProps) => {
     }
   };
 
-  const formatPrice = (price: number) => {
+  const formatPrice = (priceInCents: number) => {
+    const priceInEuros = priceInCents / 100;
     return new Intl.NumberFormat('it-IT', {
       style: 'currency',
       currency: 'EUR',
-    }).format(price);
+    }).format(priceInEuros);
   };
 
   const discountPercentage = product.comparePrice 
-    ? Math.round(((product.comparePrice - product.price) / product.comparePrice) * 100)
+    ? Math.round(((product.comparePrice - (product.price.unit_amount / 100)) / product.comparePrice) * 100)
     : 0;
 
   return (
-    <SanityStyledComponent
-      component={productCardComponent}
-      componentName="ProductCard"
-      className="w-full"
-    >
+    <div className="w-full">
       <div className="wow fadeInUp" data-wow-delay={`${index * 100}ms`}>
-        <div className="group relative overflow-hidden rounded-sm bg-white/30 backdrop-blur/30 backdrop-blurshadow-one duration-300 hover:shadow-two dark:bg-dark dark:hover:shadow-gray-dark">
-          <Link href={`/shop/${product.slug?.current || product._id}`}>
-            <div className="relative block aspect-[37/22] overflow-hidden">
-              {product.mainImage ? (
+        <div className="group relative overflow-hidden rounded-lg bg-white/30 backdrop-blur/30 backdrop-blur shadow-lg duration-300 hover:shadow-xl dark:bg-dark dark:hover:shadow-gray-dark">
+          <Link href={`/shop/${product.id}`}>
+            <div className="relative block aspect-[4/3] overflow-hidden">
+              {product.images && product.images.length > 0 ? (
                 <img
-                  src={getImageUrl(product.mainImage)}
-                  alt={getTextValue(product.title)}
+                  src={product.images[0]}
+                  alt={product.name}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
               ) : (
@@ -71,7 +63,7 @@ const SingleProduct = ({ product, index }: ProductCardProps) => {
               {/* Badges */}
               <div className="absolute top-4 left-4 flex flex-col gap-2">
                 {product.featured && (
-                  <span className="bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                  <span className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-medium">
                     In Evidenza
                   </span>
                 )}
@@ -81,7 +73,7 @@ const SingleProduct = ({ product, index }: ProductCardProps) => {
                   </span>
                 )}
                 {!isInStock && (
-                  <span className="bg-white/300 text-white px-2 py-1 rounded-full text-xs font-medium">
+                  <span className="bg-blue-500/200 text-white px-2 py-1 rounded-full text-xs font-medium">
                     Esaurito
                   </span>
                 )}
@@ -89,50 +81,36 @@ const SingleProduct = ({ product, index }: ProductCardProps) => {
             </div>
           </Link>
           
-          <div className="p-6 sm:p-8 md:px-6 md:py-8 lg:p-8 xl:px-5 xl:py-8 2xl:p-8">
+          <div className="p-8 sm:p-10 md:p-8 lg:p-10 xl:p-8 2xl:p-10">
             <div className="mb-4">
               <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">
-                {product.category}
+                {product.category || 'Generale'}
               </span>
             </div>
             
-            <SanityStyledComponent
-              component={productTitleComponent}
-              componentName="ProductTitle"
-              as="h3"
-              className="mb-4 block text-xl font-bold text-black hover:text-primary dark:text-white dark:hover:text-primary sm:text-2xl"
-            >
-              <Link href={`/shop/${product.slug?.current || product._id}`}>
-                {getTextValue(product.title)}
+            <h3 className="mb-4 block text-xl font-bold text-black hover:text-primary dark:text-white dark:hover:text-primary sm:text-2xl">
+              <Link href={`/shop/${product.id}`}>
+                {product.name}
               </Link>
-            </SanityStyledComponent>
+            </h3>
             
-            <SanityStyledComponent
-              component={productDescriptionComponent}
-              componentName="ProductDescription"
-              as="p"
-              className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium leading-relaxed text-body-color dark:border-white dark:border-opacity-10 dark:text-body-color-dark"
-            >
-              {getTextValue(product.shortDescription)}
-            </SanityStyledComponent>
+            <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium leading-relaxed text-body-color dark:border-white dark:border-opacity-10 dark:text-body-color-dark">
+              {product.metadata.shortDescription || product.description || 'Descrizione non disponibile'}
+            </p>
             
             <div className="flex items-center justify-between mb-6">
-              <SanityStyledComponent
-                component={productPriceComponent}
-                componentName="ProductPrice"
-                className="flex items-center gap-2"
-              >
+              <div className="flex items-center gap-2">
                 <span className="text-2xl font-bold text-primary">
-                  {formatPrice(product.price)}
+                  {formatPrice(product.price.unit_amount)}
                 </span>
-                {product.comparePrice && product.comparePrice > product.price && (
+                {product.comparePrice && product.comparePrice > (product.price.unit_amount / 100) && (
                   <span className="text-lg text-gray-500 line-through">
-                    {formatPrice(product.comparePrice)}
+                    {formatPrice(product.comparePrice * 100)}
                   </span>
                 )}
-              </SanityStyledComponent>
+              </div>
               
-              {isInStock && (
+              {isInStock && product.stock && (
                 <span className="text-sm text-green-600 font-medium">
                   {product.stock} disponibili
                 </span>
@@ -179,7 +157,7 @@ const SingleProduct = ({ product, index }: ProductCardProps) => {
           </div>
         </div>
       </div>
-    </SanityStyledComponent>
+    </div>
   );
 };
 

@@ -48,13 +48,11 @@ const Header = ({ siteSettings }: HeaderProps) => {
     <>
       <header
         className={`header top-0 left-0 z-20 flex w-full items-center ${
-          isSticky ? "!fixed !z-[9999] shadow-sticky backdrop-blur-sm !transition text-white" : "absolute bg-transparent text-black"
+          isSticky ? "!fixed !z-[9999] shadow-sticky !transition text-white backdrop-blur-[8px]" : "absolute bg-transparent text-black"
         }`}
         style={{
           fontFamily: siteSettings?.typography?.headingFont || 'Inter',
           ...(isSticky && {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            backdropFilter: 'blur(10px)',
             borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
           })
         }}

@@ -6,6 +6,7 @@ import { getImageUrl, getTextValue } from '@/sanity/lib/image';
 import { useSanityUIComponents } from '@/hooks/useSanityUIComponents';
 import SanityStyledComponent from '@/components/Common/SanityStyledComponent';
 import Breadcrumb from "@/components/Common/Breadcrumb";
+import ServiceCTA from "@/components/Services/ServiceCTA";
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -195,30 +196,13 @@ const ServicesPage = () => {
               </div>
             )}
 
-            {/* CTA Section */}
-            <div className="mt-16 text-center">
-              <div className="rounded-sm bg-primary bg-opacity-5 p-8 dark:bg-opacity-10">
-                <h2 className="mb-4 text-2xl font-bold text-black dark:text-white">
-                  Hai un Progetto Specifico?
-                </h2>
-                <p className="mb-6 text-body-color dark:text-body-color-dark">
-                  Contattaci per discutere delle tue esigenze e trovare la soluzione perfetta per il tuo business.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a
-                    href="/contact"
-                    className="inline-flex items-center justify-center rounded-sm bg-primary px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-primary/90"
-                  >
-                    Contattaci Ora
-                  </a>
-                  <a
-                    href="/about"
-                    className="inline-flex items-center justify-center rounded-sm border border-primary px-8 py-4 text-base font-semibold text-primary duration-300 ease-in-out hover:bg-primary hover:text-white"
-                  >
-                    Chi Siamo
-                  </a>
-                </div>
-              </div>
+            {/* Service CTA Section */}
+            <div className="mt-16">
+              <ServiceCTA 
+                title="Pronto per iniziare il tuo progetto?"
+                subtitle="Richiedi un preventivo gratuito e senza impegno per uno dei nostri servizi professionali"
+                shuffle={true}
+              />
             </div>
           </div>
         </section>

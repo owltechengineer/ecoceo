@@ -8,7 +8,8 @@ export const postsQuery = groq`
     slug,
     mainImage,
     publishedAt,
-    body
+    body,
+    categories
   }
 `
 
@@ -106,7 +107,9 @@ export const homepageServicesQuery = groq`
     icon,
     image,
     features,
-    url
+    url,
+    featured,
+    order
   }
 `
 

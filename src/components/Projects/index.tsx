@@ -32,68 +32,42 @@ const Projects = ({ projects: initialProjects, title, subtitle }: ProjectGridPro
 
   // Get UI components for Projects section
   const projectsSectionComponent = getComponent('ProjectsSection');
-  const projectsTitleComponent = getComponent('ProjectsTitle');
-  const projectsSubtitleComponent = getComponent('ProjectsSubtitle');
 
   if (loading) {
     return (
       <div className="text-center py-12">
-        <p>Caricamento progetti...</p>
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+        <p className="text-white/80 text-lg">Caricamento progetti...</p>
       </div>
     );
   }
 
-  if (!projects || projects.length === 0) {
+  if (!projects || projects.length === 0)
     return (
       <div className="text-center py-12">
-        <h3 className="text-xl font-semibold mb-4">Sezione Progetti</h3>
-        <p className="text-gray-600 mb-6">Crea i tuoi progetti in Sanity Studio per iniziare.</p>
+        <div className="mb-6">
+          <div className="text-6xl mb-4">📁</div>
+          <h3 className="text-2xl font-bold text-white mb-4">Nessun Progetto Disponibile</h3>
+          <p className="text-white/80 mb-6">Crea i tuoi progetti in Sanity Studio per iniziare.</p>
+        </div>
         <button 
           onClick={() => window.location.href = '/studio'}
-          className="inline-block bg-primary text-white px-6 py-3 rounded hover:bg-primary/80 transition"
+          className="inline-block bg-gradient-to-r from-primary via-primary/90 to-primary text-white px-8 py-4 rounded-xl font-bold shadow-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-105 transform"
         >
           Vai a Sanity Studio
         </button>
       </div>
     );
-  }
 
   return (
     <SanityStyledComponent
       component={projectsSectionComponent}
       componentName="ProjectsSection"
     >
-      <div className="container">
-        {(title || subtitle) && (
-          <div className="text-center mb-16">
-            {title && (
-              <SanityStyledComponent
-                component={projectsTitleComponent}
-                componentName="ProjectsTitle"
-                as="h2"
-                className="text-3xl font-bold text-black sm:text-4xl lg:text-5xl mb-4"
-              >
-                {title}
-              </SanityStyledComponent>
-            )}
-            {subtitle && (
-              <SanityStyledComponent
-                component={projectsSubtitleComponent}
-                componentName="ProjectsSubtitle"
-                as="p"
-                className="text-black/80 text-lg max-w-2xl mx-auto"
-              >
-                {subtitle}
-              </SanityStyledComponent>
-            )}
-          </div>
-        )}
-        
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, index) => (
-            <SingleProject key={project._id} project={project} index={index} />
-          ))}
-        </div>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project, index) => (
+          <SingleProject key={project._id} project={project} index={index} />
+        ))}
       </div>
     </SanityStyledComponent>
   );

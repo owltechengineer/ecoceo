@@ -1,35 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
-
-// Initialize Stripe only if API key is available
-let stripe: Stripe | null = null;
-
-if (process.env.STRIPE_SECRET_KEY) {
-  stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2025-07-30.basil',
-  });
-}
+import { getStripeInstance, createLineItemsWithPackaging, createShippingOptions, validateStripeConfig, calculatePackagingFee } from '@/lib/stripe';
 
 export async function POST(request: NextRequest) {
-  // Check if Stripe is configured
-  if (!stripe) {
+  // Validate Stripe configuration
+  const configValidation = validateStripeConfig();
+  if (!configValidation.isValid) {
+    console.error('Stripe configuration errors:', configValidation.errors);
     return NextResponse.json(
-      { error: 'Stripe not configured' },
+      { error: 'Stripe not configured', details: configValidation.errors },
       { status: 503 }
     );
   }
 
-  try {
-    // Debug: Check if Stripe key is available
-    if (!process.env.STRIPE_SECRET_KEY) {
-      console.error('STRIPE_SECRET_KEY is not defined');
-      return NextResponse.json(
-        { error: 'Stripe configuration error' },
-        { status: 500 }
-      );
-    }
+  const stripe = getStripeInstance();
+  if (!stripe) {
+    return NextResponse.json(
+      { error: 'Failed to initialize Stripe' },
+      { status: 500 }
+    );
+  }
 
-    const { items, customerEmail, orderNumber } = await request.json();
+  try {
+    const { items, customerEmail, orderNumber, country = 'IT' } = await request.json();
     console.log('Received checkout request:', { items: items?.length, customerEmail, orderNumber });
 
     if (!items || items.length === 0) {
@@ -39,69 +31,54 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create line items for Stripe
-    const lineItems = items.map((item: any) => ({
-      price_data: {
-        currency: 'eur',
-        product_data: {
-          name: item.product.title,
-          images: item.product.mainImage ? [item.product.mainImage] : [],
-        },
-        unit_amount: Math.round(item.product.price * 100), // Convert to cents
-      },
-      quantity: item.quantity,
-    }));
+    // Calculate order total (before packaging fee)
+    const orderTotal = items.reduce((total, item) => {
+      const productPrice = typeof item.product.price === 'number' 
+        ? item.product.price 
+        : (item.product.price?.unit_amount || 0) / 100;
+      return total + (productPrice * item.quantity);
+    }, 0);
 
-    // Add shipping cost
-    lineItems.push({
-      price_data: {
-        currency: 'eur',
-        product_data: {
-          name: 'Spese di spedizione',
-        },
-        unit_amount: 500, // €5.00 in cents
-      },
-      quantity: 1,
-    });
+    // Create line items with packaging fees
+    const lineItems = createLineItemsWithPackaging(items, orderTotal);
 
-    // Create Checkout Session
-    const session = await stripe.checkout.sessions.create({
+    // Use dynamic base URL
+    const origin = request.headers.get('origin') || request.headers.get('host');
+    const baseUrl = origin?.startsWith('http') ? origin : `http://${origin}`;
+    
+    console.log('Creating checkout session with base URL:', baseUrl);
+    console.log('Order number:', orderNumber);
+
+    // Prepare session data - only include customer_email if it's valid
+    const sessionData: any = {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${request.headers.get('origin')}/shop/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${orderNumber}`,
-      cancel_url: `${request.headers.get('origin')}/shop/checkout`,
-      customer_email: customerEmail,
+      success_url: `${baseUrl}/shop/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${orderNumber}`,
+      cancel_url: `${baseUrl}/shop/checkout`,
       metadata: {
         orderNumber,
-        customerEmail,
+        customerEmail: customerEmail || 'not_provided',
       },
       shipping_address_collection: {
         allowed_countries: ['IT', 'US', 'CA', 'GB', 'DE', 'FR', 'ES'],
       },
-      shipping_options: [
-        {
-          shipping_rate_data: {
-            type: 'fixed_amount',
-            fixed_amount: {
-              amount: 500,
-              currency: 'eur',
-            },
-            display_name: 'Spedizione Standard',
-            delivery_estimate: {
-              minimum: {
-                unit: 'business_day',
-                value: 3,
-              },
-              maximum: {
-                unit: 'business_day',
-                value: 5,
-              },
-            },
-          },
-        },
-      ],
+      shipping_options: createShippingOptions(items, orderTotal * 100, country), // Convert to cents
+    };
+
+    // Only add customer_email if it's a valid email
+    if (customerEmail && customerEmail.trim() && customerEmail.includes('@')) {
+      sessionData.customer_email = customerEmail.trim();
+    }
+
+    console.log('Customer email validation:', { 
+      original: customerEmail, 
+      isValid: !!(customerEmail && customerEmail.trim() && customerEmail.includes('@')),
+      willInclude: !!(customerEmail && customerEmail.trim() && customerEmail.includes('@'))
     });
+
+    // Create Checkout Session
+    const session = await stripe.checkout.sessions.create(sessionData);
 
     console.log('Checkout session created successfully:', session.id);
     return NextResponse.json({ 

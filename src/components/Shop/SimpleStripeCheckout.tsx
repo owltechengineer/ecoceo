@@ -87,7 +87,26 @@ const SimpleStripeCheckout = ({ customerEmail, onSuccess, onError }: SimpleStrip
     }
   };
 
-  const total = state.total + 5; // Add shipping cost
+  const packagingFee = Math.max(state.total * 0.005, 2); // 0.5% with minimum €2
+  const total = state.total + packagingFee;
+
+  const getProductId = (product: any) => {
+    return (product as any)._id || (product as any).id;
+  };
+
+  const getProductName = (product: any) => {
+    return product.name || product.title || 'Prodotto';
+  };
+
+  const getProductPrice = (product: any) => {
+    if (typeof product.price === 'number') {
+      return product.price;
+    }
+    if (product.price?.unit_amount) {
+      return product.price.unit_amount / 100;
+    }
+    return 0;
+  };
 
   return (
     <>
@@ -132,23 +151,29 @@ const SimpleStripeCheckout = ({ customerEmail, onSuccess, onError }: SimpleStrip
         </div>
 
         {/* Order Summary */}
-        <div className="bg-white/30rounded-lg p-6 mb-8">
+        <div className="bg-blue-500/20 rounded-lg p-6 mb-8">
           <h4 className="font-semibold text-gray-900 mb-4">Riepilogo Ordine</h4>
           <div className="space-y-3">
-            {state.items.map((item) => (
-              <div key={item.product._id} className="flex justify-between items-center">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center">
-                    <span className="text-xs text-gray-500">IMG</span>
+            {state.items.map((item) => {
+              const productId = getProductId(item.product);
+              const productName = getProductName(item.product);
+              const productPrice = getProductPrice(item.product);
+              
+              return (
+                <div key={productId} className="flex justify-between items-center">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center">
+                      <span className="text-xs text-gray-500">IMG</span>
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">{productName}</p>
+                      <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-900">{item.product.title}</p>
-                    <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
-                  </div>
+                  <span className="font-medium">€{(productPrice * item.quantity).toFixed(2)}</span>
                 </div>
-                <span className="font-medium">€{(item.product.price * item.quantity).toFixed(2)}</span>
-              </div>
-            ))}
+              );
+            })}
             
             <div className="border-t pt-3">
               <div className="flex justify-between text-sm">
@@ -156,8 +181,8 @@ const SimpleStripeCheckout = ({ customerEmail, onSuccess, onError }: SimpleStrip
                 <span>€{state.total.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Spese di spedizione:</span>
-                <span>€5.00</span>
+                <span className="text-gray-600">Spese di imballo:</span>
+                <span>€{packagingFee.toFixed(2)}</span>
               </div>
               <div className="flex justify-between font-semibold text-lg mt-2 pt-2 border-t">
                 <span>Totale:</span>
@@ -181,24 +206,6 @@ const SimpleStripeCheckout = ({ customerEmail, onSuccess, onError }: SimpleStrip
             </div>
           </div>
         </div>
-
-        {/* Debug Button */}
-        <button
-          onClick={async () => {
-            try {
-              const response = await fetch('/api/test-stripe');
-              const data = await response.json();
-              console.log('Stripe test result:', data);
-              alert(`Stripe Test: ${data.status}\n${data.message}`);
-            } catch (error) {
-              console.error('Test error:', error);
-              alert('Errore nel test Stripe');
-            }
-          }}
-          className="w-full mb-4 py-2 px-4 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
-        >
-          🔧 Test Stripe Connection
-        </button>
 
         {/* Checkout Button */}
         <button

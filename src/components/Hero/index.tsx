@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { safeFetch } from '@/sanity/lib/client';
 import { heroQuery } from '@/sanity/lib/queries';
 import { getImageUrl, getTextValue } from '@/sanity/lib/image';
@@ -99,6 +100,46 @@ const Hero = () => {
                         Go to Sanity Studio
                       </SanityStyledComponent>
                     </div>
+                    
+                    {/* Social Links */}
+                    <div className="mt-8 flex items-center space-x-4">
+                      <p className="text-sm font-medium text-black/70">Seguici:</p>
+                      <div className="flex items-center space-x-3">
+                        <Link
+                          href="https://www.linkedin.com/company/owltech-engineering/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-white/20 hover:bg-primary/20 backdrop-blur-sm flex h-10 w-10 items-center justify-center rounded-full text-black hover:text-primary transition-all duration-300 hover:scale-110 border border-black/10"
+                          aria-label="LinkedIn"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 16 16" className="fill-current">
+                            <path d="M15.3 0H.7C.3 0 0 .3 0 .7v14.7c0 .3.3.6.7.6h14.7c.4 0 .7-.3.7-.7V.7c0-.4-.3-.7-.7-.7zM4.7 13.6H2.4V6h2.4v7.6h-.1zM3.6 5c-.8 0-1.4-.7-1.4-1.4 0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4-.1.7-.7 1.4-1.4 1.4zm10.9 8.6h-2.4V9.9c0-.9 0-2-1.2-2s-1.4 1-1.4 2v3.8H6.7V6h2.3v1h.1c.3-.6 1.1-1.2 2.2-1.2 2.4 0 2.8 1.6 2.8 3.6v4.2h.1z" />
+                          </svg>
+                        </Link>
+                        <Link
+                          href="https://www.instagram.com/owltech.it/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-white/20 hover:bg-primary/20 backdrop-blur-sm flex h-10 w-10 items-center justify-center rounded-full text-black hover:text-primary transition-all duration-300 hover:scale-110 border border-black/10"
+                          aria-label="Instagram"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 16 16" className="fill-current">
+                            <path d="M8 2.2c2.1 0 2.4.01 3.2.06.8.05 1.3.2 1.6.4.4.2.7.5.9.9.2.3.4.8.4 1.6.1.8.1 1.1.1 3.2s0 2.4-.1 3.2c-.1.8-.2 1.3-.4 1.6-.2.4-.5.7-.9.9-.3.2-.8.4-1.6.4-.8.1-1.1.1-3.2.1s-2.4 0-3.2-.1c-.8-.1-1.3-.2-1.6-.4-.4-.2-.7-.5-.9-.9-.2-.3-.4-.8-.4-1.6-.1-.8-.1-1.1-.1-3.2s0-2.4.1-3.2c.1-.8.2-1.3.4-1.6.2-.4.5-.7.9-.9.3-.2.8-.4 1.6-.4.8-.1 1.1-.1 3.2-.1zm0-1.4c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm0 6.6c-1.4 0-2.6-1.2-2.6-2.6s1.2-2.6 2.6-2.6 2.6 1.2 2.6 2.6-1.2 2.6-2.6 2.6zm5.3-6.7c0 .5-.4.9-.9.9s-.9-.4-.9-.9.4-.9.9-.9.9.4.9.9z" />
+                          </svg>
+                        </Link>
+                        <Link
+                          href="https://www.youtube.com/@OWLTECHENGINEERING"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-white/20 hover:bg-primary/20 backdrop-blur-sm flex h-10 w-10 items-center justify-center rounded-full text-black hover:text-primary transition-all duration-300 hover:scale-110 border border-black/10"
+                          aria-label="YouTube"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" className="fill-current">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                          </svg>
+                        </Link>
+                      </div>
+                    </div>
                   </>
                 ) : (
                   <>
@@ -144,6 +185,37 @@ const Hero = () => {
                         </SanityStyledComponent>
                       )}
                     </div>
+                    
+                    {/* Social Links */}
+                    <div className="mt-8 flex items-center space-x-4">
+                      <p className="text-sm font-medium text-black/70">Seguici:</p>
+                      <div className="flex items-center space-x-3">
+                        <Link
+                          href="/ECOCEO-1-LEM/ecoceo"
+                          className="bg-white/20 hover:bg-primary/20 backdrop-blur-sm flex h-10 w-10 items-center justify-center rounded-full text-black hover:text-primary transition-all duration-300 hover:scale-110 border border-black/10"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 16 16" className="fill-current">
+                            <path d="M9 5.9V4H7V5.9H6V8H7V15H9V8H11L12 5.9H9Z" />
+                          </svg>
+                        </Link>
+                        <Link
+                          href="/ECOCEO-1-LEM/ecoceo"
+                          className="bg-white/20 hover:bg-primary/20 backdrop-blur-sm flex h-10 w-10 items-center justify-center rounded-full text-black hover:text-primary transition-all duration-300 hover:scale-110 border border-black/10"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 16 16" className="fill-current">
+                            <path d="M8 2.2c2.1 0 2.4.01 3.2.06.8.05 1.3.2 1.6.4.4.2.7.5.9.9.2.3.4.8.4 1.6.1.8.1 1.1.1 3.2s0 2.4-.1 3.2c-.1.8-.2 1.3-.4 1.6-.2.4-.5.7-.9.9-.3.2-.8.4-1.6.4-.8.1-1.1.1-3.2.1s-2.4 0-3.2-.1c-.8-.1-1.3-.2-1.6-.4-.4-.2-.7-.5-.9-.9-.2-.3-.4-.8-.4-1.6-.1-.8-.1-1.1-.1-3.2s0-2.4.1-3.2c.1-.8.2-1.3.4-1.6.2-.4.5-.7.9-.9.3-.2.8-.4 1.6-.4.8-.1 1.1-.1 3.2-.1zm0-1.4c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm0 6.6c-1.4 0-2.6-1.2-2.6-2.6s1.2-2.6 2.6-2.6 2.6 1.2 2.6 2.6-1.2 2.6-2.6 2.6zm5.3-6.7c0 .5-.4.9-.9.9s-.9-.4-.9-.9.4-.9.9-.9.9.4.9.9z" />
+                          </svg>
+                        </Link>
+                        <Link
+                          href="/ECOCEO-1-LEM/ecoceo"
+                          className="bg-white/20 hover:bg-primary/20 backdrop-blur-sm flex h-10 w-10 items-center justify-center rounded-full text-black hover:text-primary transition-all duration-300 hover:scale-110 border border-black/10"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 16 16" className="fill-current">
+                            <path d="M15.3 0H.7C.3 0 0 .3 0 .7v14.7c0 .3.3.6.7.6h14.7c.4 0 .7-.3.7-.7V.7c0-.4-.3-.7-.7-.7zM4.7 13.6H2.4V6h2.4v7.6h-.1zM3.6 5c-.8 0-1.4-.7-1.4-1.4 0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4-.1.7-.7 1.4-1.4 1.4zm10.9 8.6h-2.4V9.9c0-.9 0-2-1.2-2s-1.4 1-1.4 2v3.8H6.7V6h2.3v1h.1c.3-.6 1.1-1.2 2.2-1.2 2.4 0 2.8 1.6 2.8 3.6v4.2h.1z" />
+                          </svg>
+                        </Link>
+                      </div>
+                    </div>
                   </>
                 )}
               </div>
@@ -152,23 +224,25 @@ const Hero = () => {
             {/* Right Column - Image */}
             <div className="w-full px-4 lg:w-1/2">
               <div className="wow fadeInUp" data-wow-delay=".4s">
-                <div className="relative mx-auto max-w-[500px] lg:mr-0">
+                <div className="relative mx-auto max-w-[700px] lg:max-w-[800px] xl:max-w-[900px] lg:mr-0 group">
                   {hero?.heroImage ? (
-                    <Image
-                      src={getImageUrl(hero.heroImage)}
-                      alt="Hero Image"
-                      width={600}
-                      height={600}
-                      className="mx-auto max-w-full lg:mr-0"
-                    />
+                    <div className="relative overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:shadow-primary/50 group-hover:shadow-3xl">
+                      <Image
+                        src={getImageUrl(hero.heroImage)}
+                        alt="Hero Image"
+                        width={900}
+                        height={900}
+                        className="mx-auto max-w-full lg:mr-0 transition-transform duration-500 group-hover:scale-110"
+                      />
+                    </div>
                   ) : (
-                    <div className="relative mx-auto max-w-[500px] lg:mr-0">
+                    <div className="relative mx-auto max-w-[700px] lg:max-w-[800px] xl:max-w-[900px] lg:mr-0 overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:shadow-primary/50 group-hover:shadow-3xl">
                       <Image
                         src="/images/hero/hero-image.svg"
                         alt="Hero Image"
-                        width={600}
-                        height={600}
-                        className="mx-auto max-w-full lg:mr-0"
+                        width={900}
+                        height={900}
+                        className="mx-auto max-w-full lg:mr-0 transition-transform duration-500 group-hover:scale-110"
                       />
                     </div>
                   )}

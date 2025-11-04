@@ -31,14 +31,19 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'ADD_ITEM': {
       const { product, quantity } = action.payload;
-      const existingItem = state.items.find(item => item.product._id === product._id);
+      const productId = (product as any)._id || (product as any).id;
+      const existingItem = state.items.find(item => {
+        const itemId = (item.product as any)._id || (item.product as any).id;
+        return itemId === productId;
+      });
       
       if (existingItem) {
-        const updatedItems = state.items.map(item =>
-          item.product._id === product._id
+        const updatedItems = state.items.map(item => {
+          const itemId = (item.product as any)._id || (item.product as any).id;
+          return itemId === productId
             ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
+            : item;
+        });
         return calculateCartTotals(updatedItems);
       } else {
         const newItems = [...state.items, { product, quantity }];
@@ -47,21 +52,28 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
     }
     
     case 'REMOVE_ITEM': {
-      const updatedItems = state.items.filter(item => item.product._id !== action.payload.productId);
+      const updatedItems = state.items.filter(item => {
+        const itemId = (item.product as any)._id || (item.product as any).id;
+        return itemId !== action.payload.productId;
+      });
       return calculateCartTotals(updatedItems);
     }
     
     case 'UPDATE_QUANTITY': {
       const { productId, quantity } = action.payload;
       if (quantity <= 0) {
-        const updatedItems = state.items.filter(item => item.product._id !== productId);
+        const updatedItems = state.items.filter(item => {
+          const itemId = (item.product as any)._id || (item.product as any).id;
+          return itemId !== productId;
+        });
         return calculateCartTotals(updatedItems);
       } else {
-        const updatedItems = state.items.map(item =>
-          item.product._id === productId
+        const updatedItems = state.items.map(item => {
+          const itemId = (item.product as any)._id || (item.product as any).id;
+          return itemId === productId
             ? { ...item, quantity }
-            : item
-        );
+            : item;
+        });
         return calculateCartTotals(updatedItems);
       }
     }
@@ -78,7 +90,18 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 };
 
 const calculateCartTotals = (items: CartItem[]): CartState => {
-  const total = items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+  const total = items.reduce((sum, item) => {
+    // Support both Sanity (product.price) and Stripe (product.price.unit_amount) formats
+    let price: number;
+    if (typeof item.product.price === 'number') {
+      price = item.product.price;
+    } else if ((item.product.price as any)?.unit_amount) {
+      price = (item.product.price as any).unit_amount / 100; // Stripe uses cents
+    } else {
+      price = 0;
+    }
+    return sum + (price * item.quantity);
+  }, 0);
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   return { items, total, itemCount };
 };
@@ -125,7 +148,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const getItemQuantity = (productId: string): number => {
-    const item = state.items.find(item => item.product._id === productId);
+    const item = state.items.find(item => {
+      const itemId = (item.product as any)._id || (item.product as any).id;
+      return itemId === productId;
+    });
     return item ? item.quantity : 0;
   };
 

@@ -2,6 +2,7 @@
 
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Blog from "@/components/Blog";
+import ServiceCTA from "@/components/Services/ServiceCTA";
 
 const BlogPage = () => {
   return (
@@ -29,6 +30,15 @@ const BlogPage = () => {
               </p>
             </div>
             <Blog />
+          </div>
+        </section>
+      </div>
+
+      {/* Service CTA Section */}
+      <div className="text-white">
+        <section className="py-16 lg:py-20">
+          <div className="container">
+            <ServiceCTA shuffle={true} />
           </div>
         </section>
       </div>

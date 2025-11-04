@@ -726,6 +726,15 @@ div[data-sanity-studio] * {
   }
 }
 
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-in-out;
 }
@@ -748,6 +757,10 @@ div[data-sanity-studio] * {
 
 .animate-zoomIn {
   animation: zoomIn 0.3s ease-in-out;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
 }
 
 .animate-zoomOut {

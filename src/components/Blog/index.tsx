@@ -1,18 +1,21 @@
 "use client";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt, faArrowRight, faNewspaper, faSearch, faUser, faImage as faImageIcon, faArrowLeft, faArrowCircleRight, faPlus, faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import { safeFetch } from '@/sanity/lib/client';
 import { postsQuery } from '@/sanity/lib/queries';
 import { getImageUrl, getTextValue } from '@/sanity/lib/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
-const Blog = () => {
+const Blog = ({ homepage = false }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  // Hooks per la versione completa del blog (sempre dichiarati, anche se usati solo quando homepage = false)
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 9;
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -28,6 +31,138 @@ const Blog = () => {
 
     fetchPosts();
   }, []);
+
+  // Per homepage: mostra solo gli ultimi 3 articoli
+  const displayedPosts = homepage ? posts.slice(0, 3) : posts;
+
+  if (loading) {
+    return (
+      <div className="text-center py-16">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <p className="mt-4 text-lg text-gray-600">Caricamento articoli...</p>
+      </div>
+    );
+  }
+
+  if (!posts || posts.length === 0) {
+    return (
+      <div className="text-center py-16">
+        <div className="max-w-md mx-auto">
+          <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+            <FontAwesomeIcon icon={faNewspaper} className="w-12 h-12 text-gray-400" />
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">Nessun articolo disponibile</h3>
+          <p className="text-gray-600 mb-8">Crea i tuoi primi articoli in Sanity Studio per iniziare.</p>
+          <button 
+            onClick={() => window.location.href = '/studio'}
+            className="inline-flex items-center bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+          >
+            <FontAwesomeIcon icon={faPlus} className="w-5 h-5 mr-2" />
+            Vai a Sanity Studio
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Versione homepage: card simili ai servizi
+  if (homepage) {
+    return (
+      <>
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
+          {displayedPosts.map((post, index) => (
+            <Link
+              key={post._id || index}
+              href={`/blog/${post.slug?.current || post._id}`}
+              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-2xl duration-500 hover:shadow-primary/20 hover:scale-[1.02] transition-all h-full flex flex-col border border-white/20"
+            >
+              {/* Post Image Header */}
+              <div className="relative h-56 overflow-hidden">
+                {post.mainImage ? (
+                  <Image
+                    src={getImageUrl(post.mainImage)}
+                    alt={getTextValue(post.title)}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    priority={index < 3}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-transparent flex items-center justify-center">
+                  </div>
+                )}
+                
+                {/* Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                
+                {/* Category Badge */}
+                {post.categories && post.categories.length > 0 && (
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="bg-primary text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm">
+                      {post.categories[0]}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Content */}
+              <div className="p-8 flex-grow flex flex-col">
+                {/* Post Title */}
+                <h3 className="text-2xl font-bold text-white mb-4 leading-tight">
+                  {getTextValue(post.title)}
+                </h3>
+                
+                {/* Post Date */}
+                {post.publishedAt && (
+                  <div className="flex items-center text-sm text-white/70 mb-4">
+                    <FontAwesomeIcon icon={faCalendarAlt} className="w-4 h-4 mr-2 text-black" />
+                    <span>
+                      {new Date(post.publishedAt).toLocaleDateString('it-IT', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </span>
+                  </div>
+                )}
+
+                {/* Excerpt */}
+                <p className="mb-6 text-base text-white/90 leading-relaxed flex-grow line-clamp-3">
+                  {getTextValue(post.body?.[0]?.children?.[0]?.text)?.substring(0, 150) || 
+                   'Nessun contenuto disponibile'}...
+                </p>
+
+                {/* Read More Link */}
+                <div className="mt-auto pt-6 border-t border-white/20">
+                  <div className="inline-flex items-center text-white font-semibold text-sm group-hover:gap-3 transition-all duration-300">
+                    <span>Leggi l'articolo</span>
+                    <FontAwesomeIcon
+                      icon={faArrowRight}
+                      className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform"
+                    />
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Scopri Blog Button */}
+        <div className="text-center mt-12">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-primary via-primary/90 to-primary text-white py-4 px-8 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-105 transform"
+          >
+            <FontAwesomeIcon icon={faNewspaper} className="w-6 h-6" />
+            <span>Scopri Blog</span>
+            <FontAwesomeIcon icon={faArrowRight} className="w-6 h-6" />
+          </Link>
+        </div>
+      </>
+    );
+  }
+
+  // Versione pagina blog completa (con ricerca, filtri, paginazione)
+  const postsPerPage = 9;
 
   // Filter posts based on search and category
   const filteredPosts = posts.filter(post => {
@@ -46,40 +181,6 @@ const Blog = () => {
   // Get unique categories
   const categories = ['all', ...Array.from(new Set(posts.flatMap(post => post.categories || [])))];
 
-  if (loading) {
-    return (
-      <div className="text-center py-16">
-        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="mt-4 text-lg text-gray-600">Caricamento articoli...</p>
-      </div>
-    );
-  }
-
-  if (!posts || posts.length === 0) {
-    return (
-      <div className="text-center py-16">
-        <div className="max-w-md mx-auto">
-          <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-            </svg>
-          </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">Nessun articolo disponibile</h3>
-          <p className="text-gray-600 mb-8">Crea i tuoi primi articoli in Sanity Studio per iniziare.</p>
-          <button 
-            onClick={() => window.location.href = '/studio'}
-            className="inline-flex items-center bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
-          >
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-            Vai a Sanity Studio
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-12">
       {/* Search and Filter Section */}
@@ -88,9 +189,7 @@ const Blog = () => {
           {/* Search */}
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+              <FontAwesomeIcon icon={faSearch} className="h-5 w-5 text-gray-400" />
             </div>
             <input
               type="text"
@@ -148,9 +247,7 @@ const Blog = () => {
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                    <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
+                    <FontAwesomeIcon icon={faImageIcon} className="w-12 h-12 text-gray-400" />
                   </div>
                 )}
                 
@@ -170,16 +267,12 @@ const Blog = () => {
               {/* Meta */}
               <div className="flex items-center text-sm text-gray-500 mb-4">
                 <div className="flex items-center">
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
+                  <FontAwesomeIcon icon={faUser} className="w-4 h-4 mr-1" />
                   <span>Admin</span>
                 </div>
                 <span className="mx-2">•</span>
                 <div className="flex items-center">
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
+                  <FontAwesomeIcon icon={faCalendarAlt} className="w-4 h-4 mr-1" />
                   <span>
                     {post.publishedAt 
                       ? new Date(post.publishedAt).toLocaleDateString('it-IT', {
@@ -212,9 +305,7 @@ const Blog = () => {
                 className="inline-flex items-center text-primary font-semibold hover:text-primary/80 transition-colors"
               >
                 Leggi di più
-                <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </article>
@@ -263,9 +354,7 @@ const Blog = () => {
         <div className="text-center py-16">
           <div className="max-w-md mx-auto">
             <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+              <FontAwesomeIcon icon={faSearch} className="w-12 h-12 text-gray-400" />
             </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Nessun risultato trovato</h3>
             <p className="text-gray-600 mb-6">
@@ -278,9 +367,7 @@ const Blog = () => {
               }}
               className="inline-flex items-center bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
             >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
+              <FontAwesomeIcon icon={faArrowCircleRight} className="w-5 h-5 mr-2" />
               Reset Filtri
             </button>
           </div>

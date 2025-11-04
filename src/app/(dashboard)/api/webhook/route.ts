@@ -1,22 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getStripeInstance, validateStripeConfig } from '@/lib/stripe';
 import Stripe from 'stripe';
-
-// Initialize Stripe only if API key is available
-let stripe: Stripe | null = null;
-
-if (process.env.STRIPE_SECRET_KEY) {
-  stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2025-07-30.basil',
-  });
-}
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(request: NextRequest) {
-  // Check if Stripe is configured
-  if (!stripe) {
+  // Validate Stripe configuration
+  const configValidation = validateStripeConfig();
+  if (!configValidation.isValid) {
     console.log('⚠️  Stripe not configured, skipping webhook processing');
-    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
+    return NextResponse.json({ error: 'Stripe not configured', details: configValidation.errors }, { status: 503 });
+  }
+
+  const stripe = getStripeInstance();
+  if (!stripe) {
+    console.log('⚠️  Failed to initialize Stripe, skipping webhook processing');
+    return NextResponse.json({ error: 'Failed to initialize Stripe' }, { status: 500 });
   }
 
   const body = await request.text();

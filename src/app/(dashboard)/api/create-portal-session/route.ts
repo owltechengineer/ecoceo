@@ -1,16 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-
-// Initialize Stripe only if API key is available
-let stripe: Stripe | null = null;
-
-if (process.env.STRIPE_SECRET_KEY) {
-  stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2025-07-30.basil',
-  });
-}
+import { getStripeInstance } from '@/lib/stripe';
 
 export async function POST(request: NextRequest) {
+  const stripe = getStripeInstance();
+  
   // Check if Stripe is configured
   if (!stripe) {
     return NextResponse.json(
@@ -39,10 +33,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Get origin for return URL
+    const origin = request.headers.get('origin') || request.headers.get('host');
+    const baseUrl = origin?.startsWith('http') ? origin : `http://${origin}`;
+
     // Create a billing portal session
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: checkoutSession.customer as string,
-      return_url: `${request.headers.get('origin')}/shop/account`,
+      return_url: `${baseUrl}/shop/success`,
     });
 
     return NextResponse.json({ url: portalSession.url });

@@ -42,7 +42,7 @@ export interface ProjectCardProps {
 }
 
 export interface ProjectGridProps {
-  projects: Project[];
+  projects?: Project[];
   title?: string;
   subtitle?: string;
 }

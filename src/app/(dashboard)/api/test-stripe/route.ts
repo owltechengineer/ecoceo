@@ -1,24 +1,29 @@
 import { NextResponse } from 'next/server';
-import Stripe from 'stripe';
+import { getStripeInstance, validateStripeConfig } from '@/lib/stripe';
 
 export async function GET() {
   try {
-    // Check if Stripe key is available
-    if (!process.env.STRIPE_SECRET_KEY) {
+    // Validate Stripe configuration
+    const configValidation = validateStripeConfig();
+    
+    if (!configValidation.isValid) {
       return NextResponse.json({
         status: 'error',
-        message: 'STRIPE_SECRET_KEY is not defined',
-        config: {
-          hasSecretKey: false,
-          hasPublishableKey: !!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-        }
+        message: 'Stripe configuration errors',
+        errors: configValidation.errors,
+        config: configValidation.config
       }, { status: 500 });
     }
 
     // Test Stripe connection
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2025-07-30.basil',
-    });
+    const stripe = getStripeInstance();
+    if (!stripe) {
+      return NextResponse.json({
+        status: 'error',
+        message: 'Failed to initialize Stripe',
+        config: configValidation.config
+      }, { status: 500 });
+    }
 
     // Try to list products to test connection
     const products = await stripe.products.list({ limit: 1 });
@@ -26,27 +31,21 @@ export async function GET() {
     return NextResponse.json({
       status: 'success',
       message: 'Stripe is configured correctly',
-      config: {
-        hasSecretKey: true,
-        hasPublishableKey: !!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-        apiVersion: '2025-07-30.basil',
-        productsCount: products.data.length,
-      },
+      config: configValidation.config,
       test: {
-        products: products.data.map(p => ({ id: p.id, name: p.name }))
+        products: products.data.map(p => ({ id: p.id, name: p.name })),
+        productsCount: products.data.length,
       }
     });
 
   } catch (error) {
     console.error('Stripe test error:', error);
+    const configValidation = validateStripeConfig();
     return NextResponse.json({
       status: 'error',
       message: 'Stripe connection failed',
       error: error instanceof Error ? error.message : 'Unknown error',
-      config: {
-        hasSecretKey: !!process.env.STRIPE_SECRET_KEY,
-        hasPublishableKey: !!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-      }
+      config: configValidation.config
     }, { status: 500 });
   }
 }
