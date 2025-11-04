@@ -30,13 +30,7 @@ export default defineConfig({
   studio: {
     components: {
       // Forza il tema scuro
-      layout: (props) => props.renderDefault({
-        ...props,
-        layoutProps: {
-          ...props.layoutProps,
-          theme: 'dark'
-        }
-      })
+      layout: (props) => props.renderDefault(props)
     }
   }
 })
