@@ -16,7 +16,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { client } from '@/sanity/lib/client';
 import { siteSettingsQuery } from '@/sanity/lib/queries';
-import { disableReactDevTools, useReactDevToolsErrorHandler } from '@/utils/devtools';
+import { disableReactDevTools } from '@/utils/devtools';
 import { SupabaseProvider } from '@/contexts/SupabaseProvider';
 
 
@@ -40,10 +40,7 @@ export default function RootLayout({
 
 
   useEffect(() => {
-    // Gestisce errori di React DevTools
-    useReactDevToolsErrorHandler();
-    
-    // Disabilita React DevTools in produzione
+    // Disabilita React DevTools completamente
     disableReactDevTools();
 
     const fetchSiteSettings = async () => {
@@ -65,6 +62,30 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <head>
+        {/* Disabilita React DevTools prima che venga caricato */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                if (typeof window !== 'undefined') {
+                  try {
+                    if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
+                      delete window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+                    }
+                    Object.defineProperty(window, '__REACT_DEVTOOLS_GLOBAL_HOOK__', {
+                      value: undefined,
+                      writable: false,
+                      configurable: false,
+                      enumerable: false
+                    });
+                  } catch (e) {
+                    // Ignora errori
+                  }
+                }
+              })();
+            `,
+          }}
+        />
         {siteSettings?.favicon && (
           <link rel="icon" href={siteSettings.favicon} />
         )}

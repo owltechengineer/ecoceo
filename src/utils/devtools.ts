@@ -1,39 +1,24 @@
-// Utility per gestire le React DevTools
+// Utility per disabilitare React DevTools
 export const disableReactDevTools = () => {
-  // Disabilita React DevTools in produzione
-  if (process.env.NODE_ENV === 'production') {
-    // Rimuove il supporto per React DevTools
-    if (typeof window !== 'undefined') {
-      // @ts-ignore
-      window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = {
-        inject: () => {},
-        onCommitFiberRoot: () => {},
-        onCommitFiberUnmount: () => {},
-      };
-    }
-  }
-};
-
-// Funzione per gestire errori di compatibilità
-export const handleReactDevToolsError = (error: Error) => {
-  // Ignora errori di React DevTools
-  if (error.message.includes('Invalid argument not valid semver')) {
-    console.warn('React DevTools compatibility warning (ignored):', error.message);
-    return true;
-  }
-  return false;
-};
-
-// Hook per gestire errori di React DevTools
-export const useReactDevToolsErrorHandler = () => {
+  // Disabilita React DevTools sempre (sia in produzione che in sviluppo)
   if (typeof window !== 'undefined') {
-    const originalConsoleError = console.error;
-    console.error = (...args) => {
-      const error = args[0];
-      if (error instanceof Error && handleReactDevToolsError(error)) {
-        return; // Ignora l'errore
+    // Rimuove completamente il supporto per React DevTools
+    try {
+      // @ts-ignore
+      if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
+        // @ts-ignore
+        delete window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
       }
-      originalConsoleError.apply(console, args);
-    };
+      // Impedisce la creazione del hook
+      // @ts-ignore
+      Object.defineProperty(window, '__REACT_DEVTOOLS_GLOBAL_HOOK__', {
+        value: undefined,
+        writable: false,
+        configurable: false,
+        enumerable: false
+      });
+    } catch (e) {
+      // Ignora errori se non può essere eliminato
+    }
   }
 };
