@@ -119,6 +119,7 @@ export default function RootLayout({
             rel="stylesheet"
           />
         )}
+        <title>{siteSettings?.title ? `${getSafeText(siteSettings.title)} · OWLTECH` : 'OWLTECH · Innovazione hardware end-to-end'}</title>
       </head>
       {/* Google Analytics */}
       <Script
@@ -159,7 +160,9 @@ export default function RootLayout({
             <CartProvider>
               <AnalyticsProvider>
                 {!isStudioPage && !isDashboardPage && !isClientAreaPage && <Header siteSettings={siteSettings} />}
-                {children}
+                <main id="main-content" role="main" className="min-h-[50vh]">
+                  {children}
+                </main>
                 {!isStudioPage && !isDashboardPage && !isClientAreaPage && <Footer />}
                 {!isStudioPage && !isDashboardPage && !isClientAreaPage && <ScrollToTop />}
               </AnalyticsProvider>
@@ -169,5 +172,17 @@ export default function RootLayout({
       </body>
     </html>
   );
+}
+
+function getSafeText(value: any) {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  if (value._type === 'block') {
+    return value.children?.map((child: any) => child.text).join(' ') ?? '';
+  }
+  if (value._type === 'localeString') {
+    return value.it || value.en || '';
+  }
+  return String(value);
 }
 
