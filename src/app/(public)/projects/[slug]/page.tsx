@@ -65,7 +65,7 @@ const ProjectDetailsPage = () => {
   return (
     <>
       {/* Breadcrumb Section - Gradiente da grigio scuro a bianco */}
-      <div className="bg-gradient-to-b from-gray-800 via-gray-400 to-white text-black">
+      <div className="text-white">
         <Breadcrumb
           pageName={getTextValue(project.title)}
           description="Dettagli del progetto"
@@ -73,7 +73,7 @@ const ProjectDetailsPage = () => {
       </div>
 
       {/* Project Details Content - Gradiente da bianco ad arancione intenso */}
-      <div className="bg-gradient-to-b from-white via-orange-100 to-orange-400 text-black">
+      <div className="text-white">
         <section className="pt-[150px] pb-[120px]">
           <div className="container">
             <div className="-mx-4 flex flex-wrap justify-center">
@@ -152,13 +152,11 @@ const ProjectDetailsPage = () => {
                   >
                     {project.mainImage && (
                       <div className="mb-10 w-full overflow-hidden rounded-sm">
-                        <div className="relative aspect-97/60 w-full sm:aspect-97/44">
-                          <img
-                            src={getImageUrl(project.mainImage)}
-                            alt={getTextValue(project.title)}
-                            className="w-full h-full object-cover object-center"
-                          />
-                        </div>
+                        <img
+                          src={getImageUrl(project.mainImage)}
+                          alt={getTextValue(project.title)}
+                          className="w-full h-auto object-cover object-center"
+                        />
                       </div>
                     )}
                     
@@ -187,11 +185,11 @@ const ProjectDetailsPage = () => {
                         <h3 className="text-xl font-bold mb-6">Galleria Immagini</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                           {project.gallery.map((image, index) => (
-                            <div key={index} className="aspect-square overflow-hidden rounded-lg">
+                            <div key={index} className="overflow-hidden rounded-lg">
                               <img
                                 src={getImageUrl(image)}
                                 alt={`${getTextValue(project.title)} - Immagine ${index + 1}`}
-                                className="w-full h-full object-cover"
+                                className="w-full h-auto object-cover"
                               />
                             </div>
                           ))}

@@ -19,16 +19,6 @@ const BlogPage = () => {
       <div>
         <section className="py-16 lg:py-20">
           <div className="container">
-            <div className="text-center mb-16">
-              <h1 className="text-3xl font-bold text-black sm:text-4xl lg:text-5xl mb-6">
-                Il Nostro Blog
-              </h1>
-              <p className="text-black/80 text-lg max-w-3xl mx-auto leading-relaxed">
-                Articoli, guide e insights dal mondo del web design e dello sviluppo digitale. 
-                Scopri le ultime novità, tendenze del settore e consigli pratici per migliorare 
-                la tua presenza online.
-              </p>
-            </div>
             <Blog />
           </div>
         </section>

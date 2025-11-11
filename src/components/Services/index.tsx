@@ -64,8 +64,21 @@ const Services = () => {
 
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
-      {services.map((service, index) => (
-        <SanityStyledComponent
+      {services.map((service, index) => {
+        const titleText = getTextValue(service.name)?.trim();
+        const candidateDescriptions = [
+          getTextValue(service.shortDescription),
+          getTextValue(service.description),
+          getTextValue(service.summary),
+        ].filter((value) => value && value.trim().length > 0);
+
+        const descriptionText =
+          candidateDescriptions.find(
+            (value) => !titleText || value.trim().toLowerCase() !== titleText.toLowerCase()
+          ) || candidateDescriptions[0] || "";
+
+        return (
+          <SanityStyledComponent
           key={service._id || index}
           component={serviceCardComponent}
           componentName="ServiceCard"
@@ -84,7 +97,8 @@ const Services = () => {
                     priority={index < 3}
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-transparent flex items-center justify-center">
+                  <div className="w-full h-full bg-white/5 flex items-center justify-center text-white/50 text-xs uppercase tracking-wide">
+                    Immagine
                   </div>
                 )}
                 
@@ -110,7 +124,7 @@ const Services = () => {
                   as="h3"
                   className="text-2xl font-bold text-white mb-4 leading-tight"
                 >
-                  {getTextValue(service.name)}
+                  {titleText || "Servizio"}
                 </SanityStyledComponent>
                 
                 {/* Description */}
@@ -120,7 +134,7 @@ const Services = () => {
                   as="p"
                   className="mb-6 text-base text-white/90 leading-relaxed flex-grow line-clamp-3"
                 >
-                  {getTextValue(service.shortDescription)}
+                  {descriptionText}
                 </SanityStyledComponent>
 
                 {/* Features */}
@@ -180,7 +194,8 @@ const Services = () => {
             </div>
           </div>
         </SanityStyledComponent>
-      ))}
+        );
+      })}
     </div>
   );
 };

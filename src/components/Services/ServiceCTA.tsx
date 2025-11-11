@@ -1,29 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faFileAlt } from '@fortawesome/free-solid-svg-icons';
-import { safeFetch } from '@/sanity/lib/client';
-import { servicesQuery } from '@/sanity/lib/queries';
-import { getTextValue } from '@/sanity/lib/image';
-import { useState, useEffect } from 'react';
+import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faFileAlt } from "@fortawesome/free-solid-svg-icons";
+import { safeFetch } from "@/sanity/lib/client";
+import { servicesQuery } from "@/sanity/lib/queries";
+import { getImageUrl, getTextValue } from "@/sanity/lib/image";
+import { useState, useEffect } from "react";
 
 interface ServiceCTAProps {
   title?: string;
   subtitle?: string;
-  serviceId?: string; // ID servizio specifico se si vuole evidenziare uno
-  shuffle?: boolean; // Se true, randomizza l'ordine dei servizi
-  limit?: number; // Limite massimo di servizi da mostrare
+  serviceId?: string;
+  shuffle?: boolean;
+  limit?: number;
 }
 
-const ServiceCTA = ({ 
-  title = "Hai bisogno di servizi personalizzati?",
-  subtitle = "Oltre ai prodotti, offriamo servizi completi per il tuo business. Richiedi un preventivo gratuito!",
+const ServiceCTA = ({
+  title = "Servizi su misura per la tua crescita",
+  subtitle = "Dalla prototipazione al go-to-market: affianciamo il tuo business con un supporto end-to-end.",
   serviceId,
   shuffle = false,
-  limit
+  limit,
 }: ServiceCTAProps) => {
-  const [services, setServices] = useState([]);
+  const [services, setServices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,15 +32,14 @@ const ServiceCTA = ({
       try {
         const servicesData = await safeFetch(servicesQuery);
         let processedServices = servicesData || [];
-        
-        // Se shuffle è true, randomizza l'ordine
+
         if (shuffle && processedServices.length > 0) {
           processedServices = [...processedServices].sort(() => Math.random() - 0.5);
         }
-        
+
         setServices(processedServices);
       } catch (error) {
-        console.error('Error fetching services:', error);
+        console.error("Error fetching services:", error);
         setServices([]);
       } finally {
         setLoading(false);
@@ -53,12 +53,10 @@ const ServiceCTA = ({
     return null;
   }
 
-  // Se è specificato un serviceId, mostra solo quello, altrimenti mostra tutti i servizi disponibili
-  let displayedServices = serviceId 
+  let displayedServices = serviceId
     ? services.filter((s: any) => s._id === serviceId || s.slug?.current === serviceId)
-    : services; // Mostra tutti i servizi disponibili
+    : services;
 
-  // Applica il limite se specificato
   if (limit && limit > 0) {
     displayedServices = displayedServices.slice(0, limit);
   }
@@ -68,58 +66,96 @@ const ServiceCTA = ({
   }
 
   return (
-    <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl border border-white/20 shadow-xl p-6 md:p-8">
-      {/* Header */}
-      <div className="text-center mb-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-          {title}
-        </h2>
-        {subtitle && (
-          <p className="text-base text-white/90 max-w-2xl mx-auto">
-            {subtitle}
+    <div className="rounded-3xl border border-white/15 bg-white/[0.03] p-8 md:p-10">
+      <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+        <div className="max-w-3xl space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+            Servizi end-to-end
           </p>
-        )}
+          <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+            {title}
+          </h2>
+          {subtitle && (
+            <p className="text-base text-white/80 leading-relaxed">
+              {subtitle}
+            </p>
+          )}
+        </div>
+
+        <div className="w-full lg:w-auto rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-4 text-sm text-white/80">
+          Risposta entro 24 ore • Preventivo su misura • Nessun impegno
+        </div>
       </div>
 
-      {/* Services Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-6 items-stretch">
+      <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {displayedServices.map((service: any, index: number) => (
           <Link
             key={service._id || index}
             href={`/contact?service=${service.slug?.current || service._id}&type=preventivo`}
             data-track="cta"
             data-cta-type="preventivo-page"
-            className="group bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg p-4 hover:bg-white/30 hover:border-white/50 transition-all duration-300 hover:scale-105 transform h-full flex flex-col"
+            className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/15 bg-white/[0.05] transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
           >
-            <div className="text-center flex flex-col flex-grow">
-              <div className="text-3xl mb-2">{service.icon || "💼"}</div>
-              <h3 className="text-white font-semibold text-sm mb-2 line-clamp-2 flex-grow">
+            <div className="relative h-40 w-full overflow-hidden bg-black/30">
+              {service.image ? (
+                <Image
+                  src={getImageUrl(service.image)}
+                  alt={getTextValue(service.name)}
+                  fill
+                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center text-white/50 text-sm">
+                  Immagine non disponibile
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-1 flex-col gap-3 p-6">
+              <h3 className="text-lg font-semibold text-white">
                 {getTextValue(service.name)}
               </h3>
-              <div className="text-primary text-xs font-medium flex items-center justify-center gap-1 group-hover:gap-2 transition-all mt-auto">
-                <span>Richiedi</span>
-                <FontAwesomeIcon icon={faArrowRight} className="w-3 h-3" />
+              {service.shortDescription && (
+                <p className="text-sm text-white/70 leading-relaxed line-clamp-3">
+                  {getTextValue(service.shortDescription)}
+                </p>
+              )}
+
+              <div className="mt-auto flex items-center gap-2 text-sm font-semibold text-primary">
+                <span>Richiedi preventivo</span>
+                <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5" />
               </div>
             </div>
           </Link>
         ))}
       </div>
 
-      {/* Main CTA Button */}
-      <div className="text-center">
-        <Link
-          href="/contact"
-          data-track="cta"
-          data-cta-type="preventivo-generale"
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-primary via-primary/90 to-primary text-white py-3 px-6 rounded-lg font-bold text-base shadow-lg hover:shadow-xl hover:shadow-primary/50 transition-all duration-300 hover:scale-105 transform"
-        >
-          <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
-          <span>Richiedi Preventivo Gratuito</span>
-          <FontAwesomeIcon icon={faArrowRight} className="w-5 h-5" />
-        </Link>
-        <p className="text-white/70 text-xs mt-3">
-          Risposta entro 24 ore • Senza impegno • Preventivo personalizzato
-        </p>
+      <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-6 text-white md:flex-row">
+        <div className="space-y-1 text-center md:text-left">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+            Pronto a partire?
+          </p>
+          <h3 className="text-lg font-semibold text-white">
+            Richiedi una consulenza dedicata con il nostro team tecnico
+          </h3>
+        </div>
+
+        <div className="flex flex-col items-center gap-3 md:flex-row">
+          <Link
+            href="/contact"
+            data-track="cta"
+            data-cta-type="preventivo-generale"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105"
+          >
+            <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+            <span>Richiedi preventivo gratuito</span>
+            <FontAwesomeIcon icon={faArrowRight} className="w-5 h-5" />
+          </Link>
+          <p className="text-xs text-white/60">
+            Risposta in 24h • Nessun impegno • Supporto personalizzato
+          </p>
+        </div>
       </div>
     </div>
   );

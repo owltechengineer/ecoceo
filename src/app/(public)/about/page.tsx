@@ -1,18 +1,71 @@
 "use client";
 
-import Breadcrumb from "@/components/Common/Breadcrumb";
-import ServiceCTA from "@/components/Services/ServiceCTA";
-import MechanicalDivider from "@/components/Common/MechanicalDivider";
-import { safeFetch } from '@/sanity/lib/client';
-import { aboutQuery } from '@/sanity/lib/queries';
-import { getImageUrl, getTextValue } from '@/sanity/lib/image';
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faBullseye, faHeart, faRocket } from '@fortawesome/free-solid-svg-icons';
+import Breadcrumb from "@/components/Common/Breadcrumb";
+import MechanicalDivider from "@/components/Common/MechanicalDivider";
+import ServiceCTA from "@/components/Services/ServiceCTA";
+import { safeFetch } from "@/sanity/lib/client";
+import { aboutQuery } from "@/sanity/lib/queries";
+import { getImageUrl, getTextValue } from "@/sanity/lib/image";
+
+const introParagraphs = [
+  "Siamo un partner tech per lo sviluppo verticale integrato “end-to-end” di progetti e concept innovativi, trasformandoli in prodotti finiti.",
+  "In un mercato dove l’innovazione hardware risulta complessa e costosa da gestire internamente, forniamo ai nostri clienti competenze ingegneristiche e tecnologie avanzate per ridurre i tempi di sviluppo e i rischi di progetto.",
+];
+
+const developmentSteps = [
+  "Il ciclo di sviluppo del prodotto parte da una consulenza dalla quale si ottiene una valutazione del progetto.",
+  "Dopodiché arriviamo alla produzione di un modello concettuale e di un modello tecnico.",
+  "Con il modello finale si procede alla fase di produzione, test e sperimentazione.",
+  "I processi e le lavorazioni verranno spiegate in seguito.",
+];
+
+const targetClients = ["PMI", "Microimprese", "Startup", "Innovatori"];
+
+const processesProduzione = [
+  "Consulenza",
+  "Servizio",
+  "Sviluppo",
+  "Produzione",
+  "Prototipazione",
+  "Intero processo",
+];
+
+const processesInterni = [
+  "Metriche KPI",
+  "Gestione costi operativi",
+  "Controllo qualità",
+  "Manutenzione e gestione macchinari e programmi",
+  "Piani di business continuity",
+  "Gestione progetti e timeline",
+];
+
+const operativeAreas = [
+  {
+    title: "Macchinari (Hardware)",
+    description:
+      "Infrastrutture e attrezzature dedicate alla produzione, alla prototipazione e ai test funzionali.",
+  },
+  {
+    title: "Programmi (Software)",
+    description:
+      "Suite di strumenti digitali per progettazione, automazione, simulazione e controllo di processo.",
+  },
+  {
+    title: "Area di lavoro",
+    description:
+      "Spazi organizzati per garantire efficienza, sicurezza e continuità produttiva in ogni fase operativa.",
+  },
+  {
+    title: "Materiali (Materie prime)",
+    description:
+      "Componenti e forniture selezionate per assicurare prestazioni, affidabilità e scalabilità del prodotto finale.",
+  },
+];
 
 const AboutPage = () => {
-  const [about, setAbout] = useState(null);
+  const [about, setAbout] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,7 +74,7 @@ const AboutPage = () => {
         const aboutData = await safeFetch(aboutQuery);
         setAbout(aboutData);
       } catch (error) {
-        console.error('Error fetching about data:', error);
+        console.error("Error fetching about data:", error);
       } finally {
         setLoading(false);
       }
@@ -33,7 +86,7 @@ const AboutPage = () => {
   if (loading) {
     return (
       <div className="text-white text-center py-20">
-        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4" />
         <p className="text-white/80 text-lg">Caricamento...</p>
       </div>
     );
@@ -41,237 +94,160 @@ const AboutPage = () => {
 
   return (
     <>
-      {/* Breadcrumb Section */}
       <div className="text-white">
-        <Breadcrumb
-          pageName="Chi Siamo"
-          description="Scopri la nostra storia, i nostri valori e la passione che ci guida nel creare soluzioni digitali innovative per il tuo business."
-        />
+        <Breadcrumb pageName="Il nostro studio" description="Conosci le persone e la visione che guidano ogni progetto." />
       </div>
 
-      {/* Mechanical Divider */}
       <MechanicalDivider />
 
-      {/* Main About Section */}
-      <div className="text-white">
-        <section className="py-16 lg:py-20">
-          <div className="container">
-            <div className="text-center mb-16">
-              <h2 className="mb-6 text-4xl font-extrabold sm:text-5xl lg:text-6xl xl:text-7xl bg-gradient-to-r from-white via-white to-white/90 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
-                {about ? getTextValue(about.title) : "La Nostra Storia"}
-              </h2>
-              <p className="text-white/95 text-lg font-medium leading-relaxed sm:text-xl lg:text-2xl max-w-3xl mx-auto drop-shadow-lg">
-                {about ? getTextValue(about.description) : "Siamo un team di professionisti esperti e appassionati, uniti dalla passione per la tecnologia e dall'obiettivo comune di creare soluzioni digitali che facciano la differenza."}
+      <section className="py-16 lg:py-20 text-white">
+        <div className="container grid gap-10 lg:grid-cols-[1.2fr,0.8fr] items-start">
+          <div className="space-y-6">
+            {introParagraphs.map((paragraph) => (
+              <p key={paragraph} className="text-white/90 text-base sm:text-lg leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
+
+            <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+              <p className="text-white/90 text-base sm:text-lg leading-relaxed">
+                Rendiamo semplice un processo aziendale che internamente richiederebbe spazi, macchinari, personale, tempo e risorse.
               </p>
             </div>
+          </div>
 
-            {/* About Content Card */}
-            <div className="mb-16">
-              <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-2xl duration-500 hover:shadow-primary/20 transition-all border border-white/20">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-                  {/* Image Section */}
-                  <div className="relative h-96 lg:h-auto overflow-hidden">
-                    {about?.image ? (
-                      <Image
-                        src={getImageUrl(about.image)}
-                        alt={about ? getTextValue(about.title) : "Chi Siamo"}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-primary/30 via-primary/20 to-primary/10 flex items-center justify-center">
-                        <div className="text-center">
-                          <FontAwesomeIcon icon={faUsers} className="text-6xl text-white/80 mb-4" />
-                          <h3 className="text-2xl font-semibold text-white">La Nostra Azienda</h3>
-                        </div>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent"></div>
-                  </div>
-
-                  {/* Content Section */}
-                  <div className="p-8 lg:p-12 flex flex-col justify-center">
-                    {about && (
-                      <>
-                        <p className="text-white/90 text-base leading-relaxed mb-8">
-                          {getTextValue(about.description)}
-                        </p>
-                        
-                        {/* Stats Grid */}
-                        {about.stats && about.stats.length > 0 && (
-                          <div className="grid grid-cols-2 gap-4 mb-8">
-                            {about.stats.slice(0, 4).map((stat, index) => (
-                              <div key={index} className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
-                                <div className="text-4xl font-bold text-primary mb-2">{getTextValue(stat.number)}</div>
-                                <div className="text-sm text-white/80">{getTextValue(stat.label)}</div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        {/* Features List */}
-                        {about.features && about.features.length > 0 && (
-                          <div className="space-y-4">
-                            {about.features.slice(0, 4).map((feature, index) => (
-                              <div key={index} className="flex items-start gap-4">
-                                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/20 backdrop-blur-sm flex items-center justify-center">
-                                  <FontAwesomeIcon icon={faBullseye} className="text-primary w-5 h-5" />
-                                </div>
-                                <div>
-                                  <h4 className="text-lg font-bold text-white mb-1">
-                                    {getTextValue(feature.title)}
-                                  </h4>
-                                  {feature.description && (
-                                    <p className="text-white/70 text-sm">
-                                      {getTextValue(feature.description)}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Features Cards Grid */}
-            {about?.features && about.features.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {about.features.slice(0, 6).map((feature, index) => (
-                  <div
-                    key={index}
-                    className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-xl duration-500 hover:shadow-primary/20 hover:scale-[1.02] transition-all h-full flex flex-col border border-white/20 p-6"
-                  >
-                    <div className="mb-4">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 backdrop-blur-sm text-2xl shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300">
-                        {feature.icon || "✨"}
-                      </div>
-                      <h4 className="text-xl font-bold text-white mb-2">
-                        {getTextValue(feature.title)}
-                      </h4>
-                      {feature.description && (
-                        <p className="text-white/80 text-sm leading-relaxed">
-                          {getTextValue(feature.description)}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                ))}
+          <div className="relative overflow-hidden rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+            {about?.image ? (
+              <Image
+                src={getImageUrl(about.image)}
+                alt={about?.title ? getTextValue(about.title) : "OWLTech"}
+                width={900}
+                height={700}
+                className="w-full h-auto object-cover"
+                priority
+              />
+            ) : (
+              <div className="p-10">
+                <h3 className="text-2xl font-semibold mb-4">OWLTech</h3>
+                <p className="text-white/80 leading-relaxed">
+                  Strutturiamo servizi e prodotti personalizzati sul profilo del cliente, con l’obiettivo di diventare il partner privilegiato per l’innovazione hardware.
+                </p>
               </div>
             )}
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
-      {/* Mechanical Divider */}
       <MechanicalDivider />
 
-      {/* Mission, Values, Team Section */}
-      <div className="text-white">
-        <section className="py-16 lg:py-20">
-          <div className="container">
-            <div className="text-center mb-16">
-              <h2 className="mb-6 text-4xl font-extrabold sm:text-5xl lg:text-6xl xl:text-7xl bg-gradient-to-r from-white via-white to-white/90 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
-                La Nostra Visione
-              </h2>
-              <p className="text-white/95 text-lg font-medium leading-relaxed sm:text-xl lg:text-2xl max-w-3xl mx-auto drop-shadow-lg">
-                Scopri i valori e i principi che guidano il nostro lavoro quotidiano.
-              </p>
-            </div>
+      <section className="py-16 lg:py-20 text-white">
+        <div className="container grid gap-8 lg:grid-cols-2">
+          <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+            <h2 className="text-3xl font-bold mb-6">Il ciclo di sviluppo</h2>
+            <ul className="space-y-4 text-white/90">
+              {developmentSteps.map((item) => (
+                <li key={item} className="flex gap-3">
+                  <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-              {/* Mission */}
-              <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-xl duration-500 hover:shadow-primary/20 transition-all border border-white/20 p-8">
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-primary/20 backdrop-blur-sm flex items-center justify-center">
-                    <FontAwesomeIcon icon={faRocket} className="text-primary text-2xl" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-white mb-3">
-                      La Nostra Missione
-                    </h3>
-                  </div>
+          <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+            <h2 className="text-3xl font-bold mb-6">Il nostro obiettivo</h2>
+            <p className="text-white/90 mb-6 leading-relaxed">
+              Diventare il referente privilegiato per l’innovazione hardware, strutturando servizi e prodotti sul profilo del cliente.
+            </p>
+            <div className="grid grid-cols-2 gap-4">
+              {targetClients.map((client) => (
+                <div
+                  key={client}
+                  className="rounded-xl bg-white/5 px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-white/80"
+                >
+                  {client}
                 </div>
-                <p className="text-white/90 text-base leading-relaxed">
-                  La nostra missione è quella di aiutare le aziende a crescere nel mondo digitale attraverso soluzioni innovative e personalizzate. Crediamo che ogni business abbia un potenziale unico che può essere espresso attraverso la tecnologia.
-                </p>
-              </div>
-
-              {/* Values */}
-              <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-xl duration-500 hover:shadow-primary/20 transition-all border border-white/20 p-8">
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-primary/20 backdrop-blur-sm flex items-center justify-center">
-                    <FontAwesomeIcon icon={faHeart} className="text-primary text-2xl" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-white mb-3">
-                      I Nostri Valori
-                    </h3>
-                  </div>
-                </div>
-                <p className="text-white/90 text-base leading-relaxed mb-4">
-                  L'innovazione, la qualità e la trasparenza sono i pilastri su cui fondiamo il nostro lavoro. Ogni progetto è un'opportunità per superare le aspettative e creare valore duraturo per i nostri clienti.
-                </p>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary"></div>
-                    <span className="text-white/80 text-sm">Innovazione Continua</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary"></div>
-                    <span className="text-white/80 text-sm">Qualità Superiore</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary"></div>
-                    <span className="text-white/80 text-sm">Trasparenza Totale</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Team */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-xl duration-500 hover:shadow-primary/20 transition-all border border-white/20 p-8">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-primary/20 backdrop-blur-sm flex items-center justify-center">
-                  <FontAwesomeIcon icon={faUsers} className="text-primary text-2xl" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white mb-3">
-                    Il Nostro Team
-                  </h3>
-                </div>
-              </div>
-              <p className="text-white/90 text-base leading-relaxed">
-                Siamo un team di professionisti esperti e appassionati, uniti dalla passione per la tecnologia e dall'obiettivo comune di creare soluzioni digitali che facciano la differenza. Ogni membro del nostro team porta competenze uniche e un impegno costante per l'eccellenza.
-              </p>
+              ))}
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
-      {/* Mechanical Divider */}
       <MechanicalDivider />
 
-      {/* Service CTA Section */}
-      <div className="text-white">
-        <section className="py-16 lg:py-20">
-          <div className="container">
-            <div className="text-center mb-16">
-              <h2 className="mb-6 text-4xl font-extrabold sm:text-5xl lg:text-6xl xl:text-7xl bg-gradient-to-r from-white via-white to-white/90 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
-                I Nostri Servizi
-              </h2>
-              <p className="text-white/95 text-lg font-medium leading-relaxed sm:text-xl lg:text-2xl max-w-3xl mx-auto drop-shadow-lg">
-                Scopri come possiamo aiutarti a raggiungere i tuoi obiettivi di business.
-              </p>
-            </div>
-            <ServiceCTA shuffle={true} />
+      <section className="py-16 lg:py-20 text-white">
+        <div className="container grid gap-8 lg:grid-cols-2">
+          <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+            <h2 className="text-3xl font-bold mb-4">Mission</h2>
+            <p className="text-white/90 leading-relaxed">
+              Diventare parte integrante dei processi aziendali dei nostri clienti target, offrendo un servizio professionale e strutturato in un ambito fondamentale per la crescita di realtà durature.
+            </p>
           </div>
-        </section>
-      </div>
+
+          <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+            <h2 className="text-3xl font-bold mb-4">Vision</h2>
+            <p className="text-white/90 leading-relaxed">
+              Offrire competenze ingegneristiche avanzate e capacità di prototipazione per trasformare concetti complessi in soluzioni tecnologiche tangibili. Supportiamo un tessuto di realtà con grande potenziale e puntiamo a valorizzarlo.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <MechanicalDivider />
+
+      <section className="py-16 lg:py-20 text-white">
+        <div className="container space-y-12">
+          <div className="text-center max-w-4xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">OWLTech · Piano operativo, produzione & tecnologie</h2>
+            <p className="text-white/80 leading-relaxed">
+              Nel nostro piano operativo utilizziamo approcci rinomati per l’efficienza di produzione, come il metodo LEAN, creando un binario solido per la gestione delle attività e delle risorse.
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {operativeAreas.map((area) => (
+              <div key={area.title} className="p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+                <h3 className="text-xl font-semibold mb-3">{area.title}</h3>
+                <p className="text-white/80 text-sm leading-relaxed">{area.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-2">
+            <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+              <h3 className="text-2xl font-semibold mb-4">Processi di produzione</h3>
+              <ul className="space-y-3 text-white/90">
+                {processesProduzione.map((process) => (
+                  <li key={process} className="flex gap-3">
+                    <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary" />
+                    <span>{process}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+              <h3 className="text-2xl font-semibold mb-4">Processi interni</h3>
+              <ul className="space-y-3 text-white/90">
+                {processesInterni.map((process) => (
+                  <li key={process} className="flex gap-3">
+                    <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary" />
+                    <span>{process}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <MechanicalDivider />
+
+      <section className="py-16 lg:py-20 text-white">
+        <div className="container">
+          <ServiceCTA shuffle />
+        </div>
+      </section>
     </>
   );
 };

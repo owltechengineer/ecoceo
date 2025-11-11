@@ -255,30 +255,7 @@ const ContactFormContent = () => {
             </div>
           </div>
 
-          {/* Location */}
-          {contactAddress && (
-            <div className="mb-8 flex w-full max-w-[370px]">
-              <div className="mr-6 flex h-[60px] w-full max-w-[60px] items-center justify-center overflow-hidden rounded-xl bg-primary/20 backdrop-blur-sm text-primary">
-                <svg
-                  width="24"
-                  height="29"
-                  viewBox="0 0 24 29"
-                  className="fill-current"
-                >
-                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22c-5.514 0-10-4.486-10-10S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z" />
-                  <path d="M12 6c-3.314 0-6 2.686-6 6s2.686 6 6 6 6-2.686 6-6-2.686-6-6-6zm0 10c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4z" />
-                </svg>
-              </div>
-              <div className="w-full">
-                <h4 className="mb-1 text-xl font-bold text-white">
-                  Sede
-                </h4>
-                <p className="text-base text-white/80">
-                  {contactAddress}
-                </p>
-              </div>
-            </div>
-          )}
+          {/* Location removed intentionally */}
 
           {/* Phone */}
           {contactPhone && (
