@@ -71,7 +71,7 @@ const ServiceProjectsPage = () => {
   return (
     <>
       {/* Breadcrumb Section - Gradiente da grigio scuro a bianco */}
-      <div className="bg-gradient-to-b from-gray-800 via-gray-400 to-white text-black">
+      <div>
         <Breadcrumb
           pageName={`Progetti - ${getTextValue(service.name)}`}
           description={`Scopri i progetti realizzati per il servizio ${getTextValue(service.name)}`}

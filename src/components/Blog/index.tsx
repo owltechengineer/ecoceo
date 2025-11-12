@@ -32,14 +32,11 @@ const Blog = ({ homepage = false }) => {
     fetchPosts();
   }, []);
 
-  // Per homepage: mostra solo gli ultimi 3 articoli
-  const displayedPosts = homepage ? posts.slice(0, 3) : posts;
-
   if (loading) {
     return (
       <div className="text-center py-16">
         <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="mt-4 text-lg text-gray-600">Caricamento articoli...</p>
+        <p className="mt-4 text-lg text-white/80">Caricamento articoli...</p>
       </div>
     );
   }
@@ -48,11 +45,11 @@ const Blog = ({ homepage = false }) => {
     return (
       <div className="text-center py-16">
         <div className="max-w-md mx-auto">
-          <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
-            <FontAwesomeIcon icon={faNewspaper} className="w-12 h-12 text-gray-400" />
+          <div className="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <FontAwesomeIcon icon={faNewspaper} className="w-12 h-12 text-white/40" />
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">Nessun articolo disponibile</h3>
-          <p className="text-gray-600 mb-8">Crea i tuoi primi articoli in Sanity Studio per iniziare.</p>
+          <h3 className="text-2xl font-bold text-white mb-4">Nessun articolo disponibile</h3>
+          <p className="text-white/80 mb-8">Crea i tuoi primi articoli in Sanity Studio per iniziare.</p>
           <button 
             onClick={() => window.location.href = '/studio'}
             className="inline-flex items-center bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
@@ -65,86 +62,113 @@ const Blog = ({ homepage = false }) => {
     );
   }
 
-  // Versione homepage: card simili ai servizi
+  // Versione homepage: carosello orizzontale scorrevole
   if (homepage) {
     return (
       <>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
-          {displayedPosts.map((post, index) => (
-            <Link
-              key={post._id || index}
-              href={`/blog/${post.slug?.current || post._id}`}
-              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-2xl duration-500 hover:shadow-2xl hover:shadow-primary/40 hover:scale-[1.03] hover:-translate-y-2 transition-all h-full flex flex-col border border-white/20 hover:border-primary/40 before:absolute before:inset-0 before:bg-gradient-to-br before:from-primary/0 before:via-primary/0 before:to-primary/0 hover:before:from-primary/10 hover:before:via-primary/5 hover:before:to-primary/10 before:transition-all before:duration-500 before:pointer-events-none"
-            >
-              {/* Post Image Header */}
-              <div className="relative h-56 overflow-hidden">
-                {post.mainImage ? (
-                  <Image
-                    src={getImageUrl(post.mainImage)}
-                    alt={getTextValue(post.title)}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    priority={index < 3}
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-transparent flex items-center justify-center">
+        {/* Carosello orizzontale scorrevole */}
+        <div className="relative -mx-4 md:-mx-8 lg:-mx-12 xl:-mx-16">
+          {/* Container scrollabile */}
+          <div 
+            className="overflow-x-auto scrollbar-hide pb-4 px-4 md:px-8 lg:px-12 xl:px-16"
+            style={{ 
+              scrollBehavior: 'smooth',
+              scrollSnapType: 'x mandatory',
+              WebkitOverflowScrolling: 'touch',
+              scrollPaddingLeft: '1rem',
+              scrollPaddingRight: '1rem'
+            }}
+          >
+            <div className="flex gap-6 min-w-max">
+              {posts.map((post, index) => (
+                <Link
+                  key={post._id || index}
+                  href={`/blog/${post.slug?.current || post._id}`}
+                  className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-2xl duration-500 hover:shadow-2xl hover:shadow-primary/40 hover:scale-[1.03] transition-all flex flex-col border border-white/20 hover:border-primary/40 before:absolute before:inset-0 before:bg-gradient-to-br before:from-primary/0 before:via-primary/0 before:to-primary/0 hover:before:from-primary/10 hover:before:via-primary/5 hover:before:to-primary/10 before:transition-all before:duration-500 before:pointer-events-none w-[320px] sm:w-[380px] md:w-[420px] lg:w-[450px] flex-shrink-0"
+                  style={{ scrollSnapAlign: 'start' }}
+                >
+                  {/* Post Image Header */}
+                  <div className="relative h-56 overflow-hidden">
+                    {post.mainImage ? (
+                      <Image
+                        src={getImageUrl(post.mainImage)}
+                        alt={getTextValue(post.title)}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        priority={index < 3}
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-transparent flex items-center justify-center">
+                      </div>
+                    )}
+                    
+                    {/* Overlay Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                    <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500"></div>
+                    
+                    {/* Category Badge */}
+                    {post.categories && post.categories.length > 0 && (
+                      <div className="absolute top-4 left-4 z-10">
+                        <span className="bg-primary text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm">
+                          {post.categories[0]}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                )}
-                
-                {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500"></div>
-                
-                {/* Category Badge */}
-                {post.categories && post.categories.length > 0 && (
-                  <div className="absolute top-4 left-4 z-10">
-                    <span className="bg-primary text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm">
-                      {post.categories[0]}
-                    </span>
+
+                  {/* Content */}
+                  <div className="p-8 flex-grow flex flex-col min-h-[280px]">
+                    {/* Post Title */}
+                    <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors duration-300 mb-4 leading-tight line-clamp-2">
+                      {getTextValue(post.title)}
+                    </h3>
+                    
+                    {/* Post Date */}
+                    {post.publishedAt && (
+                      <div className="flex items-center text-sm text-white/70 mb-4">
+                        <FontAwesomeIcon icon={faCalendarAlt} className="w-4 h-4 mr-2 text-white/50" />
+                        <span>
+                          {new Date(post.publishedAt).toLocaleDateString('it-IT', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Excerpt */}
+                    <p className="mb-6 text-base text-white/90 leading-relaxed flex-grow line-clamp-3">
+                      {getTextValue(post.body?.[0]?.children?.[0]?.text)?.substring(0, 150) || 
+                       'Nessun contenuto disponibile'}...
+                    </p>
+
+                    {/* Read More Link */}
+                    <div className="mt-auto pt-6 border-t border-white/20">
+                      <div className="inline-flex items-center text-white font-semibold text-sm group-hover:gap-3 transition-all duration-300">
+                        <span>Leggi l'articolo</span>
+                        <FontAwesomeIcon
+                          icon={faArrowRight}
+                          className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform"
+                        />
+                      </div>
+                    </div>
                   </div>
-                )}
+                </Link>
+              ))}
+            </div>
+          </div>
+          
+          {/* Indicatore scroll */}
+          {posts.length > 1 && (
+            <div className="flex items-center justify-center mt-6">
+              <div className="flex items-center gap-2 text-white/60 text-sm">
+                <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4" />
+                <span>Scorri per vedere tutti gli {posts.length} articoli</span>
+                <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4" />
               </div>
-
-              {/* Content */}
-              <div className="p-8 flex-grow flex flex-col">
-                {/* Post Title */}
-                <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors duration-300 mb-4 leading-tight">
-                  {getTextValue(post.title)}
-                </h3>
-                
-                {/* Post Date */}
-                {post.publishedAt && (
-                  <div className="flex items-center text-sm text-white/70 mb-4">
-                    <FontAwesomeIcon icon={faCalendarAlt} className="w-4 h-4 mr-2 text-black" />
-                    <span>
-                      {new Date(post.publishedAt).toLocaleDateString('it-IT', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </span>
-                  </div>
-                )}
-
-                {/* Excerpt */}
-                <p className="mb-6 text-base text-white/90 leading-relaxed flex-grow line-clamp-3">
-                  {getTextValue(post.body?.[0]?.children?.[0]?.text)?.substring(0, 150) || 
-                   'Nessun contenuto disponibile'}...
-                </p>
-
-                {/* Read More Link */}
-                <div className="mt-auto pt-6 border-t border-white/20">
-                  <div className="inline-flex items-center text-white font-semibold text-sm group-hover:gap-3 transition-all duration-300">
-                    <span>Leggi l'articolo</span>
-                    <FontAwesomeIcon
-                      icon={faArrowRight}
-                      className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform"
-                    />
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
+            </div>
+          )}
         </div>
 
         {/* Scopri Blog Button */}

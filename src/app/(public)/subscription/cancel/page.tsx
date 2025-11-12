@@ -7,7 +7,7 @@ const SubscriptionCancelPage = () => {
   return (
     <>
       {/* Breadcrumb Section */}
-      <div className="bg-gradient-to-b from-gray-800 via-gray-400 to-white text-black">
+      <div>
         <Breadcrumb
           pageName="Abbonamento Annullato"
           description="Il processo di abbonamento è stato annullato"

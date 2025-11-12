@@ -75,11 +75,17 @@ const MiniCart = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative inline-flex items-center justify-center p-2 text-white hover:text-blue-300 transition-colors duration-200"
+        aria-label={state.itemCount > 0 
+          ? `Carrello: ${state.itemCount} ${state.itemCount === 1 ? 'articolo' : 'articoli'}` 
+          : 'Apri carrello'}
+        aria-expanded={isOpen}
+        aria-haspopup="true"
+        aria-controls={isOpen ? "cart-dropdown" : undefined}
       >
-        <FontAwesomeIcon icon={faCartShopping} className="w-6 h-6" />
+        <FontAwesomeIcon icon={faCartShopping} className="w-6 h-6" aria-hidden="true" />
         
         {state.itemCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium shadow-sm">
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium shadow-sm" aria-hidden="true">
             {state.itemCount > 99 ? '99+' : state.itemCount}
           </span>
         )}
@@ -87,17 +93,25 @@ const MiniCart = () => {
 
       {/* Mini Cart Dropdown */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+        <div 
+          id="cart-dropdown"
+          className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50"
+          role="region"
+          aria-label="Carrello della spesa"
+          aria-labelledby="cart-heading"
+          aria-live="polite"
+        >
           <div className="p-4">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-gray-900" id="cart-heading">
                 Carrello ({state.itemCount})
               </h3>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
+                aria-label="Chiudi carrello"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
@@ -105,7 +119,7 @@ const MiniCart = () => {
 
             {state.items.length === 0 ? (
               <div className="text-center py-8">
-                <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
                 </svg>
                 <p className="text-gray-500">Il carrello è vuoto</p>
@@ -139,19 +153,21 @@ const MiniCart = () => {
                           <button
                             onClick={() => handleQuantityChange(productId, item.quantity - 1)}
                             className="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200 transition-colors"
+                            aria-label={`Diminuisci quantità di ${productName}`}
                           >
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                             </svg>
                           </button>
-                          <span className="w-8 text-center text-sm font-medium text-gray-900">
+                          <span className="w-8 text-center text-sm font-medium text-gray-900" aria-label={`Quantità: ${item.quantity}`}>
                             {item.quantity}
                           </span>
                           <button
                             onClick={() => handleQuantityChange(productId, item.quantity + 1)}
                             className="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200 transition-colors"
+                            aria-label={`Aumenta quantità di ${productName}`}
                           >
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                             </svg>
                           </button>

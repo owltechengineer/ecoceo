@@ -82,7 +82,7 @@ const OrderPage = async ({ params }: OrderPageProps) => {
   return (
     <>
       {/* Breadcrumb Section - Gradiente da grigio scuro a bianco */}
-      <div className="bg-gradient-to-b from-gray-800 via-gray-400 to-white text-black">
+      <div>
         <Breadcrumb
           pageName={`Ordine #${order.orderNumber}`}
           description="Dettagli del tuo ordine"
