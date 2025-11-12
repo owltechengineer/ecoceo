@@ -45,14 +45,14 @@ const SingleProduct = ({ product, index }: SingleProductProps) => {
   return (
     <div className="w-full">
       <div className="wow fadeInUp" data-wow-delay={`${index * 100}ms`}>
-        <div className="group relative overflow-hidden rounded-lg bg-white/30 backdrop-blur/30 backdrop-blur shadow-lg duration-300 hover:shadow-xl dark:bg-dark dark:hover:shadow-gray-dark">
+        <div className="group relative overflow-hidden rounded-lg bg-white/30 backdrop-blur/30 backdrop-blur shadow-lg duration-500 hover:shadow-2xl hover:shadow-primary/40 hover:scale-[1.03] hover:-translate-y-2 transition-all border border-white/20 hover:border-primary/40 dark:bg-dark dark:hover:shadow-gray-dark before:absolute before:inset-0 before:bg-gradient-to-br before:from-primary/0 before:via-primary/0 before:to-primary/0 hover:before:from-primary/10 hover:before:via-primary/5 hover:before:to-primary/10 before:transition-all before:duration-500 before:pointer-events-none">
           <Link href={`/shop/${product.id}`}>
             <div className="relative block aspect-[4/3] overflow-hidden">
               {product.images && product.images.length > 0 ? (
                 <img
                   src={product.images[0]}
                   alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               ) : (
                 <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -88,7 +88,7 @@ const SingleProduct = ({ product, index }: SingleProductProps) => {
               </span>
             </div>
             
-            <h3 className="mb-4 block text-xl font-bold text-black hover:text-primary dark:text-white dark:hover:text-primary sm:text-2xl">
+            <h3 className="mb-4 block text-xl font-bold text-black group-hover:text-primary transition-colors duration-300 dark:text-white dark:group-hover:text-primary sm:text-2xl">
               <Link href={`/shop/${product.id}`}>
                 {product.name}
               </Link>

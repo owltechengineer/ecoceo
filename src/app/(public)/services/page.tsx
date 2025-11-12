@@ -82,7 +82,7 @@ const ServicesPage = () => {
                     componentName="ServiceCard"
                     className="h-full"
                   >
-                    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/15 bg-white/[0.06] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30">
+                    <article className="flex h-full flex-col overflow-hidden rounded-2xl bg-white/[0.06] transition-all duration-300 hover:-translate-y-1">
                       <div className="relative h-48 w-full overflow-hidden bg-black/30">
                         {service.image ? (
                           <Image

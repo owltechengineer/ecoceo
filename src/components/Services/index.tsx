@@ -40,9 +40,24 @@ const Services = () => {
 
   if (loading) {
     return (
-      <div className="text-center py-12">
-        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
-        <p className="text-white/80 text-lg">Caricamento servizi...</p>
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
+        {Array.from({ length: 4 }).map((_, idx) => (
+          <div
+            key={idx}
+            className="animate-pulse overflow-hidden rounded-xl bg-white/[0.06] backdrop-blur-xl shadow-2xl h-full flex flex-col"
+          >
+            <div className="relative h-56 w-full bg-white/[0.08]" />
+            <div className="flex flex-1 flex-col gap-4 p-8">
+              <div className="h-6 w-2/3 rounded bg-white/[0.12]" />
+              <div className="h-4 w-full rounded bg-white/[0.08]" />
+              <div className="h-4 w-5/6 rounded bg-white/[0.08]" />
+              <div className="mt-auto grid grid-cols-2 gap-3 pt-6">
+                <div className="h-10 rounded-lg bg-white/[0.12]" />
+                <div className="h-10 rounded-lg bg-white/[0.12]" />
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     );
   }
@@ -85,7 +100,7 @@ const Services = () => {
           className="w-full"
         >
           <div className="wow fadeInUp" data-wow-delay={`${index * 100}ms`}>
-            <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-2xl duration-500 hover:shadow-primary/20 hover:scale-[1.02] transition-all h-full flex flex-col border border-white/20">
+            <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-2xl duration-500 hover:shadow-2xl hover:shadow-primary/40 hover:scale-[1.03] hover:-translate-y-2 transition-all border border-white/20 hover:border-primary/40 h-full flex flex-col before:absolute before:inset-0 before:bg-gradient-to-br before:from-primary/0 before:via-primary/0 before:to-primary/0 hover:before:from-primary/10 hover:before:via-primary/5 hover:before:to-primary/10 before:transition-all before:duration-500 before:pointer-events-none">
               {/* Service Image Header */}
               <div className="relative h-56 overflow-hidden">
                 {service.image ? (
@@ -104,6 +119,7 @@ const Services = () => {
                 
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500"></div>
                 
                 {/* Badge in alto a destra */}
                 {service.featured && (
@@ -122,7 +138,7 @@ const Services = () => {
                   component={serviceTitleComponent}
                   componentName="ServiceTitle"
                   as="h3"
-                  className="text-2xl font-bold text-white mb-4 leading-tight"
+                  className="text-2xl font-bold text-white group-hover:text-primary transition-colors duration-300 mb-4 leading-tight"
                 >
                   {titleText || "Servizio"}
                 </SanityStyledComponent>
@@ -152,7 +168,7 @@ const Services = () => {
                 )}
 
                 {/* CTA Buttons */}
-                <div className="mt-auto pt-6 border-t border-white/20 space-y-3">
+                <div className="mt-auto pt-6 space-y-3">
                   {/* Primary CTA - Richiesta Preventivo */}
                   <Link
                     href={`/contact?service=${service.slug?.current || service._id}&type=preventivo`}
@@ -172,7 +188,7 @@ const Services = () => {
                       href={service.url || `/services/${service.slug?.current}`}
                       data-track="cta"
                       data-cta-type="approfondisci"
-                      className="group/btn bg-white/20 backdrop-blur-sm text-white py-3 px-4 rounded-lg font-semibold shadow-lg hover:bg-white/30 transition-all duration-300 flex items-center justify-center gap-2 text-sm border border-white/30 hover:border-white/50"
+                      className="group/btn bg-white/20 backdrop-blur-sm text-white py-3 px-4 rounded-lg font-semibold shadow-lg hover:bg-white/30 transition-all duration-300 flex items-center justify-center gap-2 text-sm"
                     >
                       <FontAwesomeIcon icon={faInfoCircle} className="w-4 h-4 text-black" />
                       <span>Approfondisci</span>
@@ -183,10 +199,11 @@ const Services = () => {
                       href={`/projects${service.slug?.current ? `?service=${service.slug.current}` : ''}`}
                       data-track="cta"
                       data-cta-type="progetti"
-                      className="group/btn bg-white/20 backdrop-blur-sm text-white py-3 px-4 rounded-lg font-semibold shadow-lg hover:bg-white/30 transition-all duration-300 flex items-center justify-center gap-2 text-sm border border-white/30 hover:border-white/50"
+                      className="group/btn bg-white/20 backdrop-blur-sm text-white py-3 px-4 rounded-lg font-semibold shadow-lg hover:bg-white/30 transition-all duration-300 flex items-center justify-center gap-2 text-sm"
+                      aria-label={`Vedi i progetti correlati al servizio ${getTextValue(service.name)}`}
                     >
                       <FontAwesomeIcon icon={faFolder} className="w-4 h-4 text-black" />
-                      <span>Progetti</span>
+                      <span>{`Progetti ${getTextValue(service.name)}`}</span>
                     </Link>
                   </div>
                 </div>

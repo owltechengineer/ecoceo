@@ -74,7 +74,7 @@ const Blog = ({ homepage = false }) => {
             <Link
               key={post._id || index}
               href={`/blog/${post.slug?.current || post._id}`}
-              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-2xl duration-500 hover:shadow-primary/20 hover:scale-[1.02] transition-all h-full flex flex-col border border-white/20"
+              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-2xl duration-500 hover:shadow-2xl hover:shadow-primary/40 hover:scale-[1.03] hover:-translate-y-2 transition-all h-full flex flex-col border border-white/20 hover:border-primary/40 before:absolute before:inset-0 before:bg-gradient-to-br before:from-primary/0 before:via-primary/0 before:to-primary/0 hover:before:from-primary/10 hover:before:via-primary/5 hover:before:to-primary/10 before:transition-all before:duration-500 before:pointer-events-none"
             >
               {/* Post Image Header */}
               <div className="relative h-56 overflow-hidden">
@@ -93,6 +93,7 @@ const Blog = ({ homepage = false }) => {
                 
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500"></div>
                 
                 {/* Category Badge */}
                 {post.categories && post.categories.length > 0 && (
@@ -107,7 +108,7 @@ const Blog = ({ homepage = false }) => {
               {/* Content */}
               <div className="p-8 flex-grow flex flex-col">
                 {/* Post Title */}
-                <h3 className="text-2xl font-bold text-white mb-4 leading-tight">
+                <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors duration-300 mb-4 leading-tight">
                   {getTextValue(post.title)}
                 </h3>
                 

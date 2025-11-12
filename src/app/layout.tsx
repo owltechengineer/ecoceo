@@ -86,6 +86,8 @@ export default function RootLayout({
             `,
           }}
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         {siteSettings?.favicon && (
           <link rel="icon" href={siteSettings.favicon} />
         )}
@@ -107,17 +109,9 @@ export default function RootLayout({
           }
         `}} />
         {/* Load Google Fonts based on typography settings */}
-        {siteSettings?.typography?.headingFont && (
-          <link
-            href={`https://fonts.googleapis.com/css2?family=${siteSettings.typography.headingFont}:wght@400;500;600;700&display=swap`}
-            rel="stylesheet"
-          />
-        )}
+        {renderFontLink(siteSettings?.typography?.headingFont, "400;500;600;700")}
         {siteSettings?.typography?.bodyFont && siteSettings.typography.bodyFont !== siteSettings.typography.headingFont && (
-          <link
-            href={`https://fonts.googleapis.com/css2?family=${siteSettings.typography.bodyFont}:wght@400;500;600&display=swap`}
-            rel="stylesheet"
-          />
+          renderFontLink(siteSettings.typography.bodyFont, "400;500;600")
         )}
         <title>{siteSettings?.title ? `${getSafeText(siteSettings.title)} · OWLTECH` : 'OWLTECH · Innovazione hardware end-to-end'}</title>
       </head>
@@ -184,5 +178,19 @@ function getSafeText(value: any) {
     return value.it || value.en || '';
   }
   return String(value);
+}
+
+function buildFontHref(fontName: string, weights: string) {
+  const formattedName = fontName?.trim().replace(/\s+/g, '+');
+  if (!formattedName) return '';
+  return `https://fonts.googleapis.com/css2?family=${formattedName}:wght@${weights}&display=swap`;
+}
+
+function renderFontLink(fontName?: string, weights = "400;500;600") {
+  const href = buildFontHref(fontName || '', weights);
+  if (!href) return null;
+  return (
+    <link rel="stylesheet" href={href} />
+  );
 }
 

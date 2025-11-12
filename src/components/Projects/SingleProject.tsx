@@ -22,7 +22,7 @@ const SingleProject = ({ project, index }: ProjectCardProps) => {
       className="w-full"
     >
       <div className="wow fadeInUp" data-wow-delay={`${index * 100}ms`}>
-        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-xl duration-500 hover:shadow-primary/20 hover:scale-[1.02] transition-all border border-white/20 h-full flex flex-col">
+        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/40 via-white/30 to-white/20 backdrop-blur-xl shadow-xl duration-500 hover:shadow-2xl hover:shadow-primary/40 hover:scale-[1.03] hover:-translate-y-2 transition-all border border-white/20 hover:border-primary/40 h-full flex flex-col before:absolute before:inset-0 before:bg-gradient-to-br before:from-primary/0 before:via-primary/0 before:to-primary/0 hover:before:from-primary/10 hover:before:via-primary/5 hover:before:to-primary/10 before:transition-all before:duration-500 before:pointer-events-none">
           <Link href={`/projects/${project.slug?.current || project._id}`}>
             <div className="relative block aspect-[37/22] overflow-hidden">
               {project.mainImage ? (
@@ -38,6 +38,7 @@ const SingleProject = ({ project, index }: ProjectCardProps) => {
                 </div>
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500"></div>
               {project.featured && (
                 <div className="absolute top-4 right-4 bg-gradient-to-r from-primary to-primary/80 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm">
                   ⭐ In Evidenza
@@ -62,7 +63,7 @@ const SingleProject = ({ project, index }: ProjectCardProps) => {
               component={projectTitleComponent}
               componentName="ProjectTitle"
               as="h3"
-              className="mb-3 block text-xl font-bold text-white hover:text-primary transition-colors sm:text-2xl"
+              className="mb-3 block text-xl font-bold text-white group-hover:text-primary transition-colors duration-300 sm:text-2xl"
             >
               <Link href={`/projects/${project.slug?.current || project._id}`}>
                 {getTextValue(project.title)}

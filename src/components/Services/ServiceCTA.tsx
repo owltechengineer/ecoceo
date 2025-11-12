@@ -66,7 +66,7 @@ const ServiceCTA = ({
   }
 
   return (
-    <div className="rounded-3xl border border-white/15 bg-white/[0.03] p-8 md:p-10">
+    <div className="rounded-3xl bg-white/[0.03] p-8 md:p-10">
       <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
         <div className="max-w-3xl space-y-3">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
@@ -82,7 +82,7 @@ const ServiceCTA = ({
           )}
         </div>
 
-        <div className="w-full lg:w-auto rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-4 text-sm text-white/80">
+        <div className="w-full lg:w-auto rounded-2xl bg-white/[0.06] px-5 py-4 text-sm text-white/80">
           Risposta entro 24 ore • Preventivo su misura • Nessun impegno
         </div>
       </div>
@@ -94,7 +94,7 @@ const ServiceCTA = ({
             href={`/contact?service=${service.slug?.current || service._id}&type=preventivo`}
             data-track="cta"
             data-cta-type="preventivo-page"
-            className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/15 bg-white/[0.05] transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
+            className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white/[0.05] transition-all duration-300 hover:-translate-y-1"
           >
             <div className="relative h-40 w-full overflow-hidden bg-black/30">
               {service.image ? (
@@ -131,7 +131,7 @@ const ServiceCTA = ({
         ))}
       </div>
 
-      <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-6 text-white md:flex-row">
+      <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl bg-white/[0.04] px-6 py-6 text-white md:flex-row">
         <div className="space-y-1 text-center md:text-left">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
             Pronto a partire?

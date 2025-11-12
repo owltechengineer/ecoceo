@@ -12,6 +12,7 @@ import {structureTool} from 'sanity/structure'
 import {apiVersion, dataset, projectId} from './src/sanity/env'
 import {schema} from './src/sanity/schemaTypes'
 import {structure} from './src/sanity/structure'
+import {owlTechTheme} from './src/sanity/theme'
 
 export default defineConfig({
   basePath: '/studio',
@@ -27,10 +28,5 @@ export default defineConfig({
   ],
   title: 'Content Studio',
   subtitle: 'Gestisci i contenuti del tuo sito',
-  studio: {
-    components: {
-      // Forza il tema scuro
-      layout: (props) => props.renderDefault(props)
-    }
-  }
+  theme: owlTechTheme,
 })

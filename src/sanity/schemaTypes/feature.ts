@@ -4,33 +4,45 @@ export default defineType({
   name: 'feature',
   title: 'Feature',
   type: 'document',
+  fieldsets: [
+    {
+      name: 'basic',
+      title: 'Informazioni Base',
+      options: { collapsible: false, collapsed: false },
+    },
+  ],
   fields: [
     defineField({
       name: 'title',
-      title: 'Feature Title',
+      title: 'Titolo Feature',
       type: 'string',
       validation: (Rule) => Rule.required(),
+      fieldset: 'basic',
     }),
     defineField({
       name: 'paragraph',
-      title: 'Feature Description',
+      title: 'Descrizione Feature',
       type: 'text',
-      validation: (Rule) => Rule.required(),
+      description: 'Descrizione della feature (opzionale)',
+      fieldset: 'basic',
     }),
     defineField({
       name: 'icon',
-      title: 'Feature Icon',
+      title: 'Icona Feature',
       type: 'image',
       options: {
         hotspot: true,
       },
-      description: 'Icon for this feature',
+      description: 'Icona per questa feature (opzionale)',
+      fieldset: 'basic',
     }),
     defineField({
       name: 'order',
-      title: 'Display Order',
+      title: 'Ordine di Visualizzazione',
       type: 'number',
-      description: 'Order in which to display this feature (lower numbers appear first)',
+      description: 'Ordine in cui mostrare questa feature (numeri più bassi prima)',
+      initialValue: 0,
+      fieldset: 'basic',
     }),
   ],
   preview: {

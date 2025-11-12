@@ -109,14 +109,14 @@ const AboutPage = () => {
               </p>
             ))}
 
-            <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+            <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-md">
               <p className="text-white/90 text-base sm:text-lg leading-relaxed">
                 Rendiamo semplice un processo aziendale che internamente richiederebbe spazi, macchinari, personale, tempo e risorse.
               </p>
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+          <div className="relative overflow-hidden rounded-2xl bg-white/10 backdrop-blur-md">
             {about?.image ? (
               <Image
                 src={getImageUrl(about.image)}
@@ -142,7 +142,7 @@ const AboutPage = () => {
 
       <section className="py-16 lg:py-20 text-white">
         <div className="container grid gap-8 lg:grid-cols-2">
-          <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+          <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md">
             <h2 className="text-3xl font-bold mb-6">Il ciclo di sviluppo</h2>
             <ul className="space-y-4 text-white/90">
               {developmentSteps.map((item) => (
@@ -154,7 +154,7 @@ const AboutPage = () => {
             </ul>
           </div>
 
-          <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+          <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md">
             <h2 className="text-3xl font-bold mb-6">Il nostro obiettivo</h2>
             <p className="text-white/90 mb-6 leading-relaxed">
               Diventare il referente privilegiato per l’innovazione hardware, strutturando servizi e prodotti sul profilo del cliente.
@@ -177,14 +177,14 @@ const AboutPage = () => {
 
       <section className="py-16 lg:py-20 text-white">
         <div className="container grid gap-8 lg:grid-cols-2">
-          <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+          <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md">
             <h2 className="text-3xl font-bold mb-4">Mission</h2>
             <p className="text-white/90 leading-relaxed">
               Diventare parte integrante dei processi aziendali dei nostri clienti target, offrendo un servizio professionale e strutturato in un ambito fondamentale per la crescita di realtà durature.
             </p>
           </div>
 
-          <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+          <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md">
             <h2 className="text-3xl font-bold mb-4">Vision</h2>
             <p className="text-white/90 leading-relaxed">
               Offrire competenze ingegneristiche avanzate e capacità di prototipazione per trasformare concetti complessi in soluzioni tecnologiche tangibili. Supportiamo un tessuto di realtà con grande potenziale e puntiamo a valorizzarlo.
@@ -206,7 +206,7 @@ const AboutPage = () => {
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {operativeAreas.map((area) => (
-              <div key={area.title} className="p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+              <div key={area.title} className="p-6 rounded-2xl bg-white/10 backdrop-blur-md">
                 <h3 className="text-xl font-semibold mb-3">{area.title}</h3>
                 <p className="text-white/80 text-sm leading-relaxed">{area.description}</p>
               </div>
@@ -214,7 +214,7 @@ const AboutPage = () => {
           </div>
 
           <div className="grid gap-8 lg:grid-cols-2">
-            <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+            <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md">
               <h3 className="text-2xl font-semibold mb-4">Processi di produzione</h3>
               <ul className="space-y-3 text-white/90">
                 {processesProduzione.map((process) => (
@@ -226,7 +226,7 @@ const AboutPage = () => {
               </ul>
             </div>
 
-            <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+            <div className="p-8 rounded-2xl bg-white/10 backdrop-blur-md">
               <h3 className="text-2xl font-semibold mb-4">Processi interni</h3>
               <ul className="space-y-3 text-white/90">
                 {processesInterni.map((process) => (

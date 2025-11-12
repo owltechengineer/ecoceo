@@ -129,10 +129,10 @@ const ContactFormContent = () => {
         >
           {/* Alert per servizio selezionato */}
           {service && requestType && (
-            <div className={`mb-6 p-4 rounded-lg border-l-4 ${
+            <div className={`mb-6 p-4 rounded-lg ${
               requestType === 'preventivo' 
-                ? 'bg-blue-500/20 border-blue-500 text-blue-100' 
-                : 'bg-green-500/20 border-green-500 text-green-100'
+                ? 'bg-blue-500/20 text-blue-100' 
+                : 'bg-green-500/20 text-green-100'
             }`}>
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -164,7 +164,7 @@ const ContactFormContent = () => {
                 name="name"
                 placeholder="Il tuo nome"
                 required
-                className="w-full rounded-lg border border-white/30 bg-white/20 backdrop-blur-sm px-6 py-4 text-base text-white placeholder-white/60 outline-none transition-all duration-300 focus:border-primary focus:bg-white/30 dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:focus:border-primary dark:focus:bg-[#242A38]"
+                className="w-full rounded-lg bg-white/20 backdrop-blur-sm px-6 py-4 text-base text-white placeholder-white/60 outline-none transition-all duration-300 focus:ring-2 focus:ring-primary focus:bg-white/30 dark:bg-[#2C303B] dark:text-body-color-dark dark:focus:ring-primary"
               />
             </div>
             <div className="mb-6">
@@ -176,7 +176,7 @@ const ContactFormContent = () => {
                 name="email"
                 placeholder="La tua email"
                 required
-                className="w-full rounded-lg border border-white/30 bg-white/20 backdrop-blur-sm px-6 py-4 text-base text-white placeholder-white/60 outline-none transition-all duration-300 focus:border-primary focus:bg-white/30 dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:focus:border-primary dark:focus:bg-[#242A38]"
+                className="w-full rounded-lg bg-white/20 backdrop-blur-sm px-6 py-4 text-base text-white placeholder-white/60 outline-none transition-all duration-300 focus:ring-2 focus:ring-primary focus:bg-white/30 dark:bg-[#2C303B] dark:text-body-color-dark dark:focus:ring-primary"
               />
             </div>
             <div className="mb-6">
@@ -189,7 +189,7 @@ const ContactFormContent = () => {
                 placeholder="Oggetto"
                 defaultValue={defaultSubject}
                 required
-                className="w-full rounded-lg border border-white/30 bg-white/20 backdrop-blur-sm px-6 py-4 text-base text-white placeholder-white/60 outline-none transition-all duration-300 focus:border-primary focus:bg-white/30 dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:focus:border-primary dark:focus:bg-[#242A38]"
+                className="w-full rounded-lg bg-white/20 backdrop-blur-sm px-6 py-4 text-base text-white placeholder-white/60 outline-none transition-all duration-300 focus:ring-2 focus:ring-primary focus:bg-white/30 dark:bg-[#2C303B] dark:text-body-color-dark dark:focus:ring-primary"
               />
             </div>
             <div className="mb-6">
@@ -202,7 +202,7 @@ const ContactFormContent = () => {
                 placeholder="Il tuo messaggio"
                 defaultValue={defaultMessage}
                 required
-                className="w-full resize-none rounded-lg border border-white/30 bg-white/20 backdrop-blur-sm px-6 py-4 text-base text-white placeholder-white/60 outline-none transition-all duration-300 focus:border-primary focus:bg-white/30 dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:focus:border-primary dark:focus:bg-[#242A38]"
+                className="w-full resize-none rounded-lg bg-white/20 backdrop-blur-sm px-6 py-4 text-base text-white placeholder-white/60 outline-none transition-all duration-300 focus:ring-2 focus:ring-primary focus:bg-white/30 dark:bg-[#2C303B] dark:text-body-color-dark dark:focus:ring-primary"
               />
             </div>
             <div>

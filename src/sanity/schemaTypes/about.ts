@@ -4,35 +4,53 @@ export default defineType({
   name: 'about',
   title: 'About Section',
   type: 'document',
+  fieldsets: [
+    {
+      name: 'basic',
+      title: 'Contenuto Base',
+      options: { collapsible: false, collapsed: false },
+    },
+    {
+      name: 'content',
+      title: 'Contenuto Aggiuntivo',
+      options: { collapsible: true, collapsed: false },
+    },
+  ],
   fields: [
     defineField({
       name: 'title',
-      title: 'Section Title',
+      title: 'Titolo Sezione',
       type: 'string',
       validation: (Rule) => Rule.required(),
+      fieldset: 'basic',
     }),
     defineField({
       name: 'subtitle',
-      title: 'Section Subtitle',
+      title: 'Sottotitolo',
       type: 'string',
+      description: 'Sottotitolo opzionale',
+      fieldset: 'basic',
     }),
     defineField({
       name: 'description',
-      title: 'Section Description',
+      title: 'Descrizione',
       type: 'text',
-      validation: (Rule) => Rule.required(),
+      description: 'Descrizione principale della sezione (opzionale)',
+      fieldset: 'basic',
     }),
     defineField({
       name: 'image',
-      title: 'About Image',
+      title: 'Immagine About',
       type: 'image',
       options: {
         hotspot: true,
       },
+      description: 'Immagine per la sezione about (opzionale)',
+      fieldset: 'content',
     }),
     defineField({
       name: 'features',
-      title: 'Features List',
+      title: 'Lista Caratteristiche',
       type: 'array',
       of: [
         {
@@ -40,28 +58,31 @@ export default defineType({
           fields: [
             {
               name: 'title',
-              title: 'Feature Title',
+              title: 'Titolo Caratteristica',
               type: 'string',
-              validation: (Rule) => Rule.required(),
+              description: 'Titolo della caratteristica',
             },
             {
               name: 'description',
-              title: 'Feature Description',
+              title: 'Descrizione',
               type: 'text',
+              description: 'Descrizione della caratteristica (opzionale)',
             },
             {
               name: 'icon',
-              title: 'Feature Icon',
+              title: 'Icona',
               type: 'string',
-              description: 'Icon name or emoji',
+              description: 'Nome icona o emoji (opzionale)',
             },
           ],
         },
       ],
+      description: 'Lista delle caratteristiche da mostrare (opzionale)',
+      fieldset: 'content',
     }),
     defineField({
       name: 'stats',
-      title: 'Statistics',
+      title: 'Statistiche',
       type: 'array',
       of: [
         {
@@ -69,25 +90,27 @@ export default defineType({
           fields: [
             {
               name: 'number',
-              title: 'Number',
+              title: 'Numero',
               type: 'string',
-              validation: (Rule) => Rule.required(),
+              description: 'Numero da mostrare (es. "100+", "50")',
             },
             {
               name: 'label',
-              title: 'Label',
+              title: 'Etichetta',
               type: 'string',
-              validation: (Rule) => Rule.required(),
+              description: 'Etichetta descrittiva (es. "Clienti", "Progetti")',
             },
           ],
         },
       ],
+      description: 'Statistiche da mostrare (opzionale)',
+      fieldset: 'content',
     }),
     defineField({
       name: 'isActive',
-      title: 'Is Active',
+      title: 'Attivo',
       type: 'boolean',
-      description: 'Set to true to display this about section',
+      description: 'Mostra questa sezione about sul sito',
       initialValue: true,
     }),
   ],
