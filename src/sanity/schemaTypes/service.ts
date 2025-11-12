@@ -54,7 +54,7 @@ export default defineType({
         source: 'title',
         maxLength: 96,
       },
-      validation: (Rule) => Rule.required(),
+      description: 'Viene generato automaticamente dal nome del servizio (opzionale)',
       fieldset: 'basic',
     }),
     defineField({
