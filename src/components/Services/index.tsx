@@ -80,17 +80,9 @@ const Services = () => {
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
       {services.map((service, index) => {
-        const titleText = getTextValue(service.name)?.trim();
-        const candidateDescriptions = [
-          getTextValue(service.shortDescription),
-          getTextValue(service.description),
-          getTextValue(service.summary),
-        ].filter((value) => value && value.trim().length > 0);
-
-        const descriptionText =
-          candidateDescriptions.find(
-            (value) => !titleText || value.trim().toLowerCase() !== titleText.toLowerCase()
-          ) || candidateDescriptions[0] || "";
+        const titleText = getTextValue(service.name) || getTextValue(service.title) || "";
+        // Usa description come campo principale, fallback a shortDescription per compatibilità
+        const descriptionText = getTextValue(service.description) || getTextValue(service.shortDescription) || "";
 
         return (
           <SanityStyledComponent
@@ -106,7 +98,7 @@ const Services = () => {
                 {service.image ? (
                   <Image
                     src={getImageUrl(service.image)}
-                    alt={getTextValue(service.name)}
+                    alt={titleText || "Servizio"}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                     priority={index < 3}
@@ -121,14 +113,6 @@ const Services = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                 <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500"></div>
                 
-                {/* Badge in alto a destra */}
-                {service.featured && (
-                  <div className="absolute top-4 right-4 z-10">
-                    <span className="bg-primary text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm">
-                      ⭐ In Evidenza
-                    </span>
-                  </div>
-                )}
               </div>
 
               {/* Content */}
@@ -153,20 +137,6 @@ const Services = () => {
                   {descriptionText}
                 </SanityStyledComponent>
 
-                {/* Features */}
-                {service.features && service.features.length > 0 && (
-                  <div className="mb-6">
-                    <ul className="space-y-2.5">
-                      {service.features.slice(0, 3).map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center text-sm text-white/90">
-                          <FontAwesomeIcon icon={faCheck} className="mr-3 h-5 w-5 text-black flex-shrink-0" />
-                          <span className="line-clamp-1">{getTextValue(feature)}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
                 {/* CTA Buttons */}
                 <div className="mt-auto pt-6 space-y-3">
                   {/* Primary CTA - Richiesta Preventivo */}
@@ -185,7 +155,7 @@ const Services = () => {
                   <div className="grid grid-cols-2 gap-3">
                     {/* Approfondisci */}
                     <Link
-                      href={service.url || `/services/${service.slug?.current}`}
+                      href={`/services/${service.slug?.current}`}
                       data-track="cta"
                       data-cta-type="approfondisci"
                       className="group/btn bg-white/20 backdrop-blur-sm text-white py-3 px-4 rounded-lg font-semibold shadow-lg hover:bg-white/30 transition-all duration-300 flex items-center justify-center gap-2 text-sm"

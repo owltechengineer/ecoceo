@@ -77,13 +77,23 @@ export default defineType({
       fieldset: 'buttons',
     }),
     defineField({
+      name: 'backgroundVideo',
+      title: 'Video di Sfondo',
+      type: 'file',
+      options: {
+        accept: 'video/*',
+      },
+      description: 'Video di sfondo per la sezione hero (opzionale, ha priorità sull\'immagine)',
+      fieldset: 'images',
+    }),
+    defineField({
       name: 'backgroundImage',
       title: 'Immagine di Sfondo',
       type: 'image',
       options: {
         hotspot: true,
       },
-      description: 'Immagine di sfondo per la sezione hero (opzionale)',
+      description: 'Immagine di sfondo per la sezione hero (opzionale, usata se non c\'è video)',
       fieldset: 'images',
     }),
     defineField({

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { safeFetch } from '@/sanity/lib/client';
 import { heroQuery, siteSettingsQuery } from '@/sanity/lib/queries';
-import { getImageUrl, getTextValue } from '@/sanity/lib/image';
+import { getImageUrl, getTextValue, getVideoUrl } from '@/sanity/lib/image';
 import { useSanityUIComponents } from '@/hooks/useSanityUIComponents';
 import SanityStyledComponent from '@/components/Common/SanityStyledComponent';
 import SanityLink from '@/components/Common/SanityLink';
@@ -130,13 +130,57 @@ const Hero = () => {
         as="section"
         id="home"
         className="relative z-10 overflow-hidden pb-16 pt-[120px] md:pb-[120px] md:pt-[150px] xl:pb-[160px] xl:pt-[180px] 2xl:pb-[200px] 2xl:pt-[210px] min-h-screen flex items-center"
-        style={hero?.backgroundImage ? {
+        style={hero?.backgroundImage && !hero?.backgroundVideo ? {
           backgroundImage: `url(${getImageUrl(hero.backgroundImage)})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         } : {}}
       >
-        <div className="container">
+        {/* Video Background */}
+        {hero?.backgroundVideo && getVideoUrl(hero.backgroundVideo) && (
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{
+                minWidth: '100%',
+                minHeight: '100%',
+                width: 'auto',
+                height: 'auto',
+              }}
+            >
+              <source 
+                src={getVideoUrl(hero.backgroundVideo) || ''} 
+                type={hero.backgroundVideo?.asset?.mimeType || 'video/mp4'} 
+              />
+              Il tuo browser non supporta il tag video.
+            </video>
+            {/* Overlay per migliorare la leggibilità del testo */}
+            <div className="absolute inset-0 bg-black/20 z-0" />
+          </div>
+        )}
+        
+        {/* Image Background Fallback */}
+        {!hero?.backgroundVideo && hero?.backgroundImage && (
+          <div className="absolute inset-0 z-0">
+            <div 
+              className="absolute inset-0 w-full h-full"
+              style={{
+                backgroundImage: `url(${getImageUrl(hero.backgroundImage)})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+            {/* Overlay per migliorare la leggibilità del testo */}
+            <div className="absolute inset-0 bg-black/20 z-0" />
+          </div>
+        )}
+        
+        {/* Content Container */}
+        <div className="container relative z-10">
           <div className="-mx-4 flex flex-wrap items-center">
             {/* Left Column - Text Content */}
             <div className="w-full px-4 lg:w-1/2">

@@ -8,6 +8,8 @@ import { getImageUrl, getTextValue } from '@/sanity/lib/image';
 import { useSanityUIComponents } from '@/hooks/useSanityUIComponents';
 import SanityStyledComponent from '@/components/Common/SanityStyledComponent';
 import Breadcrumb from "@/components/Common/Breadcrumb";
+import { PortableText } from '@portabletext/react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const ProjectDetailsPage = () => {
@@ -64,28 +66,29 @@ const ProjectDetailsPage = () => {
 
   return (
     <>
-      {/* Breadcrumb Section - Gradiente da grigio scuro a bianco */}
+      {/* Breadcrumb Section */}
       <div className="text-white">
         <Breadcrumb
-          pageName={getTextValue(project.title)}
-          description="Dettagli del progetto"
+          pageName={getTextValue(project.name) || getTextValue(project.title)}
+          description={getTextValue(project.description) || getTextValue(project.shortDescription) || "Dettagli del progetto"}
         />
       </div>
 
-      {/* Project Details Content - Gradiente da bianco ad arancione intenso */}
+      {/* Project Details Content */}
       <div className="text-white">
         <section className="pt-[150px] pb-[120px]">
-          <div className="container">
+          <div className="container max-w-7xl">
             <div className="-mx-4 flex flex-wrap justify-center">
-              <div className="w-full px-4 lg:w-8/12">
+              <div className="w-full px-4">
                 <div>
+                  {/* Titolo su una riga sola */}
                   <SanityStyledComponent
                     component={projectDetailsTitleComponent}
                     componentName="ProjectDetailsTitle"
                     as="h1"
-                    className="mb-8 text-3xl leading-tight font-bold text-black sm:text-4xl sm:leading-tight dark:text-white"
+                    className="mb-8 text-3xl leading-tight font-bold text-white sm:text-4xl lg:text-5xl sm:leading-tight line-clamp-1"
                   >
-                    {getTextValue(project.title)}
+                    {getTextValue(project.name) || getTextValue(project.title)}
                   </SanityStyledComponent>
                   
                   <SanityStyledComponent
@@ -94,14 +97,16 @@ const ProjectDetailsPage = () => {
                     className="border-body-color/10 mb-10 flex flex-wrap items-center justify-between border-b pb-4 dark:border-white/10"
                   >
                     <div className="flex flex-wrap items-center">
+                      {project.service && project.service.slug && (
                       <div className="mr-10 mb-5 flex items-center">
                         <Link
-                          href={`/services/${project.service.slug.current}`}
-                          className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors"
+                            href={`/services/${project.service.slug.current || project.service.slug}`}
+                            className="inline-block bg-white/20 hover:bg-primary/30 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium transition-colors border border-white/20"
                         >
                           {getTextValue(project.service.name)}
                         </Link>
                       </div>
+                      )}
                       {project.client && (
                         <div className="mr-10 mb-5 flex items-center">
                           <div className="w-full">
@@ -150,51 +155,240 @@ const ProjectDetailsPage = () => {
                     component={projectDetailsContentComponent}
                     componentName="ProjectDetailsContent"
                   >
+                    {/* Immagine principale più grande */}
                     {project.mainImage && (
-                      <div className="mb-10 w-full overflow-hidden rounded-sm">
-                        <img
+                      <div className="mb-12 w-full overflow-hidden rounded-xl shadow-2xl">
+                        <div className="relative w-full aspect-video">
+                          <Image
                           src={getImageUrl(project.mainImage)}
-                          alt={getTextValue(project.title)}
-                          className="w-full h-auto object-cover object-center"
-                        />
+                            alt={getTextValue(project.name) || getTextValue(project.title)}
+                            fill
+                            className="object-cover"
+                            priority
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+                          />
+                        </div>
                       </div>
                     )}
                     
-                    <div className="text-body-color mb-10 text-base leading-relaxed font-medium sm:text-lg sm:leading-relaxed lg:text-base lg:leading-relaxed xl:text-lg xl:leading-relaxed">
-                      <p className="mb-6 text-lg font-semibold">
-                        {getTextValue(project.shortDescription)}
-                      </p>
-                      
-                      {project.fullDescription && project.fullDescription.length > 0 ? (
-                        project.fullDescription.map((block, index) => (
-                          <div key={index} className="mb-6">
-                            {block.children && block.children.map((child, childIndex) => (
-                              <p key={childIndex} className="mb-4">
-                                {getTextValue(child.text)}
-                              </p>
+                    {/* Descrizione breve */}
+                    {(project.description || project.shortDescription) && (
+                      <div className="mb-12">
+                        <p className="text-xl text-white/90 leading-relaxed font-medium">
+                          {getTextValue(project.description) || getTextValue(project.shortDescription)}
+                        </p>
+                      </div>
+                    )}
+                    
+                    {/* Sezioni Contenuto Personalizzate */}
+                    {project.sections && project.sections.length > 0 ? (
+                      <div className="mb-12 space-y-16 w-full">
+                        {project.sections.map((section, index) => (
+                          <div key={index} className="border-t border-white/10 pt-12 w-full">
+                            {/* Titolo sezione */}
+                            {section.title && (
+                              <h2 className="text-3xl font-bold text-white mb-8">
+                                {section.title}
+                              </h2>
+                            )}
+                            
+                            {/* Layout: Testo sopra, Immagini sotto */}
+                            {section.layout === 'text-top' && (
+                              <>
+                                {section.content && (
+                                  <div className="mb-8 prose prose-invert prose-lg max-w-none w-full">
+                                    <div className="text-white/80 leading-relaxed">
+                                      <PortableText value={section.content} />
+                                    </div>
+                                  </div>
+                                )}
+                                {section.images && section.images.length > 0 && (
+                                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                                    {section.images.map((img, imgIndex) => (
+                                      <div 
+                                        key={imgIndex} 
+                                        className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                                      >
+                                        <div className="relative w-full aspect-square">
+                                          <Image
+                                            src={getImageUrl(img)}
+                                            alt={img.alt || `${section.title || 'Sezione'} - Immagine ${imgIndex + 1}`}
+                                            fill
+                                            className="object-cover transition-transform duration-300 group-hover:scale-110"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                          />
+                                        </div>
+                                        {img.caption && (
+                                          <p className="mt-2 text-sm text-white/60 text-center">{img.caption}</p>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </>
+                            )}
+                            
+                            {/* Layout: Immagini sopra, Testo sotto */}
+                            {section.layout === 'images-top' && (
+                              <>
+                                {section.images && section.images.length > 0 && (
+                                  <div className="mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                                    {section.images.map((img, imgIndex) => (
+                                      <div 
+                                        key={imgIndex} 
+                                        className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                                      >
+                                        <div className="relative w-full aspect-square">
+                                          <Image
+                                            src={getImageUrl(img)}
+                                            alt={img.alt || `${section.title || 'Sezione'} - Immagine ${imgIndex + 1}`}
+                                            fill
+                                            className="object-cover transition-transform duration-300 group-hover:scale-110"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                          />
+                                        </div>
+                                        {img.caption && (
+                                          <p className="mt-2 text-sm text-white/60 text-center">{img.caption}</p>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                                {section.content && (
+                                  <div className="prose prose-invert prose-lg max-w-none w-full">
+                                    <div className="text-white/80 leading-relaxed">
+                                      <PortableText value={section.content} />
+                                    </div>
+                                  </div>
+                                )}
+                              </>
+                            )}
+                            
+                            {/* Layout: Testo e Immagini Separate (side by side) */}
+                            {section.layout === 'separate' && (
+                              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full">
+                                {section.content && (
+                                  <div className="prose prose-invert prose-lg max-w-none w-full">
+                                    <div className="text-white/80 leading-relaxed">
+                                      <PortableText value={section.content} />
+                                    </div>
+                                  </div>
+                                )}
+                                {section.images && section.images.length > 0 && (
+                                  <div className="grid grid-cols-1 gap-6 w-full">
+                                    {section.images.map((img, imgIndex) => (
+                                      <div 
+                                        key={imgIndex} 
+                                        className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 w-full"
+                                      >
+                                        <div className="relative w-full aspect-video">
+                                          <Image
+                                            src={getImageUrl(img)}
+                                            alt={img.alt || `${section.title || 'Sezione'} - Immagine ${imgIndex + 1}`}
+                                            fill
+                                            className="object-cover transition-transform duration-300 group-hover:scale-110"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
+                                          />
+                                        </div>
+                                        {img.caption && (
+                                          <p className="mt-2 text-sm text-white/60">{img.caption}</p>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                            
+                            {/* Layout: Solo Testo */}
+                            {section.layout === 'text-only' && section.content && (
+                              <div className="prose prose-invert prose-lg max-w-none w-full">
+                                <div className="text-white/80 leading-relaxed">
+                                  <PortableText value={section.content} />
+                                </div>
+                              </div>
+                            )}
+                            
+                            {/* Layout: Solo Immagini */}
+                            {section.layout === 'images-only' && section.images && section.images.length > 0 && (
+                              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                                {section.images.map((img, imgIndex) => (
+                                  <div 
+                                    key={imgIndex} 
+                                    className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                                  >
+                                    <div className="relative w-full aspect-square">
+                                      <Image
+                                        src={getImageUrl(img)}
+                                        alt={img.alt || `${section.title || 'Sezione'} - Immagine ${imgIndex + 1}`}
+                                        fill
+                                        className="object-cover transition-transform duration-300 group-hover:scale-110"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                      />
+                                    </div>
+                                    {img.caption && (
+                                      <p className="mt-2 text-sm text-white/60 text-center">{img.caption}</p>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      /* Fallback: Descrizione completa legacy e galleria */
+                      <>
+                        {project.fullDescription && (
+                          <div className="mb-12 prose prose-invert prose-lg max-w-none">
+                            <div className="text-white/80 leading-relaxed">
+                              <PortableText value={project.fullDescription} />
+                            </div>
+                          </div>
+                        )}
+                        
+                        {project.descriptionSections && project.descriptionSections.length > 0 && (
+                          <div className="mb-12 space-y-12">
+                            {project.descriptionSections.map((section, index) => (
+                              <div key={index} className="border-t border-white/10 pt-8">
+                                <h2 className="text-2xl font-bold text-white mb-6">
+                                  {section.title}
+                                </h2>
+                                <div className="prose prose-invert prose-lg max-w-none">
+                                  <div className="text-white/80 leading-relaxed">
+                                    <PortableText value={section.content} />
+                                  </div>
+                                </div>
+                              </div>
                             ))}
                           </div>
-                        ))
-                      ) : (
-                        <p>Descrizione dettagliata non disponibile</p>
                       )}
-                    </div>
                     
                     {project.gallery && project.gallery.length > 0 && (
-                      <div className="mb-10">
-                        <h3 className="text-xl font-bold mb-6">Galleria Immagini</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                          <div className="mb-12">
+                            <h3 className="text-2xl font-bold text-white mb-8">Galleria Immagini</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                           {project.gallery.map((image, index) => (
-                            <div key={index} className="overflow-hidden rounded-lg">
-                              <img
+                                <div 
+                                  key={index} 
+                                  className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
+                                >
+                                  <div className="relative w-full aspect-square">
+                                    <Image
                                 src={getImageUrl(image)}
-                                alt={`${getTextValue(project.title)} - Immagine ${index + 1}`}
-                                className="w-full h-auto object-cover"
-                              />
+                                      alt={`${getTextValue(project.name) || getTextValue(project.title)} - Immagine ${index + 1}`}
+                                      fill
+                                      className="object-cover transition-transform duration-300 group-hover:scale-110"
+                                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    />
+                                  </div>
+                                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
                             </div>
                           ))}
                         </div>
                       </div>
+                        )}
+                      </>
                     )}
                     
                     {project.technologies && project.technologies.length > 0 && (
@@ -248,10 +442,11 @@ const ProjectDetailsPage = () => {
                         )}
                       </div>
                     </div>
+                    {project.service && project.service.slug && (
                     <div className="mb-5">
                       <Link
-                        href={`/services/${project.service.slug.current}/projects`}
-                        className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+                          href={`/services/${project.service.slug.current || project.service.slug}/projects`}
+                          className="inline-flex items-center text-primary hover:text-primary/80 transition-colors"
                       >
                         <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -259,6 +454,7 @@ const ProjectDetailsPage = () => {
                         Altri progetti di {getTextValue(project.service.name)}
                       </Link>
                     </div>
+                    )}
                   </div>
                 </div>
               </div>

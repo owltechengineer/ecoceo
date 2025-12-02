@@ -28,7 +28,7 @@ const SingleProject = ({ project, index }: ProjectCardProps) => {
               {project.mainImage ? (
                 <Image
                   src={getImageUrl(project.mainImage)}
-                  alt={getTextValue(project.title)}
+                  alt={getTextValue(project.name) || getTextValue(project.title)}
                   fill
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
@@ -66,7 +66,7 @@ const SingleProject = ({ project, index }: ProjectCardProps) => {
               className="mb-3 block text-xl font-bold text-white group-hover:text-primary transition-colors duration-300 sm:text-2xl"
             >
               <Link href={`/projects/${project.slug?.current || project._id}`}>
-                {getTextValue(project.title)}
+                {getTextValue(project.name) || getTextValue(project.title)}
               </Link>
             </SanityStyledComponent>
             

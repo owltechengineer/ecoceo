@@ -47,6 +47,28 @@ export function getImageUrl(image: any): string {
   return '/images/blog/blog-01.jpg'
 }
 
+// Helper function to get video URL from Sanity file
+export function getVideoUrl(video: any): string | null {
+  if (!video) return null
+  
+  // If video is already a string (URL), return it
+  if (typeof video === 'string') {
+    return video
+  }
+  
+  // If video has an asset with url property
+  if (video.asset && video.asset.url) {
+    return video.asset.url
+  }
+  
+  // If video has a url property directly
+  if (video.url) {
+    return video.url
+  }
+  
+  return null
+}
+
 // Helper function to safely extract text from Sanity objects
 export function getTextValue(value: any): string {
   if (!value) return ''

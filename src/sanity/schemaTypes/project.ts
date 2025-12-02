@@ -15,21 +15,6 @@ export default defineType({
       title: 'Contenuto',
       options: { collapsible: true, collapsed: false },
     },
-    {
-      name: 'display',
-      title: 'Visualizzazione',
-      options: { collapsible: true, collapsed: true },
-    },
-    {
-      name: 'seo',
-      title: 'SEO',
-      options: { collapsible: true, collapsed: true },
-    },
-    {
-      name: 'dashboard',
-      title: 'Dashboard (Avanzato)',
-      options: { collapsible: true, collapsed: true },
-    },
   ],
   fields: [
     defineField({
@@ -73,27 +58,6 @@ export default defineType({
       fieldset: 'content',
     }),
     defineField({
-      name: 'fullDescription',
-      title: 'Descrizione Completa',
-      type: 'array',
-      of: [
-        {
-          type: 'block',
-          styles: [
-            { title: 'Normal', value: 'normal' },
-            { title: 'H2', value: 'h2' },
-            { title: 'H3', value: 'h3' },
-            { title: 'H4', value: 'h4' },
-          ],
-          lists: [
-            { title: 'Bullet', value: 'bullet' },
-            { title: 'Numbered', value: 'number' },
-          ],
-        },
-      ],
-      fieldset: 'content',
-    }),
-    defineField({
       name: 'mainImage',
       title: 'Immagine Principale',
       type: 'image',
@@ -104,18 +68,95 @@ export default defineType({
       fieldset: 'content',
     }),
     defineField({
-      name: 'gallery',
-      title: 'Galleria Immagini',
+      name: 'fullDescription',
+      title: 'Descrizione Completa (Legacy)',
+      type: 'blockContent',
+      description: 'Campo legacy - usa le Sezioni Contenuto invece',
+      fieldset: 'content',
+    }),
+    defineField({
+      name: 'sections',
+      title: 'Sezioni Contenuto',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titolo Sezione',
+              type: 'string',
+              description: 'Titolo della sezione (opzionale)',
+            },
+            {
+              name: 'content',
+              title: 'Contenuto Testuale',
+              type: 'blockContent',
+              description: 'Contenuto testuale formattato della sezione',
+            },
+            {
+              name: 'images',
+              title: 'Immagini',
       type: 'array',
       of: [
         {
           type: 'image',
           options: {
             hotspot: true,
+                  },
+                  fields: [
+                    {
+                      name: 'alt',
+                      title: 'Testo Alternativo',
+                      type: 'string',
+                      description: 'Descrizione dell\'immagine per accessibilità',
+                    },
+                    {
+                      name: 'caption',
+                      title: 'Didascalia',
+                      type: 'string',
+                      description: 'Didascalia opzionale per l\'immagine',
+                    },
+                  ],
+                },
+              ],
+              description: 'Immagini da mostrare in questa sezione',
+            },
+            {
+              name: 'layout',
+              title: 'Layout',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Testo e Immagini Separate', value: 'separate' },
+                  { title: 'Testo sopra, Immagini sotto', value: 'text-top' },
+                  { title: 'Immagini sopra, Testo sotto', value: 'images-top' },
+                  { title: 'Solo Testo', value: 'text-only' },
+                  { title: 'Solo Immagini', value: 'images-only' },
+                ],
+              },
+              initialValue: 'separate',
+              description: 'Come disporre testo e immagini nella sezione',
+            },
+          ],
+          preview: {
+            select: {
+              title: 'title',
+              hasContent: 'content',
+              imagesCount: 'images',
+            },
+            prepare({ title, hasContent, imagesCount }) {
+              const contentText = hasContent ? '📝' : '';
+              const imagesText = imagesCount && imagesCount.length > 0 ? `🖼️ ${imagesCount.length}` : '';
+              return {
+                title: title || 'Sezione senza titolo',
+                subtitle: [contentText, imagesText].filter(Boolean).join(' ') || 'Vuota',
+              }
+            },
           },
         },
       ],
-      description: 'Galleria di immagini aggiuntive (opzionale)',
+      description: 'Crea sezioni personalizzate con testo e immagini. Sostituisce la descrizione completa e la galleria.',
       fieldset: 'content',
     }),
     defineField({
@@ -176,15 +217,6 @@ export default defineType({
       type: 'number',
       description: 'Ordine in cui appare il progetto (numeri più bassi prima)',
       initialValue: 0,
-      fieldset: 'display',
-    }),
-    defineField({
-      name: 'isActive',
-      title: 'Attivo',
-      type: 'boolean',
-      description: 'Mostra questo progetto sul sito',
-      initialValue: true,
-      fieldset: 'display',
     }),
     defineField({
       name: 'featured',
@@ -192,7 +224,6 @@ export default defineType({
       type: 'boolean',
       description: 'Mostra questo progetto come progetto in evidenza',
       initialValue: false,
-      fieldset: 'display',
     }),
     defineField({
       name: 'isPublic',
@@ -200,14 +231,12 @@ export default defineType({
       type: 'boolean',
       description: 'Se il progetto è visibile pubblicamente',
       initialValue: true,
-      fieldset: 'display',
     }),
     defineField({
       name: 'metaTitle',
       title: 'Meta Title (SEO)',
       type: 'string',
       description: 'Titolo SEO per la pagina del progetto (opzionale)',
-      fieldset: 'seo',
     }),
     defineField({
       name: 'metaDescription',
@@ -215,9 +244,7 @@ export default defineType({
       type: 'text',
       rows: 3,
       description: 'Descrizione SEO per la pagina del progetto (opzionale)',
-      fieldset: 'seo',
     }),
-    // ===== DASHBOARD FIELDS =====
     defineField({
       name: 'status',
       title: 'Stato del Progetto',
@@ -231,98 +258,19 @@ export default defineType({
         ],
       },
       initialValue: 'active',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'priority',
-      title: 'Priorità',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Alta', value: 'high' },
-          { title: 'Media', value: 'medium' },
-          { title: 'Bassa', value: 'low' },
-        ],
-      },
-      initialValue: 'medium',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'budget',
-      title: 'Budget (€)',
-      type: 'number',
-      description: 'Budget allocato per il progetto',
-      initialValue: 0,
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'actualCost',
-      title: 'Costi Attuali (€)',
-      type: 'number',
-      description: 'Costi effettivamente sostenuti',
-      initialValue: 0,
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'expectedRevenue',
-      title: 'Ricavi Attesi (€)',
-      type: 'number',
-      description: 'Ricavi attesi dal progetto',
-      initialValue: 0,
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'progress',
-      title: 'Progresso (%)',
-      type: 'number',
-      description: 'Percentuale di completamento del progetto',
-      initialValue: 0,
-      validation: (Rule) => Rule.min(0).max(100),
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'startDate',
-      title: 'Data di Inizio',
-      type: 'date',
-      description: 'Data di inizio del progetto',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'endDate',
-      title: 'Data di Fine',
-      type: 'date',
-      description: 'Data di fine prevista del progetto',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'team',
-      title: 'Team',
-      type: 'array',
-      of: [{ type: 'string' }],
-      description: 'Membri del team assegnati al progetto',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'notes',
-      title: 'Note',
-      type: 'text',
-      rows: 4,
-      description: 'Note aggiuntive sul progetto',
-      fieldset: 'dashboard',
     }),
   ],
   preview: {
     select: {
       title: 'name',
       status: 'status',
-      progress: 'progress',
       media: 'mainImage',
     },
     prepare(selection) {
-      const { title, status, progress, media } = selection
+      const { title, status, media } = selection
       return {
         title: title,
-        subtitle: `${status || 'N/A'} - ${progress || 0}% completato`,
+        subtitle: status || 'N/A',
         media: media,
       }
     },

@@ -15,21 +15,6 @@ export default defineType({
       title: 'Contenuto',
       options: { collapsible: true, collapsed: false },
     },
-    {
-      name: 'display',
-      title: 'Visualizzazione',
-      options: { collapsible: true, collapsed: true },
-    },
-    {
-      name: 'seo',
-      title: 'SEO',
-      options: { collapsible: true, collapsed: true },
-    },
-    {
-      name: 'dashboard',
-      title: 'Dashboard (Avanzato)',
-      options: { collapsible: true, collapsed: true },
-    },
   ],
   fields: [
     defineField({
@@ -73,16 +58,9 @@ export default defineType({
     }),
     defineField({
       name: 'fullDescription',
-      title: 'Descrizione Completa',
-      type: 'text',
-      description: 'Descrizione dettagliata per la pagina del servizio (opzionale)',
-      fieldset: 'content',
-    }),
-    defineField({
-      name: 'icon',
-      title: 'Icona',
-      type: 'string',
-      description: 'Emoji o identificatore icona (es. 🚀, ⚡)',
+      title: 'Descrizione Completa (Legacy)',
+      type: 'blockContent',
+      description: 'Campo legacy - usa le Sezioni Contenuto invece',
       fieldset: 'content',
     }),
     defineField({
@@ -96,242 +74,100 @@ export default defineType({
       fieldset: 'content',
     }),
     defineField({
-      name: 'features',
-      title: 'Caratteristiche Principali',
+      name: 'sections',
+      title: 'Sezioni Contenuto',
       type: 'array',
-      of: [{ type: 'string' }],
-      description: 'Lista delle caratteristiche chiave (opzionale)',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              title: 'Titolo Sezione',
+              type: 'string',
+              description: 'Titolo della sezione (opzionale)',
+            },
+            {
+              name: 'content',
+              title: 'Contenuto Testuale',
+              type: 'blockContent',
+              description: 'Contenuto testuale formattato della sezione',
+            },
+            {
+              name: 'images',
+              title: 'Immagini',
+              type: 'array',
+              of: [
+                {
+                  type: 'image',
+                  options: {
+                    hotspot: true,
+                  },
+                  fields: [
+                    {
+                      name: 'alt',
+                      title: 'Testo Alternativo',
+      type: 'string',
+                      description: 'Descrizione dell\'immagine per accessibilità',
+                    },
+                    {
+                      name: 'caption',
+                      title: 'Didascalia',
+      type: 'string',
+                      description: 'Didascalia opzionale per l\'immagine',
+                    },
+                  ],
+                },
+              ],
+              description: 'Immagini da mostrare in questa sezione',
+            },
+            {
+              name: 'layout',
+              title: 'Layout',
+      type: 'string',
+      options: {
+        list: [
+                  { title: 'Testo e Immagini Separate', value: 'separate' },
+                  { title: 'Testo sopra, Immagini sotto', value: 'text-top' },
+                  { title: 'Immagini sopra, Testo sotto', value: 'images-top' },
+                  { title: 'Solo Testo', value: 'text-only' },
+                  { title: 'Solo Immagini', value: 'images-only' },
+                ],
+              },
+              initialValue: 'separate',
+              description: 'Come disporre testo e immagini nella sezione',
+            },
+          ],
+          preview: {
+            select: {
+              title: 'title',
+              hasContent: 'content',
+              imagesCount: 'images',
+            },
+            prepare({ title, hasContent, imagesCount }) {
+              const contentText = hasContent ? '📝' : '';
+              const imagesText = imagesCount && imagesCount.length > 0 ? `🖼️ ${imagesCount.length}` : '';
+              return {
+                title: title || 'Sezione senza titolo',
+                subtitle: [contentText, imagesText].filter(Boolean).join(' ') || 'Vuota',
+              }
+            },
+          },
+        },
+      ],
+      description: 'Crea sezioni personalizzate con testo e immagini. Sostituisce la descrizione completa.',
       fieldset: 'content',
-    }),
-    defineField({
-      name: 'url',
-      title: 'URL del Servizio',
-      type: 'url',
-      description: 'Link alla pagina del servizio o URL esterno (opzionale)',
-      fieldset: 'content',
-    }),
-    defineField({
-      name: 'order',
-      title: 'Ordine di Visualizzazione',
-      type: 'number',
-      description: 'Ordine in cui appare il servizio (numeri più bassi prima)',
-      initialValue: 0,
-      fieldset: 'display',
-    }),
-    defineField({
-      name: 'isActive',
-      title: 'Attivo',
-      type: 'boolean',
-      description: 'Mostra questo servizio sul sito',
-      initialValue: true,
-      fieldset: 'display',
-    }),
-    defineField({
-      name: 'showInNavbar',
-      title: 'Mostra nella Navbar',
-      type: 'boolean',
-      description: 'Includi questo servizio nel menu di navigazione',
-      initialValue: true,
-      fieldset: 'display',
-    }),
-    defineField({
-      name: 'showInHomepage',
-      title: 'Mostra in Homepage',
-      type: 'boolean',
-      description: 'Includi questo servizio nella sezione servizi della homepage',
-      initialValue: true,
-      fieldset: 'display',
-    }),
-    defineField({
-      name: 'featured',
-      title: 'In Evidenza',
-      type: 'boolean',
-      description: 'Mostra questo servizio come servizio in evidenza',
-      initialValue: false,
-      fieldset: 'display',
-    }),
-    defineField({
-      name: 'metaTitle',
-      title: 'Meta Title (SEO)',
-      type: 'string',
-      description: 'Titolo SEO per la pagina del servizio (opzionale)',
-      fieldset: 'seo',
-    }),
-    defineField({
-      name: 'metaDescription',
-      title: 'Meta Description (SEO)',
-      type: 'text',
-      description: 'Descrizione SEO per la pagina del servizio (opzionale)',
-      fieldset: 'seo',
-    }),
-    // ===== DASHBOARD FIELDS =====
-    defineField({
-      name: 'status',
-      title: 'Stato del Servizio',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Attivo', value: 'active' },
-          { title: 'Inattivo', value: 'inactive' },
-          { title: 'Manutenzione', value: 'maintenance' },
-          { title: 'Deprecato', value: 'deprecated' },
-        ],
-      },
-      initialValue: 'active',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'category',
-      title: 'Categoria',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Sviluppo', value: 'development' },
-          { title: 'Design', value: 'design' },
-          { title: 'Marketing', value: 'marketing' },
-          { title: 'Consulenza', value: 'consulting' },
-          { title: 'Supporto', value: 'support' },
-        ],
-      },
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'price',
-      title: 'Prezzo per Ora (€)',
-      type: 'number',
-      description: 'Prezzo orario del servizio',
-      initialValue: 0,
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'cost',
-      title: 'Costo per Ora (€)',
-      type: 'number',
-      description: 'Costo orario del servizio',
-      initialValue: 0,
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'priceType',
-      title: 'Tipo di Prezzo',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Ora', value: 'hour' },
-          { title: 'Giorno', value: 'day' },
-          { title: 'Progetto', value: 'project' },
-          { title: 'Mese', value: 'month' },
-        ],
-      },
-      initialValue: 'hour',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'hoursSold',
-      title: 'Ore Vendute',
-      type: 'number',
-      description: 'Numero di ore vendute per questo servizio',
-      initialValue: 0,
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'revenue',
-      title: 'Ricavi Totali (€)',
-      type: 'number',
-      description: 'Ricavi totali generati da questo servizio',
-      initialValue: 0,
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'margin',
-      title: 'Margine (%)',
-      type: 'number',
-      description: 'Margine percentuale del servizio',
-      initialValue: 0,
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'plannedRevenue',
-      title: 'Ricavi Pianificati (€)',
-      type: 'number',
-      description: 'Ricavi pianificati per questo servizio',
-      initialValue: 0,
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'actualRevenue',
-      title: 'Ricavi Effettivi (€)',
-      type: 'number',
-      description: 'Ricavi effettivi generati da questo servizio',
-      initialValue: 0,
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'duration',
-      title: 'Durata',
-      type: 'string',
-      description: 'Durata tipica del servizio (es. "2-4 settimane")',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'deliverables',
-      title: 'Consegnabili',
-      type: 'string',
-      description: 'Cosa viene consegnato al cliente',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'availability',
-      title: 'Disponibilità',
-      type: 'string',
-      description: 'Disponibilità del servizio (es. "Lun-Ven 9-18")',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'technologies',
-      title: 'Tecnologie',
-      type: 'array',
-      of: [{ type: 'string' }],
-      description: 'Tecnologie utilizzate per questo servizio',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'requirements',
-      title: 'Requisiti',
-      type: 'array',
-      of: [{ type: 'string' }],
-      description: 'Requisiti per utilizzare questo servizio',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'notes',
-      title: 'Note',
-      type: 'text',
-      rows: 4,
-      description: 'Note aggiuntive sul servizio',
-      fieldset: 'dashboard',
-    }),
-    defineField({
-      name: 'isPublic',
-      title: 'Pubblico',
-      type: 'boolean',
-      initialValue: true,
-      description: 'Se il servizio è visibile pubblicamente',
-      fieldset: 'dashboard',
     }),
   ],
   preview: {
     select: {
       title: 'title',
-      status: 'status',
-      category: 'category',
       media: 'image',
     },
     prepare(selection) {
-      const { title, status, category, media } = selection
+      const { title, media } = selection
       return {
         title: title,
-        subtitle: `${status}${category ? ` - ${category}` : ''}`,
         media: media,
       }
     },

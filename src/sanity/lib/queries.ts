@@ -65,51 +65,39 @@ export const testimonialsQuery = groq`
 
 
 
-// Query to get all active services ordered by display order
+// Query to get all active services
 export const servicesQuery = groq`
-  *[_type == "service" && isActive == true] | order(order asc) {
+  *[_type == "service"] | order(title asc) {
     _id,
+    title,
     name,
     slug,
+    description,
     shortDescription,
-    fullDescription,
-    icon,
-    image,
-    features,
-    url,
-    order,
-    isActive,
-    showInNavbar,
-    showInHomepage,
-    metaTitle,
-    metaDescription
+    image
   }
 `
 
 // Query to get services for navbar dropdown
 export const navbarServicesQuery = groq`
-  *[_type == "service" && isActive == true && showInNavbar == true] | order(order asc) {
+  *[_type == "service"] | order(title asc) {
     _id,
     name,
     slug,
-    shortDescription,
-    url
+    shortDescription
   }
 `
 
 // Query to get services for homepage
 export const homepageServicesQuery = groq`
-  *[_type == "service" && isActive == true && showInHomepage == true] | order(order asc) {
+  *[_type == "service"] | order(title asc) {
     _id,
+    title,
     name,
     slug,
+    description,
     shortDescription,
-    icon,
-    image,
-    features,
-    url,
-    featured,
-    order
+    image
   }
 `
 
@@ -117,16 +105,25 @@ export const homepageServicesQuery = groq`
 export const serviceBySlugQuery = groq`
   *[_type == "service" && slug.current == $slug][0] {
     _id,
+    title,
     name,
     slug,
+    description,
     shortDescription,
     fullDescription,
-    icon,
-    image,
-    features,
-    url,
-    metaTitle,
-    metaDescription
+    sections[]{
+      title,
+      content,
+      layout,
+      images[]{
+        ...,
+        asset->{
+          _id,
+          url
+        }
+      }
+    },
+    image
   }
 `
 
@@ -138,6 +135,14 @@ export const heroQuery = groq`
     paragraph,
     primaryButton,
     secondaryButton,
+    backgroundVideo {
+      asset-> {
+        _id,
+        url,
+        mimeType,
+        size
+      }
+    },
     backgroundImage,
     heroImage
   }
@@ -190,9 +195,9 @@ export const siteSettingsQuery = groq`
 
 
 
-// Query to get all active projects ordered by order
+// Query to get all active projects
 export const projectsQuery = groq`
-  *[_type == "project" && isActive == true] | order(order asc) {
+  *[_type == "project"] | order(name asc) {
     _id,
     title,
     slug,
@@ -214,7 +219,7 @@ export const projectsQuery = groq`
 
 // Query to get projects by service slug
 export const projectsByServiceQuery = groq`
-  *[_type == "project" && isActive == true && service->slug.current == $serviceSlug] | order(order asc) {
+  *[_type == "project" && service->slug.current == $serviceSlug] | order(name asc) {
     _id,
     title,
     slug,
@@ -236,7 +241,7 @@ export const projectsByServiceQuery = groq`
 
 // Query to get featured projects
 export const featuredProjectsQuery = groq`
-  *[_type == "project" && isActive == true && featured == true] | order(order asc) {
+  *[_type == "project" && featured == true] | order(name asc) {
     _id,
     title,
     slug,
@@ -259,10 +264,25 @@ export const featuredProjectsQuery = groq`
 export const projectBySlugQuery = groq`
   *[_type == "project" && slug.current == $slug][0] {
     _id,
+    name,
     title,
     slug,
+    description,
     shortDescription,
     fullDescription,
+    descriptionSections,
+    sections[]{
+      title,
+      content,
+      layout,
+      images[]{
+        ...,
+        asset->{
+          _id,
+          url
+        }
+      }
+    },
     mainImage,
     gallery,
     client,

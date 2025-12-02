@@ -87,7 +87,7 @@ const ServicesPage = () => {
                         {service.image ? (
                           <Image
                             src={getImageUrl(service.image)}
-                            alt={getTextValue(service.name)}
+                            alt={getTextValue(service.name) || getTextValue(service.title)}
                             fill
                             className="object-cover object-center transition-transform duration-500 hover:scale-105"
                           />
@@ -105,7 +105,7 @@ const ServicesPage = () => {
                           as="h3"
                           className="text-xl font-semibold text-white"
                         >
-                          {getTextValue(service.name)}
+                          {getTextValue(service.name) || getTextValue(service.title)}
                         </SanityStyledComponent>
 
                         <SanityStyledComponent
@@ -114,23 +114,12 @@ const ServicesPage = () => {
                           as="p"
                           className="text-sm text-white/70 leading-relaxed"
                         >
-                          {getTextValue(service.shortDescription)}
+                          {getTextValue(service.description) || getTextValue(service.shortDescription)}
                         </SanityStyledComponent>
-
-                        {service.features && service.features.length > 0 && (
-                          <ul className="space-y-2 text-sm text-white/60">
-                            {service.features.slice(0, 3).map((feature, featureIndex) => (
-                              <li key={featureIndex} className="flex items-start gap-2">
-                                <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-primary" />
-                                <span>{getTextValue(feature)}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
 
                         <div className="mt-auto flex items-center justify-between pt-4">
                           <Link
-                            href={service.url || `/services/${service.slug?.current}`}
+                            href={`/services/${service.slug?.current}`}
                             className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
                           >
                             Scopri di più

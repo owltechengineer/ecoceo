@@ -180,7 +180,7 @@ const Header = ({ siteSettings }: HeaderProps) => {
                               {services.map((service, index) => (
                                 <Link
                                   key={service._id || index}
-                                  href={service.url || `/services/${service.slug?.current}`}
+                                  href={`/services/${service.slug?.current}`}
                                   className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150"
                                 >
                                   <div className="font-medium text-dark dark:text-white">{service.name}</div>
