@@ -403,7 +403,7 @@ const ServicePage = ({ params }: ServicePageProps) => {
                   </a>
                 </div>
               </div>
-            </section>
+        </section>
 
         {/* Progetti Collegati */}
         {projects.length > 0 && (
